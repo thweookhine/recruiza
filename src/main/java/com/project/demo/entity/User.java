@@ -35,15 +35,15 @@ public class User {
 	@Column(name = "name")
 	private String userName;
 	@Column(name = "password")
-	private String userPassword;
+	private String password;
 	@Column(name = "email")
 	private String userEmail;
 	@Column(name = "mobile")
 	private String userMobile;
 	@Column(name = "last_action")
-	private String userLastAction;
+	private String lastAction;
 	@Column(name = "role")
-	private String userRole;
+	private String role;
 	@Column(name = "status")
 	private String userStatus;
 	@Column(name = "created_time",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
