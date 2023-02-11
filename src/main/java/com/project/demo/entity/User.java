@@ -39,14 +39,14 @@ public class User {
 	@Column(name = "email")
 	private String userEmail;
 	@Column(name = "mobile")
-	private String mobile;
+	private String userMobile;
 	@Column(name = "last_action")
-	private String lastAction;
+	private String userLastAction;
 	@Column(name = "role")
-	private String role;
+	private String userRole;
 	@Column(name = "status")
-	private String status;
+	private String userStatus;
 	@Column(name = "created_time",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Timestamp createdTime;
+	private Timestamp userCreatedTime;
 
 }
