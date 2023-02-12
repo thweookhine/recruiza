@@ -21,29 +21,50 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(name = "code_unique", columnNames = "code")})
+@Table(
+	uniqueConstraints = { 
+		@UniqueConstraint(
+			name = "code_unique", 
+			columnNames = "code"
+		)
+	}
+)
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobPost {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "jobpost_generator")
-	@SequenceGenerator(name = "jobpost_generator", sequenceName = "jobpost_sequence_name", allocationSize = 1)
+	@GeneratedValue(
+		strategy = GenerationType.SEQUENCE,
+		generator = "jobpost_generator"
+	)
+	@SequenceGenerator(
+		name = "jobpost_generator", 
+		sequenceName = "jobpost_sequence_name", 
+		allocationSize = 1
+	)
 	@Column(name="id")
 	private long postId;
+
 	@Column(name = "code")
 	private String postCode;
+
 	@Column(name = "name")
 	private String postName;
+
 	@Column(name = "count")
 	private int count;
+
 	@Column(name = "comment")
 	private String comment;
+
 	@Column(name = "foc")
 	private boolean foc;
+
 	@Column(name = "post_date")
 	private LocalDate postDate;
+
 	@Column(name = "due_date")
 	private LocalDate dueDate;
 	
@@ -66,7 +87,10 @@ public class JobPost {
 	
 	@Column(name = "sheet_id")
 	private String sheetId;
-	@Column(name = "created_time",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(
+		name = "created_time",
+		columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+	)
 	private Timestamp postCreatedTime;
 	
 	@OneToOne(mappedBy = "jobPost")

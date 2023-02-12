@@ -20,15 +20,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(name = "code_unique", columnNames = "code")})
+@Table(
+	uniqueConstraints = { 
+		@UniqueConstraint(
+			name = "code_unique", 
+			columnNames = "code"
+		)
+	}
+)
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Department {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "department_generator")
-	@SequenceGenerator(name = "department_generator", sequenceName = "department_sequence_name", allocationSize = 1)
+	@GeneratedValue(
+		strategy = GenerationType.SEQUENCE,
+		generator = "department_generator"
+	)
+	@SequenceGenerator(
+		name = "department_generator", 
+		sequenceName = "department_sequence_name", 
+		allocationSize = 1
+	)
 	@Column(name="id")
 	private long departmentId;
 	
@@ -38,7 +52,11 @@ public class Department {
 	@Column(name="name")
 	private String departmentName;
 	
-	@OneToMany(mappedBy = "department",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToMany(
+		mappedBy = "department",
+		fetch = FetchType.LAZY,
+		cascade = CascadeType.ALL
+	)
 	private List<Team> teams;
 
 }

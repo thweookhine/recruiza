@@ -17,35 +17,55 @@ import lombok.NoArgsConstructor;
 
 
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(name = "code_unique", columnNames = "code"),
-								@UniqueConstraint(name = "email_unique", columnNames = "email")})
+@Table(
+	uniqueConstraints = { 
+		@UniqueConstraint(name = "code_unique", columnNames = "code"),
+		@UniqueConstraint(name = "email_unique", columnNames = "email")
+	}
+)
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
-	@SequenceGenerator(name = "user_generator", sequenceName = "user_sequence_name", allocationSize = 1)
+	@GeneratedValue(
+		strategy = GenerationType.SEQUENCE, 
+		generator = "user_generator"
+	)
+	@SequenceGenerator(
+		name = "user_generator", 
+		sequenceName = "user_sequence_name", allocationSize = 1
+	)
 	@Column(name = "id")
 	private Long userId;
+
 	@Column(name = "code")
 	private String userCode;
+
 	@Column(name = "name")
 	private String userName;
+
 	@Column(name = "password")
 	private String password;
-	@Column(name = "email")
+
+	@Column(name = "email",
+	columnDefinition = "varchar(255) default 'not added'")
 	private String userEmail;
+
 	@Column(name = "mobile")
 	private String userMobile;
+
 	@Column(name = "last_action")
 	private String lastAction;
+
 	@Column(name = "role")
 	private String role;
-	@Column(name = "status")
+
+	@Column(name = "status",
+	columnDefinition = "varchar(255) default 'ACTIVE'")
 	private String userStatus;
+	
 	@Column(name = "created_time",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp userCreatedTime;
 	@Column(name = "enabled")

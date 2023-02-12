@@ -20,21 +20,43 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(name = "code_unique", columnNames = "code")})
+@Table(
+	uniqueConstraints = { 
+		@UniqueConstraint(
+			name = "code_unique", 
+			columnNames = "code"
+		)
+	}
+)
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Schedule {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "schedule_generator")
-	@SequenceGenerator(name = "schedule_generator", sequenceName = "schedule_sequence_name", allocationSize = 1)
+	@GeneratedValue(
+		strategy = GenerationType.SEQUENCE,
+		generator = "schedule_generator"
+	)
+	@SequenceGenerator(
+		name = "schedule_generator", 
+		sequenceName = "schedule_sequence_name", 
+		allocationSize = 1
+	)
 	@Column(name="id")
 	private long scheduleId;
+
 	@Column(name = "code")
 	private String scheduleCode;
+
 	@Column(name ="name")
 	private String scheduleName;
+
+	@Column(
+		name = "notes",
+		columnDefinition = "varchar(255) default 'no notes'")
+	private String notes;
+
 	@Column(name = "time")
 	private LocalDateTime time;
 	

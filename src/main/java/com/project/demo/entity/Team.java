@@ -21,11 +21,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Team {
-	
 	@Id
 	@Column(name="id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "team_generator")
-	@SequenceGenerator(name = "team_generator", sequenceName = "team_sequence_name", allocationSize = 1)
+	@GeneratedValue(
+		strategy = GenerationType.SEQUENCE,
+		generator = "team_generator"
+	)
+	@SequenceGenerator(
+		name = "team_generator", 
+		sequenceName = "team_sequence_name", 
+		allocationSize = 1
+	)
 	private long teamId;
 	
 	@Column(name="code")
@@ -35,7 +41,10 @@ public class Team {
 	private String teamName;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "department_id",nullable = false)
+	@JoinColumn(
+		name = "department_id",
+		nullable = false
+	)
 	private Department department;
 
 }

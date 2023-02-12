@@ -16,7 +16,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(name = "code_unique", columnNames = "code")})
+@Table(
+	uniqueConstraints = { 
+		@UniqueConstraint(
+			name = "code_unique", 
+			columnNames = "code"
+		)
+	}
+)
 @Data
 @Builder
 @NoArgsConstructor
@@ -24,14 +31,24 @@ import lombok.NoArgsConstructor;
 public class JobPosition {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "position_generator")
-	@SequenceGenerator(name = "postition_generator", sequenceName = "position_sequence_name", allocationSize = 1)
+	@GeneratedValue(
+		strategy = GenerationType.SEQUENCE,
+		generator = "position_generator"
+	)
+	@SequenceGenerator(
+		name = "postition_generator", 
+		sequenceName = "position_sequence_name", 
+		allocationSize = 1
+	)
 	@Column(name="id")
 	private long positionId;
+
 	@Column(name = "code")
 	private String positionCode;
+	
 	@Column(name = "name")
 	private String positionName;
+
 	@OneToOne(mappedBy = "jobPosition")
 	private JobPost jobPost;
 }
