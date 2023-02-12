@@ -48,5 +48,7 @@ public class User {
 	private String userStatus;
 	@Column(name = "created_time",columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp userCreatedTime;
+	@Column(name = "enabled")
+	private boolean enabled;
 
 }

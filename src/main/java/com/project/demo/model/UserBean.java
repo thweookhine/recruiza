@@ -39,5 +39,6 @@ public class UserBean {
 	
 	private Timestamp userCreatedTime;
 
-
+	@NotEmpty
+	private boolean enabled;
 }
