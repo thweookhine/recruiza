@@ -1,5 +1,8 @@
 package com.project.demo.entity;
 
+import java.util.Objects;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,11 +43,36 @@ public class Team {
 	@Column(name="name")
 	private String teamName;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(
 		name = "department_id",
 		nullable = false
 	)
 	private Department department;
 
+	@Override
+	public String toString() {
+		return "Team [teamId=" + teamId + ", teamCode=" + teamCode + ", teamName=" + teamName + ", department="
+				+ department + "]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Team other = (Team) obj;
+		return Objects.equals(department, other.department) && Objects.equals(teamCode, other.teamCode)
+				&& teamId == other.teamId && Objects.equals(teamName, other.teamName);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(department, teamCode, teamId, teamName);
+	}
+
+	
 }
