@@ -40,6 +40,11 @@ public class codeGenerator {
         return "J" + String.format("%03d", lastId);
     }
 
+  //generate Code for RecruitementResource
+    public static String generateRecruitementResource(long lastId) {
+    	return "R" + String.format("%03d", lastId);
+    }
+    
     public static void main(String[] args) {
         //Use like this
         System.out.println("User Code - "+generateUserCode(99));

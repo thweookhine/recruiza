@@ -1,5 +1,7 @@
 package com.project.demo.entity;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -51,4 +53,22 @@ public class JobPosition {
 
 	@OneToOne(mappedBy = "jobPosition")
 	private JobPost jobPost;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		JobPosition other = (JobPosition) obj;
+		return Objects.equals(jobPost, other.jobPost) && Objects.equals(positionCode, other.positionCode)
+				&& positionId == other.positionId && Objects.equals(positionName, other.positionName);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(jobPost, positionCode, positionId, positionName);
+	}
 }
