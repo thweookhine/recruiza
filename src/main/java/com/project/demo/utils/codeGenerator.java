@@ -35,6 +35,10 @@ public class codeGenerator {
     public static String generateDepartmentCode(long lastId){
         return "D" + String.format("%03d", lastId);
     }
+    //generate Code for Teams
+    public static String generateTeamCode(long lastId){
+        return "T" + String.format("%03d", lastId);
+    }
     //generate Code for Job positions
     public static String generateJobCode(long lastId){
         return "J" + String.format("%03d", lastId);

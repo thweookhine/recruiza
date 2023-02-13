@@ -1,6 +1,7 @@
 package com.project.demo.entity;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -54,9 +55,30 @@ public class Department {
 	
 	@OneToMany(
 		mappedBy = "department",
-		fetch = FetchType.LAZY,
+		fetch = FetchType.EAGER,
 		cascade = CascadeType.ALL
 	)
 	private List<Team> teams;
+
+	//Test Same Object
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Department other = (Department) obj;
+		return Objects.equals(departmentCode, other.departmentCode) && departmentId == other.departmentId
+				&& Objects.equals(departmentName, other.departmentName) && Objects.equals(teams, other.teams);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(departmentCode, departmentId, departmentName, teams);
+	}
+	
+	
 
 }
