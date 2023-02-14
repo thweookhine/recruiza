@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -79,8 +80,11 @@ public class Applicant {
 	@Column(name = "apply_time")
 	private LocalDateTime applyTime;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "job_post_id")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(
+		name = "job_post_id",
+		nullable = false
+	)
 	private JobPost jobPost;
 	
 	@OneToOne(mappedBy = "applicant")
