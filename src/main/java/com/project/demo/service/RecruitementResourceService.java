@@ -10,5 +10,6 @@ public interface RecruitementResourceService {
 	RecruitementResource updateRecruitementResource(RecruitementResource resource);
 	void deleteRecruitementResource(RecruitementResource resource);
 	List<RecruitementResource> getAllRecruitementResource();
+	List<RecruitementResource> getByCodeNameMobileAndType(String code,String name,String mobile,String recruitement_type );
 
 }

@@ -1,11 +1,18 @@
 package com.project.demo.service;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.demo.entity.Department;
+import com.project.demo.entity.JobPosition;
+import com.project.demo.entity.JobPost;
 import com.project.demo.entity.RecruitementResource;
+import com.project.demo.entity.Team;
+import com.project.demo.entity.User;
 import com.project.demo.repository.RecruitmentResourceRepository;
 import com.project.demo.utils.codeGenerator;
 
@@ -14,6 +21,71 @@ public class RecruitementResourceServiceImpl implements RecruitementResourceServ
 	
 	@Autowired
 	RecruitmentResourceRepository repo;
+	
+	public JobPost getJobPost() {
+
+		Department dept = Department.builder()
+				.departmentId(1)
+				.departmentCode("D001")
+				.departmentName("Testing")
+				.build();
+		Team team = Team.builder()
+				.teamId(1)
+				.teamCode("T001")
+				.teamName("Testing Team")
+				.department(dept)
+				.build();
+		
+		User user = User.builder()
+				.userId((long)1)
+				.userCode("U001")
+				.userName("Lily")
+				.userEmail("lily@gmail.com")
+				.password("lily")
+				.userCreatedTime(Timestamp.valueOf("2023-02-13 14:08:30"))
+				.userMobile("097878787878")
+				.lastAction("update job post")
+				.role("DH")
+				.userStatus("ACTIVE")
+				.build();
+		
+		RecruitementResource resource = RecruitementResource.builder()
+				.resourceId(1)
+				.resourceCode("R001")
+				.resourceName("Job.com.mm")
+				.resourceMobile("097878787878")
+				.link("www.google.com")
+				.address("Yangon")
+				.contactPerson("Rose")
+				.recruitementType("University")
+				.resourceCreatedTime(Timestamp.valueOf("2023-02-13 14:08:30"))
+				.build();
+		
+		JobPosition jobPosition = JobPosition.builder()
+				.positionId(1)
+				.positionCode("J001")
+				.positionName("Senior Developer")
+				.build();
+		
+		JobPost jp = JobPost.builder()
+				.postId((long)1)
+				.postName("JobPost")
+				.count(2)
+				.comment("Comment for Job Post-")
+				.foc(false)
+				.postDate(LocalDate.now())
+				.dueDate(LocalDate.of(2023, 04, 25))
+				.team(team)
+				.user(user)
+				.resource(resource)
+				.jobPosition(jobPosition)
+				.sheetId("Sheet ID")
+				.postCreatedTime(Timestamp.valueOf("2023-02-13 14:08:30"))
+				.build();
+		
+		return jp;
+	}
+	
 
 	@Override
 	public RecruitementResource createRecruitementResource(RecruitementResource resource) {
@@ -39,6 +111,7 @@ public class RecruitementResourceServiceImpl implements RecruitementResourceServ
 		reResource.setResourceCreatedTime(resource.getResourceCreatedTime());
 		reResource.setResourceMobile(resource.getResourceMobile());
 		reResource.setResourceName(resource.getResourceName());
+		reResource.setJobPost(getJobPost());
 		
 		return repo.save(reResource);
 	}
@@ -54,6 +127,14 @@ public class RecruitementResourceServiceImpl implements RecruitementResourceServ
 	public List<RecruitementResource> getAllRecruitementResource() {
 		// TODO Auto-generated method stub
 		return repo.findAll();
+	}
+
+
+	@Override
+	public List<RecruitementResource> getByCodeNameMobileAndType(String code, String name, String mobile,
+			String recruitement_type) {
+		// TODO Auto-generated method stub
+		return repo.findByCodeNameMobileAndType("%"+code+"%","%"+name+"%","%"+mobile+"%","%"+recruitement_type+"%");
 	}
 
 }
