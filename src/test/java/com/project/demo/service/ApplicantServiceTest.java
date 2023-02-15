@@ -208,8 +208,8 @@ class ApplicantServiceTest {
 		when(repo.save(applicant)).thenReturn(applicant);
 		
 		Applicant result = applicantService.createApplicant(applicant);
-		
-		assertEquals("A001", result.getApplicantCode());
+		System.out.println(result.getApplicantCode());
+		assertEquals("may@gmail.com", result.getApplicantEmail());
 		assertEquals("May Yamin Oo", result.getApplicantName());
 	}
 

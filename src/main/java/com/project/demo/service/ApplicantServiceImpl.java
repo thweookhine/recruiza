@@ -21,7 +21,7 @@ public class ApplicantServiceImpl implements ApplicantService{
 		// TODO Auto-generated method stub
 		Applicant app=repo.save(applicant);
 		app=repo.findById(applicant.getApplicantId()).get();
-		app.setApplicantCode(codeGenerator.generateRecruitementResource(app.getApplicantId()));
+		app.setApplicantCode(codeGenerator.generateApplicantCode(app.getApplicantId()));
 		return repo.save(applicant);
 	}
 

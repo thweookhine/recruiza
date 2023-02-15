@@ -1,6 +1,7 @@
 package com.project.demo.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -89,5 +90,29 @@ public class Applicant {
 	
 	@OneToOne(mappedBy = "applicant")
 	private Schedule schedule;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Applicant other = (Applicant) obj;
+		return Objects.equals(address, other.address) && Objects.equals(applicantCode, other.applicantCode)
+				&& Objects.equals(applicantEmail, other.applicantEmail) && applicantId == other.applicantId
+				&& Objects.equals(applicantMobile, other.applicantMobile)
+				&& Objects.equals(applicantName, other.applicantName)
+				&& Objects.equals(applicantStatus, other.applicantStatus) && Objects.equals(applyTime, other.applyTime)
+				&& Objects.equals(currentState, other.currentState) && Objects.equals(jobPost, other.jobPost)
+				&& Objects.equals(link, other.link) && Objects.equals(schedule, other.schedule);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(address, applicantCode, applicantEmail, applicantId, applicantMobile, applicantName,
+				applicantStatus, applyTime, currentState, jobPost, link, schedule);
+	}
 	
 }
