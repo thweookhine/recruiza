@@ -66,42 +66,38 @@ class JobPositionServiceTest {
 	@Test
 	void testDeleteJobPosition() {
 		//fail("Not yet implemented");
-		JobPosition position = JobPosition.builder()
-				.positionId((long)1)
-				.positionCode("JP001")
-				.positionName("Project Manager")
-				.build();
-		jpService.deleteJobPosition(position);
-		verify(repo,times(1)).deleteById(position.getPositionId());
+		
+		jpService.deleteJobPosition((long)1);
+		verify(repo,times(1)).deleteById((long)1);
 	}
 
 	@Test
 	void testGetAllJobPosition() {
 		//fail("Not yet implemented");
-//		
-//		List<JobPosition> list= new ArrayList<JobPosition>();
-//		JobPosition position = JobPosition.builder()
-//				.positionId((long)1)
-//				.positionCode("JP001")
-//				.positionName("Project Manager")
-//				.build();
-//		JobPosition position1 = JobPosition.builder()
-//				.positionId((long)2)
-//				.positionCode("JP002")
-//				.positionName("Project Manager")
-//				.build();
-//		
-//		list.add(position);
-//		list.add(position1);
-//		
-//		when(repo.findAll()).thenReturn(list);
-//		List<JobPosition> userList=jpService.getAllJobPosition();
-//		assertEquals(2,userList.size());
-//		verify(repo, times(1)).findAll();
-//	}
-//
-//	@Test
-//	void testGetPositionByCodeAndName() {
+		
+		List<JobPosition> list= new ArrayList<JobPosition>();
+		JobPosition position = JobPosition.builder()
+				.positionId((long)1)
+				.positionCode("JP001")
+				.positionName("Project Manager")
+				.build();
+		JobPosition position1 = JobPosition.builder()
+				.positionId((long)2)
+				.positionCode("JP002")
+				.positionName("Project Manager")
+				.build();
+		
+		list.add(position);
+		list.add(position1);
+		
+		when(repo.findAll()).thenReturn(list);
+		List<JobPosition> userList=jpService.getAllJobPosition();
+		assertEquals(2,userList.size());
+		verify(repo, times(1)).findAll();
+	}
+
+	@Test
+	void testGetPositionByCodeAndName() {
 //		//fail("Not yet implemented");
 //		
 //		List<JobPosition> list= new ArrayList<JobPosition>();
@@ -127,7 +123,7 @@ class JobPositionServiceTest {
 //		verify(repo,times(1)).findByCodeAndName("%"+result+"%","%"+result+"%");
 //		
 		
-		List<JobPosition> list=service.getPositionByCodeAndName("JP001", "JP001");
+		List<JobPosition> list=service.getPositionByCodeAndName("J003", "J003");
 		assertEquals(1,list.size());
 	}
 	

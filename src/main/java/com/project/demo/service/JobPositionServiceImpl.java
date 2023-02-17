@@ -27,6 +27,7 @@ public class JobPositionServiceImpl implements JobPositionService{
 	@Override
 	public JobPosition updateJobPosition(JobPosition jobPosition) {
 		// TODO Auto-generated method stub
+		System.out.println("jhahdaljdk" + jobPosition.getPositionId());
 		JobPosition jp= repo.findById(jobPosition.getPositionId()).get();
 		jp.setPositionCode(jobPosition.getPositionCode());
 		jp.setPositionName(jobPosition.getPositionName());
@@ -34,9 +35,9 @@ public class JobPositionServiceImpl implements JobPositionService{
 	}
 
 	@Override
-	public void deleteJobPosition(JobPosition jobPosition) {
+	public void deleteJobPosition(Long id) {
 		// TODO Auto-generated method stub
-		repo.deleteById(jobPosition.getPositionId());
+		repo.deleteById(id);
 		
 	}
 
@@ -56,6 +57,12 @@ public class JobPositionServiceImpl implements JobPositionService{
 	public JobPosition getLastJobPosition() {
 		// TODO Auto-generated method stub
 		return repo.findLastJobPosition();
+	}
+
+	@Override
+	public JobPosition getPositionById(Long id) {
+		// TODO Auto-generated method stub
+		return repo.findById(id).get();
 	}
 
 	

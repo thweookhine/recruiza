@@ -38,7 +38,7 @@ public class JobPosition {
 		generator = "position_generator"
 	)
 	@SequenceGenerator(
-		name = "postition_generator", 
+		name = "position_generator", 
 		sequenceName = "position_sequence_name", 
 		allocationSize = 1
 	)
