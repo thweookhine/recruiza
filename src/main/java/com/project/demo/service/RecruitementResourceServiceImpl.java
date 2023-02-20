@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.project.demo.entity.Department;
@@ -102,13 +105,13 @@ public class RecruitementResourceServiceImpl implements RecruitementResourceServ
 	public RecruitementResource updateRecruitementResource(RecruitementResource resource) {
 		// TODO Auto-generated method stub
 		RecruitementResource reResource=repo.findById(resource.getResourceId()).get();
-		reResource.setResourceId(resource.getResourceId());
-		reResource.setResourceCode(resource.getResourceCode());
+		//reResource.setResourceId(resource.getResourceId());
+		//reResource.setResourceCode(resource.getResourceCode());
 		reResource.setAddress(resource.getAddress());
 		reResource.setContactPerson(resource.getContactPerson());
 		reResource.setLink(resource.getLink());
 		reResource.setRecruitementType(resource.getRecruitementType());
-		reResource.setResourceCreatedTime(resource.getResourceCreatedTime());
+		//reResource.setResourceCreatedTime(resource.getResourceCreatedTime());
 		reResource.setResourceMobile(resource.getResourceMobile());
 		reResource.setResourceName(resource.getResourceName());
 		reResource.setJobPost(getJobPost());
@@ -117,16 +120,18 @@ public class RecruitementResourceServiceImpl implements RecruitementResourceServ
 	}
 
 	@Override
-	public void deleteRecruitementResource(RecruitementResource resource) {
+	public void deleteRecruitementResource(Long id) {
 		// TODO Auto-generated method stub
-		repo.deleteById(resource.getResourceId());
+		repo.deleteById(id);
 		
 	}
 
 	@Override
-	public List<RecruitementResource> getAllRecruitementResource() {
+	public List<RecruitementResource> getAllRecruitementResource(int pageNum) {
 		// TODO Auto-generated method stub
-		return repo.findAll();
+		Pageable sortById = PageRequest.of(pageNum,3,Sort.by("resourceId").descending());
+		List<RecruitementResource> resourceById=repo.findAll(sortById).getContent();
+		return resourceById;
 	}
 
 
@@ -135,6 +140,22 @@ public class RecruitementResourceServiceImpl implements RecruitementResourceServ
 			String recruitement_type) {
 		// TODO Auto-generated method stub
 		return repo.findByCodeNameMobileAndType("%"+code+"%","%"+name+"%","%"+mobile+"%","%"+recruitement_type+"%");
+	}
+
+
+	@Override
+	public RecruitementResource getResourceById(Long id) {
+		// TODO Auto-generated method stub
+		return repo.findById(id).get();
+	}
+
+
+	@Override
+	public Long findTotalPages() {
+		// TODO Auto-generated method stub
+		Pageable sortById=PageRequest.of(0,3,Sort.by("resourceId"));
+		Long totalPages=(long) repo.findAll(sortById).getTotalPages();
+		return totalPages;
 	}
 
 }

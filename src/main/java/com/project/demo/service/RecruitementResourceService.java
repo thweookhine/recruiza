@@ -8,8 +8,10 @@ public interface RecruitementResourceService {
 	
 	RecruitementResource createRecruitementResource(RecruitementResource resource);
 	RecruitementResource updateRecruitementResource(RecruitementResource resource);
-	void deleteRecruitementResource(RecruitementResource resource);
-	List<RecruitementResource> getAllRecruitementResource();
+	void deleteRecruitementResource(Long id);
+	List<RecruitementResource> getAllRecruitementResource(int pageNum);
 	List<RecruitementResource> getByCodeNameMobileAndType(String code,String name,String mobile,String recruitement_type );
+	RecruitementResource getResourceById(Long id);
+	Long findTotalPages();
 
 }

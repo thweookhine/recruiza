@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.project.demo.entity.JobPosition;
+import com.project.demo.entity.RecruitementResource;
 import com.project.demo.repository.JobPositionRepository;
 
 @SpringBootTest
@@ -91,9 +92,24 @@ class JobPositionServiceTest {
 		list.add(position1);
 		
 		when(repo.findAll()).thenReturn(list);
-		List<JobPosition> userList=jpService.getAllJobPosition();
+		List<JobPosition> userList=jpService.getAllJobPosition(0);
 		assertEquals(2,userList.size());
 		verify(repo, times(1)).findAll();
+	}
+	
+	@Test
+	void testGetPositionById() {
+		
+		JobPosition position = JobPosition.builder()
+				.positionId((long)1)
+				.positionCode("JP001")
+				.positionName("Project Manager")
+				.build();
+		
+		when(repo.findById((long)1)).thenReturn(java.util.Optional.of(position));
+		JobPosition position1=jpService.getPositionById((long)1);
+		assertEquals("Project Manager",position1.getPositionName());
+
 	}
 
 	@Test

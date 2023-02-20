@@ -32,6 +32,31 @@ public class JobPositionController {
 	@Autowired
 	JobPositionRepository repo;
 	
+	//Previous Page Url 
+	@RequestMapping(value="/previouspositionpage", method=RequestMethod.GET)
+	public ModelAndView displayPrevious(@RequestParam("currentPage") String currentPage,ModelMap model) {
+		
+		model.addAttribute("currentPage",Integer.parseInt(currentPage)-1);
+		model.addAttribute("totalPages",service.findTotalPages());
+		List<JobPosition> list = new ArrayList<JobPosition>();
+		list=service.getAllJobPosition(Integer.parseInt(currentPage)-2);
+		model.addAttribute("list",list);
+	   return new ModelAndView("jobPositonControl","jobposition",new JobPositionBean());
+
+	}
+	//Next Page Url
+	@RequestMapping(value="/nextpositionpage", method=RequestMethod.GET)
+	public ModelAndView displayNext(@RequestParam("currentPage") String currentPage,ModelMap model) {
+		model.addAttribute("currentPage",Integer.parseInt(currentPage)+1);
+		model.addAttribute("totalPages",service.findTotalPages());
+		
+		List<JobPosition> list = new ArrayList<JobPosition>();
+		list=service.getAllJobPosition(Integer.parseInt(currentPage));
+		model.addAttribute("list",list);
+	   return new ModelAndView("jobPositonControl","jobposition",new JobPositionBean());
+
+	}
+
 	@ModelAttribute("jobPosition")
 	public JobPosition getJobPosition() {
 	return new JobPosition();
@@ -46,7 +71,9 @@ public class JobPositionController {
 	public ModelAndView displayView(ModelMap model) {
 	
 		List<JobPosition> list = new ArrayList<JobPosition>();
-		list=service.getAllJobPosition();
+		model.addAttribute("currentPage",1);
+		model.addAttribute("totalPages",service.findTotalPages());
+		list=service.getAllJobPosition(0);
 		model.addAttribute("list",list);
 	   return new ModelAndView("jobPositonControl","jobposition",new JobPositionBean());
 
@@ -108,7 +135,9 @@ public class JobPositionController {
 	}
 	@PostMapping(value="/searchjobposition")
 	public ModelAndView searchJobPosition(Model ra,@RequestParam("name") String name) {
-		ArrayList<JobPosition> list=(ArrayList<JobPosition>) service.getPositionByCodeAndName(name, name);
+		List<JobPosition> list=service.getPositionByCodeAndName(name, name);
+		ra.addAttribute("currentPage",1);
+		ra.addAttribute("totalPages",service.findTotalPages());
 		ra.addAttribute("list",list);
 		System.out.print(list.toString());
 		   return new ModelAndView("jobPositonControl","jobposition",new JobPositionBean());

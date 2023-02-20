@@ -163,7 +163,7 @@ class RecruitementResourceServiceTest {
 			    .jobPost(getJobPost())
 				.build();
 		
-		resourceService.deleteRecruitementResource(reResource);
+		resourceService.deleteRecruitementResource((long)1);
 		verify(repo,times(1)).deleteById(reResource.getResourceId());
 	}
 
@@ -202,15 +202,35 @@ class RecruitementResourceServiceTest {
 		list.add(reResource1);
 		
 		when(repo.findAll()).thenReturn(list);
-		List<RecruitementResource> reResourceList=resourceService.getAllRecruitementResource();
+		List<RecruitementResource> reResourceList=resourceService.getAllRecruitementResource(0);
 		assertEquals(2,reResourceList.size());
 		verify(repo, times(1)).findAll();
 	}
 	@Test
 	void testGetByCodeNameMobileAndType() {
 		
-		List<RecruitementResource> list= service.getByCodeNameMobileAndType("R001", "R001", "R001", "R001");
+		List<RecruitementResource> list= service.getByCodeNameMobileAndType("R007", "R007", "R007", "R007");
 		assertEquals(1,list.size());
 	}
 
+	@Test
+	void testGetResourceById() {
+		RecruitementResource resource = RecruitementResource.builder()
+				.resourceId((long)1)
+				.resourceCode("R002")
+				.address("Yangon,Hledan")
+				.contactPerson("May Yamin Oo")
+				.link("job.com")
+				.recruitementType("Agency")
+				.resourceMobile("0912345678")
+			    .resourceName("Thwe Oo Khine")
+			    .resourceCreatedTime(Timestamp.valueOf("2023-02-13 15:32:00"))
+			    .jobPost(getJobPost())
+				.build();
+		
+		when(repo.findById((long)1)).thenReturn(java.util.Optional.of(resource));
+		RecruitementResource resource1=resourceService.getResourceById((long)1);
+		assertEquals("Yangon,Hledan",resource1.getAddress());
+		assertEquals("May Yamin Oo",resource1.getContactPerson());
+	}
 }

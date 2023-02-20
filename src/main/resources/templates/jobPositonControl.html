@@ -20,13 +20,6 @@
 <form th:action="@{/searchjobposition}" th:object="${jobposition}" method="post">
 	<input type="text" name="name" placeholder="searchjobposition">
 	<input type="submit" th:value="Search">
-	<table>
-	<tr th:each="position: ${list1}">
-		<td th:text="${position.positionId}" />
-		<td th:text="${position.positionCode}" />
-		<td th:text="${position.positionName}" />
-	</tr>
-	</table>
 </form>
 </div>
 <div>
@@ -46,6 +39,11 @@
 <td><a th:href="@{/editjobposition(id=${position.positionId})}">Action</a></td>
 </tr>
 </table>
+</div>
+<div>
+<a th:if="${currentPage > 1 }" th:href="@{/previouspositionpage(currentPage=${currentPage})}"><span>Previous</span></a>
+<input type="text" th:value="${currentPage}">
+<a th:if="${currentPage < totalPages}" th:href="@{/nextpositionpage(currentPage=${currentPage})}"><span>Next</span></a>
 </div>
 </body>
 </html>

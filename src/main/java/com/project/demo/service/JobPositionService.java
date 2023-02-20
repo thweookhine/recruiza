@@ -9,10 +9,11 @@ public interface JobPositionService {
 	JobPosition createJobPosition(JobPosition jobPosition);
 	JobPosition updateJobPosition(JobPosition jobPosition);
 	void deleteJobPosition(Long id);
-	List<JobPosition> getAllJobPosition();
+	List<JobPosition> getAllJobPosition(int pageNum);
 	List<JobPosition> getPositionByCodeAndName(String code,String name);
 	JobPosition getLastJobPosition();
 	JobPosition getPositionById(Long id);
+	Long findTotalPages();
 	
 
 }
