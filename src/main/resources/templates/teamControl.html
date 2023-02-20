@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3>Add Team</h3>
+
+	<div>
+		<form th:action="@{/saveTeam}" method="post" th:object="${team}">
+			<div>
+				<label for="name">Name</label> <input type="text"
+					th:field="*{teamName}" placeholder="Enter Team Name" /> <label
+					th:if="${#fields.hasErrors('teamName')}" th:errors="*{teamName}"
+					style="color: red;">Error</label>
+			</div>
+			
+			<div>
+				<label for="depts">Select Department</label> <select
+					th:field="*{departmentName}">
+					<option th:each="d : ${deptNameList}" th:value="${d}"
+						th:text="${d}"></option>
+				</select>
+			</div>
+			<div>
+				<input type="submit" value="Add" />
+			</div>
+
+		</form>
+	</div>
+
+	<div>
+		<form th:action="@{/searchTeam}" method="post" th:object="${team}">
+			<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword"  />
+			<select name="departmentName">
+					<option value="none">Select Department</option>
+					<option th:each="d : ${deptNameList}" th:value="${d}"
+						th:text="${d}" th:selected="${d} == ${deptName}"></option>
+				</select>
+			<input type="submit" value="Search" />
+			<button><a th:href="@{/team}">Reset</a></button>
+		</form>
+	</div>
+
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Code</th>
+					<th>Name</th>
+					<th>Department</th>
+					<th>Options</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="team : ${teams}">
+					<td th:text="${team.teamId}"></td>
+					<td th:text="${team.teamCode}"></td>
+					<td th:text="${team.teamName}"></td>
+					<td th:text="${team.department.departmentName}"></td>
+					<td><a th:href="@{/updateTeam(id=${team.teamId})}">Action</a></td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+	
+	
+	
+	<div th:if= "${keyword == null and deptName == null}">
+	
+		<a th:if="${currentPage > 1}" th:href="@{/prevTeamPage(currentPage=${currentPage})}"><span><</span></a>
+		<input type="text" th:value="${currentPage}" />
+		<a  th:if="${currentPage < totalPages}" th:href="@{/nextTeamPage(currentPage=${currentPage})}"><span>></span></a>
+	</div>
+
+</body>
+</html>

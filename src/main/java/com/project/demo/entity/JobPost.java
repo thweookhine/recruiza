@@ -3,6 +3,7 @@ package com.project.demo.entity;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -102,6 +103,30 @@ public class JobPost {
 			cascade = CascadeType.ALL
 		)
 	private List<Applicant> applicants ;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		JobPost other = (JobPost) obj;
+		return Objects.equals(applicants, other.applicants) && Objects.equals(comment, other.comment)
+				&& count == other.count && Objects.equals(dueDate, other.dueDate) && foc == other.foc
+				&& Objects.equals(jobPosition, other.jobPosition) && Objects.equals(postCode, other.postCode)
+				&& Objects.equals(postCreatedTime, other.postCreatedTime) && Objects.equals(postDate, other.postDate)
+				&& postId == other.postId && Objects.equals(postName, other.postName)
+				&& Objects.equals(resource, other.resource) && Objects.equals(sheetId, other.sheetId)
+				&& Objects.equals(team, other.team) && Objects.equals(user, other.user);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(applicants, comment, count, dueDate, foc, jobPosition, postCode, postCreatedTime, postDate,
+				postId, postName, resource, sheetId, team, user);
+	}
 
 	
 	

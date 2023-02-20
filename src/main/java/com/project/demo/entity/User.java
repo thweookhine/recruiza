@@ -1,6 +1,8 @@
 package com.project.demo.entity;
 
 import java.sql.Timestamp;
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -71,5 +73,30 @@ public class User {
 	
 	@Column(name = "enabled")
 	private boolean enabled;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return enabled == other.enabled && Objects.equals(lastAction, other.lastAction)
+				&& Objects.equals(password, other.password) && Objects.equals(role, other.role)
+				&& Objects.equals(userCode, other.userCode) && Objects.equals(userCreatedTime, other.userCreatedTime)
+				&& Objects.equals(userEmail, other.userEmail) && Objects.equals(userId, other.userId)
+				&& Objects.equals(userMobile, other.userMobile) && Objects.equals(userName, other.userName)
+				&& Objects.equals(userStatus, other.userStatus);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(enabled, lastAction, password, role, userCode, userCreatedTime, userEmail, userId,
+				userMobile, userName, userStatus);
+	}
+	
+	
 
 }

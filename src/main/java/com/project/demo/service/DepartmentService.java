@@ -13,11 +13,17 @@ public interface DepartmentService {
 
 	Department updateDept(Department dept);
 
-	void deleteDept(Department dept);
+	void deleteDept(long id);
 
-	List<Department> getAllDepts();
+	List<Department> getAllDepts(int pageNum);
+	
+	List<Department> readAllDepts();
+	
+	Long findTotalPages();
 
 	List<Department> searchDept(String code, String name);
+	
+	Department getById(long id);
 	
 	Department getLastDept();
 }

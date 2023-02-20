@@ -69,7 +69,7 @@ class DepartmentServiceTest {
 	@Test
 	void testDeleteDept() {
 		Department dept = getDept();
-		deptService.deleteDept(dept);
+		deptService.deleteDept(dept.getDepartmentId());
 	}
 
 	@Test
@@ -95,7 +95,7 @@ class DepartmentServiceTest {
 		list.add(dept3);
 		
 		when(deptRepository.findAll()).thenReturn(list);
-		List<Department> result = deptService.getAllDepts();
+		List<Department> result = deptService.getAllDepts(0);
 		assertEquals(3, result.size());
 		
 	}

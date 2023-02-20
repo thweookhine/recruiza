@@ -10,9 +10,13 @@ public interface TeamService {
 
 	Team updateTeam(Team team);
 	
-	void deleteTeam(Team team);
+	void deleteTeam(long id);
 	
-	List<Team> getAllTeams();
+	List<Team> getAllTeams(int pageNum);
+	
+	Team getById(long id);
+	
+	Long findTotalPages();
 	
 	List<Team> searchTeam(String code,String name);
 	

@@ -6,6 +6,9 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.project.demo.entity.Department;
@@ -21,8 +24,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Transactional
 	public Department createDept(Department dept) {
 		Department department = deptRepo.save(dept);
+		System.out.println("Saved dept");
 		department = deptRepo.findById(department.getDepartmentId()).get();
+		System.out.println("finded dept");
 		department.setDepartmentCode(generateDepartmentCode(department.getDepartmentId()));
+		System.out.println("dept code "+department.getDepartmentCode());
 		return deptRepo.save(department);
 	}
 
@@ -36,24 +42,46 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
 	@Override
-	public void deleteDept(Department dept) {
-		deptRepo.deleteById(dept.getDepartmentId());
+	public void deleteDept(long id) {
+		deptRepo.deleteById(id);
 	}
 
 	@Override
-	public List<Department> getAllDepts() {
+	public List<Department> getAllDepts(int pageNum) {
+		Pageable sortById = PageRequest.of(pageNum, 2,Sort.by("departmentId").descending());
+		List<Department> deptById = deptRepo.findAll(sortById).getContent();
+		return deptById;
+	}
+	
+	@Override
+	public List<Department> readAllDepts(){
 		return deptRepo.findAll();
+	}
+	
+	@Override
+	public Long findTotalPages() {
+		Pageable sortById = PageRequest.of(0, 2,Sort.by("departmentId"));
+		Long totalPages = (long) deptRepo.findAll(sortById).getTotalPages();
+		return totalPages;
 	}
 
 	@Override
 	@Transactional
 	public List<Department> searchDept(String code, String name) {
+		if(code.isEmpty() && name.isEmpty()) {
+			return getAllDepts(0);
+		}
 		return deptRepo.searchDept("%" + code + "%", "%" + name + "%");
 	}
 
 	@Override
 	public Department getLastDept() {
 		return deptRepo.findLastDept();
+	}
+
+	@Override
+	public Department getById(long id) {
+		return deptRepo.findById(id).get();
 	}
 
 }

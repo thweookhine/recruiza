@@ -43,6 +43,11 @@ public class codeGenerator {
     public static String generateJobCode(long lastId){
         return "J" + String.format("%03d", lastId);
     }
+    
+    //generate Code for Job Post
+    public static String generateJobPostCode(long lastId){
+        return "JP" + String.format("%03d", lastId);
+    }
 
   //generate Code for RecruitementResource
     public static String generateRecruitementResource(long lastId) {

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3>Add Department</h3>
+
+	<div>
+		<form th:action="@{/saveDepartment}" method="post" th:object="${department}">
+			<div>
+				<label for="name">Name</label> <input type="text"  
+					th:field="*{departmentName}" placeholder="Enter Department Name" />
+				<label th:if="${#fields.hasErrors('departmentName')}"
+					th:errors="*{departmentName}" style="color: red;">Error</label>
+			</div>
+			<div> 
+				<input type="submit" value="Add"  />
+			</div>
+
+		</form>
+	</div>
+	
+	<div>
+		<form th:action="@{/searchDepartment}" method="post" th:object="${department}">
+			<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword"  />
+			<input type="submit" value="Search" />
+			<button><a th:href="@{/department}">Reset</a></button>
+		</form>
+	</div>
+	
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Code</th>
+					<th>Name</th>
+					<th>Options</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="dept : ${depts}">
+					<td th:text="${dept.departmentId}"></td>
+					<td th:text="${dept.departmentCode}"></td>
+					<td th:text="${dept.departmentName}"></td>
+					<td><a th:href="@{/updateDepartment(id=${dept.departmentId})}">Action</a></td>
+					</tr>
+				
+			</tbody>
+		</table>
+	</div>
+	<div th:if= "${keyword == null}">
+	
+		<a th:if="${currentPage > 1}" th:href="@{/prevDepartmentPage(currentPage=${currentPage})}"><span><</span></a>
+		<input type="text" th:value="${currentPage}" />
+		<a  th:if="${currentPage < totalPages}" th:href="@{/nextDepartmentPage(currentPage=${currentPage})}"><span>></span></a>
+	</div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.project.demo.entity;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -73,4 +74,30 @@ public class RecruitementResource {
 
 	@OneToOne(mappedBy = "resource")
 	private JobPost jobPost;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RecruitementResource other = (RecruitementResource) obj;
+		return Objects.equals(address, other.address) && Objects.equals(contactPerson, other.contactPerson)
+				&& Objects.equals(jobPost, other.jobPost) && Objects.equals(link, other.link)
+				&& Objects.equals(recruitementType, other.recruitementType)
+				&& Objects.equals(resourceCode, other.resourceCode)
+				&& Objects.equals(resourceCreatedTime, other.resourceCreatedTime) && resourceId == other.resourceId
+				&& Objects.equals(resourceMobile, other.resourceMobile)
+				&& Objects.equals(resourceName, other.resourceName);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(address, contactPerson, jobPost, link, recruitementType, resourceCode, resourceCreatedTime,
+				resourceId, resourceMobile, resourceName);
+	}
+	
+	
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h3>Update Department</h3>
+
+	<div>
+		<form th:action="@{/updateTeam}" method="post"
+			th:object="${team}">
+			<input type="hidden" th:field="*{teamId}" />
+			<div>
+				<label for="name">Name</label> <input type="text"
+					th:field="*{teamName}" placeholder="Enter Team Name" />
+				<label th:if="${#fields.hasErrors('departmentName')}"
+					th:errors="*{teamName}" style="color: red;">Error</label>
+			</div>
+			<div>
+				<label for="depts">Select Department</label> <select
+					th:field="*{departmentName}">
+					<option th:each="d : ${deptNameList}" th:value="${d}"
+						th:text="${d}"></option>
+				</select>
+			</div>
+			<div>
+				<input type="submit" value="Update" />
+			</div>
+			<div>
+				<a th:href="@{/deleteTeam(id=${team.teamId})}">Delete</a>
+			</div>
+			<div>
+				<button>
+					<a th:href="@{/team}">Back</a>
+				</button>
+			</div>
+
+		</form>
+	</div>
+
+</body>
+</html>

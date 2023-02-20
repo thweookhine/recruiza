@@ -21,5 +21,5 @@ public class TeamBean {
 	private String teamName;
 	
 	@NotEmpty(message = "Team Department must not be empty.")
-	private DepartmentBean department;
+	private String departmentName;
 }

@@ -4,8 +4,12 @@ import static com.project.demo.utils.codeGenerator.*;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.project.demo.entity.Department;
 import com.project.demo.entity.Team;
 import com.project.demo.repository.TeamRepository;
 
@@ -32,13 +36,21 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public void deleteTeam(Team team) {
-		teamRepo.deleteById(team.getTeamId());
+	public void deleteTeam(long id) {
+		teamRepo.deleteById(id);
 	}
 
 	@Override
-	public List<Team> getAllTeams() {
-		return teamRepo.findAll();
+	public Long findTotalPages() {
+		Pageable sortById = PageRequest.of(0, 2,Sort.by("teamId"));
+		Long totalPages = (long) teamRepo.findAll(sortById).getTotalPages();
+		return totalPages;
+	}
+	@Override
+	public List<Team> getAllTeams(int pageNum) {
+		Pageable sortById = PageRequest.of(pageNum, 2,Sort.by("teamId").descending());
+		List<Team> teamById = teamRepo.findAll(sortById).getContent();
+		return teamById;
 	}
 
 	@Override
@@ -49,5 +61,13 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public List<Team> searchTeam(String code, String name) {
 		return teamRepo.searchTeam("%" + code + "%", "%" + name + "%");
+//		Pageable pageable = PageRequest.of(0, 2);
+//		List<Team> teams = teamRepo.searchTeam("%" + code + "%", "%" + name + "%", pageable).getContent();
+//		return teams;
+	}
+
+	@Override
+	public Team getById(long id) {
+		return teamRepo.findById(id).get();
 	}
 }

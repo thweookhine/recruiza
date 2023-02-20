@@ -76,7 +76,7 @@ class TeamServiceTest {
 	@Test
 	void testDeleteTeam() {
 		Team team = getTeam();
-		teamService.deleteTeam(team);
+		teamService.deleteTeam(team.getTeamId());
 	}
 
 	@Test
@@ -126,7 +126,7 @@ class TeamServiceTest {
 		
 		when(teamRepository.findAll()).thenReturn(list);
 		
-		List<Team> result = teamService.getAllTeams();
+		List<Team> result = teamService.getAllTeams(0);
 		
 		assertEquals(4, result.size());
 		
