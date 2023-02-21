@@ -133,7 +133,7 @@ public class JobPositionController {
 
 		//System.out.print(position.getPositionId());
 		service.updateJobPosition(position);
-		ra.addFlashAttribute("message","No Data Changed!");
+		ra.addFlashAttribute("message","Successfully Updated!");
 		
 		}
 		else {
