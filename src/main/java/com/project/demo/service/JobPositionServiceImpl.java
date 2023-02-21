@@ -81,6 +81,13 @@ public class JobPositionServiceImpl implements JobPositionService{
 		return totalPages;
 	}
 
+	@Override
+	public List<JobPosition> getPositionByName(String name) {
+		// TODO Auto-generated method stub
+		
+		return repo.findByName(name);
+	}
+
 	
 
 		

@@ -18,6 +18,9 @@ public interface JobPositionRepository extends JpaRepository<JobPosition,Long> {
 	@Query(value = "select * from recruit.job_position order by id desc limit 1",
 			nativeQuery=true)
 	JobPosition findLastJobPosition();
+	
+	@Query(value="select * from recruit.job_position where name=:name",nativeQuery=true)
+	List<JobPosition> findByName(@Param("name")String name);
 }
 
 	

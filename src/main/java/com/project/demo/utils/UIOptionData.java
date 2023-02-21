@@ -11,4 +11,14 @@ public class UIOptionData {
         timeForClass.add("3-6");
         return timeForClass;
     }
+    public static ArrayList<String> generateResourceType(){
+    	ArrayList<String> resourceType = new ArrayList<>();
+    	resourceType.add("Agency");
+    	resourceType.add("University");
+    	resourceType.add("DirectRecruit");
+    	resourceType.add("Training Center");
+    	resourceType.add("Others");
+        return resourceType;
+
+    }
 }

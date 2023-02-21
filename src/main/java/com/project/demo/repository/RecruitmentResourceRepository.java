@@ -13,4 +13,7 @@ public interface RecruitmentResourceRepository extends JpaRepository<Recruitemen
 	@Query(value ="select * from recruit.recruitement_resource where (code like :code) or (name like :name) or (mobile like :mobile) or (recruitement_type like :recruitement_type)",
 				nativeQuery=true )
 	List<RecruitementResource> findByCodeNameMobileAndType(@Param("code")String code,@Param("name")String name,@Param("mobile")String mobile,@Param("recruitement_type")String recruitement_type);
+	
+	@Query(value = "select * from recruit.recruitement_resource where name=:name",nativeQuery=true)
+	List<RecruitementResource> findByName(@Param("name")String name);
 }

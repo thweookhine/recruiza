@@ -13,5 +13,6 @@ public interface RecruitementResourceService {
 	List<RecruitementResource> getByCodeNameMobileAndType(String code,String name,String mobile,String recruitement_type );
 	RecruitementResource getResourceById(Long id);
 	Long findTotalPages();
+	List<RecruitementResource> getResourceByName(String name);
 
 }

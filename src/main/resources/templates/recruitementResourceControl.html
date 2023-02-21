@@ -5,6 +5,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<h3 th:text="${message}"></h3>
 <h3>Add New RecruitementResource</h3>
 <div>
 <form th:action="@{/saveresource}" method="post" th:object="${resource}">
@@ -13,10 +14,14 @@
 <label>Address</label><input type="text" th:field="*{address}"><br><br>
 <label>Mobile</label><input type="text" th:field="*{resourceMobile}"><br><br>
 <label>ContactPerson</label><input type="text" th:field="*{contactPerson}"><br><br>
-<label>RecruitementType</label><input type="text" th:field="*{recruitementType}"><br><br>
+<label class="col-md-2 col-form-label">Recruitement Type</label>
+                    <select class="form-select" aria-label="Recruitement Type" id="type" th:field="*{recruitementType}">
+                        <option th:each=" i : ${rList} " th:value="${i}" th:text="${i}"></option>
+    				</select>
 <input type="submit" th:value="Add">
 </form>
 </div>
+<br>
 <div>
 <form th:action="@{/searchresource}" th:object="${resource}" method="post">
 	<input type="text" name="name" placeholder="searchresource">

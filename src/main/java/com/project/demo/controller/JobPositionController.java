@@ -93,9 +93,17 @@ public class JobPositionController {
 								.positionName(jobposition.getPositionName())
 								.build();
 		
-		service.createJobPosition(position);
-		model.addFlashAttribute("message","Successfully!");
-		return new ModelAndView("redirect:/jobposition");
+		List<JobPosition> list = repo.findByName(jobposition.getPositionName());
+		if(list.size()==0) {
+			service.createJobPosition(position);
+			model.addFlashAttribute("message","Insert Successfully!");
+			return new ModelAndView("redirect:/jobposition");
+			
+		}else {
+			model.addFlashAttribute("message","Position Already Exist!");
+			return new ModelAndView("redirect:/jobposition");
+		}
+		
 	}
 	@RequestMapping(value="/editjobposition",method=RequestMethod.GET)
 	public ModelAndView displayUpdateJobPosition(@RequestParam("id") Long id,ModelMap model) {
@@ -109,9 +117,9 @@ public class JobPositionController {
 	}
 	@PostMapping(value="/updatejobposition")
 	public ModelAndView updateJobPosition(@ModelAttribute("jobposition")@Validated JobPositionBean jobposition,
-			BindingResult bs,RedirectAttributes model) {
+			BindingResult bs,ModelMap model,RedirectAttributes ra,@RequestParam("oldName")String oldName) {
 		if(bs.hasErrors()) {
-			model.addFlashAttribute("message","Update Fail!");
+			ra.addFlashAttribute("message","Update Fail!");
 			return new ModelAndView("redirect:/editjobposition");
 		}
 		
@@ -119,12 +127,20 @@ public class JobPositionController {
 				.positionId(jobposition.getPositionId())
 				.positionName(jobposition.getPositionName())
 				.build();
+		
+		List<JobPosition> list=repo.findByName(jobposition.getPositionName());
+		if(list.size()==0 || oldName.equals(position.getPositionName())) {
 
-		System.out.print(position.getPositionId());
+		//System.out.print(position.getPositionId());
 		service.updateJobPosition(position);
-		model.addAttribute("message","Update Successfully!");
-		return new ModelAndView("redirect:/jobposition");
-
+		ra.addFlashAttribute("message","No Data Changed!");
+		
+		}
+		else {
+			model.addAttribute("message","Can't update!Existing Name!!");
+			return new ModelAndView("editJobPosition");
+		}
+			return new ModelAndView("redirect:/jobposition");
 	}
 	@GetMapping(value="/deletejobposition")
 	public ModelAndView deleteJobPosition(RedirectAttributes model,@RequestParam("id")Long id) {

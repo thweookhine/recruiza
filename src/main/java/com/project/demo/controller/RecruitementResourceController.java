@@ -25,6 +25,7 @@ import com.project.demo.entity.RecruitementResource;
 import com.project.demo.model.RecruitementResourceBean;
 import com.project.demo.repository.RecruitmentResourceRepository;
 import com.project.demo.service.RecruitementResourceService;
+import com.project.demo.utils.UIOptionData;
 
 @RestController
 public class RecruitementResourceController {
@@ -67,16 +68,17 @@ public class RecruitementResourceController {
 		model.addAttribute("currentPage",1);
 		model.addAttribute("totalPages",service.findTotalPages());
 		list=service.getAllRecruitementResource(0);
+		model.addAttribute("rList",UIOptionData.generateResourceType());
 		model.addAttribute("list",list);
 		return new ModelAndView("recruitementResourceControl","resource",new RecruitementResourceBean());
 	}
 
 	@PostMapping(value="/saveresource")
 	public ModelAndView saveResource(@ModelAttribute("resource")@Validated RecruitementResourceBean resource,
-	ModelMap model,BindingResult bs) {
+			RedirectAttributes model,BindingResult bs) {
 		
 		if(bs.hasErrors()) {
-			model.addAttribute("message","Insert Fail!");
+			model.addFlashAttribute("message", "Insert Fail!");
 			return new ModelAndView("redirect:/recruitementresource");
 		}
 		
@@ -91,13 +93,13 @@ public class RecruitementResourceController {
 				.build();
 		
 		service.createRecruitementResource(resource1);
-		model.addAttribute("messae","Save Successfully!");
+		model.addFlashAttribute("message","Save Successfully!");
 		return new ModelAndView("redirect:/recruitementresource");
 		
 	}
 	
 	@GetMapping(value="/editresource")
-	public ModelAndView displayEditResource(@RequestParam("id")Long id,ModelMap model) {
+	public ModelAndView displayEditResource(@RequestParam("id")Long id,RedirectAttributes model,ModelMap m) {
 		
 		RecruitementResource resource = service.getResourceById(id);
 		RecruitementResource bean = RecruitementResource.builder()
@@ -110,17 +112,18 @@ public class RecruitementResourceController {
 				.recruitementType(resource.getRecruitementType())
 				.build();
 		
+		m.addAttribute("rList",UIOptionData.generateResourceType());
 		return new ModelAndView("editResourceControl","resource",bean);
 	}
 	
 	@PostMapping(value="/updateresource")
-	public ModelAndView updateResource(@ModelAttribute("resource")@Validated RecruitementResourceBean resource,ModelMap model,
+	public ModelAndView updateResource(@ModelAttribute("resource")@Validated RecruitementResourceBean resource,RedirectAttributes model,
 			BindingResult bs) {
 		if(bs.hasErrors()) {
-			model.addAttribute("message","Update Fail!");
+			model.addFlashAttribute("message","Update Fail!");
 			return new ModelAndView("editResourceControl");
 		}
-		
+
 		RecruitementResource bean = RecruitementResource.builder()
 				.resourceId(resource.getResourceId())
 				.resourceName(resource.getResourceName())
@@ -134,7 +137,7 @@ public class RecruitementResourceController {
 
 		System.out.print("jsdakfjhk"+ bean);
 			service.updateRecruitementResource(bean);
-			model.addAttribute("message","Updated Successfully!");
+			model.addFlashAttribute("message","Updated Successfully!");
 			return new ModelAndView("redirect:/recruitementresource");
 	}
 	

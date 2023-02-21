@@ -14,6 +14,7 @@ public interface JobPositionService {
 	JobPosition getLastJobPosition();
 	JobPosition getPositionById(Long id);
 	Long findTotalPages();
+	List<JobPosition> getPositionByName(String name);
 	
 
 }

@@ -5,10 +5,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-<p th:text="${message}"></p>
+<h3 th:text="${message}"></h3>
 <form th:action="@{/updatejobposition}" th:object="${jobposition}" method="post">
 <input type="hidden" th:field="*{positionId}">
 <input type="text" th:field="*{positionName}">
+<input type="hidden" th:value="${jobposition.positionName}" name="oldName"/>
 <input type="submit" th:value="Update">
 <a th:href="@{/deletejobposition(id=${jobposition.positionId})}">Delete</a>
 <a th:href="@{/jobposition}">Back</a>

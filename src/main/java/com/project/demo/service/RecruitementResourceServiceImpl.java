@@ -158,4 +158,11 @@ public class RecruitementResourceServiceImpl implements RecruitementResourceServ
 		return totalPages;
 	}
 
+
+	@Override
+	public List<RecruitementResource> getResourceByName(String name) {
+		// TODO Auto-generated method stub
+		return repo.findByName(name);
+	}
+
 }
