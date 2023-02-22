@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+</head>
+<body>
+	<h1>Home Page</h1>
+	<p>User Code : <span th:text="${session.user.userCode}"></span>User Name : <span th:text="${session.user.userName}"></span></p>
+	<div>
+		<a th:href="@{/admin}">Admin Page</a>
+	</div>
+	<div>
+		<a th:href="@{/basic}">Basic User Page</a>
+	</div>
+	<div>
+		<a th:href="@{/market}">Market Page</a>
+	</div>
+	<div sec:authorize="hasAuthority('ADMIN')">
+		<a th:href="@{/admin/addUser}">Add User</a>
+	</div>
+	<a th:href="@{/logout}">Logout</a>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Edit User</title>
+</head>
+<body>
+		<p th:text="${msg}"></p>
+		<p th:text="${error}"></p>
+	<div>
+			<form th:action="@{/admin/updateUser}" th:object="${bean}" method="post">
+		
+		<div>
+			<input type="hidden" th:field="*{userId}"
+				placeholder="Enter user name" />
+		</div>
+		
+		<div>
+			<input type="text" th:field="*{userCode}"
+				readonly="true"/>
+		</div>
+		
+		<div>
+			<input type="text" th:field="*{userName}"
+				placeholder="Enter user name" />
+		</div>
+
+		<div>
+			<input type="email" th:field="*{userEmail}"
+				placeholder="Enter user email" />
+		</div>
+
+		<div>
+			<input type="text" th:field="*{userMobile}"
+				placeholder="Enter user phone" />
+		</div>
+
+		<div>
+			<input type="password" th:field="*{password}"
+				placeholder="Enter user password" />
+		</div>
+
+		<div>
+			<input type="password" th:field="*{confPassword}"
+				placeholder="Enter user confirm password" />
+		</div>
+
+		<div>
+			<select th:field="*{role}">
+				<option th:value="'HR_Role'">HR</option>
+				<option th:value="'DH_Role'">DH</option>
+				<option th:value="'GM_Role'">GM</option>
+				<option th:value="'PM_Role'">PM</option>
+				<option th:value="'TM_Role'">TM</option>
+				<option th:value="'MARKETER'">MK</option>
+			</select>
+		</div>
+
+		<div>
+			<input type="submit" value="Update User" />
+			<a th:if="${bean.userStatus == 'ACTIVE'}" th:href="@{/admin/deleteUser(id=${bean.userId})}">
+                 <span>DELETE</span> 
+             </a>
+             <a th:if="${bean.userStatus == 'DELETED'}" th:href="@{/admin/activeUser(id=${bean.userId})}">
+                 <span>ACTIVE</span> 
+             </a>
+		</div>
+
+	</form>
+	</div>
+	
+	<div>
+		<a th:href="@{/admin/addUser}">
+	        <span>Back</span> 
+	    </a>
+	</div>
+</body>
+</html>

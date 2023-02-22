@@ -25,6 +25,9 @@ public class UserBean {
 	@NotEmpty(message = "User Password must not be empty")
 	private String password;
 	
+	@NotEmpty(message = "User Confirm Password must not be empty")
+	private String confPassword;
+	
 	@NotEmpty(message = "User Email must not be empty")
 	private String userEmail;
 	
@@ -39,6 +42,5 @@ public class UserBean {
 	
 	private Timestamp userCreatedTime;
 
-	@NotEmpty
 	private boolean enabled;
 }

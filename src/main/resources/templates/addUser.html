@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>User Registration</title>
+</head>
+<body>
+	<h1>User Registration</h1>
+	<p th:text="${msg}"></p>
+	<p th:text="${error}"></p>
+	<form th:action="@{/admin/addUserServlet}" th:object="${bean}"
+		method="post">
+
+		<div>
+			<input type="text" th:field="*{userName}"
+				placeholder="Enter user name" />
+				<p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+		</div>
+
+		<div>
+			<input type="email" th:field="*{userEmail}"
+				placeholder="Enter user email" />
+				<p th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}"></p>
+		</div>
+
+		<div>
+			<input type="text" th:field="*{userMobile}"
+				placeholder="Enter user phone" />
+				<p th:if="${#fields.hasErrors('userMobile')}" th:errors="*{userMobile}"></p>
+		</div>
+
+		<div>
+			<input type="password" th:field="*{password}"
+				placeholder="Enter user password" />
+				<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+		</div>
+
+		<div>
+			<input type="password" th:field="*{confPassword}"
+				placeholder="Enter user confirm password" />
+				<p th:if="${#fields.hasErrors('confPassword')}" th:errors="*{confPassword}"></p>
+		</div>
+
+		<div>
+			<select th:field="*{role}">
+				<option th:value="'HR_Role'">HR</option>
+				<option th:value="'DH_Role'">DH</option>
+				<option th:value="'GM_Role'">GM</option>
+				<option th:value="'PM_Role'">PM</option>
+				<option th:value="'TM_Role'">TM</option>
+				<option th:value="'MARKETER'">MK</option>
+			</select>
+			<p th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></p>
+		</div>
+
+		<div>
+			<input type="submit" value="Add User" />
+		</div>
+
+	</form>
+	
+	<div>
+		<form th:action="@{/admin/searchUser/1}">
+			<input type="hidden" name="sortField" th:value="${sortField}" />
+			<input type="hidden" name="sortDir" th:value="${sortDir}" />
+			<input type="text" name="keyword" th:value="${keyword}" required />
+			&nbsp;
+			<input type="submit" value="Search" />
+			&nbsp;
+			<input type="button" value="Clear" onclick="clearFilter()" />
+		</form>
+	</div>
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>
+						<a th:href="@{'/admin/searchUser/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+							ID
+						</a>
+					</th>
+					<th>Code</th>
+					<th>
+						<a th:href="@{'/admin/searchUser/' + ${currentPage} + '?sortField=userName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+							Name
+						</a>
+					</th>
+					<th>Email</th>
+					<th>Phone</th>
+					<th>Role</th>
+					<th>Status</th>
+					<th>Created Time</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody th:if="${users != null }">
+				<tr th:each="data : ${users}">
+					<td th:text="${data.userId}"></td>
+					<td th:text="${data.userCode}"></td>
+					<td th:text="${data.userName}"></td>
+					<td th:text="${data.userEmail}"></td>
+					<td th:text="${data.userMobile}"></td>
+					<td th:text="${data.role}"></td>
+					<td th:text="${data.userStatus}"></td>
+					<td th:text="${data.userCreatedTime}"></td>
+					<td>
+						<a th:href="@{/admin/editUser(id=${data.userId})}" class="btn btn-success"> Action </a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div>
+		Total Users: [[${totalUsers}]] - Page [[${currentPage}]] of [[${totalPages}]]
+		&nbsp; - &nbsp;
+		
+		<a th:if="${currentPage > 1}" th:href="@{'/admin/searchUser/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+		<span th:unless="${currentPage > 1}">First</span>
+		
+		<a th:if="${currentPage > 1}" th:href="@{'/admin/searchUser/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
+		<span th:unless="${currentPage > 1}">Previous</span>
+		
+		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+			<a th:if="${i != currentPage}" th:href="@{'/admin/searchUser/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a> 
+			<span th:unless="${i != currentPage}">[[${i}]]</span>
+			&nbsp;&nbsp;
+		</span>
+		
+		<a th:if="${currentPage < totalPages}" th:href="@{'/admin/searchUser/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
+		<span th:unless="${currentPage < totalPages}">Next</span>
+		
+		<a th:if="${currentPage < totalPages}" th:href="@{'/admin/searchUser/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+		<span th:unless="${currentPage < totalPages}">Last</span>
+	</div>
+	<script type="text/javascript">
+		function clearFilter() {
+			window.location = '/admin/addUser';
+		}
+	</script>
+</body>
+</html>
