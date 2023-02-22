@@ -21,5 +21,9 @@ public interface TeamService {
 	List<Team> searchTeam(String code,String name);
 	
 	Team getLastTeam();
+	
+	List<Team> searchWithName(String name);
+	
+	Team searchWithNameAndDept(String name,long deptId);
 
 }

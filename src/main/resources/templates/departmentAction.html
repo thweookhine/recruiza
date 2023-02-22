@@ -7,14 +7,25 @@
 <body>
 
 	<h3>Update Department</h3>
+	
+	<h3 th:text="${message}"></h3>
+	
+	<div th:if="${!#lists.isEmpty(teams)}">
+		<div>This department has </div>
+		<div th:each="team : ${teams}">
+			<a th:href="@{/updateTeam(id=${team.teamId})}" th:text="${team.teamName}"></a>
+		</div>
+	</div>
 
 	<div>
 		<form th:action="@{/updateDepartment}" method="post"
 			th:object="${department}">
 			<input type="hidden" th:field="*{departmentId}" />
+			<input type="hidden" name="oldName" th:value="${department.departmentName}" />
+			
 			<div>
 				<label for="name">Name</label> <input type="text"
-					th:field="*{departmentName}" placeholder="Enter Department Name" />
+					 th:field="*{departmentName}" placeholder="Enter Department Name" />
 				<label th:if="${#fields.hasErrors('departmentName')}"
 					th:errors="*{departmentName}" style="color: red;">Error</label>
 			</div>

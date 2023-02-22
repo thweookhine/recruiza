@@ -7,10 +7,14 @@
 <body>
 <h3>Update Department</h3>
 
+<h3 th:text="${message}"></h3>
+
 	<div>
 		<form th:action="@{/updateTeam}" method="post"
 			th:object="${team}">
 			<input type="hidden" th:field="*{teamId}" />
+			<input type="hidden" name="oldName" th:value="${team.teamName}" />
+			<input type="hidden" name="oldDeptName" th:value="${team.departmentName}" />
 			<div>
 				<label for="name">Name</label> <input type="text"
 					th:field="*{teamName}" placeholder="Enter Team Name" />

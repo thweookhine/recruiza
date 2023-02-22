@@ -26,4 +26,11 @@ public interface DepartmentService {
 	Department getById(long id);
 	
 	Department getLastDept();
+	
+	List<Department> searchWithName(String name);
+	
+	Department searhWithId(long id);
+	
+	Department searchOneWithName(String name);
+	
 }

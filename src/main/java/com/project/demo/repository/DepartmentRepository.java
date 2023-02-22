@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.project.demo.entity.Department;
+import java.lang.String;
 
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
@@ -15,5 +16,10 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
 	@Query(value = "select * from recruit.department order by id desc limit 1", nativeQuery = true)
 	Department findLastDept();
+	
+	List<Department> findByDepartmentName(String departmentname);
 
+	
+	@Query(value = "select * from recruit.department where name = :name ", nativeQuery = true)
+	Department searchWithName(@Param("name")String name);
 }

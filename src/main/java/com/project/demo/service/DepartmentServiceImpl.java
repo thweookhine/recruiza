@@ -37,7 +37,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	public Department updateDept(Department dept) {
 		Department department = deptRepo.findById(dept.getDepartmentId()).get();
 		department.setDepartmentName(dept.getDepartmentName());
-		department.setTeams(dept.getTeams());
+//		department.setTeams(dept.getTeams());
 		return deptRepo.save(department);
 	}
 
@@ -82,6 +82,21 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public Department getById(long id) {
 		return deptRepo.findById(id).get();
+	}
+
+	@Override
+	public List<Department> searchWithName(String name) {
+		return deptRepo.findByDepartmentName(name);
+	}
+
+	@Override
+	public Department searhWithId(long id) {
+		return deptRepo.findById(id).get();
+	}
+
+	@Override
+	public Department searchOneWithName(String name) {
+		return deptRepo.searchWithName(name);
 	}
 
 }

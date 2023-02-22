@@ -6,6 +6,8 @@
 </head>
 <body>
 	<h3>Add Team</h3>
+	
+	<h3 th:text="${message}"></h3>
 
 	<div>
 		<form th:action="@{/saveTeam}" method="post" th:object="${team}">
@@ -19,9 +21,11 @@
 			<div>
 				<label for="depts">Select Department</label> <select
 					th:field="*{departmentName}">
+					<option th:value="none">Select Department</option>
 					<option th:each="d : ${deptNameList}" th:value="${d}"
 						th:text="${d}"></option>
 				</select>
+				<p th:text="${selectDept}"></p>
 			</div>
 			<div>
 				<input type="submit" value="Add" />

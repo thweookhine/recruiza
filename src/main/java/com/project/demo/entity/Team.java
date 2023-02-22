@@ -43,9 +43,10 @@ public class Team {
 	@Column(name="name")
 	private String teamName;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(
 		name = "department_id",
+		referencedColumnName = "id",
 		nullable = false
 	)
 	private Department department;

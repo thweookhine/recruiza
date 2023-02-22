@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h3>Add Department</h3>
-
+	<h3 th:text="${message}"></h3>
 	<div>
 		<form th:action="@{/saveDepartment}" method="post" th:object="${department}">
 			<div>

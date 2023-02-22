@@ -1,6 +1,7 @@
 package com.project.demo.service;
 
-import static com.project.demo.utils.codeGenerator.*;
+import static com.project.demo.utils.codeGenerator.generateTeamCode;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.project.demo.entity.Department;
 import com.project.demo.entity.Team;
 import com.project.demo.repository.TeamRepository;
 
@@ -69,5 +69,15 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public Team getById(long id) {
 		return teamRepo.findById(id).get();
+	}
+
+	@Override
+	public List<Team> searchWithName(String name) {
+		return teamRepo.findByTeamName(name);
+	}
+
+	@Override
+	public Team searchWithNameAndDept(String name, long deptId) {
+		return teamRepo.searchWithNameAndDept(name, deptId);
 	}
 }
