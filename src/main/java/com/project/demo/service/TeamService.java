@@ -2,6 +2,9 @@ package com.project.demo.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
+import com.project.demo.entity.Department;
 import com.project.demo.entity.Team;
 
 public interface TeamService {
@@ -25,5 +28,7 @@ public interface TeamService {
 	List<Team> searchWithName(String name);
 	
 	Team searchWithNameAndDept(String name,long deptId);
+	
+	Page<Team> listAllTeams(int pageNumber, String sortField, String sortDir, String keyword);
 
 }

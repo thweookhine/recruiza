@@ -13,7 +13,7 @@
 		<form th:action="@{/saveTeam}" method="post" th:object="${team}">
 			<div>
 				<label for="name">Name</label> <input type="text"
-					th:field="*{teamName}" placeholder="Enter Team Name" /> <label
+					th:field="*{teamName}" placeholder="Enter Team Name" required="required" /> <label
 					th:if="${#fields.hasErrors('teamName')}" th:errors="*{teamName}"
 					style="color: red;">Error</label>
 			</div>
@@ -35,13 +35,10 @@
 	</div>
 
 	<div>
-		<form th:action="@{/searchTeam}" method="post" th:object="${team}">
+		<form th:action="@{/searchTeam/1}" th:object="${team}">
+		<input type="hidden" name="sortField" th:value="${sortField}" />
+			<input type="hidden" name="sortDir" th:value="${sortDir}" />
 			<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword"  />
-			<select name="departmentName">
-					<option value="none">Select Department</option>
-					<option th:each="d : ${deptNameList}" th:value="${d}"
-						th:text="${d}" th:selected="${d} == ${deptName}"></option>
-				</select>
 			<input type="submit" value="Search" />
 			<button><a th:href="@{/team}">Reset</a></button>
 		</form>
@@ -79,6 +76,33 @@
 		<input type="text" th:value="${currentPage}" />
 		<a  th:if="${currentPage < totalPages}" th:href="@{/nextTeamPage(currentPage=${currentPage})}"><span>></span></a>
 	</div>
+<div>
+		Total Users: [[${totalUsers}]] - Page [[${currentPage}]] of [[${totalPages}]]
+		&nbsp; - &nbsp;
+		
+		<a th:if="${currentPage > 1}" th:href="@{'/searchTeam/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+		<span th:unless="${currentPage > 1}">First</span>
+		
+		<a th:if="${currentPage > 1}" th:href="@{'/searchTeam/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
+		<span th:unless="${currentPage > 1}">Previous</span>
+		
+		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+			<a th:if="${i != currentPage}" th:href="@{'/searchTeam/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a> 
+			<span th:unless="${i != currentPage}">[[${i}]]</span>
+			&nbsp;&nbsp;
+		</span>
+		
+		<a th:if="${currentPage < totalPages}" th:href="@{'/searchTeam/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
+		<span th:unless="${currentPage < totalPages}">Next</span>
+		
+		<a th:if="${currentPage < totalPages}" th:href="@{'/searchTeam/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+		<span th:unless="${currentPage < totalPages}">Last</span>
+	</div>
+	<script type="text/javascript">
+		function clearFilter() {
+			window.location = '/team';
+		}
+	</script>
 
 </body>
 </html>

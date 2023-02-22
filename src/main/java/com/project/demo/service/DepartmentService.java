@@ -2,6 +2,7 @@ package com.project.demo.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.project.demo.entity.Department;
@@ -32,5 +33,7 @@ public interface DepartmentService {
 	Department searhWithId(long id);
 	
 	Department searchOneWithName(String name);
+	
+	Page<Department> listAllDepts(int pageNumber, String sortField, String sortDir, String keyword);
 	
 }

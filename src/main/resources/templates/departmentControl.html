@@ -9,9 +9,10 @@
 	<h3 th:text="${message}"></h3>
 	<div>
 		<form th:action="@{/saveDepartment}" method="post" th:object="${department}">
+			
 			<div>
 				<label for="name">Name</label> <input type="text"  
-					th:field="*{departmentName}" placeholder="Enter Department Name" />
+					th:field="*{departmentName}" placeholder="Enter Department Name" required="required"/>
 				<label th:if="${#fields.hasErrors('departmentName')}"
 					th:errors="*{departmentName}" style="color: red;">Error</label>
 			</div>
@@ -23,7 +24,9 @@
 	</div>
 	
 	<div>
-		<form th:action="@{/searchDepartment}" method="post" th:object="${department}">
+		<form th:action="@{/searchDepartment/1}" th:object="${department}">
+		<input type="hidden" name="sortField" th:value="${sortField}" />
+			<input type="hidden" name="sortDir" th:value="${sortDir}" />
 			<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword"  />
 			<input type="submit" value="Search" />
 			<button><a th:href="@{/department}">Reset</a></button>
@@ -51,11 +54,33 @@
 			</tbody>
 		</table>
 	</div>
-	<div th:if= "${keyword == null}">
 	
-		<a th:if="${currentPage > 1}" th:href="@{/prevDepartmentPage(currentPage=${currentPage})}"><span><</span></a>
-		<input type="text" th:value="${currentPage}" />
-		<a  th:if="${currentPage < totalPages}" th:href="@{/nextDepartmentPage(currentPage=${currentPage})}"><span>></span></a>
+	<div>
+		Total Users: [[${totalUsers}]] - Page [[${currentPage}]] of [[${totalPages}]]
+		&nbsp; - &nbsp;
+		
+		<a th:if="${currentPage > 1}" th:href="@{'/searchDepartment/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+		<span th:unless="${currentPage > 1}">First</span>
+		
+		<a th:if="${currentPage > 1}" th:href="@{'/searchDepartment/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
+		<span th:unless="${currentPage > 1}">Previous</span>
+		
+		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+			<a th:if="${i != currentPage}" th:href="@{'/searchDepartment/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a> 
+			<span th:unless="${i != currentPage}">[[${i}]]</span>
+			&nbsp;&nbsp;
+		</span>
+		
+		<a th:if="${currentPage < totalPages}" th:href="@{'/searchDepartment/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
+		<span th:unless="${currentPage < totalPages}">Next</span>
+		
+		<a th:if="${currentPage < totalPages}" th:href="@{'/searchDepartment/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+		<span th:unless="${currentPage < totalPages}">Last</span>
 	</div>
+	<script type="text/javascript">
+		function clearFilter() {
+			window.location = '/department';
+		}
+	</script>
 </body>
 </html>
