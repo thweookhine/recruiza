@@ -1,1 +1,212 @@
-@charset "UTF-8";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+    --mainColor: white;
+    --secondaryColor: #378eea;
+    --fontColor: #656565;
+    --fontSecondary: #8f8f8f;
+    --background: #ffffff;
+    --boxColor: #ffffff;
+    --shadowColor: rgba(0,0,0,0.2);
+    --errorColor: rgb(255, 77, 124);
+    /* nav */
+    --color-nav: #644c89;
+    --color-nav-active: #fff;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: var(--background);
+    color: #c7c7c7;
+}
+
+.box {
+    position: relative;
+    width: 350px;
+    height: 420px;
+    background: var(--background);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px var(--shadowColor);
+}
+
+.box::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 350px;
+    height: 420px;
+    transform-origin: bottom right;
+    background: linear-gradient(0deg, transparent, var(--secondaryColor), var(--secondaryColor));
+    animation: animate 6s linear infinite;
+}
+
+.box::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 350px;
+    height: 420px;
+    transform-origin: bottom right;
+    background: linear-gradient(0deg, transparent, var(--secondaryColor), var(--secondaryColor));
+    animation: animate 6s linear infinite;
+    animation-delay: -3s;
+}
+
+.loginform {
+    position: absolute;
+    inset: 2px;
+    background: var(--boxColor);
+    z-index: 10;
+    border-radius: 8px;
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.loginform h2 {
+    color: var(--fontColor);
+    font-weight: 500;
+    text-align: center;
+    letter-spacing: 0.1em;
+}
+
+.inputBox {
+    position: relative;
+    margin-top: 35px;
+}
+
+.inputBox>input {
+    position: relative;
+    width: 100%;
+    padding: 20px 10px 10px;
+    background: transparent;
+    border: none;
+    color: #23242a;
+    font-size: 1em;
+    letter-spacing: 0.05em;
+    outline: none;
+    z-index: 10;
+}
+
+.inputBox span {
+    position: absolute;
+    left: 0;
+    padding: 20px 10px;
+    font-size: 1em;
+    color: var(--fontSecondary);
+    pointer-events: none;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+}
+
+.inputBox input:valid~span,
+.inputBox input:focus~span {
+    color: var(--fontColor);
+    transform: translateX(-10px) translateY(-34px);
+    font-size: 0.75em;
+}
+
+.inputBox i {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--secondaryColor);
+    border-radius: 4px;
+    transition: 0.5s;
+    pointer-events: none;
+    z-index: 9;
+}
+
+.inputBox input:valid~i,
+.inputBox input:focus~i {
+    height: 44px;
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+}
+
+.links a {
+    margin: 10px 0;
+    font-size: 0.75em;
+    color: var(--fontSecondary);
+    text-decoration: none;
+}
+
+.links a:hover {
+    color: var(--fontColor);
+}
+
+.box input[type=submit] {
+    border: none;
+    outline: none;
+    background: var(--secondaryColor);
+    padding: 10px 25px;
+    margin-top: 30px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--boxColor);
+}
+
+@keyframes animate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.errornoti{
+    position: fixed;
+    top: 10px;
+    right: 0;
+    color: #000;
+    background: var(--background);
+    box-shadow: 0 0 5px var(--shadowColor);
+    background: linear-gradient(45deg,var(--secondaryColor),transparent);
+    padding: 10px 20px;
+    border-right: 0;
+    border-radius: 10px 0 0 10px;
+    
+    transform: translateX(1000px);
+    animation: erorpop 20s ease-in-out;
+}
+.errornoti::before{
+    content: '!';
+    position: absolute;
+    right: 10px;
+    color: var(--secondaryColor);
+    background: transparent;
+}
+.errornoti:empty
+{
+    display:none;
+}
+
+@keyframes erorpop {
+    5%,99%{
+        transform: translateX(0);
+    }
+
+    0%,100% {
+        transform: translateX(1000px);
+    }
+}
+

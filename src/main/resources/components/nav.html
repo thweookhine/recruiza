@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <title>Document</title>
+</head>
+
+<body>
+    <nav th:fragment="navBar">
+        <h1>
+            Student Management
+        </h1>
+        <button class="logout" onclick="location.href='/'">
+            Logout
+        </button>
+    </nav>
+</body>
+
+</html>

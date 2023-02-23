@@ -5,6 +5,8 @@
 <title>Home</title>
 </head>
 <body>
+	<nav th:insert="../components/nav :: navBar"></nav>
+
 	<h1>Home Page</h1>
 	<p>User Code : <span th:text="${session.user.userCode}"></span>User Name : <span th:text="${session.user.userName}"></span></p>
 	<div>
