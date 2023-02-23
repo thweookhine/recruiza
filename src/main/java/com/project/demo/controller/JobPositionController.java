@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,31 +37,7 @@ public class JobPositionController {
 	@Autowired
 	JobPositionRepository repo;
 	
-	//Previous Page Url 
-	@RequestMapping(value="/previouspositionpage", method=RequestMethod.GET)
-	public ModelAndView displayPrevious(@RequestParam("currentPage") String currentPage,ModelMap model) {
-		
-		model.addAttribute("currentPage",Integer.parseInt(currentPage)-1);
-		model.addAttribute("totalPages",service.findTotalPages());
-		List<JobPosition> list = new ArrayList<JobPosition>();
-		list=service.getAllJobPosition(Integer.parseInt(currentPage)-2);
-		model.addAttribute("list",list);
-	   return new ModelAndView("jobPositonControl","jobposition",new JobPositionBean());
-
-	}
-	//Next Page Url
-	@RequestMapping(value="/nextpositionpage", method=RequestMethod.GET)
-	public ModelAndView displayNext(@RequestParam("currentPage") String currentPage,ModelMap model) {
-		model.addAttribute("currentPage",Integer.parseInt(currentPage)+1);
-		model.addAttribute("totalPages",service.findTotalPages());
-		
-		List<JobPosition> list = new ArrayList<JobPosition>();
-		list=service.getAllJobPosition(Integer.parseInt(currentPage));
-		model.addAttribute("list",list);
-	   return new ModelAndView("jobPositonControl","jobposition",new JobPositionBean());
-
-	}
-
+	
 	@ModelAttribute("jobPosition")
 	public JobPosition getJobPosition() {
 	return new JobPosition();
@@ -67,25 +48,24 @@ public class JobPositionController {
 		return new Date();
 	}
 	
-	@RequestMapping(value="/jobposition", method=RequestMethod.GET)
-	public ModelAndView displayView(ModelMap model) {
-	
-		List<JobPosition> list = new ArrayList<JobPosition>();
-		model.addAttribute("currentPage",1);
-		model.addAttribute("totalPages",service.findTotalPages());
-		list=service.getAllJobPosition(0);
-		model.addAttribute("list",list);
-	   return new ModelAndView("jobPositonControl","jobposition",new JobPositionBean());
-
-	}
+//	@RequestMapping(value="/jobposition", method=RequestMethod.GET)
+//	public ModelAndView displayView(ModelMap model) {
+//	
+//		List<JobPosition> list = new ArrayList<JobPosition>();
+//		//model.addAttribute("currentPage",1);
+//		//model.addAttribute("totalPages",service.findTotalPages());
+//		list=service.getAllJobPosition();
+//		model.addAttribute("list",list);
+//	   return new ModelAndView("jobPositonControl","jobposition",new JobPositionBean());
+//
+//	}
 
 	@PostMapping(value="/savejobposition")
 	public ModelAndView saveJobPositio(@ModelAttribute("jobposition")@Validated JobPositionBean jobposition,
-			BindingResult bs,RedirectAttributes model) {
+			BindingResult bs,RedirectAttributes ra,ModelMap model,HttpSession session) {
 		
 		if(bs.hasErrors()) {
-			model.addFlashAttribute("message","Something Wrong!");
-			return new ModelAndView("redirect:/jobposition");
+			ra.addFlashAttribute("message","Something Wrong!");
 			
 		}
 		
@@ -96,14 +76,13 @@ public class JobPositionController {
 		List<JobPosition> list = repo.findByName(jobposition.getPositionName());
 		if(list.size()==0) {
 			service.createJobPosition(position);
-			model.addFlashAttribute("message","Insert Successfully!");
-			return new ModelAndView("redirect:/jobposition");
+			ra.addFlashAttribute("message","Insert Successfully!");
 			
 		}else {
-			model.addFlashAttribute("message","Position Already Exist!");
-			return new ModelAndView("redirect:/jobposition");
+			ra.addFlashAttribute("message","Position Already Exist!");
+			
 		}
-		
+		return new ModelAndView("redirect:/jobposition");
 	}
 	@RequestMapping(value="/editjobposition",method=RequestMethod.GET)
 	public ModelAndView displayUpdateJobPosition(@RequestParam("id") Long id,ModelMap model) {
@@ -133,8 +112,11 @@ public class JobPositionController {
 
 		//System.out.print(position.getPositionId());
 		service.updateJobPosition(position);
-		ra.addFlashAttribute("message","Successfully Updated!");
-		
+		if(oldName.equals(position.getPositionName())) {
+		ra.addFlashAttribute("message","No Data Changed!");
+		}
+		else
+			ra.addFlashAttribute("message","Update Successful!");
 		}
 		else {
 			model.addAttribute("message","Can't update!Existing Name!!");
@@ -150,12 +132,50 @@ public class JobPositionController {
 		return new ModelAndView("redirect:/jobposition");
 	}
 	@PostMapping(value="/searchjobposition")
-	public ModelAndView searchJobPosition(Model ra,@RequestParam("name") String name) {
+	public ModelAndView searchJobPosition(ModelMap model,@RequestParam("name") String name) {
 		List<JobPosition> list=service.getPositionByCodeAndName(name, name);
-		ra.addAttribute("currentPage",1);
-		ra.addAttribute("totalPages",service.findTotalPages());
-		ra.addAttribute("list",list);
+		//model.addAttribute("currentPage",1);
+		//model.addAttribute("totalPages",service.findTotalPages());
+		model.addAttribute("list",list);
 		System.out.print(list.toString());
 		   return new ModelAndView("jobPositonControl","jobposition",new JobPositionBean());
 	}
-}
+	@GetMapping(value = "/jobposition")
+    public ModelAndView addJobPosition(ModelMap model,RedirectAttributes ra, HttpSession session,JobPositionBean beanPosition) {
+    	String keyword = null;
+    	return searchJobPosition(model, ra, session, beanPosition, 1, "positionId", "asc", keyword);
+    }
+    
+    @GetMapping(value = "/searchPosition/{pageNumber}")
+    public ModelAndView searchJobPosition(ModelMap model,RedirectAttributes ra,HttpSession session,JobPositionBean beanPosition,
+    							@PathVariable("pageNumber") int currentPage,
+    							@Param("sortField") String sortField,
+    							@Param("sortDir") String sortDir,
+    							@Param("keyword") String keyword) {
+    	
+                	
+        	Page<JobPosition> page = service.listAllPositions(currentPage, sortField, sortDir, keyword);
+        	
+        	long totalPosition = page.getTotalElements();
+        	int totalPages = page.getTotalPages();
+        	
+        	List<JobPosition> list = page.getContent();
+        	
+        	model.addAttribute("currentPage", currentPage);
+        	model.addAttribute("totalPositions", totalPosition);
+        	model.addAttribute("totalPages", totalPages);
+        	model.addAttribute("list", list);
+        	model.addAttribute("sortField", sortField);
+        	model.addAttribute("sortDir", sortDir);
+        	model.addAttribute("keyword", keyword);
+        	
+        	String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+        	model.addAttribute("reverseSortDir", reverseSortDir);
+        	
+//        	JobPositionBean beanPosition = JobPositionBean.builder()
+//					        			.build();
+        	return new ModelAndView("jobPositonControl","jobposition",beanPosition);
+        }
+        
+    }
+

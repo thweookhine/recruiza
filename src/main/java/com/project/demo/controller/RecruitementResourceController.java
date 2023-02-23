@@ -5,13 +5,18 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,8 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.demo.entity.JobPosition;
 import com.project.demo.entity.RecruitementResource;
-
+import com.project.demo.model.JobPositionBean;
 import com.project.demo.model.RecruitementResourceBean;
 import com.project.demo.repository.RecruitmentResourceRepository;
 import com.project.demo.service.RecruitementResourceService;
@@ -35,50 +41,25 @@ public class RecruitementResourceController {
 	@Autowired
 	RecruitmentResourceRepository repo;
 	
-	//Previous Page Url 
-	@RequestMapping(value="/previousresourcepage", method=RequestMethod.GET)
-	public ModelAndView displayPreviousResource(@RequestParam("currentPage") String currentPage,ModelMap model) {
-		
-		model.addAttribute("currentPage",Integer.parseInt(currentPage)-1);
-		model.addAttribute("totalPages",service.findTotalPages());
-		
-		List<RecruitementResource> list = new ArrayList<RecruitementResource>();
-		list=service.getAllRecruitementResource(Integer.parseInt(currentPage)-2);
-		model.addAttribute("list",list);
-	   return new ModelAndView("recruitementResourceControl","resource",new RecruitementResourceBean());
 
-	}
-	//Next Page Url
-	@RequestMapping(value="/nextresourcepage", method=RequestMethod.GET)
-	public ModelAndView displayNextResource(@RequestParam("currentPage") String currentPage,ModelMap model) {
-		model.addAttribute("currentPage",Integer.parseInt(currentPage)+1);
-		model.addAttribute("totalPages",service.findTotalPages());
-		
-		List<RecruitementResource> list = new ArrayList<RecruitementResource>();
-		list=service.getAllRecruitementResource(Integer.parseInt(currentPage));
-		model.addAttribute("list",list);
-	   return new ModelAndView("recruitementResourceControl","resource",new RecruitementResourceBean());
-
-	}
-	
-	@RequestMapping(value="/recruitementresource",method=RequestMethod.GET)
-	public ModelAndView display(ModelMap model) {
-		
-		List<RecruitementResource> list = new ArrayList<RecruitementResource>();
-		model.addAttribute("currentPage",1);
-		model.addAttribute("totalPages",service.findTotalPages());
-		list=service.getAllRecruitementResource(0);
-		model.addAttribute("rList",UIOptionData.generateResourceType());
-		model.addAttribute("list",list);
-		return new ModelAndView("recruitementResourceControl","resource",new RecruitementResourceBean());
-	}
+//	@RequestMapping(value="/recruitementresource",method=RequestMethod.GET)
+//	public ModelAndView display(ModelMap model) {
+//		
+//		List<RecruitementResource> list = new ArrayList<RecruitementResource>();
+//		model.addAttribute("currentPage",1);
+//		model.addAttribute("totalPages",service.findTotalPages());
+//		list=service.getAllRecruitementResource(0);
+//		model.addAttribute("rList",UIOptionData.generateResourceType());
+//		model.addAttribute("list",list);
+//		return new ModelAndView("recruitementResourceControl","resource",new RecruitementResourceBean());
+//	}
 
 	@PostMapping(value="/saveresource")
-	public ModelAndView saveResource(@ModelAttribute("resource")@Validated RecruitementResourceBean resource,
-			RedirectAttributes model,BindingResult bs) {
+	public ModelAndView saveResource(@ModelAttribute("resource")@Validated RecruitementResourceBean resource,HttpSession session,
+			RedirectAttributes ra,BindingResult bs,ModelMap model) {
 		
 		if(bs.hasErrors()) {
-			model.addFlashAttribute("message", "Insert Fail!");
+			ra.addFlashAttribute("message", "Insert Fail!");
 			return new ModelAndView("redirect:/recruitementresource");
 		}
 		
@@ -93,7 +74,7 @@ public class RecruitementResourceController {
 				.build();
 		
 		service.createRecruitementResource(resource1);
-		model.addFlashAttribute("message","Save Successfully!");
+		ra.addFlashAttribute("message","Save Successfully!");
 		return new ModelAndView("redirect:/recruitementresource");
 		
 	}
@@ -151,10 +132,51 @@ public class RecruitementResourceController {
 	@PostMapping(value="/searchresource")
 	public ModelAndView searchResource(Model ra,@RequestParam("name") String name) {
 		List<RecruitementResource> list=service.getByCodeNameMobileAndType(name, name,name,name);
-		ra.addAttribute("currentPage",1);
-		ra.addAttribute("totalPages",service.findTotalPages());
+		
 		ra.addAttribute("list",list);
+		ra.addAttribute("rList",UIOptionData.generateResourceType());
 		System.out.print(list.toString());
 		   return new ModelAndView("recruitementResourceControl","resource",new RecruitementResourceBean());
 	}
+	
+	@GetMapping(value = "/recruitementresource")
+    public ModelAndView addResource(ModelMap model,RedirectAttributes ra, HttpSession session,RecruitementResourceBean beanResource) {
+    	String keyword = null;
+    	model.addAttribute("rList",UIOptionData.generateResourceType());
+    	return searchResource(model, ra, session, beanResource, 1, "resourceId", "asc", keyword);
+    }
+    
+    @GetMapping(value = "/searchResource/{pageNumber}")
+    public ModelAndView searchResource(ModelMap model,RedirectAttributes ra,HttpSession session,RecruitementResourceBean beanResource,
+    							@PathVariable("pageNumber") int currentPage,
+    							@Param("sortField") String sortField,
+    							@Param("sortDir") String sortDir,
+    							@Param("keyword") String keyword) {
+    	
+                	
+        	Page<RecruitementResource> page = service.listAllResources(currentPage, sortField, sortDir, keyword);
+        	
+        	long totalResource = page.getTotalElements();
+        	int totalPages = page.getTotalPages();
+        	
+        	List<RecruitementResource> list = page.getContent();
+        	
+        	model.addAttribute("currentPage", currentPage);
+        	model.addAttribute("totalResources", totalResource);
+        	model.addAttribute("totalPages", totalPages);
+        	model.addAttribute("list", list);
+        	model.addAttribute("sortField", sortField);
+        	model.addAttribute("sortDir", sortDir);
+        	model.addAttribute("keyword", keyword);
+        	model.addAttribute("rList",UIOptionData.generateResourceType());
+        	
+        	String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+        	model.addAttribute("reverseSortDir", reverseSortDir);
+        	
+//        	RecruitementResourceBean beanResource = RecruitementResourceBean.builder()
+//					        			.build();
+        	return new ModelAndView("recruitementResourceControl","resource",beanResource);
+        }
+        
+
 }

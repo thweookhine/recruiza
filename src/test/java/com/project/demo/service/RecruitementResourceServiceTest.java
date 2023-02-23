@@ -202,7 +202,7 @@ class RecruitementResourceServiceTest {
 		list.add(reResource1);
 		
 		when(repo.findAll()).thenReturn(list);
-		List<RecruitementResource> reResourceList=resourceService.getAllRecruitementResource(0);
+		List<RecruitementResource> reResourceList=resourceService.getAllRecruitementResource();
 		assertEquals(2,reResourceList.size());
 		verify(repo, times(1)).findAll();
 	}

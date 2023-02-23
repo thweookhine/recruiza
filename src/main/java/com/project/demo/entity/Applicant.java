@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -90,6 +91,15 @@ public class Applicant {
 	
 	@OneToOne(mappedBy = "applicant")
 	private Schedule schedule;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(
+		name = "jobPosition_id",
+		referencedColumnName = "id",
+		nullable = false
+	)
+	private JobPosition jobPosition;
+
 
 	@Override
 	public boolean equals(Object obj) {

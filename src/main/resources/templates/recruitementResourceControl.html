@@ -9,11 +9,11 @@
 <h3>Add New RecruitementResource</h3>
 <div>
 <form th:action="@{/saveresource}" method="post" th:object="${resource}">
-<label>Name</label><input type="text" th:field="*{resourceName}" /><br><br>
-<label>Link</label><input type="text" th:field="*{link}" ><br><br>
-<label>Address</label><input type="text" th:field="*{address}"><br><br>
-<label>Mobile</label><input type="text" th:field="*{resourceMobile}"><br><br>
-<label>ContactPerson</label><input type="text" th:field="*{contactPerson}"><br><br>
+<label>Name</label><input type="text" th:field="*{resourceName}" required="required"/><br><br>
+<label>Link</label><input type="text" th:field="*{link}" required="required"><br><br>
+<label>Address</label><input type="text" th:field="*{address}" required="required" /><br><br>
+<label>Mobile</label><input type="text" th:field="*{resourceMobile}" required="required"><br><br>
+<label>ContactPerson</label><input type="text" th:field="*{contactPerson}" required="required"><br><br>
 <label class="col-md-2 col-form-label">Recruitement Type</label>
                     <select class="form-select" aria-label="Recruitement Type" id="type" th:field="*{recruitementType}">
                         <option th:each=" i : ${rList} " th:value="${i}" th:text="${i}"></option>
@@ -23,10 +23,15 @@
 </div>
 <br>
 <div>
-<form th:action="@{/searchresource}" th:object="${resource}" method="post">
-	<input type="text" name="name" placeholder="searchresource">
+<form th:action="@{/searchResource/1}" th:object="${resource}" method="get">
+	<input type="hidden" name="sortField" th:value="${sortField}" />
+	<input type="hidden" name="sortDir" th:value="${sortDir}" />
+	<input type="text" name="keyword" th:value="${keyword}" required />
 	<input type="submit" th:value="Search">
 </form>
+</div>
+<div>
+<a th:href="@{/recruitementresource}">View All</a>
 </div>
 <div>
 <center>
@@ -34,8 +39,10 @@
 	</center>
 	<table class="table table-striped table-hover table-bordered">
 		<tr>
-		<th>Resource Id</th>
-		<th>Resource Code</th>
+		<th> Id</th>
+		<th><a th:href="@{'/searchResource/' + ${currentPage} + '?sortField=resourceCode&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+							Code
+						</a></th>
 		<th>Resource Name</th>
 		<th>Link</th>
 		<th>Address</th>
@@ -59,9 +66,26 @@
 </table>
 </div>
 <div>
-<a th:if="${currentPage > 1 }" th:href="@{/previousresourcepage(currentPage=${currentPage})}"><span>Previous</span></a>
-<input type="text" th:value="${currentPage}">
-<a th:if="${currentPage < totalPages}" th:href="@{/nextresourcepage(currentPage=${currentPage})}"><span>Next</span></a>
-</div>
+		Total Resources: [[${totalResources}]] - Page [[${currentPage}]] of [[${totalPages}]]
+		&nbsp; - &nbsp;
+		
+		<a th:if="${currentPage > 1}" th:href="@{'/searchResource/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+		<span th:unless="${currentPage > 1}">First</span>
+		
+		<a th:if="${currentPage > 1}" th:href="@{'/searchResource/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
+		<span th:unless="${currentPage > 1}">Previous</span>
+		
+		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+			<a th:if="${i != currentPage}" th:href="@{'/searchResource/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a> 
+			<span th:unless="${i != currentPage}">[[${i}]]</span>
+			&nbsp;&nbsp;
+		</span>
+		
+		<a th:if="${currentPage < totalPages}" th:href="@{'/searchResource/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
+		<span th:unless="${currentPage < totalPages}">Next</span>
+		
+		<a th:if="${currentPage < totalPages}" th:href="@{'/searchResource/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+		<span th:unless="${currentPage < totalPages}">Last</span>
+	</div>
 </body>
 </html>

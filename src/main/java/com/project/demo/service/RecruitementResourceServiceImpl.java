@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -127,11 +128,12 @@ public class RecruitementResourceServiceImpl implements RecruitementResourceServ
 	}
 
 	@Override
-	public List<RecruitementResource> getAllRecruitementResource(int pageNum) {
+	public List<RecruitementResource> getAllRecruitementResource() {
 		// TODO Auto-generated method stub
-		Pageable sortById = PageRequest.of(pageNum,3,Sort.by("resourceId").descending());
-		List<RecruitementResource> resourceById=repo.findAll(sortById).getContent();
-		return resourceById;
+//		Pageable sortById = PageRequest.of(pageNum,3,Sort.by("resourceId").descending());
+//		List<RecruitementResource> resourceById=repo.findAll(sortById).getContent();
+//		return resourceById;
+		return repo.findAll();
 	}
 
 
@@ -163,6 +165,22 @@ public class RecruitementResourceServiceImpl implements RecruitementResourceServ
 	public List<RecruitementResource> getResourceByName(String name) {
 		// TODO Auto-generated method stub
 		return repo.findByName(name);
+	}
+
+
+	@Override
+	public Page<RecruitementResource> listAllResources(int pageNumber, String sortField, String sortDir,
+			String keyword) {
+		// TODO Auto-generated method stub
+		Sort sort = Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		
+		Pageable pageable = PageRequest.of(pageNumber - 1, 3, sort);
+		
+		if (keyword != null) {
+			return repo.findAll(keyword, pageable);
+		}
+		return repo.findAll(pageable);
 	}
 
 }

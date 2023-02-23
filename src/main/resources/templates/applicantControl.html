@@ -5,41 +5,36 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3 th:text="${message}"></h3>
-<br>
-		<h2>Add New JobPosition</h2>
+<h3>List All Applicants</h3>
 <div>
-<form th:action="@{/savejobposition}" method="post" th:object="${jobposition}">
-
-	<label>Name</label><input type="text" th:field="*{positionName}" required="required"/><br><br>
-	<input type="submit" th:value="Add">
-</form>
-</div>
-<br>
-<div>
-<form th:action="@{/searchPosition/1}" th:object="${jobposition}" method="get">
-	<input type="hidden" name="sortField" th:value="${sortField}" />
-	<input type="hidden" name="sortDir" th:value="${sortDir}" />
-	<input type="text" name="keyword" th:value="${keyword}" required />
-	<input type="submit" th:value="Search">
-</form>
-</div>
-<div>
-	<center>
-		<h2>List All JobPosition</h2>
-	</center>
-	<table class="table table-striped table-hover table-bordered">
+<table class="table table-striped table-hover table-bordered">
 		<tr>
 		<th>Id</th>
-		<th><a th:href="@{'/searchPosition/' + ${currentPage} + '?sortField=positionCode&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+		<th><a th:href="@{'/searchApplicants/' + ${currentPage} + '?sortField=applicantCode&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 							Code
 						</a></th>
 		<th>Name</th>
+		<th>Email</th>
+		<th>Phone</th>
+		<th>Address</th>
+		<th>Link</th>
+		<th>Current State</th>
+		<th>Status</th>
+		<th>JobPostId</th>
+		<th>Applied Date</th>
+		<th>Applied Position</th>
 		<th>Action</th>
-<tr th:each="position: ${list}">
-<td th:text="${position.positionId}" />
-<td th:text="${position.positionCode}" />
-<td th:text="${position.positionName}" />
+<tr th:each="applicant: ${list}">
+<td th:text="${applicant.applicantId}" />
+<td th:text="${applicant.applicantCode}" />
+<td th:text="${applicant.applicantName}" />
+<td th:text="${applicant.applicantEmail}"/>
+<td th:text="${applicant.applicantMobile}"/>
+<td th:text="${applicant.address}"/>
+<td th:text="${applicant.link}"/>
+<td th:text="${aplicant.currentState}"/>
+<td th:text="${applicant.applicantStatus}"/>
+<td th:text="${applicant.applyTime}"/>
 <td><a th:href="@{/editjobposition(id=${position.positionId})}">Action</a></td>
 </tr>
 </table>

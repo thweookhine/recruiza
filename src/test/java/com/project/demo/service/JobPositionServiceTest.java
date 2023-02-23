@@ -92,7 +92,7 @@ class JobPositionServiceTest {
 		list.add(position1);
 		
 		when(repo.findAll()).thenReturn(list);
-		List<JobPosition> userList=jpService.getAllJobPosition(0);
+		List<JobPosition> userList=jpService.getAllJobPosition();
 		assertEquals(2,userList.size());
 		verify(repo, times(1)).findAll();
 	}
