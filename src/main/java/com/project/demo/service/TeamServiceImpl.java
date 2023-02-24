@@ -49,10 +49,8 @@ public class TeamServiceImpl implements TeamService {
 		return totalPages;
 	}
 	@Override
-	public List<Team> getAllTeams(int pageNum) {
-		Pageable sortById = PageRequest.of(pageNum, 2,Sort.by("teamId").descending());
-		List<Team> teamById = teamRepo.findAll(sortById).getContent();
-		return teamById;
+	public List<Team> getAllTeams() {
+		return teamRepo.findAll();
 	}
 
 	@Override

@@ -21,8 +21,12 @@ public interface UserService {
 	
 	User activeUser(Long id);
 	
+<<<<<<< Updated upstream
 	User findUserName(String userName);
 	
 	User findUserEmail(String email);
+=======
+	User getById(long id);
+>>>>>>> Stashed changes
 	
 }

@@ -86,6 +86,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+<<<<<<< Updated upstream
 	public User findUserName(String userName) {
 		
 		return userRepository.findByUserName(userName);
@@ -95,6 +96,10 @@ public class UserServiceImpl implements UserService {
 	public User findUserEmail(String email) {
 		
 		return userRepository.findByUserEmail(email);
+=======
+	public User getById(long id) {
+		return userRepository.findById(id).get();
+>>>>>>> Stashed changes
 	}
 
 }

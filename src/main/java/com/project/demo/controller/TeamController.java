@@ -35,7 +35,7 @@ public class TeamController {
 	private DepartmentService deptService;
 
 	@GetMapping("/team")
-	public ModelAndView toTeam(ModelMap model, RedirectAttributes ra) {
+	public ModelAndView toTeam(ModelMap model, RedirectAttributes ra,TeamBean teamBean) {
 
 //		List<Team> teams = teamService.getAllTeams(0);
 //		model.addAttribute("currentPage", 1);
@@ -46,11 +46,11 @@ public class TeamController {
 
 		String keyword = null;
 	
-		return searchTeam(model, ra, 1, "teamId", "asc", keyword);
+		return searchTeam(model, ra,teamBean, 1, "teamId", "asc", keyword);
 	}
 
 	@GetMapping(value = "/searchTeam/{pageNumber}")
-	public ModelAndView searchTeam(ModelMap model, RedirectAttributes ra, @PathVariable("pageNumber") int currentPage,
+	public ModelAndView searchTeam(ModelMap model, RedirectAttributes ra,TeamBean teamBean ,@PathVariable("pageNumber") int currentPage,
 			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword) {
 
 		Page<Team> page = teamService.listAllTeams(currentPage, sortField, sortDir, keyword);
@@ -70,39 +70,38 @@ public class TeamController {
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 		model.addAttribute("reverseSortDir", reverseSortDir);
 
-		TeamBean teamBean = TeamBean.builder().build();
 		return new ModelAndView("teamControl", "team", teamBean);
 
 	}
 
-	@GetMapping("/nextTeamPage")
-	public ModelAndView nextTeamPage(@RequestParam("currentPage") String cp, ModelMap model) {
-		int currentPage = Integer.parseInt(cp);
-		List<Team> teams = teamService.getAllTeams(currentPage);
+//	@GetMapping("/nextTeamPage")
+//	public ModelAndView nextTeamPage(@RequestParam("currentPage") String cp, ModelMap model) {
+//		int currentPage = Integer.parseInt(cp);
+//		List<Team> teams = teamService.getAllTeams(currentPage);
+//
+//		model.addAttribute("currentPage", currentPage + 1);
+//		model.addAttribute("totalPages", teamService.findTotalPages());
+//		model.addAttribute("teams", teams);
+//
+//		return new ModelAndView("teamControl", "team", new TeamBean());
+//	}
 
-		model.addAttribute("currentPage", currentPage + 1);
-		model.addAttribute("totalPages", teamService.findTotalPages());
-		model.addAttribute("teams", teams);
-
-		return new ModelAndView("teamControl", "team", new TeamBean());
-	}
-
-	@GetMapping("/prevTeamPage")
-	public ModelAndView prevTeamPage(@RequestParam("currentPage") String cp, ModelMap model) {
-		int currentPage = Integer.parseInt(cp);
-		List<Team> teams = teamService.getAllTeams(currentPage - 2);
-		model.addAttribute("currentPage", currentPage - 1);
-		model.addAttribute("totalPages", teamService.findTotalPages());
-		model.addAttribute("teams", teams);
-		return new ModelAndView("teamControl", "team", new TeamBean());
-	}
+//	@GetMapping("/prevTeamPage")
+//	public ModelAndView prevTeamPage(@RequestParam("currentPage") String cp, ModelMap model) {
+//		int currentPage = Integer.parseInt(cp);
+//		List<Team> teams = teamService.getAllTeams();
+//		model.addAttribute("currentPage", currentPage - 1);
+//		model.addAttribute("totalPages", teamService.findTotalPages());
+//		model.addAttribute("teams", teams);
+//		return new ModelAndView("teamControl", "team", new TeamBean());
+//	}
 
 	@PostMapping("/saveTeam")
 	public ModelAndView saveTeam(@ModelAttribute("team") @Validated TeamBean teamBean, BindingResult bindingResult,
 			RedirectAttributes ra, ModelMap model) {
 
 		if (bindingResult.hasErrors()) {
-			return new ModelAndView("teamControl");
+			return toTeam(model, ra, teamBean);
 		}
 
 		if (teamBean.getDepartmentName().equals("none")) {

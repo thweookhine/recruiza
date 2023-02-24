@@ -126,7 +126,7 @@ class TeamServiceTest {
 		
 		when(teamRepository.findAll()).thenReturn(list);
 		
-		List<Team> result = teamService.getAllTeams(0);
+		List<Team> result = teamService.getAllTeams();
 		
 		assertEquals(4, result.size());
 		

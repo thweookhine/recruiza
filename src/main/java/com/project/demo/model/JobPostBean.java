@@ -24,37 +24,36 @@ public class JobPostBean {
 	@NotEmpty(message = "Post Name must not be empty.")
 	private String postName;
 	
-	@NotEmpty(message = "Post Count must not be empty.")
+//	@NotEmpty(message = "Post Count must not be empty.")
 	private int count;
 	
 	@NotEmpty(message = "Post Comment must not be empty.")
 	private String comment;
 	
-	@NotEmpty(message = "Post FOC must not be empty.")
+//	@NotEmpty(message = "Post FOC must not be empty.")
 	private boolean foc;
 	
-	@NotEmpty(message = "Post Date must not be empty.")
-	private LocalDate postDate;
+//	@NotEmpty(message = "Post Date must not be empty.")
+	private String postDate;
 	
-	@NotEmpty(message = "Post Due Date must not be empty.")
-	private LocalDate dueDate;
+//	@NotEmpty(message = "Post Due Date must not be empty.")
+	private String dueDate;
 	
-	@NotEmpty(message = "Post Team must not be empty.")
-	private TeamBean teamBean;
+//	@NotEmpty(message = "Post Team must not be empty.")
+	private String teamBean;
 	
-	@NotEmpty(message = "Post User must not be empty.")
-	private UserBean userBean;
+//	@NotEmpty(message = "Post User must not be empty.")
+	private String userBean;
 	
-	@NotEmpty(message = "RecruitementResource must not be empty.")
-	private RecruitementResourceBean resourceBean;
+//	@NotEmpty(message = "RecruitementResource must not be empty.")
+	private String resourceBean;
 	
-	@NotEmpty(message = "Job Position must not be empty.")
-	private JobPositionBean jobPositionBean;
+//	@NotEmpty(message = "Job Position must not be empty.")
+	private String jobPositionBean;
 	
 	@NotEmpty(message = "SheetId must not be empty.")
 	private String sheetId;
 	
-	private Timestamp postCreatedTime;
 	
 
 }

@@ -33,7 +33,7 @@ public class DepartmentController {
 	private DepartmentService deptService;
 
 	@GetMapping("/department")
-	public ModelAndView toDepartment(ModelMap model, RedirectAttributes ra) {
+	public ModelAndView toDepartment(ModelMap model, RedirectAttributes ra,DepartmentBean deptBean) {
 //		List<Department> depts = deptService.getAllDepts(0);
 //		model.addAttribute("currentPage", 1);
 //		model.addAttribute("totalPages", deptService.findTotalPages());
@@ -42,11 +42,12 @@ public class DepartmentController {
 //		return new ModelAndView("departmentControl", "department", new DepartmentBean());
 
 		String keyword = null;
-		return searchDept(model, ra, 1, "departmentId", "asc", keyword);
+		
+		return searchDept(model,deptBean, ra, 1, "departmentId", "asc", keyword);
 	}
 
 	@GetMapping(value = "/searchDepartment/{pageNumber}")
-	public ModelAndView searchDept(ModelMap model, RedirectAttributes ra, @PathVariable("pageNumber") int currentPage,
+	public ModelAndView searchDept(ModelMap model,DepartmentBean deptBean , RedirectAttributes ra, @PathVariable("pageNumber") int currentPage,
 			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword) {
 
 		Page<Department> page = deptService.listAllDepts(currentPage, sortField, sortDir, keyword);
@@ -67,9 +68,9 @@ public class DepartmentController {
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 		model.addAttribute("reverseSortDir", reverseSortDir);
 
-		DepartmentBean deptBean = DepartmentBean.builder()
-				.build();
-		
+//		DepartmentBean deptBean = DepartmentBean.builder()
+//				.build();
+//		
 
 		return new ModelAndView("departmentControl", "department", deptBean);
 
@@ -99,7 +100,7 @@ public class DepartmentController {
 			BindingResult bindingResult, ModelMap model, RedirectAttributes ra) {
 
 		if (bindingResult.hasErrors()) {
-			return new ModelAndView("departmentControl");
+			return toDepartment(model, ra, departmentBean);
 		}
 
 		Department dept = deptService.searchOneWithName(departmentBean.getDepartmentName());

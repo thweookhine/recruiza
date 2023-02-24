@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Job Post</title>
+</head>
+<body>
+	<h3>Add Job Post</h3>
+	
+	<h3 th:text="${message}"></h3>
+	
+	<div>
+		<form th:action="@{/saveJobPost}" method="post" th:object="${jobPost}">
+			<div>
+				<label for="name">Name</label> <input type="text"
+					th:field="*{postName}" placeholder="Enter Job Post Name" /> <label
+					th:if="${#fields.hasErrors('postName')}" th:errors="*{postName}"
+					style="color: red;">Error</label>
+			</div>
+			
+			<div>
+				<label for="count">Count</label> <input type="number"
+					th:field="*{count}" placeholder="Enter Count" /> <label
+					th:if="${#fields.hasErrors('count')}" th:errors="*{count}"
+					style="color: red;">Error</label>
+			</div>
+			
+			<div>
+				<label for="comment">Comment</label>
+				<textarea rows="1" th:field="*{comment}" placeholder="Enter Comment"></textarea>
+				 <label
+					th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"
+					style="color: red;">Error</label>
+			</div>
+			
+			<div>
+				<label for="foc">FOC</label>
+				<input type="checkbox" th:field="*{foc}" />
+				 <label
+					th:if="${#fields.hasErrors('foc')}" th:errors="*{foc}"
+					style="color: red;">Error</label>
+			</div>
+			
+			<div>
+				<label for="postDate">Post Date</label> <input type="date"
+					th:field="*{postDate}" placeholder="Enter Post Date" /> <label
+					th:if="${#fields.hasErrors('postDate')}" th:errors="*{postDate}"
+					style="color: red;">Error</label>
+			</div>
+			
+			<div>
+				<label for="postDate">Due Date</label> <input type="date"
+					th:field="*{dueDate}" placeholder="Enter Due Date" /> <label
+					th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}"
+					style="color: red;">Error</label>
+			</div>
+			
+			<div>
+				<label for="teams">Select Team</label> <select
+					th:field="*{teamBean}">
+					<option th:each="t : ${teamList}" th:value="${t.teamId}"
+						th:text="${t.teamName + ' ['+ t.departmentName} + ']'"></option>
+				</select>
+			</div>
+			
+			<div>
+				<label for="resource">Select Recruitement Resource</label> <select
+					th:field="*{resourceBean}">
+					<option th:each="r : ${resourceList}" th:value="${r.resourceId}"
+						th:text="${r.resourceName}"></option>
+				</select>
+			</div>
+			
+			<div>
+				<label for="position">Select Job Position</label> <select
+					th:field="*{jobPositionBean}">
+					<option th:each="p : ${positionList}" th:value="${p.positionId}"
+						th:text="${p.positionName}"></option>
+				</select>
+			</div>
+			
+			<div>
+				<label for="sheet">Sheet ID</label> <input type="text"
+					th:field="*{sheetId}" placeholder="Enter Sheet ID" /> <label
+					th:if="${#fields.hasErrors('sheetId')}" th:errors="*{sheetId}"
+					style="color: red;">Error</label>
+			</div>
+			
+			
+			<div>
+				<input type="submit" value="Add" />
+			</div>
+
+		</form>
+	</div>
+	
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Code</th>
+					<th>Name</th>
+					<th>Count</th>
+					<th>Post Date</th>
+					<th>Due Date</th>
+					<th>Comment</th>
+					<th>FOC</th>
+					<th>Team</th>
+					<th>Recruitment Resource</th>
+					<th>Job Position</th>
+					<th>User</th>
+					<th>Sheet ID</th>
+					<th>Created Time</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="jp : ${jobPosts}">
+					<td th:text="${jp.postId}"></td>
+					<td th:text="${jp.postCode}"></td>
+					<td th:text="${jp.postName}"></td>
+					<td th:text="${jp.count}"></td>
+					<td th:text="${jp.postDate}"></td>
+					<td th:text="${jp.dueDate}"></td>
+					<td th:text="${jp.comment}"></td>
+					<td th:text="${jp.foc}"></td>
+					<td th:text="${jp.team.teamName}"></td>
+					<td th:text="${jp.resource.resourceName}"></td>
+					<td th:text="${jp.jobPosition.positionName}"></td>
+					<td th:text="${jp.user.userName}"></td>
+					<td th:text="${jp.sheetId}"></td>
+					<td th:text="${jp.postCreatedTime}"></td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+	
+</body>
+</html>

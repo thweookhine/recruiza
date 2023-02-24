@@ -73,6 +73,9 @@ public class JobPost {
 	private LocalDate dueDate;
 	
 	@OneToOne(cascade = CascadeType.ALL)
+	private Department department;
+	
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "team_id")
 	private Team team;
 	
@@ -102,7 +105,7 @@ public class JobPost {
 			fetch = FetchType.EAGER,
 			cascade = CascadeType.ALL
 		)
-	private List<Applicant> applicants ;
+	private List<Applicant> applicants;
 
 	@Override
 	public boolean equals(Object obj) {

@@ -15,8 +15,8 @@ public interface TeamService {
 	
 	void deleteTeam(long id);
 	
-	List<Team> getAllTeams(int pageNum);
-	
+	List<Team> getAllTeams();
+
 	Team getById(long id);
 	
 	Long findTotalPages();

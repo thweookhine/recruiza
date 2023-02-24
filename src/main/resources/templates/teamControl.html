@@ -13,7 +13,7 @@
 		<form th:action="@{/saveTeam}" method="post" th:object="${team}">
 			<div>
 				<label for="name">Name</label> <input type="text"
-					th:field="*{teamName}" placeholder="Enter Team Name" required="required" /> <label
+					th:field="*{teamName}" placeholder="Enter Team Name" /> <label
 					th:if="${#fields.hasErrors('teamName')}" th:errors="*{teamName}"
 					style="color: red;">Error</label>
 			</div>

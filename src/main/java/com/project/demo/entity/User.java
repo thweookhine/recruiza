@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -73,7 +74,7 @@ public class User {
 	
 	@Column(name = "enabled")
 	private boolean enabled;
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
