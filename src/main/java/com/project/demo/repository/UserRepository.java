@@ -17,4 +17,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 			+ "LIKE %?1%")
 	public Page<User> findAll(String keyword, Pageable pageable);
 	
+	User findByUserName(String userName);
+	
+	User findByUserEmail(String email);
+	
 }

@@ -12,32 +12,42 @@
 		method="post">
 
 		<div>
-			<input type="text" th:field="*{userName}"
-				placeholder="Enter user name" />
-				<p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+			<div>
+				<input type="text" th:field="*{userName}"
+					placeholder="Enter user name"/>
+			</div>
+				<span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
 		</div>
 
 		<div>
-			<input type="email" th:field="*{userEmail}"
+			<div>
+				<input type="email" th:field="*{userEmail}"
 				placeholder="Enter user email" />
+			</div>
 				<p th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}"></p>
 		</div>
 
 		<div>
-			<input type="text" th:field="*{userMobile}"
+			<div>
+				<input type="text" th:field="*{userMobile}"
 				placeholder="Enter user phone" />
+			</div>
 				<p th:if="${#fields.hasErrors('userMobile')}" th:errors="*{userMobile}"></p>
 		</div>
 
 		<div>
-			<input type="password" th:field="*{password}"
+			<div>
+				<input type="password" th:field="*{password}"
 				placeholder="Enter user password" />
+			</div>
 				<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 		</div>
 
 		<div>
-			<input type="password" th:field="*{confPassword}"
+			<div>
+				<input type="password" th:field="*{confPassword}"
 				placeholder="Enter user confirm password" />
+			</div>
 				<p th:if="${#fields.hasErrors('confPassword')}" th:errors="*{confPassword}"></p>
 		</div>
 

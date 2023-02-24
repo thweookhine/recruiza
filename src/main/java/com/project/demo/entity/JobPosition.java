@@ -59,7 +59,7 @@ public class JobPosition {
 	private JobPost jobPost;
 	
 	@OneToMany(
-			mappedBy = "jobposition",
+			mappedBy = "jobPosition",
 			fetch = FetchType.LAZY,
 			cascade = CascadeType.ALL
 		)

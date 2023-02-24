@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.project.demo.entity.User;
 import com.project.demo.model.UserBean;
 import com.project.demo.service.UserServiceImpl;
+import com.project.demo.utils.NameCapital;
 import com.project.demo.utils.PasswordGenerator;
 
 @RestController
@@ -113,13 +114,13 @@ public class UserController {
     }
     
     @GetMapping(value = "/admin/addUser")
-    public ModelAndView addUser(ModelMap model,RedirectAttributes ra, HttpSession session) {
+    public ModelAndView addUser(UserBean bean,ModelMap model,RedirectAttributes ra, HttpSession session) {
     	String keyword = null;
-    	return searchUser(model, ra, session, 1, "userId", "asc", keyword);
+    	return searchUser(model, ra, session, bean, 1, "userId", "asc", keyword);
     }
     
     @GetMapping(value = "/admin/searchUser/{pageNumber}")
-    public ModelAndView searchUser(ModelMap model,RedirectAttributes ra,HttpSession session,
+    public ModelAndView searchUser(ModelMap model,RedirectAttributes ra,HttpSession session,UserBean userBean,
     							@PathVariable("pageNumber") int currentPage,
     							@Param("sortField") String sortField,
     							@Param("sortDir") String sortDir,
@@ -148,10 +149,13 @@ public class UserController {
         	String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
         	model.addAttribute("reverseSortDir", reverseSortDir);
         	
-        	UserBean beanUser = UserBean.builder()
-					        			.userMobile("09")
-					        			.build();
-        	return new ModelAndView("addUser","bean",beanUser);
+        	if(userBean.getUserMobile() == null) {
+        		userBean = UserBean.builder()
+    					.userMobile("09")
+    					.build();
+        	}
+        	
+        	return new ModelAndView("addUser","bean",userBean);
         }
         
     }
@@ -164,14 +168,16 @@ public class UserController {
         	return new ModelAndView("redirect:/login");
     	}else if (bs.hasErrors()) {
     		model.addAttribute("error", "Field cannot be blank !");
-			return new ModelAndView("addUser");
 		}else if(!bean.getPassword().equals(bean.getConfPassword())) {
 			model.addAttribute("error", "check your confirm password again !");
-			return new ModelAndView("addUser");
+		}else if(userServiceImpl.findUserName(bean.getUserName()) != null) {
+			model.addAttribute("error", "User name is has been !");
+		}else if(userServiceImpl.findUserEmail(bean.getUserEmail()) != null) {
+			model.addAttribute("error", "User email is has been !");
 		}else {
 			
 			User user = User.builder()
-							.userName(bean.getUserName())
+							.userName(NameCapital.capitalizeFirstLetter(bean.getUserName()))
 							.userEmail(bean.getUserEmail())
 							.userMobile(bean.getUserMobile())
 							.password(PasswordGenerator.generatePassword(bean.getPassword()))
@@ -185,11 +191,11 @@ public class UserController {
 			
 			if(cUser == null) {
 				model.addAttribute("error", "Add User Fail !");
-				return new ModelAndView("addUser");
+			}else {
+				model.addAttribute("msg", "Add User Successful !");
 			}
 		}
-    	ra.addFlashAttribute("msg", "Add User Successful !");
-    	return new ModelAndView("redirect:/admin/addUser");
+    	return addUser(bean, model, ra, session);
     }
     
     @GetMapping("/admin/editUser")

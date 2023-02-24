@@ -21,4 +21,8 @@ public interface UserService {
 	
 	User activeUser(Long id);
 	
+	User findUserName(String userName);
+	
+	User findUserEmail(String email);
+	
 }
