@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.project.demo.entity.Department;
+import com.project.demo.entity.Team;
 
 @Service
 public interface DepartmentService {
@@ -35,5 +36,7 @@ public interface DepartmentService {
 	Department searchOneWithName(String name);
 	
 	Page<Department> listAllDepts(int pageNumber, String sortField, String sortDir, String keyword);
+
+	List<Team> getTeamList(long departmentId);
 	
 }

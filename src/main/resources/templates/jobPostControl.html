@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Job Post</title>
+
+	<!-- JQuery js1 -->
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js" type="text/javascript"></script>
+
+	<script type="text/javascript" th:src="@{/js/ajax.js}"></script> 
+	
 </head>
 <body>
 	<h3>Add Job Post</h3>
@@ -54,12 +60,18 @@
 					th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}"
 					style="color: red;">Error</label>
 			</div>
+
+			<div>
+				<label for="teams">Select Department</label> <select
+					id="departmentSelect" name="departmentId" onchange="getTeams();">
+					<option th:each="d : ${departmentList}" th:value="${d.departmentId}"
+						th:text="${d.departmentName}"></option>
+				</select>
+			</div>
 			
 			<div>
 				<label for="teams">Select Team</label> <select
-					th:field="*{teamBean}">
-					<option th:each="t : ${teamList}" th:value="${t.teamId}"
-						th:text="${t.teamName + ' ['+ t.departmentName} + ']'"></option>
+				id="teamSelect"	th:field="*{teamBean}">
 				</select>
 			</div>
 			
@@ -135,6 +147,5 @@
 			</tbody>
 		</table>
 	</div>
-	
 </body>
 </html>

@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.project.demo.entity.Department;
+import com.project.demo.entity.Team;
+
 import java.lang.String;
 
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
@@ -28,5 +30,8 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 			+ "CONCAT(d.departmentId, ' ', d.departmentCode, ' ', d.departmentName, ' ')"
 			+ "LIKE %?1%")
 	public Page<Department> findAll(String keyword, Pageable pageable);
+
+	@Query("select d.teams from Department d where d.departmentId = ?1")
+	List<Team> getTeamListBydId(long departmentId);
 	
 }

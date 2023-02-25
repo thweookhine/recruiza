@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.project.demo.entity.Department;
+import com.project.demo.entity.Team;
 import com.project.demo.repository.DepartmentRepository;
 
 @Service
@@ -111,6 +112,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 			return deptRepo.findAll(keyword, pageable);
 		}
 		return deptRepo.findAll(pageable);
+	}
+
+	@Override
+	public List<Team> getTeamList(long departmentId) {
+		return deptRepo.getTeamListBydId(departmentId);
 	}
 
 }

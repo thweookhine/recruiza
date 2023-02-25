@@ -40,7 +40,7 @@ public class JobPostBean {
 	private String dueDate;
 	
 //	@NotEmpty(message = "Post Team must not be empty.")
-	private String teamBean;
+	private long teamBean;
 	
 //	@NotEmpty(message = "Post User must not be empty.")
 	private String userBean;

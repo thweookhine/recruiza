@@ -1,6 +1,5 @@
 package com.project.demo.controller;
 
-import java.awt.Point;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,25 +14,27 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.demo.entity.Department;
 import com.project.demo.entity.JobPosition;
 import com.project.demo.entity.JobPost;
 import com.project.demo.entity.RecruitementResource;
 import com.project.demo.entity.Team;
 import com.project.demo.entity.User;
-import com.project.demo.model.DepartmentBean;
 import com.project.demo.model.JobPositionBean;
 import com.project.demo.model.JobPostBean;
 import com.project.demo.model.RecruitementResourceBean;
 import com.project.demo.model.TeamBean;
 import com.project.demo.model.UserBean;
+import com.project.demo.service.DepartmentService;
 import com.project.demo.service.JobPositionService;
 import com.project.demo.service.JobPostService;
-import com.project.demo.service.JobPostServiceImpl;
 import com.project.demo.service.RecruitementResourceService;
 import com.project.demo.service.TeamService;
 import com.project.demo.service.UserService;
@@ -55,6 +56,9 @@ public class JobPostController {
 	
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	DepartmentService departmentService;
 	
 	@GetMapping("/jobPost")
 	public ModelAndView toJobPost(ModelMap model, RedirectAttributes ra,JobPostBean jobPostBean) {
@@ -72,7 +76,7 @@ public class JobPostController {
 			return toJobPost(model, ra, jobPostBean);
 		}
 		
-		Team team = teamService.getById(Integer.parseInt(jobPostBean.getTeamBean()));
+		Team team = teamService.getById(jobPostBean.getTeamBean());
 		RecruitementResource resource = resourceService.getResourceById(Long.parseLong(jobPostBean.getResourceBean()));
 		JobPosition jobPosition = positionService.getPositionById(Long.parseLong(jobPostBean.getJobPositionBean()));
 		
@@ -162,6 +166,17 @@ public class JobPostController {
 			list.add(jpBean);
 		}
 		return list;
+	}
+
+	@ModelAttribute("departmentList")
+	List<Department> getDepartments() {
+	return departmentService.readAllDepts();
+	}
+
+	@GetMapping("teamList/{departmentId}")
+	@ResponseBody
+	public List<Team> getTeams(@PathVariable("departmentId") long departmentId) {
+		return departmentService.getTeamList(departmentId);
 	}
 	
 }
