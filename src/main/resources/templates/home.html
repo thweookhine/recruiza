@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Home</title>
+<div th:insert="../components/nav :: tags"></div>
 </head>
 <body>
 	<nav th:insert="../components/nav :: navBar"></nav>
 
-	<h1>Home Page</h1>
+	<!-- <h1>Home Page</h1>
 	<p>User Code : <span th:text="${session.user.userCode}"></span>User Name : <span th:text="${session.user.userName}"></span></p>
 	<div>
 		<a th:href="@{/admin}">Admin Page</a>
@@ -21,6 +22,6 @@
 	<div sec:authorize="hasAuthority('ADMIN')">
 		<a th:href="@{/admin/addUser}">Add User</a>
 	</div>
-	<a th:href="@{/logout}">Logout</a>
+	<a th:href="@{/logout}">Logout</a> -->
 </body>
 </html>

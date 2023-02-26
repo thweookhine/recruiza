@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
 
 		return userRepository.findByUserEmail(email);
 	}
-
+	
 	public User getById(long id) {
 		return userRepository.findById(id).get();
 	}
