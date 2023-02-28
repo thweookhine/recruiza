@@ -10,7 +10,8 @@ public interface ApplicantService {
 
 	Applicant createApplicant(Applicant applicant);
 	Applicant updateApplicant(Applicant applicant);
-	void deleteApplicant(Applicant applicant);
+	void deleteApplicant(Long id);
 	List<Applicant> getAllApplicant();
 	Page<Applicant> listAllApplicants(int pageNumber, String sortField, String sortDir, String keyword);
+	Applicant getApplicantById(Long id);
 }

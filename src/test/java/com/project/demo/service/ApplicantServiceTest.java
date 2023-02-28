@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -109,7 +108,7 @@ class ApplicantServiceTest {
 							.link("job.com")
 							.currentState("Interview")
 							.applicantStatus("Activite")
-							.applyTime(LocalDateTime.now())
+							//.applyTime(LocalDateTime.now())
 							.jobPost(jp)
 							.schedule(null)
 							.build();
@@ -197,7 +196,7 @@ class ApplicantServiceTest {
 							.link("job.com")
 							.currentState("Interview")
 							.applicantStatus("Activite")
-							.applyTime(LocalDateTime.now())
+							//.applyTime(LocalDateTime.now())
 							.jobPost(jp)
 							.schedule(null)
 							.build();
@@ -286,12 +285,12 @@ class ApplicantServiceTest {
 							.link("job.com")
 							.currentState("Interview")
 							.applicantStatus("Activite")
-							.applyTime(LocalDateTime.now())
+							//.applyTime(LocalDateTime.now())
 							.jobPost(jp)
 							.schedule(null)
 							.build();
 		
-		applicantService.deleteApplicant(applicant);
+		applicantService.deleteApplicant((long)1);
 		verify(repo,times(1)).deleteById(applicant.getApplicantId());
 		
 	}
@@ -369,7 +368,7 @@ class ApplicantServiceTest {
 							.link("job.com")
 							.currentState("Interview")
 							.applicantStatus("Activite")
-							.applyTime(LocalDateTime.now())
+							//.applyTime(LocalDateTime.now())
 							.jobPost(jp)
 							.schedule(null)
 							.build();
@@ -384,7 +383,7 @@ class ApplicantServiceTest {
 				.link("job.com")
 				.currentState("Interview")
 				.applicantStatus("Activite")
-				.applyTime(LocalDateTime.now())
+				//.applyTime(LocalDateTime.now())
 				.jobPost(jp)
 				.schedule(null)
 				.build();

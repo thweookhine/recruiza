@@ -34,14 +34,16 @@ public class ApplicantBean {
 	@NotEmpty(message = "Applicant Link must not be empty.")
 	private String link;
 	
-	@NotEmpty(message = "Applicant Current State must not be empty.")
+//	@NotEmpty(message = "Applicant Current State must not be empty.")
 	private String currentState;
 	
 	private String applicantStatus;
 	
 	private LocalDateTime applyTime;
 	
-	@NotEmpty(message = "Job Post must not be empty.")
-	private JobPostBean jobPostBean;
+	//@NotEmpty(message = "Job Post must not be empty.")
+	private String jobPostBean;
+	
+	private String jobPositionBean;
 	
 }

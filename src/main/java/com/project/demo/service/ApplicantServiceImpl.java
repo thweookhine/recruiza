@@ -50,9 +50,9 @@ public class ApplicantServiceImpl implements ApplicantService{
 	}
 
 	@Override
-	public void deleteApplicant(Applicant applicant) {
+	public void deleteApplicant(Long id) {
 		// TODO Auto-generated method stub
-		 repo.deleteById(applicant.getApplicantId());
+		 repo.deleteById(id);
 		
 	}
 
@@ -74,6 +74,12 @@ public class ApplicantServiceImpl implements ApplicantService{
 			return repo.findAll(keyword, pageable);
 		}
 		return repo.findAll(pageable);
+	}
+
+	@Override
+	public Applicant getApplicantById(Long id) {
+		// TODO Auto-generated method stub
+		return repo.findById(id).get();
 	}
 
 	}

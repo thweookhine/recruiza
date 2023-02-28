@@ -1,5 +1,6 @@
 package com.project.demo.entity;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -79,8 +80,9 @@ public class Applicant {
 	)
 	private String applicantStatus;
 
-	@Column(name = "apply_time")
-	private LocalDateTime applyTime;
+	@Column(name = "apply_time",
+			columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	private Timestamp applyTime;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(

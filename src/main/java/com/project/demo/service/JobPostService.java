@@ -24,4 +24,6 @@ public interface JobPostService {
 	
 	List<JobPost> searchWithEndDate(String endDate);
 	
+	JobPost getByid(long id);
+	
 }

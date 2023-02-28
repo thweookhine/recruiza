@@ -17,3 +17,17 @@ function activeLink() {
 	this.classList.add('active');
 }
 navlist.forEach((item) => item.addEventListener('click', activeLink));
+
+
+var today = new Date().toISOString().split('T')[0];
+var idate = document.querySelectorAll('.customdate')
+console.log(today+" | "+idate.innerHTML);
+idate[0].setAttribute('min', today);
+
+function getPostDateData(){
+	console.log(idate[0].value);
+	if(idate[0].value == ""){
+		idate[1].setAttribute('min', today);
+	}else{
+	idate[1].setAttribute('min', idate[0].value);}
+}

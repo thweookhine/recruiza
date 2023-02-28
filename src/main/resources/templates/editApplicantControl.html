@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h3 th:text="${message}"></h3>
+<form th:action="@{/updateapplicant}" th:object="${applicant}" method="post">
+<input type="hidden" th:field="*{applicantId}"><br>
+<input type="text" placeholder="Enter Name" th:field="*{applicantName}"/><br>
+<input type="text" placeholder="Enter Email" th:field="*{applicantEmail}"/><br>
+<input type="text" placeholder="Enter Mobile" th:field="*{applicantMobile}"/><br>
+<input type="text" placeholder="Enter Address" th:field="*{address}"/><br>
+<input type="text" placeholder="Enter Link" th:field="*{link}"/><br>
+<label class="col-md-2 col-form-label"> Select JobPost Name</label>
+                    <select class="form-select" aria-label="Recruitement Type" id="type" th:field="*{jobPostBean}">
+                        <option th:each=" i : ${jobPostList} " th:value="${i.postId}" th:text="${i.postName}"></option>
+    				</select><br>
+<label class="col-md-2 col-form-label"> Select Applied Position</label>
+                    <select class="form-select" aria-label="Recruitement Type" id="type" th:field="*{jobPositionBean}">
+                        <option th:each=" i : ${positionList} " th:value="${i.positionId}" th:text="${i.positionName}"></option>
+    				</select><br>
+    <input type="submit" value="Update">
+    <a th:href="@{/deleteapplicant(id=${applicant.applicantId})}">Delete</a>
+<a th:href="@{/applicant}">Back</a>
+</form>
+</body>
+</html>

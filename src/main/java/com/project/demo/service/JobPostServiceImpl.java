@@ -112,6 +112,11 @@ public class JobPostServiceImpl implements JobPostService {
 		return jobPostRepo.findWithEndDate(endDate);
 	}
 
+	@Override
+	public JobPost getByid(long id) {
+		return jobPostRepo.findById(id).get();
+	}
+
 //	@Override
 //	public List<JobPost> searchJobPosts(String code, String name) {
 //
