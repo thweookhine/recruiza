@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
 </head>
+
 <body>
 
 	<h3>Update Department</h3>
-	
+
 	<h3 th:text="${message}"></h3>
-	
+
 	<div th:if="${!#lists.isEmpty(teams)}">
 		<div>This department has </div>
 		<div th:each="team : ${teams}">
@@ -18,31 +20,39 @@
 	</div>
 
 	<div>
-		<form th:action="@{/updateDepartment}" method="post"
-			th:object="${department}">
+		<form th:action="@{/updateDepartment}" method="post" th:object="${department}">
 			<input type="hidden" th:field="*{departmentId}" />
 			<input type="hidden" name="oldName" th:value="${department.departmentName}" />
-			
+
 			<div>
-				<label for="name">Name</label> <input type="text"
-					 th:field="*{departmentName}" placeholder="Enter Department Name" />
-				<label th:if="${#fields.hasErrors('departmentName')}"
-					th:errors="*{departmentName}" style="color: red;">Error</label>
+				<label for="name">Name</label> <input type="text" th:field="*{departmentName}"
+					placeholder="Enter Department Name" />
+				<label th:if="${#fields.hasErrors('departmentName')}" th:errors="*{departmentName}"
+					style="color: red;">Error</label>
 			</div>
 			<div>
 				<input type="submit" value="Update" />
 			</div>
-			<div>
-				<a th:href="@{/deleteDepartment(id=${department.departmentId})}">Delete</a>
-			</div>
-			<div>
-				<button>
-					<a th:href="@{/department}">Back</a>
-				</button>
-			</div>
-
 		</form>
 	</div>
 
+	<div>
+		<button onclick="deleteform()">Delete</button>
+	</div>
+	<div>
+		<button>
+			<a th:href="@{/department}">Back</a>
+		</button>
+	</div>
+
+	<div class="confirmDelete" style="display: none;">
+		<h4>Are u sure u want to delete?</h4>
+		<a th:href="@{/deleteDepartment(id=${department.departmentId})}">yes</a>
+		<a onclick="deleteformclose()">no</a>
+	</div>
+
+
+	<script type="text/javascript" th:src="@{/js/form.js}"></script>
 </body>
+
 </html>

@@ -27,8 +27,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.demo.entity.JobPosition;
 import com.project.demo.entity.RecruitementResource;
+import com.project.demo.entity.Team;
 import com.project.demo.model.JobPositionBean;
 import com.project.demo.model.RecruitementResourceBean;
+import com.project.demo.model.TeamBean;
 import com.project.demo.repository.RecruitmentResourceRepository;
 import com.project.demo.service.RecruitementResourceService;
 import com.project.demo.utils.UIOptionData;
@@ -123,10 +125,31 @@ public class RecruitementResourceController {
 	}
 	
 	@GetMapping(value="/deleteresource")
-	public ModelAndView deleteResource(RedirectAttributes model,@RequestParam("id")Long id) {
+	public ModelAndView deleteResource(ModelMap model,RedirectAttributes ra,@RequestParam("id")Long id,ModelMap m) {
 	
-		model.addFlashAttribute("message","delete successfully!");
-		service.deleteRecruitementResource(id);
+		//model.addFlashAttribute("message","delete successfully!");
+		
+		
+		try {
+			service.deleteRecruitementResource(id);
+		}catch(Exception expection) {
+			model.addAttribute("message","You can't delete");
+			RecruitementResource resource = service.getResourceById(id);
+			RecruitementResource bean = RecruitementResource.builder()
+					.resourceId(resource.getResourceId())
+					.resourceName(resource.getResourceName())
+					.link(resource.getLink())
+					.address(resource.getAddress())
+					.resourceMobile(resource.getResourceMobile())
+					.contactPerson(resource.getContactPerson())
+					.recruitementType(resource.getRecruitementType())
+					.build();
+			
+			m.addAttribute("rList",UIOptionData.generateResourceType());
+			return new ModelAndView("editResourceControl","resource",bean);
+			
+		}
+		ra.addFlashAttribute("message","delete successfully!");
 		return new ModelAndView("redirect:/recruitementresource");
 	}
 	@PostMapping(value="/searchresource")

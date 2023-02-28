@@ -72,9 +72,6 @@ public class RecruitementResource {
 	)
 	private Timestamp resourceCreatedTime;
 
-	@OneToOne(mappedBy = "resource")
-	private JobPost jobPost;
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -85,8 +82,7 @@ public class RecruitementResource {
 			return false;
 		RecruitementResource other = (RecruitementResource) obj;
 		return Objects.equals(address, other.address) && Objects.equals(contactPerson, other.contactPerson)
-				&& Objects.equals(jobPost, other.jobPost) && Objects.equals(link, other.link)
-				&& Objects.equals(recruitementType, other.recruitementType)
+				&& Objects.equals(link, other.link) && Objects.equals(recruitementType, other.recruitementType)
 				&& Objects.equals(resourceCode, other.resourceCode)
 				&& Objects.equals(resourceCreatedTime, other.resourceCreatedTime) && resourceId == other.resourceId
 				&& Objects.equals(resourceMobile, other.resourceMobile)
@@ -95,9 +91,11 @@ public class RecruitementResource {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, contactPerson, jobPost, link, recruitementType, resourceCode, resourceCreatedTime,
+		return Objects.hash(address, contactPerson, link, recruitementType, resourceCode, resourceCreatedTime,
 				resourceId, resourceMobile, resourceName);
 	}
-	
-	
+
+//	@OneToOne(mappedBy = "resource")
+//	private JobPost jobPost;
+
 }

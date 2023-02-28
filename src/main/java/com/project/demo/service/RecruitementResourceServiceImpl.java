@@ -115,7 +115,6 @@ public class RecruitementResourceServiceImpl implements RecruitementResourceServ
 		//reResource.setResourceCreatedTime(resource.getResourceCreatedTime());
 		reResource.setResourceMobile(resource.getResourceMobile());
 		reResource.setResourceName(resource.getResourceName());
-		reResource.setJobPost(getJobPost());
 		
 		return repo.save(reResource);
 	}

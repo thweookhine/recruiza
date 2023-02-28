@@ -72,7 +72,6 @@ public class JobPostController {
 			RedirectAttributes ra, ModelMap model) {
 		
 		if(bindingResult.hasErrors()) {
-			System.out.println("binding");
 			return toJobPost(model, ra, jobPostBean);
 		}
 		
@@ -111,6 +110,9 @@ public class JobPostController {
 		
 		return new ModelAndView("redirect:/jobPost");
 	}
+	
+	
+	
 	
 	@ModelAttribute("teamList")
 	List<TeamBean> getAllTeams(){

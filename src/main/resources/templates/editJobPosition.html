@@ -1,18 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+    <meta charset="ISO-8859-1">
+    <title>Insert title here</title>
 </head>
+
 <body>
-<h3 th:text="${message}"></h3>
-<form th:action="@{/updatejobposition}" th:object="${jobposition}" method="post">
-<input type="hidden" th:field="*{positionId}">
-<input type="text" th:field="*{positionName}">
-<input type="hidden" th:value="${jobposition.positionName}" name="oldName"/>
-<input type="submit" th:value="Update">
-<a th:href="@{/deletejobposition(id=${jobposition.positionId})}">Delete</a>
-<a th:href="@{/jobposition}">Back</a>
-</form>
+    <h3 th:text="${message}"></h3>
+    <form th:action="@{/updatejobposition}" th:object="${jobposition}" method="post">
+        <input type="hidden" th:field="*{positionId}">
+        <input type="text" th:field="*{positionName}">
+        <input type="hidden" th:value="${jobposition.positionName}" name="oldName" />
+        <input type="submit" th:value="Update">
+    </form>
+
+    <!-- <a th:href="@{/deletejobposition(id=${jobposition.positionId})}">Delete</a> -->
+    <button onclick="deleteform()">Delete</button>
+    <a th:href="@{/jobposition}">Back</a>
+
+    <div class="confirmDelete" style="display: none;">
+        <h4>Are u sure u want to Delete?</h4>
+        <a th:href="@{/deletejobposition(id=${jobposition.positionId})}">yes</a>
+        <a onclick="deleteformclose()">no</a>
+    </div>
+
+
+    <script type="text/javascript" th:src="@{/js/form.js}"></script>
 </body>
+
 </html>

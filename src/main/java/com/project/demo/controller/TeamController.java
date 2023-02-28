@@ -1,5 +1,6 @@
 package com.project.demo.controller;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,8 +173,17 @@ public class TeamController {
 	}
 
 	@GetMapping("/deleteTeam")
-	public ModelAndView deleteTeam(@RequestParam("id") long id, ModelMap model) {
-		teamService.deleteTeam(id);
+	public ModelAndView deleteTeam(@RequestParam("id") long id, ModelMap model,RedirectAttributes ra) {
+		try {
+			teamService.deleteTeam(id);
+		}catch(Exception expection) {
+			model.addAttribute("message","You can't delete");
+			Team team = teamService.getById(id);
+			TeamBean teamBean = TeamBean.builder().teamId(id).teamCode(team.getTeamCode()).teamName(team.getTeamName())
+					.departmentName(team.getDepartment().getDepartmentName()).build();
+			return new ModelAndView("teamAction", "team", teamBean);
+		}
+		ra.addFlashAttribute("message","Delete successfully!");
 		return new ModelAndView("redirect:/team");
 	}
 //
