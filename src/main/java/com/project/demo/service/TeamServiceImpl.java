@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.project.demo.entity.Department;
 import com.project.demo.entity.Team;
 import com.project.demo.repository.TeamRepository;
 
@@ -44,7 +43,7 @@ public class TeamServiceImpl implements TeamService {
 
 	@Override
 	public Long findTotalPages() {
-		Pageable sortById = PageRequest.of(0, 2,Sort.by("teamId"));
+		Pageable sortById = PageRequest.of(0, 10,Sort.by("teamId"));
 		Long totalPages = (long) teamRepo.findAll(sortById).getTotalPages();
 		return totalPages;
 	}
@@ -61,9 +60,6 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public List<Team> searchTeam(String code, String name) {
 		return teamRepo.searchTeam("%" + code + "%", "%" + name + "%");
-//		Pageable pageable = PageRequest.of(0, 2);
-//		List<Team> teams = teamRepo.searchTeam("%" + code + "%", "%" + name + "%", pageable).getContent();
-//		return teams;
 	}
 
 	@Override
@@ -86,7 +82,7 @@ public class TeamServiceImpl implements TeamService {
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		
-		Pageable pageable = PageRequest.of(pageNumber - 1, 3, sort);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
 		
 		if (keyword != null) {
 			return teamRepo.findAllWithKeyword(keyword, pageable);

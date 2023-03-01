@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Team</title>
+	<div th:insert="../components/nav :: tags"></div>
 </head>
+
 <body>
-	<h3>Add Team</h3>
-	
+
 	<h3 th:text="${message}"></h3>
 
-	<div>
+	<nav th:insert="../components/nav :: navBar"></nav>
+	<div th:insert="../components/nav :: sideNav"></div>
+
+	<div class="addForm">
 		<form th:action="@{/saveTeam}" method="post" th:object="${team}">
 			<div>
-				<label for="name">Name</label> <input type="text"
-					th:field="*{teamName}" placeholder="Enter Team Name" /> <label
-					th:if="${#fields.hasErrors('teamName')}" th:errors="*{teamName}"
-					style="color: red;">Error</label>
+				<label for="name">Name</label> <input type="text" th:field="*{teamName}"
+					placeholder="Enter Team Name" /> <label th:if="${#fields.hasErrors('teamName')}"
+					th:errors="*{teamName}" style="color: red;">Error</label>
 			</div>
-			
+
 			<div>
-				<label for="depts">Select Department</label> <select
-					th:field="*{departmentName}">
+				<label for="depts">Select Department</label> <select th:field="*{departmentName}">
 					<option th:value="none">Select Department</option>
-					<option th:each="d : ${deptNameList}" th:value="${d}"
-						th:text="${d}"></option>
+					<option th:each="d : ${deptNameList}" th:value="${d}" th:text="${d}"></option>
 				</select>
 				<p th:text="${selectDept}"></p>
 			</div>
@@ -34,70 +36,66 @@
 		</form>
 	</div>
 
-	<div>
-		<form th:action="@{/searchTeam/1}" th:object="${team}">
-		<input type="hidden" name="sortField" th:value="${sortField}" />
-			<input type="hidden" name="sortDir" th:value="${sortDir}" />
-			<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword"  />
-			<input type="submit" value="Search" />
-			<button><a th:href="@{/team}">Reset</a></button>
-		</form>
+	<div class="tableBox teamTableBox">
+		<div class="searchBox">
+			<h2>Team</h2>
+			<form th:action="@{/searchTeam/1}" th:object="${team}">
+				<input type="hidden" name="sortField" th:value="${sortField}" />
+				<input type="hidden" name="sortDir" th:value="${sortDir}" />
+				<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" />
+				<button type="submit"><ion-icon name="search-outline"></ion-icon></button>
+				<a th:href="@{/team}"><ion-icon name="refresh-outline"></ion-icon></a>
+			</form>
+		</div>
+
+		<div class="data-table-box">
+			<div class="data-table">
+				<div class="data-table-row">
+					<div class="data-table-col">ID</div>
+					<div class="data-table-col">Code</div>
+					<div class="data-table-col">Name</div>
+					<div class="data-table-col">Department</div>
+					<div class="data-table-col">Options</div>
+				</div>
+				<div class="data-table-row" th:each="team : ${teams}">
+					<div class="data-table-col" th:text="${team.teamId}"></div>
+					<div class="data-table-col" th:text="${team.teamCode}"></div>
+					<div class="data-table-col" th:text="${team.teamName}"></div>
+					<div class="data-table-col" th:text="${team.department.departmentName}"></div>
+					<div class="data-table-col"><a th:href="@{/updateTeam(id=${team.teamId})}">Action</a></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="pagination">
+			<div>Total Teams: <span class="pagenum">[[${totalTeams}]]</span> - Page <span class="pagenum">[[${currentPage}]] </span>of <span class="pagenum">[[${totalPages}]]</span></div>
+
+			<div class="page-reference">
+				<a th:if="${currentPage > 1}"
+					th:href="@{'/searchTeam/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+				<span th:unless="${currentPage > 1}">First</span>
+
+				<a th:if="${currentPage > 1}"
+					th:href="@{'/searchTeam/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon name="chevron-back-circle-outline"></ion-icon></a>
+				<span th:unless="${currentPage > 1}"><ion-icon name="chevron-back-circle-outline"></ion-icon></span>
+
+				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+					<a th:if="${i != currentPage}"
+						th:href="@{'/searchTeam/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
+					<span th:unless="${i != currentPage}">[[${i}]]</span>
+				</span>
+
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/searchTeam/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon name="chevron-forward-circle-outline"></ion-icon></a>
+				<span th:unless="${currentPage < totalPages}"><ion-icon name="chevron-forward-circle-outline"></ion-icon></span>
+
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/searchTeam/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+				<span th:unless="${currentPage < totalPages}">Last</span>
+			</div>
+		</div>
 	</div>
 
-	<div>
-		<table>
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Code</th>
-					<th>Name</th>
-					<th>Department</th>
-					<th>Options</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="team : ${teams}">
-					<td th:text="${team.teamId}"></td>
-					<td th:text="${team.teamCode}"></td>
-					<td th:text="${team.teamName}"></td>
-					<td th:text="${team.department.departmentName}"></td>
-					<td><a th:href="@{/updateTeam(id=${team.teamId})}">Action</a></td>
-				</tr>
-
-			</tbody>
-		</table>
-	</div>
-	
-	
-	
-	<div th:if= "${keyword == null and deptName == null}">
-	
-		<a th:if="${currentPage > 1}" th:href="@{/prevTeamPage(currentPage=${currentPage})}"><span><</span></a>
-		<input type="text" th:value="${currentPage}" />
-		<a  th:if="${currentPage < totalPages}" th:href="@{/nextTeamPage(currentPage=${currentPage})}"><span>></span></a>
-	</div>
-<div>
-		Total Users: [[${totalUsers}]] - Page [[${currentPage}]] of [[${totalPages}]]
-		&nbsp; - &nbsp;
-		
-		<a th:if="${currentPage > 1}" th:href="@{'/searchTeam/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
-		<span th:unless="${currentPage > 1}">First</span>
-		
-		<a th:if="${currentPage > 1}" th:href="@{'/searchTeam/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
-		<span th:unless="${currentPage > 1}">Previous</span>
-		
-		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			<a th:if="${i != currentPage}" th:href="@{'/searchTeam/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a> 
-			<span th:unless="${i != currentPage}">[[${i}]]</span>
-			&nbsp;&nbsp;
-		</span>
-		
-		<a th:if="${currentPage < totalPages}" th:href="@{'/searchTeam/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
-		<span th:unless="${currentPage < totalPages}">Next</span>
-		
-		<a th:if="${currentPage < totalPages}" th:href="@{'/searchTeam/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
-		<span th:unless="${currentPage < totalPages}">Last</span>
-	</div>
 	<script type="text/javascript">
 		function clearFilter() {
 			window.location = '/team';
@@ -105,4 +103,5 @@
 	</script>
 
 </body>
+
 </html>

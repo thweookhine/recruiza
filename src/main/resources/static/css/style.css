@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Tilt Neon', cursive;
 }
 
 :root {
@@ -12,7 +14,7 @@
     --fontSecondary: #8f8f8f;
     --background: #ffffff;
     --boxColor: #ffffff;
-    --shadowColor: rgba(0,0,0,0.2);
+    --shadowColor: rgba(0, 0, 0, 0.2);
     --errorColor: rgb(255, 77, 124);
     /* nav */
     --color-nav: #644c89;
@@ -26,6 +28,10 @@ body {
     min-height: 100vh;
     background: var(--background);
     flex-direction: column;
+}
+
+ion-icon {
+    pointer-events: none;
 }
 
 .box {
@@ -173,45 +179,60 @@ body {
     }
 }
 
-.errornoti{
+.errornoti {
     position: fixed;
     top: 10px;
     right: 0;
     color: #000;
     background: var(--background);
     box-shadow: 0 0 5px var(--shadowColor);
-    background: linear-gradient(45deg,var(--secondaryColor),transparent);
+    background: linear-gradient(45deg, var(--secondaryColor), transparent);
     padding: 10px 20px;
     border-right: 0;
     border-radius: 10px 0 0 10px;
-    
+
     transform: translateX(1000px);
     animation: erorpop 20s ease-in-out;
 }
-.errornoti::before{
+
+.errornoti::before {
     content: '!';
     position: absolute;
     right: 10px;
     color: var(--secondaryColor);
     background: transparent;
 }
-.errornoti:empty
-{
-    display:none;
+
+.errornoti:empty {
+    display: none;
 }
 
 @keyframes erorpop {
-    5%,99%{
+
+    5%,
+    99% {
         transform: translateX(0);
     }
 
-    0%,100% {
+    0%,
+    100% {
         transform: translateX(1000px);
     }
 }
+/* hamburger */
+.hamburgerBox{
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    gap: 5px;
+}
+.hamburgerBox a{
+    text-decoration: none;
+}
 
 /* Nav Bar */
-nav{
+nav {
     position: fixed;
     top: 0;
     left: 0;
@@ -225,31 +246,45 @@ nav{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    z-index: 1000;
 }
-nav:hover{
+.logo{
+    position: absolute;
+    top: 10px;
+    font-size: 2em;
+    color: var(--secondaryColor);
+}
+nav:hover {
     width: 200px;
 }
-nav ul{
+
+nav ul {
     position: relative;
     width: 100%;
     padding-left: 5px;
 }
-nav ul li{
+
+nav ul li {
     position: relative;
     list-style: none;
     width: 100%;
     border-radius: 40px 0 0 40px;
 }
-nav ul li:hover a{
+
+nav ul li:hover a {
     color: var(--secondaryColor);
 }
-nav ul li.active:hover a{
-    color: black;
+
+nav ul li.active:hover a {
+    color: var(--background);
 }
-nav ul li.active{
+
+nav ul li.active {
     background: var(--secondaryColor);
 }
-nav ul li.active a::before{
+
+nav ul li.active a::before {
     content: '';
     position: absolute;
     top: -30px;
@@ -260,7 +295,8 @@ nav ul li.active a::before{
     border-radius: 50px;
     box-shadow: 15px 15px 0 var(--secondaryColor);
 }
-nav ul li.active a::after{
+
+nav ul li.active a::after {
     content: '';
     position: absolute;
     bottom: -30px;
@@ -271,7 +307,8 @@ nav ul li.active a::after{
     border-radius: 50px;
     box-shadow: 15px -15px 0 var(--secondaryColor);
 }
-nav ul li a{
+
+nav ul li a {
     position: relative;
     display: block;
     width: 100%;
@@ -279,7 +316,8 @@ nav ul li a{
     text-decoration: none;
     color: var(--fontColor);
 }
-nav ul li a .icon{
+
+nav ul li a .icon {
     position: relative;
     display: block;
     min-width: 60px;
@@ -287,12 +325,14 @@ nav ul li a .icon{
     line-height: 70px;
     text-align: center;
 }
-nav ul li a .icon ion-icon{
+
+nav ul li a .icon ion-icon {
     position: relative;
     font-size: 1.5em;
     z-index: 1;
 }
-nav ul li a .title{
+
+nav ul li a .title {
     position: relative;
     display: block;
     padding-left: 10px;
@@ -301,3 +341,384 @@ nav ul li a .title{
     white-space: nowrap;
     text-align: center;
 }
+
+nav ul li.active a .icon ion-icon {
+    color: var(--background);
+}
+
+
+.confirmationModal {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+@keyframes loadIn {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.confirmationModal button {
+    width: 45px;
+    height: 45px;
+    background: tomato;
+    border: 2px solid white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    position: absolute;
+    right: 10px;
+    top: -20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: 0.5s ease-in-out;
+}
+
+.confirmationModal button:hover {
+    transform: rotate(90deg);
+}
+
+.confirmationModal .backgroundExit {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 11;
+    background-color: #ffffff50;
+    backdrop-filter: blur(10px);
+}
+
+.confirmationModal .modalBox {
+    position: relative;
+    color: #171717;
+    z-index: 12;
+    background-color: var(--color-nav-active);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    animation: loadIn 0.5s linear;
+}
+
+.confirmationModal .modalBox .modalButtonBox {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+}
+
+.confirmationModal .modalBox .modalButtonBox a {
+    text-decoration: none;
+    background-color: var(--secondaryColor);
+    padding: 10px 20px;
+    height: auto;
+    width: 50%;
+    color: #171717;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.confirmationModal .modalBox .modalButtonBox a ion-icon {
+    position: absolute;
+    color: white;
+    opacity: 0;
+    transform: scale(3)translateX(10px);
+    transition: 0.5s ease-in-out;
+}
+
+.confirmationModal .modalBox .modalButtonBox a:hover ion-icon {
+    opacity: 0.75;
+    transform: scale(5)translateX(7px);
+}
+
+.confirmationModal .modalBox .modalButtonBox a:nth-child(1) {
+    background-color: tomato;
+}
+
+.confirmationModal .modalBox .modalButtonBox a:nth-child(2) {
+    background-color: lightgreen;
+}
+
+.modalBox h2 {
+    position: absolute;
+    background: var(--secondaryColor);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 10px;
+    top: -20px;
+    left: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.modalBox p {
+    width: 300px;
+}
+
+/* Side Resources */
+.sideResources {
+    background: var(--secondaryColor);
+    position: fixed;
+    right: 0px;
+    min-height: 30%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 30px;
+    gap: 10px;
+    bottom: 10px;
+    transform: translateX(100%);
+    transition: .5s cubic-bezier(0.375, 0.885, 0.32, 1.275);
+    z-index: 1000;
+}
+.sideResources::before{
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 100px;
+    background: var(--secondaryColor);
+    bottom: 30px;
+    left: -30px;
+    border-radius: 20px 0 0 20px;
+    transition: .5s cubic-bezier(0.375, 0.885, 0.32, 1.275);
+}
+.sideResources:hover{
+    transform: translateX(0);
+}
+.sideResources:hover::before{
+    transform: translateX(100%);
+}
+
+.resource {
+    position: relative;
+    background: var(--boxColor);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-decoration: none;
+    padding: 10px;
+    color: var(--fontSecondary);
+    transition: .5s cubic-bezier(0.375, 0.885, 0.32, 1.275);
+}
+
+.resource ion-icon {
+    font-size: 2em;
+    transition: .5s cubic-bezier(0.375, 0.885, 0.32, 1.275);
+}
+
+.resource::before {
+    content: attr(data-name);
+    position: absolute;
+    font-size: 1.2em;
+    right: 40%;
+    background: var(--boxColor);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 50px 0 20px;
+    transform: translate(0);
+    border-radius: 25px;
+    opacity: 0;
+    border: 3px solid var(--secondaryColor);
+    transform: translateX(50px) scaleX(0);
+    transform-origin: right;
+    transition: .5s cubic-bezier(0.375, 0.885, 0.32, 1.275);
+}
+
+.resource:hover::before {
+    opacity: 1;
+    transform: translateX(20px) scaleX(1);
+}
+
+.resource:hover ion-icon {
+    transform: translateX(1px);
+}
+
+.resource:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Add form */
+.addForm{
+    display: none;
+    z-index: 100;
+    background: #fff;
+}
+
+/* .table  */
+.tableBox{
+    position: absolute;
+    width: 85%;
+    height: 100%;
+    background: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-direction: column;
+}
+.searchBox{
+    background: var(--secondaryColor);
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    justify-content: space-between;
+}
+.searchBox>h2{
+    color: #fff;
+}
+.searchBox>form>*{
+    border: 0;
+    text-decoration: none;
+    border-radius: 8px;
+    background: var(--background);
+    padding: 5px 10px;
+    height: 30px;
+    font-size: 1em;
+    color: #23242a;
+    margin-left: 5px;
+    outline: 0;
+    box-shadow: 0 0 10px var(--shadowColor);
+}
+.searchBox>form>input[type=submit]{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+/* data table box */
+.data-table-box{
+    margin-top: 60px;
+    width: 100%;
+    height: 80%;
+    overflow: hidden;
+}
+.data-table-row{
+    display: flex;
+    background-color: var(--background);
+    border-bottom: 1px solid #00000020;
+}
+.data-table-row:nth-child(1){
+    background: var(--secondaryColor);
+    border-radius: 10px 10px 0 0 ;
+    color: #ffffff;
+}
+.data-table-col{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    padding: 7px 20px;
+}
+.data-table-col:first-child{
+    width: 10%;
+}
+.data-table-col:last-child{
+    width: 13%;
+}
+.data-table-col a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-decoration: none;
+    background: var(--secondaryColor);
+    height: 30px;
+    padding: 5px 20px;
+    border-radius: 5px;
+    color: #fff;
+    box-shadow: 0 0 5px var(--shadowColor);
+}
+.data-table-col a::before,.data-table-col a::after{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 70%;
+    height: 100%;
+    opacity: 0;
+    transition: .5s ease-in-out;
+}
+.data-table-col a::before{
+    content: 'Update';
+    background: cornflowerblue;
+    right: 50%;
+    border-radius: 5px 0 0 5px;
+    transform-origin: right;
+}
+.data-table-col a::after{
+    content: 'Delete';
+    background: tomato;
+    left: 50%;
+    border-radius: 0 5px 5px 0;
+    transform-origin: left;
+}
+.data-table-col a:hover::before,.data-table-col a:hover::after{
+    opacity: 1;
+}
+
+/* Pagination */
+.pagination{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.pagenum{
+    background: var(--secondaryColor);
+    font-weight: bolder;
+    padding: 2px 8px;
+    border-radius: 10px;
+    color: #fff;
+}
+.pagenum div{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.page-reference{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.page-reference a ion-icon,.page-reference span ion-icon{
+    transform: translateY(3px);
+    font-size: 1.5em;
+}
+

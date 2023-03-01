@@ -7,13 +7,13 @@ function showPassword(id) {
 	}
 }
 
-const navlist = document.querySelectorAll('.list');
+// const navlist = document.querySelectorAll('.list');
 
-function activeLink() {
-	navlist.forEach((item) =>
-		item.classList.remove('active'));
-	this.classList.add('active');
-}
-navlist.forEach((item) => item.addEventListener('click', activeLink));
+// function activeLink() {
+// 	navlist.forEach((item) =>
+// 		item.classList.remove('active'));
+// 	this.classList.add('active');
+// }
+// navlist.forEach((item) => item.addEventListener('click', activeLink));
 
 

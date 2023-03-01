@@ -8,6 +8,7 @@
     <div th:fragment="tags">
         <link th:href="@{/css/style.css}" rel="stylesheet" />
         <script type="text/javascript" th:src="@{/js/main.js}" defer></script>
+        <script type="text/javascript" th:src="@{/js/form.js}" defer></script>
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     </div>
@@ -16,57 +17,94 @@
 
 <body>
     <nav th:fragment="navBar">
+        <div class="logo">
+            <ion-icon name="logo-buffer"></ion-icon>
+        </div>
         <ul>
             <li class="list active">
                 <a th:href="@{/basic}">
-                <span class="icon">
-                    <ion-icon name="home-outline"></ion-icon>
-                </span>
-                <span class="title">Home</span>
+                    <span class="icon">
+                        <ion-icon name="home-outline"></ion-icon>
+                    </span>
+                    <span class="title">Home</span>
                 </a>
             </li>
             <li class="list">
                 <a th:href="@{/admin}">
-                <span class="icon">
-                    <ion-icon name="desktop-outline"></ion-icon>
-                </span>
-                <span class="title">Admin Panel</span>
+                    <span class="icon">
+                        <ion-icon name="desktop-outline"></ion-icon>
+                    </span>
+                    <span class="title">Admin Panel</span>
                 </a>
             </li>
             <li class="list">
                 <a th:href="@{/market}">
-                <span class="icon">
-                    <ion-icon name="pricetag-outline"></ion-icon>
-                </span>
-                <span class="title">Marketing</span>
+                    <span class="icon">
+                        <ion-icon name="pricetag-outline"></ion-icon>
+                    </span>
+                    <span class="title">Marketing</span>
                 </a>
             </li>
             <li class="list">
                 <a href="#">
-                <span class="icon">
-                    <ion-icon name="people-circle-outline"></ion-icon>
-                </span>
-                <span class="title">Applicants</span>
+                    <span class="icon">
+                        <ion-icon name="people-circle-outline"></ion-icon>
+                    </span>
+                    <span class="title">Applicants</span>
                 </a>
             </li>
             <li class="list" sec:authorize="hasAuthority('ADMIN')">
-                <a th:href="@{/admin/addUser}">
-                <span class="icon">
-                    <ion-icon name="create-outline"></ion-icon>
-                </span>
-                <span class="title">Resources</span>
+                <a th:href="@{/team}">
+                    <span class="icon">
+                        <ion-icon name="create-outline"></ion-icon>
+                    </span>
+                    <span class="title">Resources</span>
                 </a>
             </li>
             <li class="list">
-                <a th:href="@{/logout}">
-                <span class="icon">
-                    <ion-icon name="log-out-outline"></ion-icon>
-                </span>
-                <span class="title">Logout</span>
+                <a href="#">
+                    <span class="icon">
+                        <ion-icon name="person-circle-outline"></ion-icon>
+                    </span>
+                    <span class="title">Account</span>
+                </a>
+            </li>
+            <li class="list">
+                <!-- <a th:href="@{/logout}"> -->
+                <a onclick="generateLogoutForm()">
+                    <span class="icon">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                    </span>
+                    <span class="title">Logout</span>
                 </a>
             </li>
         </ul>
     </nav>
+
+    <div th:fragment="sideNav" class="sideResources">
+        <a class="resource" data-name="user" href="#">
+            <ion-icon name="person-circle-outline"></ion-icon>
+        </a>
+        <a class="resource" data-name="position" href="#">
+            <ion-icon name="ribbon-outline"></ion-icon>
+        </a>
+        <a class="resource" data-name="team" href="#">
+            <ion-icon name="people-outline"></ion-icon>
+        </a>
+        <a class="resource" data-name="department">
+            <ion-icon name="business-outline"></ion-icon>
+        </a>
+        <a class="resource" data-name="jobpost" href="#">
+            <ion-icon name="document-text-outline"></ion-icon>
+        </a>
+        <a class="resource" data-name="recruitment resource" href="#">
+            <ion-icon name="ear-outline"></ion-icon>
+        </a>
+    </div>
+
+    <div th:fragment="hamburger" class="hamburgerBox">
+        <a href="/home/homepage">...</a>/<a href="/home/homepage">...</a>/<a href="/home/homepage">Home</a>/<a href="/home/homepage">Control</a>
+    </div>
 </body>
 
 </html>

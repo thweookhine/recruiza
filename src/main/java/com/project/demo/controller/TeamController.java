@@ -1,6 +1,5 @@
 package com.project.demo.controller;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.demo.entity.Department;
 import com.project.demo.entity.Team;
-import com.project.demo.model.DepartmentBean;
 import com.project.demo.model.TeamBean;
 import com.project.demo.service.DepartmentService;
 import com.project.demo.service.TeamService;
@@ -38,13 +36,6 @@ public class TeamController {
 	@GetMapping("/team")
 	public ModelAndView toTeam(ModelMap model, RedirectAttributes ra,TeamBean teamBean) {
 
-//		List<Team> teams = teamService.getAllTeams(0);
-//		model.addAttribute("currentPage", 1);
-//		model.addAttribute("totalPages", teamService.findTotalPages());
-//		model.addAttribute("teams", teams);
-//
-//		return new ModelAndView("teamControl", "team", new TeamBean());
-
 		String keyword = null;
 	
 		return searchTeam(model, ra,teamBean, 1, "teamId", "asc", keyword);
@@ -59,10 +50,9 @@ public class TeamController {
 		int totalPages = page.getTotalPages();
 		List<Team> teams = page.getContent();
 		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("totalDepts", totalTeams);
+		model.addAttribute("totalTeams", totalTeams);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("teams", teams);
-		System.out.println("show all");
 
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
@@ -74,28 +64,6 @@ public class TeamController {
 		return new ModelAndView("teamControl", "team", teamBean);
 
 	}
-
-//	@GetMapping("/nextTeamPage")
-//	public ModelAndView nextTeamPage(@RequestParam("currentPage") String cp, ModelMap model) {
-//		int currentPage = Integer.parseInt(cp);
-//		List<Team> teams = teamService.getAllTeams(currentPage);
-//
-//		model.addAttribute("currentPage", currentPage + 1);
-//		model.addAttribute("totalPages", teamService.findTotalPages());
-//		model.addAttribute("teams", teams);
-//
-//		return new ModelAndView("teamControl", "team", new TeamBean());
-//	}
-
-//	@GetMapping("/prevTeamPage")
-//	public ModelAndView prevTeamPage(@RequestParam("currentPage") String cp, ModelMap model) {
-//		int currentPage = Integer.parseInt(cp);
-//		List<Team> teams = teamService.getAllTeams();
-//		model.addAttribute("currentPage", currentPage - 1);
-//		model.addAttribute("totalPages", teamService.findTotalPages());
-//		model.addAttribute("teams", teams);
-//		return new ModelAndView("teamControl", "team", new TeamBean());
-//	}
 
 	@PostMapping("/saveTeam")
 	public ModelAndView saveTeam(@ModelAttribute("team") @Validated TeamBean teamBean, BindingResult bindingResult,
@@ -186,35 +154,6 @@ public class TeamController {
 		ra.addFlashAttribute("message","Delete successfully!");
 		return new ModelAndView("redirect:/team");
 	}
-//
-//	@PostMapping("/searchTeam")
-//	public ModelAndView searchTeam(@RequestParam("keyword") String keyword,
-//			@RequestParam("departmentName") String deptName, ModelMap model) {
-//		List<Team> teams = new ArrayList<>();
-//		if (keyword.isEmpty() && deptName.equals("none")) {
-//			teams.addAll(teamService.getAllTeams(0));
-//		} else {
-//			if (!keyword.isEmpty()) {
-//				teams = teamService.searchTeam(keyword, keyword);
-//			}
-//			if (!deptName.isEmpty()) {
-//				List<Department> depts = deptService.searchDept(deptName, deptName);
-//				for (Department d : depts) {
-//					for (Team t : d.getTeams()) {
-//						teams.add(t);
-//					}
-//				}
-//			}
-//		}
-//		teams = teams.stream().distinct().toList();
-//		model.addAttribute("keyword", keyword);
-//		model.addAttribute("deptName", deptName);
-//		model.addAttribute("teams", teams);
-////		model.addAttribute("currentPage",1);
-////		model.addAttribute("totalPages",teamService.findTotalPages());
-//
-//		return new ModelAndView("teamControl", "team", new TeamBean());
-//	}
 
 	@ModelAttribute("deptNameList")
 	List<String> getDepNameList() {
