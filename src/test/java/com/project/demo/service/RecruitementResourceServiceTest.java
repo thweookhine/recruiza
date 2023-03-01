@@ -114,7 +114,7 @@ class RecruitementResourceServiceTest {
 										.resourceMobile("0987654321")
 									    .resourceName("Kim Taehyung")
 									    .resourceCreatedTime(Timestamp.valueOf("2023-02-13 15:32:00"))
-									    .jobPost(getJobPost())
+									    //.jobPost(getJobPost())
 										.build();
 		
 		when(repo.findById((long)1)).thenReturn(Optional.of(reResource));
@@ -137,7 +137,7 @@ class RecruitementResourceServiceTest {
 				.resourceMobile("0987654321")
 			    .resourceName("Kim Taehyung")
 			    .resourceCreatedTime(Timestamp.valueOf("2023-02-13 15:32:00"))
-			    .jobPost(getJobPost())
+			    //.jobPost(getJobPost())
 				.build();
 		
 		when(repo.findById((long) 1)).thenReturn(Optional.of(reResource));
@@ -160,7 +160,7 @@ class RecruitementResourceServiceTest {
 				.resourceMobile("0987654321")
 			    .resourceName("Kim Taehyung")
 			    .resourceCreatedTime(Timestamp.valueOf("2023-02-13 15:32:00"))
-			    .jobPost(getJobPost())
+			    //.jobPost(getJobPost())
 				.build();
 		
 		resourceService.deleteRecruitementResource((long)1);
@@ -180,7 +180,7 @@ class RecruitementResourceServiceTest {
 				.resourceMobile("0987654321")
 			    .resourceName("Kim Taehyung")
 			    .resourceCreatedTime(Timestamp.valueOf("2023-02-13 15:32:00"))
-			    .jobPost(getJobPost())
+			    //.jobPost(getJobPost())
 				.build();
 		
 		RecruitementResource reResource1=RecruitementResource.builder()
@@ -193,7 +193,7 @@ class RecruitementResourceServiceTest {
 				.resourceMobile("0912345678")
 			    .resourceName("Thwe Oo Khine")
 			    .resourceCreatedTime(Timestamp.valueOf("2023-02-13 15:32:00"))
-			    .jobPost(getJobPost())
+			    //.jobPost(getJobPost())
 				.build();
 		
 		List<RecruitementResource> list= new ArrayList<RecruitementResource>();
@@ -225,7 +225,7 @@ class RecruitementResourceServiceTest {
 				.resourceMobile("0912345678")
 			    .resourceName("Thwe Oo Khine")
 			    .resourceCreatedTime(Timestamp.valueOf("2023-02-13 15:32:00"))
-			    .jobPost(getJobPost())
+			   // .jobPost(getJobPost())
 				.build();
 		
 		when(repo.findById((long)1)).thenReturn(java.util.Optional.of(resource));
