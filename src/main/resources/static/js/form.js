@@ -23,11 +23,16 @@ idate[0].addEventListener("change", (e) => {
 })
 
 // log out form generate
-function generateLogoutForm(){
+function generateLogoutForm() {
+    var element =  document.getElementById('confirmationModal');
+    if (typeof(element) != 'undefined' && element != null)
+    {
+        alert("alreay logging out");
+    }
     let parent = document.querySelector('body')
     let modal = document.createElement('div')
-    modal.className='confirmationModal'
-    modal.innerHTML=`
+    modal.className = 'confirmationModal'
+    modal.innerHTML = `
         <div class="modalBox">
             <button onclick="closeLogoutForm()">
                 <ion-icon name="close-outline"></ion-icon>
@@ -43,6 +48,13 @@ function generateLogoutForm(){
     `
     parent.append(modal)
 }
-function closeLogoutForm(){
+function closeLogoutForm() {
     document.querySelector('.confirmationModal').remove();
+}
+
+// generateTeamBox()
+function generateTeamBox() {
+    console.log('data loading');
+    let form = document.querySelector('.addForm');
+    form.classList.toggle('show')
 }

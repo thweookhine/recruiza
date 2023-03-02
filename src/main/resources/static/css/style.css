@@ -193,6 +193,7 @@ ion-icon {
 
     transform: translateX(1000px);
     animation: erorpop 20s ease-in-out;
+    z-index: 1000;
 }
 
 .errornoti::before {
@@ -355,7 +356,7 @@ nav ul li.active a .icon ion-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10;
+    z-index: 1000;
 }
 
 @keyframes loadIn {
@@ -570,9 +571,93 @@ nav ul li.active a .icon ion-icon {
 
 /* Add form */
 .addForm{
-    display: none;
-    z-index: 100;
-    background: #fff;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    transform: translateX(100%) scaleX(0);
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .5s ease-in-out;
+}
+.addForm.show{
+    transform: translateX(0) scaleX(1);
+}
+.addForm>form{
+    position: relative;
+    z-index: 1000;
+    background: var(--background);
+    padding: 50px;
+    border-radius: 20px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+.addForm>form::before{
+    content: attr(data-formName);
+    position:absolute;
+    top: -20px;
+    font-size: 1.5em;
+    background: var(--secondaryColor);
+    padding: 10px 20px;
+    left: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px var(--shadowColor);
+    color: #fff;
+}
+.addForm>form>div{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
+.addForm>form>div>input,.addForm>form>div>select{
+    width: 300px;
+    height: 35px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 0px 10px;
+    border-radius: 10px;
+    background: var(--background);
+}
+.addForm>form>div>label{
+    position: absolute;
+    width: 50%;
+    padding: 3px 5px;
+    top: -7px;
+    left: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 0;
+    border-radius: 10px 10px 0 0 ;
+}
+.addForm>form>div:last-child{
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    padding: 0;
+}
+.addForm>form>div:last-child>ion-icon{
+    position: absolute;
+    font-size: 10em;
+    color: #ffffff50;
+    right: 0;
+    transform: scale(0);
+    transition: 0.5s ease-in-out;
+}
+.addForm>form>div:last-child:hover ion-icon{
+    transform: scale(1);
+}
+.addForm>form>div:last-child>input{
+    background: var(--secondaryColor);
+    color: #ffffff;
+}
+.backgroundExit{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #23242a40;
+    backdrop-filter: blur(5px);
 }
 
 /* .table  */
@@ -601,6 +686,11 @@ nav ul li.active a .icon ion-icon {
 .searchBox>h2{
     color: #fff;
 }
+.searchBox form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .searchBox>form>*{
     border: 0;
     text-decoration: none;
@@ -626,6 +716,15 @@ nav ul li.active a .icon ion-icon {
     width: 100%;
     height: 80%;
     overflow: hidden;
+    animation: loadtable 1s linear;
+}
+@keyframes loadtable {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
 }
 .data-table-row{
     display: flex;
@@ -641,7 +740,7 @@ nav ul li.active a .icon ion-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 30%;
+    width: 40%;
     padding: 7px 20px;
 }
 .data-table-col:first-child{
@@ -662,6 +761,7 @@ nav ul li.active a .icon ion-icon {
     border-radius: 5px;
     color: #fff;
     box-shadow: 0 0 5px var(--shadowColor);
+    transition: 1s ease-in-out;
 }
 .data-table-col a::before,.data-table-col a::after{
     display: flex;
@@ -670,25 +770,31 @@ nav ul li.active a .icon ion-icon {
     position: absolute;
     width: 70%;
     height: 100%;
-    opacity: 0;
+    opacity: 1;
+    transform-origin: top;
+    transform: rotateX(90deg);
     transition: .5s ease-in-out;
+    color: #fff;
 }
 .data-table-col a::before{
     content: 'Update';
     background: cornflowerblue;
     right: 50%;
     border-radius: 5px 0 0 5px;
-    transform-origin: right;
 }
 .data-table-col a::after{
     content: 'Delete';
     background: tomato;
     left: 50%;
     border-radius: 0 5px 5px 0;
-    transform-origin: left;
+}
+.data-table-col a:hover{
+    background: transparent;
+    color: transparent;
 }
 .data-table-col a:hover::before,.data-table-col a:hover::after{
     opacity: 1;
+    transform: rotateX(0);
 }
 
 /* Pagination */

@@ -9,17 +9,17 @@
 
 <body>
 
-	<h3 th:text="${message}"></h3>
+	<p class="errornoti" th:text="${message}"></p>
 
 	<nav th:insert="../components/nav :: navBar"></nav>
 	<div th:insert="../components/nav :: sideNav"></div>
 
 	<div class="addForm">
-		<form th:action="@{/saveTeam}" method="post" th:object="${team}">
+		<form data-formName="Add Team" th:action="@{/saveTeam}" method="post" th:object="${team}">
 			<div>
-				<label for="name">Name</label> <input type="text" th:field="*{teamName}"
-					placeholder="Enter Team Name" /> <label th:if="${#fields.hasErrors('teamName')}"
-					th:errors="*{teamName}" style="color: red;">Error</label>
+				<input type="text" th:field="*{teamName}" placeholder="Enter Team Name" required="required"/> 
+				<label for="name">Name</label>	
+				<label th:if="${#fields.hasErrors('teamName')}"th:errors="*{teamName}" style="color: red;">Error</label>
 			</div>
 
 			<div>
@@ -30,10 +30,11 @@
 				<p th:text="${selectDept}"></p>
 			</div>
 			<div>
-				<input type="submit" value="Add" />
+				<input type="submit" value="Add"/>
+				<ion-icon name="add-outline"></ion-icon>
 			</div>
-
 		</form>
+		<div class="backgroundExit" onclick="generateTeamBox()"></div>
 	</div>
 
 	<div class="tableBox teamTableBox">
@@ -45,6 +46,7 @@
 				<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" />
 				<button type="submit"><ion-icon name="search-outline"></ion-icon></button>
 				<a th:href="@{/team}"><ion-icon name="refresh-outline"></ion-icon></a>
+				<div onclick="generateTeamBox()"><ion-icon name="add-outline"></ion-icon></div>
 			</form>
 		</div>
 
