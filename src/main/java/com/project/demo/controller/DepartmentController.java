@@ -31,13 +31,6 @@ public class DepartmentController {
 
 	@GetMapping("/department")
 	public ModelAndView toDepartment(ModelMap model, RedirectAttributes ra,DepartmentBean deptBean) {
-//		List<Department> depts = deptService.getAllDepts(0);
-//		model.addAttribute("currentPage", 1);
-//		model.addAttribute("totalPages", deptService.findTotalPages());
-//		model.addAttribute("depts", depts);
-//
-//		return new ModelAndView("departmentControl", "department", new DepartmentBean());
-
 		String keyword = null;
 		
 		return searchDept(model,deptBean, ra, 1, "departmentId", "asc", keyword);

@@ -54,13 +54,28 @@
 			<div class="data-table">
 				<div class="data-table-row">
 					<div class="data-table-col">ID</div>
-					<div class="data-table-col">Code</div>
-					<div class="data-table-col">Name</div>
-					<div class="data-table-col">Department</div>
+					<div class="data-table-col">
+						<a
+							th:href="@{'/searchTeam/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+							Code
+						</a>
+					</div>
+					<div class="data-table-col">
+						<a
+							th:href="@{'/searchTeam/' + ${currentPage} + '?sortField=teamName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+							Name
+						</a>
+					</div>
+					<div class="data-table-col">
+						<a
+							th:href="@{'/searchTeam/' + ${currentPage} + '?sortField=department.departmentName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+							Department
+						</a>
+					</div>
 					<div class="data-table-col">Options</div>
 				</div>
 				<div class="data-table-row" th:each="team : ${teams}">
-					<div class="data-table-col" th:text="${team.teamId}"></div>
+					<div class="data-table-col" th:text="${index + teamStat.index}"></div>
 					<div class="data-table-col" th:text="${team.teamCode}"></div>
 					<div class="data-table-col" th:text="${team.teamName}"></div>
 					<div class="data-table-col" th:text="${team.department.departmentName}"></div>

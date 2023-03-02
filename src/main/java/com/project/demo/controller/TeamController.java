@@ -49,6 +49,9 @@ public class TeamController {
 		long totalTeams = page.getTotalElements();
 		int totalPages = page.getTotalPages();
 		List<Team> teams = page.getContent();
+		
+		int index = Integer.parseInt((currentPage-1)+"1");
+		
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalTeams", totalTeams);
 		model.addAttribute("totalPages", totalPages);
@@ -57,6 +60,7 @@ public class TeamController {
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("keyword", keyword);
+		model.addAttribute("index",index);
 
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 		model.addAttribute("reverseSortDir", reverseSortDir);
