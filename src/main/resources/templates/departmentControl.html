@@ -1,81 +1,112 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Department</title>
+	<div th:insert="../components/nav :: tags"></div>
 </head>
+
 <body>
-	<h3>Add Department</h3>
+
+	<nav th:insert="../components/nav :: navBar"></nav>
+	<div th:insert="../components/nav :: sideNav"></div>
+
 	<h3 th:text="${message}"></h3>
-	<div>
+
+	<div class="addForm">
 		<form th:action="@{/saveDepartment}" method="post" th:object="${department}">
-			
 			<div>
-				<label for="name">Name</label> <input type="text"  
-					th:field="*{departmentName}" placeholder="Enter Department Name"/>
-				<label th:if="${#fields.hasErrors('departmentName')}"
-					th:errors="*{departmentName}" style="color: red;">Error</label>
+				<label for="name">Name</label> <input type="text" th:field="*{departmentName}"
+					placeholder="Enter Department Name" />
+				<label th:if="${#fields.hasErrors('departmentName')}" th:errors="*{departmentName}"
+					style="color: red;">Error</label>
 			</div>
-			<div> 
-				<input type="submit" value="Add"  />
+			<div>
+				<input type="submit" value="Add" />
 			</div>
 
 		</form>
 	</div>
-	
-	<div>
-		<form th:action="@{/searchDepartment/1}" th:object="${department}">
-		<input type="hidden" name="sortField" th:value="${sortField}" />
-			<input type="hidden" name="sortDir" th:value="${sortDir}" />
-			<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword"  />
-			<input type="submit" value="Search" />
-			<button><a th:href="@{/department}">Reset</a></button>
-		</form>
-	</div>
-	
-	<div>
-		<table>
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Code</th>
-					<th>Name</th>
-					<th>Options</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="dept : ${depts}">
-					<td th:text="${dept.departmentId}"></td>
-					<td th:text="${dept.departmentCode}"></td>
-					<td th:text="${dept.departmentName}"></td>
-					<td><a th:href="@{/updateDepartment(id=${dept.departmentId})}">Action</a></td>
-					</tr>
-				
-			</tbody>
-		</table>
-	</div>
-	
-	<div>
-		Total Users: [[${totalUsers}]] - Page [[${currentPage}]] of [[${totalPages}]]
-		&nbsp; - &nbsp;
-		
-		<a th:if="${currentPage > 1}" th:href="@{'/searchDepartment/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
-		<span th:unless="${currentPage > 1}">First</span>
-		
-		<a th:if="${currentPage > 1}" th:href="@{'/searchDepartment/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
-		<span th:unless="${currentPage > 1}">Previous</span>
-		
-		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			<a th:if="${i != currentPage}" th:href="@{'/searchDepartment/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a> 
-			<span th:unless="${i != currentPage}">[[${i}]]</span>
-			&nbsp;&nbsp;
-		</span>
-		
-		<a th:if="${currentPage < totalPages}" th:href="@{'/searchDepartment/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
-		<span th:unless="${currentPage < totalPages}">Next</span>
-		
-		<a th:if="${currentPage < totalPages}" th:href="@{'/searchDepartment/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
-		<span th:unless="${currentPage < totalPages}">Last</span>
+
+	<div class="tableBox teamTableBox">
+		<div class="searchBox">
+			<h2>Department</h2>
+			<form th:action="@{/searchDepartment/1}" th:object="${department}">
+				<input type="hidden" name="sortField" th:value="${sortField}" />
+				<input type="hidden" name="sortDir" th:value="${sortDir}" />
+				<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" />
+				<button type="submit"><ion-icon name="search-outline"></ion-icon></button>
+				<a th:href="@{/department}"><ion-icon name="refresh-outline"></ion-icon></a>
+
+			</form>
+		</div>
+
+		<div class="data-table-box">
+			<div class="data-table">
+				<div class="data-table-row">
+					<div class="data-table-col">ID</div>
+					<div class="data-table-col">
+						<a
+							th:href="@{'/searchDepartment/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+							Code
+						</a>
+					</div>
+					<div class="data-table-col">
+						<a
+							th:href="@{'/searchDepartment/' + ${currentPage} + '?sortField=departmentName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+							Name
+						</a>
+					</div>
+					<div class="data-table-col">Options</div>
+				</div>
+				<div class="data-table-row" th:each="dept : ${depts}">
+					<div class="data-table-col" th:text="${index + deptStat.index}"></div>
+					<div class="data-table-col" th:text="${dept.departmentCode}"></div>
+					<div class="data-table-col" th:text="${dept.departmentName}"></div>
+					<div class="data-table-col">
+						<a th:href="@{/updateDepartment(id=${dept.departmentId})}">Action</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="pagination">
+
+			<div>Total Departments: <span class="pagenum">[[${totalDepts}]]</span> - Page <span
+					class="pagenum">[[${currentPage}]] </span>of <span class="pagenum">[[${totalPages}]]</span></div>
+
+			<div class="page-reference">
+
+				<a th:if="${currentPage > 1}"
+					th:href="@{'/searchDepartment/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+				<span th:unless="${currentPage > 1}">First</span>
+
+				<a th:if="${currentPage > 1}"
+					th:href="@{'/searchDepartment/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+					<ion-icon name="chevron-back-circle-outline"></ion-icon>
+				</a>
+				<span th:unless="${currentPage > 1}"><ion-icon name="chevron-back-circle-outline"></ion-icon></span>
+
+				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+					<a th:if="${i != currentPage}"
+						th:href="@{'/searchDepartment/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]
+					</a>
+					<span th:unless="${i != currentPage}">[[${i}]]</span> &nbsp;&nbsp;
+				</span>
+
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/searchDepartment/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon
+						name="chevron-forward-circle-outline"></ion-icon>
+				</a>
+				<span th:unless="${currentPage < totalPages}">
+					<ion-icon name="chevron-forward-circle-outline"></ion-icon>
+				</span> <a th:if="${currentPage < totalPages}"
+					th:href="@{'/searchDepartment/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+				<span th:unless="${currentPage < totalPages}">Last</span>
+			</div>
+
+		</div>
 	</div>
 	<script type="text/javascript">
 		function clearFilter() {
@@ -83,4 +114,5 @@
 		}
 	</script>
 </body>
+
 </html>

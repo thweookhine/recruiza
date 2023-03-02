@@ -88,10 +88,10 @@
         <a class="resource" data-name="position" href="#">
             <ion-icon name="ribbon-outline"></ion-icon>
         </a>
-        <a class="resource" data-name="team" href="#">
+        <a class="resource" data-name="team" th:href="@{/team}">
             <ion-icon name="people-outline"></ion-icon>
         </a>
-        <a class="resource" data-name="department">
+        <a class="resource" data-name="department" th:href="@{/department}">
             <ion-icon name="business-outline"></ion-icon>
         </a>
         <a class="resource" data-name="jobpost" href="#">
@@ -103,7 +103,8 @@
     </div>
 
     <div th:fragment="hamburger" class="hamburgerBox">
-        <a href="/home/homepage">...</a>/<a href="/home/homepage">...</a>/<a href="/home/homepage">Home</a>/<a href="/home/homepage">Control</a>
+        <a href="/home/homepage">...</a>/<a href="/home/homepage">...</a>/<a href="/home/homepage">Home</a>/<a
+            href="/home/homepage">Control</a>
     </div>
 </body>
 

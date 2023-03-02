@@ -106,7 +106,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		
-		Pageable pageable = PageRequest.of(pageNumber - 1, 3, sort);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
 		
 		if (keyword != null) {
 			return deptRepo.findAll(keyword, pageable);

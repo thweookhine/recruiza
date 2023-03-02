@@ -53,7 +53,9 @@ public class DepartmentController {
 		int totalPages = page.getTotalPages();
 
 		List<Department> depts = page.getContent();
-
+		
+		int index = Integer.parseInt((currentPage-1)+"1");
+		
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalDepts", totalDepts);
 		model.addAttribute("totalPages", totalPages);
@@ -61,6 +63,7 @@ public class DepartmentController {
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("keyword", keyword);
+		model.addAttribute("index",index);
 
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 		model.addAttribute("reverseSortDir", reverseSortDir);
