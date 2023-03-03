@@ -3,51 +3,62 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>Team Action</title>
+	<div th:insert="../components/nav :: tags"></div>
 </head>
 
 <body>
-	<h3>Update Team</h3>
+	<p class="errornoti" th:text="${message}"></p>
 
-	<h3 th:text="${message}"></h3>
+	<nav th:insert="../components/nav :: navBar"></nav>
+	<div th:insert="../components/nav :: sideNav"></div>
 
-	<div>
-		<form th:action="@{/updateTeam}" method="post" th:object="${team}">
-			<input type="hidden" th:field="*{teamId}" />
-			<input type="hidden" name="oldName" th:value="${team.teamName}" />
-			<input type="hidden" name="oldDeptName" th:value="${team.departmentName}" />
+		<button class="back_button">
+			<a th:href="@{/team}"><ion-icon name="arrow-back-outline"></ion-icon></a>
+		</button>
+
+	<div class="updateform">
+		<form data-formName="Edit Team" th:action="@{/updateTeam}" method="post" th:object="${team}">
 			<div>
-				<label for="name">Name</label> <input type="text" th:field="*{teamName}"
-					placeholder="Enter Team Name" />
-				<label th:if="${#fields.hasErrors('departmentName')}" th:errors="*{teamName}"
-					style="color: red;">Error</label>
+				<input type="hidden" th:field="*{teamId}" />
+				<input type="hidden" name="oldName" th:value="${team.teamName}" />
+				<input type="hidden" name="oldDeptName" th:value="${team.departmentName}" />
+				
+				<input type="text" th:field="*{teamName}" placeholder="Enter Team Name" required="required"/> 
+				<label for="name">Name</label>	
+				<label th:if="${#fields.hasErrors('teamName')}"th:errors="*{teamName}" style="color: red;">Error</label>
 			</div>
+
 			<div>
 				<label for="depts">Select Department</label> <select th:field="*{departmentName}">
+					<option th:value="none">Select Department</option>
 					<option th:each="d : ${deptNameList}" th:value="${d}" th:text="${d}"></option>
 				</select>
+				<p th:text="${selectDept}"></p>
 			</div>
-			<div>
-				<input type="submit" value="Update" />
+			<div class="actionBox">
+				<input type="submit" value="Update"/>
 			</div>
-
 		</form>
-
-		<div>
+		
+		<div class="deleteBox">
 			<button onclick="deleteform()">Delete</button>
-			<!-- <a th:href="@{/deleteTeam(id=${team.teamId})}">Delete</a> -->
-		</div>
-		<div>
-			<button>
-				<a th:href="@{/team}">Back</a>
-			</button>
 		</div>
 	</div>
 
-	<div class="confirmDelete" style="display: none;">
-		<h4>Are u sure u want to delete?</h4>
-		<a th:href="@{/deleteTeam(id=${team.teamId})}">Yes</a>
-		<a onclick="deleteformclose()">no</a>
+	<div class="confirmationModal deleteConfirmationModal"  style="display: none;">
+		<div class="modalBox">
+            <button onclick="deleteformclose()">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+            <h2>Delete ?</h2>
+            <p>Are u sure u want to delete <b th:text="${team.teamName}"></b> ?</p>
+            <div class="modalButtonBox">
+                <a th:href="@{/deleteTeam(id=${team.teamId})}">Yes <ion-icon name="sad-outline"></ion-icon></a>
+                <a onclick="deleteformclose()">No <ion-icon name="happy-outline"></ion-icon></a>
+            </div>
+        </div>
+        <div class="backgroundExit" onclick="deleteformclose()"></div>
 	</div>
 
 	<script type="text/javascript" th:src="@{/js/form.js}"></script>

@@ -5,6 +5,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Tilt Neon', cursive;
+    transition: 0.5s ease-in-out;
 }
 
 :root {
@@ -32,6 +33,23 @@ body {
 
 ion-icon {
     pointer-events: none;
+}
+
+.back_button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: var(--secondaryColor);
+    width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 0;
+    box-shadow: 0 0 10px var(--shadowColor);
+    font-size: larger;
+    z-index: 1000;
 }
 
 .box {
@@ -581,10 +599,22 @@ nav ul li.active a .icon ion-icon {
     align-items: center;
     transition: .5s ease-in-out;
 }
+.updateform{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .5s ease-in-out;
+    flex-direction: column;
+    animation: loadIn 0.5s linear;
+}
 .addForm.show{
     transform: translateX(0) scaleX(1);
 }
-.addForm>form{
+.addForm>form,.updateform>form{
     position: relative;
     z-index: 1000;
     background: var(--background);
@@ -593,8 +623,10 @@ nav ul li.active a .icon ion-icon {
     display: flex;
     gap: 10px;
     flex-direction: column;
+    padding-bottom: 100px;
+    box-shadow: 0 0 20px var(--shadowColor);
 }
-.addForm>form::before{
+.addForm>form::before,.updateform>form::before{
     content: attr(data-formName);
     position:absolute;
     top: -20px;
@@ -606,13 +638,13 @@ nav ul li.active a .icon ion-icon {
     box-shadow: 0 0 10px var(--shadowColor);
     color: #fff;
 }
-.addForm>form>div{
+.addForm>form>div,.updateform>form>div{
     position: relative;
     display: flex;
     flex-direction: column;
     padding-top: 20px;
 }
-.addForm>form>div>input,.addForm>form>div>select{
+.addForm>form>div>input,.addForm>form>div>select,.updateform>form>div>input,.updateform>form>div>select,.updateform>form>div>button{
     width: 300px;
     height: 35px;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -620,7 +652,15 @@ nav ul li.active a .icon ion-icon {
     border-radius: 10px;
     background: var(--background);
 }
-.addForm>form>div>label{
+.updateform>form>.actionBox{
+    padding-top: 0;
+}
+.updateform>form>div>input[type=submit],.updateform>form>div>button{
+    background: var(--secondaryColor);
+    color: white;
+    cursor: pointer;
+}
+.addForm>form>div>label,.updateform>form>div>label{
     position: absolute;
     width: 50%;
     padding: 3px 5px;
@@ -651,6 +691,19 @@ nav ul li.active a .icon ion-icon {
 .addForm>form>div:last-child>input{
     background: var(--secondaryColor);
     color: #ffffff;
+}
+.deleteBox{
+    transform: translateY(-85px);
+    z-index: 1001;
+}
+.deleteBox>button{
+    width: 300px;
+    height: 35px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background: var(--secondaryColor);
+    color: #ffffff;
+    cursor: pointer;
 }
 .backgroundExit{
     position: absolute;
@@ -731,6 +784,10 @@ nav ul li.active a .icon ion-icon {
     background-color: var(--background);
     border-bottom: 1px solid #00000020;
 }
+.data-table-row:hover{
+    background: rgba(0, 0, 0, 0.1);
+}
+
 .data-table-row:nth-child(1){
     background: var(--secondaryColor);
     border-radius: 10px 10px 0 0 ;
@@ -749,7 +806,7 @@ nav ul li.active a .icon ion-icon {
 .data-table-col:last-child{
     width: 13%;
 }
-.data-table-col a{
+.action-button{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -763,7 +820,7 @@ nav ul li.active a .icon ion-icon {
     box-shadow: 0 0 5px var(--shadowColor);
     transition: 1s ease-in-out;
 }
-.data-table-col a::before,.data-table-col a::after{
+.action-button::before,.action-button::after{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -776,25 +833,34 @@ nav ul li.active a .icon ion-icon {
     transition: .5s ease-in-out;
     color: #fff;
 }
-.data-table-col a::before{
+.action-button::before{
     content: 'Update';
     background: cornflowerblue;
     right: 50%;
     border-radius: 5px 0 0 5px;
 }
-.data-table-col a::after{
+.action-button::after{
     content: 'Delete';
     background: tomato;
     left: 50%;
     border-radius: 0 5px 5px 0;
 }
-.data-table-col a:hover{
+.action-button:hover{
     background: transparent;
     color: transparent;
 }
-.data-table-col a:hover::before,.data-table-col a:hover::after{
+.action-button:hover::before,.action-button:hover::after{
     opacity: 1;
     transform: rotateX(0);
+}
+.sort-button{
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    color: white;
+    cursor: s-resize;
 }
 
 /* Pagination */
@@ -826,5 +892,9 @@ nav ul li.active a .icon ion-icon {
 .page-reference a ion-icon,.page-reference span ion-icon{
     transform: translateY(3px);
     font-size: 1.5em;
+}
+.deleteConfirmationModal{
+    z-index: 100;
+    background: #17171720;
 }
 

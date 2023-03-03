@@ -1,26 +1,28 @@
 function deleteform() {
-    let form = document.querySelector(".confirmDelete");
-    form.style.display = "block";
+    let form = document.querySelector(".deleteConfirmationModal");
+    form.style.display = "flex";
 }
-
 function deleteformclose() {
-    let form = document.querySelector(".confirmDelete");
+    let form = document.querySelector(".deleteConfirmationModal");
     form.style.display = "none";
 }
 
 // post date dur date 
 var today = new Date().toISOString().split('T')[0];
 var idate = document.querySelectorAll('.customdate')
-console.log(today);
-idate[0].setAttribute('min', today);
+if (idate[0]){
+    idate[0].setAttribute('min', today);
+
+    idate[0].addEventListener("change", (e) => {
+        dueDateBox.style.display = "block"
+        idate[1].setAttribute('min', idate[0].value);
+    })
+}
 
 var dueDateBox = document.querySelector(".dueDateBox")
-dueDateBox.style.display = "none"
-
-idate[0].addEventListener("change", (e) => {
-    dueDateBox.style.display = "block"
-    idate[1].setAttribute('min', idate[0].value);
-})
+if(dueDateBox){
+    dueDateBox.style.display = "none"
+}
 
 // log out form generate
 function generateLogoutForm() {
@@ -54,7 +56,5 @@ function closeLogoutForm() {
 
 // generateTeamBox()
 function generateTeamBox() {
-    console.log('data loading');
-    let form = document.querySelector('.addForm');
-    form.classList.toggle('show')
+    document.querySelector('.addForm').classList.toggle('show')
 }

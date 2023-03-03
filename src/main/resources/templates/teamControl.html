@@ -8,7 +8,6 @@
 </head>
 
 <body>
-
 	<p class="errornoti" th:text="${message}"></p>
 
 	<nav th:insert="../components/nav :: navBar"></nav>
@@ -55,21 +54,21 @@
 				<div class="data-table-row">
 					<div class="data-table-col">ID</div>
 					<div class="data-table-col">
-						<a
+						<a class="sort-button"
 							th:href="@{'/searchTeam/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-							Code
+							Code<ion-icon name="funnel-outline"></ion-icon>
 						</a>
 					</div>
 					<div class="data-table-col">
-						<a
+						<a class="sort-button"
 							th:href="@{'/searchTeam/' + ${currentPage} + '?sortField=teamName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-							Name
+							Name<ion-icon name="funnel-outline"></ion-icon>
 						</a>
 					</div>
 					<div class="data-table-col">
-						<a
+						<a class="sort-button"
 							th:href="@{'/searchTeam/' + ${currentPage} + '?sortField=department.departmentName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-							Department
+							Department<ion-icon name="funnel-outline"></ion-icon>
 						</a>
 					</div>
 					<div class="data-table-col">Options</div>
@@ -79,7 +78,7 @@
 					<div class="data-table-col" th:text="${team.teamCode}"></div>
 					<div class="data-table-col" th:text="${team.teamName}"></div>
 					<div class="data-table-col" th:text="${team.department.departmentName}"></div>
-					<div class="data-table-col"><a th:href="@{/updateTeam(id=${team.teamId})}">Action</a></div>
+					<div class="data-table-col"><a class="action-button" th:href="@{/updateTeam(id=${team.teamId})}">Action</a></div>
 				</div>
 			</div>
 		</div>
