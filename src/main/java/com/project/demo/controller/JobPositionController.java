@@ -153,7 +153,7 @@ public class JobPositionController {
     							@Param("sortDir") String sortDir,
     							@Param("keyword") String keyword) {
     	
-                	
+                	int index=Integer.parseInt((currentPage-1)+"1");
         	Page<JobPosition> page = service.listAllPositions(currentPage, sortField, sortDir, keyword);
         	
         	long totalPosition = page.getTotalElements();
@@ -168,6 +168,7 @@ public class JobPositionController {
         	model.addAttribute("sortField", sortField);
         	model.addAttribute("sortDir", sortDir);
         	model.addAttribute("keyword", keyword);
+        	model.addAttribute("index",index);
         	
         	String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
         	model.addAttribute("reverseSortDir", reverseSortDir);

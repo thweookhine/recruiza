@@ -16,7 +16,7 @@ function getTeams() {
 				newlink.setAttribute("href", "/team");
 				newlink.classList.add("newlink")
 				newlink.innerHTML = "Create Team";
-				document.querySelector('.teamBox').append(newlink)
+				document.querySelector('.teamBox').append(newlink);
 			} else {
 				if(document.querySelector('.newlink') != null){
 					document.querySelector('.newlink').remove();

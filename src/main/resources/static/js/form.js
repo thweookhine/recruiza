@@ -42,7 +42,7 @@ function generateLogoutForm() {
             <h2>Logging Out</h2>
             <p>This action will log u out of this website</p>
             <div class="modalButtonBox">
-                <a href="#">Yes <ion-icon name="sad-outline"></ion-icon></a>
+                <a href="/logout">Yes <ion-icon name="sad-outline"></ion-icon></a>
                 <a onclick="closeLogoutForm()">No <ion-icon name="happy-outline"></ion-icon></a>
             </div>
         </div>

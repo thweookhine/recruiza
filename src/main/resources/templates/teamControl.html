@@ -17,7 +17,7 @@
 		<form data-formName="Add Team" th:action="@{/saveTeam}" method="post" th:object="${team}">
 			<div>
 				<input type="text" th:field="*{teamName}" placeholder="Enter Team Name" required="required"/> 
-				<label for="name">Name</label>	
+				<label for="name">Name</label>
 				<label th:if="${#fields.hasErrors('teamName')}"th:errors="*{teamName}" style="color: red;">Error</label>
 			</div>
 

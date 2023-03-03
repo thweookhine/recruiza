@@ -3,34 +3,68 @@
 
 <head>
     <meta charset="ISO-8859-1">
-    <title>Insert title here</title>
+    <title>Recruitement Resource Action</title>
+    <div th:insert="../components/nav :: tags"></div>
 </head>
 
 <body>
-    <h3 th:text="${message}"></h3>
-    <form th:action="@{/updateresource}" th:object="${resource}" method="post">
-        <input type="hidden" th:field="*{resourceId}"><br>
-        <label>Name</label><input type="text" th:field="*{resourceName}" /><br><br>
-        <label>Link</label><input type="text" th:field="*{link}"><br><br>
-        <label>Address</label><input type="text" th:field="*{address}"><br><br>
-        <label>Mobile</label><input type="text" th:field="*{resourceMobile}"><br><br>
-        <label>ContactPerson</label><input type="text" th:field="*{contactPerson}"><br><br>
-        <label class="col-md-2 col-form-label">Recruitement Type</label>
-        <select class="form-select" aria-label="Recruitement Type" id="type" th:field="*{recruitementType}">
-            <option th:each=" i : ${rList} " th:value="${i}" th:text="${i}"></option>
-        </select>
-        <input type="submit" th:value="Update">
-    </form>
+    <p class="errornoti" th:text="${message}"></p>
 
+    <nav th:insert="../components/nav :: navBar"></nav>
+	<div th:insert="../components/nav :: sideNav"></div>
 
-    <button onclick="deleteform()">Delete</button>
-    <a th:href="@{/recruitementresource}">Back</a>
+		<button class="back_button">
+			<a th:href="@{/recruitementresource}"><ion-icon name="arrow-back-outline"></ion-icon></a>
+		</button>
+    <div class="updateform">
+        <form data-formName="Edit Resource" th:action="@{/updateresource}" th:object="${resource}" method="post">
+            <div>
+                <input type="hidden" th:field="*{resourceId}">
+                
+                <label>Name</label><input type="text" th:field="*{resourceName}" />
+            </div>
+            <div>
+                <label>Link</label><input type="text" th:field="*{link}">
+            </div>
+            <div>
+                <label>Address</label><input type="text" th:field="*{address}">
+            </div>
+            <div>
+                <label>Mobile</label><input type="text" th:field="*{resourceMobile}">
+            </div>
+            <div>
+                <label>ContactPerson</label><input type="text" th:field="*{contactPerson}">
+            </div>
+            <div>
+                <label class="col-md-2 col-form-label">Recruitement Type</label>
+                    <select class="form-select" aria-label="Recruitement Type" id="type" th:field="*{recruitementType}">
+                    <option th:each=" i : ${rList} " th:value="${i}" th:text="${i}"></option>
+                    </select>
+            </div>
+            <div class="actionBox">
+				<input type="submit" value="Update"/>
+			</div>
+        </form>
 
-    <div class="confirmDelete" style="display: none;">
-        <h4>Are u sure u want to delete?</h4>
-        <a th:href="@{/deleteresource(id=${resource.resourceId})}">Yes</a>
-        <a onclick="deleteformclose()">no</a>
+        <div class="deleteBox">
+            <button onclick="deleteform()">Delete</button>
+        </div>
     </div>
+
+    <div class="confirmationModal deleteConfirmationModal"  style="display: none;">
+		<div class="modalBox">
+            <button onclick="deleteformclose()">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+            <h2>Delete ?</h2>
+            <p>Are u sure u want to delete <b th:text="${resource.resourceName}"></b> ?</p>
+            <div class="modalButtonBox">
+                <a th:href="@{/deleteresource(id=${resource.resourceId})}">Yes <ion-icon name="sad-outline"></ion-icon></a>
+                <a onclick="deleteformclose()">No <ion-icon name="happy-outline"></ion-icon></a>
+            </div>
+        </div>
+        <div class="backgroundExit" onclick="deleteformclose()"></div>
+	</div>
 
     <script type="text/javascript" th:src="@{/js/form.js}"></script>
 </body>

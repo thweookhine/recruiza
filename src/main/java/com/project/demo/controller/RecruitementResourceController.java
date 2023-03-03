@@ -106,7 +106,6 @@ public class RecruitementResourceController {
 			model.addFlashAttribute("message","Update Fail!");
 			return new ModelAndView("editResourceControl");
 		}
-
 		RecruitementResource bean = RecruitementResource.builder()
 				.resourceId(resource.getResourceId())
 				.resourceName(resource.getResourceName())
@@ -118,7 +117,6 @@ public class RecruitementResourceController {
 				.recruitementType(resource.getRecruitementType())
 				.build();
 
-		System.out.print("jsdakfjhk"+ bean);
 			service.updateRecruitementResource(bean);
 			model.addFlashAttribute("message","Updated Successfully!");
 			return new ModelAndView("redirect:/recruitementresource");
@@ -176,7 +174,7 @@ public class RecruitementResourceController {
     							@Param("sortDir") String sortDir,
     							@Param("keyword") String keyword) {
     	
-                	
+                	int index=Integer.parseInt((currentPage-1)+"1");
         	Page<RecruitementResource> page = service.listAllResources(currentPage, sortField, sortDir, keyword);
         	
         	long totalResource = page.getTotalElements();
@@ -192,12 +190,19 @@ public class RecruitementResourceController {
         	model.addAttribute("sortDir", sortDir);
         	model.addAttribute("keyword", keyword);
         	model.addAttribute("rList",UIOptionData.generateResourceType());
+        	model.addAttribute("index",index);
         	
         	String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
         	model.addAttribute("reverseSortDir", reverseSortDir);
         	
-//        	RecruitementResourceBean beanResource = RecruitementResourceBean.builder()
-//					        			.build();
+//        	if(beanResource.getResourceMobile()==null) {
+//        		beanResource=RecruitementResourceBean.builder()
+//        				.resourceMobile("09")
+//        				.build();
+//        	}
+//        	
+////        	RecruitementResourceBean beanResource = RecruitementResourceBean.builder()
+////					        			.build();
         	return new ModelAndView("recruitementResourceControl","resource",beanResource);
         }
         

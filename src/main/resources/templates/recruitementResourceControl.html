@@ -3,99 +3,127 @@
 
 <head>
 	<meta charset="ISO-8859-1">
-	<title>Insert title here</title>
+	<title>RecruitementResource</title>
+	<div th:insert="../components/nav :: tags"></div>
 </head>
 
 <body>
-	<h3 th:text="${message}"></h3>
-	<h3>Add New RecruitementResource</h3>
-	<div>
-		<form th:action="@{/saveresource}" method="post" th:object="${resource}">
-			<label>Name</label><input type="text" th:field="*{resourceName}" required="required" /><br><br>
-			<label>Link</label><input type="text" th:field="*{link}" required="required"><br><br>
-			<label>Address</label><input type="text" th:field="*{address}" required="required" /><br><br>
-			<label>Mobile</label><input type="text" th:field="*{resourceMobile}" required="required"><br><br>
-			<label>ContactPerson</label><input type="text" th:field="*{contactPerson}" required="required"><br><br>
-			<label class="col-md-2 col-form-label">Recruitement Type</label>
-			<select class="form-select" aria-label="Recruitement Type" id="type" th:field="*{recruitementType}">
+	<p class="errornoti" th:text="${message}"></p>
+
+	<nav th:insert="../components/nav :: navBar"></nav>
+	<div th:insert="../components/nav :: sideNav"></div>
+	
+	<div class="addForm">
+		<form data-formName="Add Resource" th:action="@{/saveresource}" method="post" th:object="${resource}">
+			<div>
+				<label>Name</label><input type="text" th:field="*{resourceName}" required="required" placeholder="Enter Resource Name"/>
+			</div>
+			<div>
+				<label>Link</label><input type="text" th:field="*{link}" placeholder="Enter Link" required="required">
+			</div>
+			<div>
+				<label>Address</label><input type="text" th:field="*{address}" placeholder="Address" required="required" />
+			</div>
+			<div>
+				<label>Mobile</label><input type="text" th:field="*{resourceMobile}" placeholder="Enter  Mobile" required="required">
+			</div>
+			<div>
+				<label>ContactPerson</label><input type="text" th:field="*{contactPerson}" placeholder="Enter Contact Person" required="required">
+			</div>
+			<div>
+				<label class="col-md-2 col-form-label">Recruitement Type</label>
+				<select class="form-select" aria-label="Recruitement Type" id="type" th:field="*{recruitementType}">
 				<option th:each=" i : ${rList} " th:value="${i}" th:text="${i}"></option>
-			</select>
-			<input type="submit" th:value="Add">
+				</select>
+			</div>
+			<div>
+				<input type="submit" value="Add"/>
+				<ion-icon name="add-outline"></ion-icon>
+			</div>
 		</form>
+		<div class="backgroundExit" onclick="generateTeamBox()"></div>
 	</div>
-	<br>
-	<div>
-		<form th:action="@{/searchResource/1}" th:object="${resource}" method="get">
-			<input type="hidden" name="sortField" th:value="${sortField}" />
-			<input type="hidden" name="sortDir" th:value="${sortDir}" />
-			<input type="text" name="keyword" th:value="${keyword}" required />
-			<input type="submit" th:value="Search">
-		</form>
-	</div>
-	<div>
-		<a th:href="@{/recruitementresource}">View All</a>
-	</div>
-	<div>
-		<center>
-			<h2>List All Recruitement Resource</h2>
-		</center>
-		<table class="table table-striped table-hover table-bordered">
-			<tr>
-				<th> Id</th>
-				<th><a
+
+	<div class="tableBox teamTableBox">
+		<div class="searchBox">
+			<h2>Recruitement Resource</h2>
+			<form th:action="@{/searchResource/1}" th:object="${resource}" method="get">
+				<input type="hidden" name="sortField" th:value="${sortField}" />
+				<input type="hidden" name="sortDir" th:value="${sortDir}" />
+				<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" required />
+				<button type="submit"><ion-icon name="search-outline"></ion-icon></button>
+				<a th:href="@{/recruitementresource}"><ion-icon name="refresh-outline"></ion-icon></a>
+				<div onclick="generateTeamBox()"><ion-icon name="add-outline"></ion-icon></div>
+			</form>
+		</div>
+		
+		<div class="data-table-box">
+			<div class="data-table">
+				<div class="data-table-row">
+					<div class="data-table-col">No</div>
+					<div class="data-table-col"><a class="sort-button"
 						th:href="@{'/searchResource/' + ${currentPage} + '?sortField=resourceCode&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-						Code
-					</a></th>
-				<th>Resource Name</th>
-				<th>Link</th>
-				<th>Address</th>
-				<th>Mobile</th>
-				<th>Contact Person</th>
-				<th>Recruitement Type</th>
-				<th>CreatedTime</th>
-				<th>Action</th>
-			<tr th:each="resource : ${list}">
-				<td th:text="${resource.resourceId}" />
-				<td th:text="${resource.resourceCode}" />
-				<td th:text="${resource.resourceName}" />
-				<td th:text="${resource.link}" />
-				<td th:text="${resource.address}" />
-				<td th:text="${resource.resourceMobile}" />
-				<td th:text="${resource.contactPerson}" />
-				<td th:text="${resource.recruitementType}" />
-				<td th:text="${resource.resourceCreatedTime}" />
-				<td><a th:href="@{/editresource(id=${resource.resourceId})}">Action</a></td>
-			</tr>
-		</table>
+						Code<ion-icon name="funnel-outline"></ion-icon>
+					</a></div>
+					<div class="data-table-col"><a class="sort-button"
+						th:href="@{'/searchResource/' + ${currentPage} + '?sortField=resourceName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+						Resource Name<ion-icon name="funnel-outline"></ion-icon>
+					</a></div>
+					<div class="data-table-col">Link</div>
+					<div class="data-table-col">Address</div>
+					<div class="data-table-col">Mobile</div>
+					<div class="data-table-col">Contact Person</div>
+					<div class="data-table-col"><a class="sort-button"
+						th:href="@{'/searchResource/' + ${currentPage} + '?sortField=recruitementType&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+						Recruitement Type<ion-icon name="funnel-outline"></ion-icon>
+					</a></div>
+					<div class="data-table-col">Option</div>
+				</div>
+
+				<div class="data-table-row" th:each="resource : ${list}">
+					<div class="data-table-col" th:text="${index+ resourceStat.index}"></div>
+					<div class="data-table-col" th:text="${resource.resourceCode}"></div>
+					<div class="data-table-col" th:text="${resource.resourceName}"></div>
+					<div class="data-table-col" th:text="${resource.link}" ></div>
+					<div class="data-table-col" th:text="${resource.address}" ></div>
+					<div class="data-table-col" th:text="${resource.resourceMobile}" ></div>
+					<div class="data-table-col" th:text="${resource.contactPerson}" ></div>
+					<div class="data-table-col" th:text="${resource.recruitementType}" ></div>
+					<div class="data-table-col"><a class="action-button" th:href="@{/editresource(id=${resource.resourceId})}">Action</a></div>
+				</div>
+			</div>
+		</div>
+		<div class="pagination">
+			<div>Total Resources: <span class="pagenum">[[${totalResources}]]</span> - Page <span
+				class="pagenum">[[${currentPage}]] </span>of <span class="pagenum">[[${totalPages}]]</span></div>
+			
+			<div class="page-reference" >
+
+				<a th:if="${currentPage > 1}"
+					th:href="@{'/searchResource/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+				<span th:unless="${currentPage > 1}">First</span>
+
+				<a th:if="${currentPage > 1}"
+					th:href="@{'/searchResource/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon name="chevron-back-circle-outline"></ion-icon></a>
+				<span th:unless="${currentPage > 1}"><ion-icon name="chevron-back-circle-outline"></ion-icon></span>
+
+				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+					<a th:if="${i != currentPage}"
+						th:href="@{'/searchResource/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
+				<span th:unless="${i != currentPage}">[[${i}]]</span>
+				&nbsp;&nbsp;
+				</span>
+
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/searchResource/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon name="chevron-forward-circle-outline"></ion-icon></a>
+				<span th:unless="${currentPage < totalPages}"><ion-icon name="chevron-forward-circle-outline"></ion-icon></span>
+
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/searchResource/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+				<span th:unless="${currentPage < totalPages}">Last</span>
+			</div>
+		</div>
 	</div>
-	<div>
-		Total Resources: [[${totalResources}]] - Page [[${currentPage}]] of [[${totalPages}]]
-		&nbsp; - &nbsp;
-
-		<a th:if="${currentPage > 1}"
-			th:href="@{'/searchResource/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
-		<span th:unless="${currentPage > 1}">First</span>
-
-		<a th:if="${currentPage > 1}"
-			th:href="@{'/searchResource/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
-		<span th:unless="${currentPage > 1}">Previous</span>
-
-		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			<a th:if="${i != currentPage}"
-				th:href="@{'/searchResource/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
-			<span th:unless="${i != currentPage}">[[${i}]]</span>
-			&nbsp;&nbsp;
-		</span>
-
-		<a th:if="${currentPage < totalPages}"
-			th:href="@{'/searchResource/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
-		<span th:unless="${currentPage < totalPages}">Next</span>
-
-		<a th:if="${currentPage < totalPages}"
-			th:href="@{'/searchResource/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
-		<span th:unless="${currentPage < totalPages}">Last</span>
-	</div>
-
 </body>
 
 </html>

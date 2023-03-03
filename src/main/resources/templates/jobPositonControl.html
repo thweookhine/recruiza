@@ -1,70 +1,106 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-<h3 th:text="${message}"></h3>
-<br>
-		<h2>Add New JobPosition</h2>
-<div>
-<form th:action="@{/savejobposition}" method="post" th:object="${jobposition}">
 
-	<label>Name</label><input type="text" th:field="*{positionName}" required="required"/><br><br>
-	<input type="submit" th:value="Add">
-</form>
-</div>
-<br>
-<div>
-<form th:action="@{/searchPosition/1}" th:object="${jobposition}" method="get">
-	<input type="hidden" name="sortField" th:value="${sortField}" />
-	<input type="hidden" name="sortDir" th:value="${sortDir}" />
-	<input type="text" name="keyword" th:value="${keyword}" required />
-	<input type="submit" th:value="Search">
-</form>
-</div>
-<div>
-	<center>
-		<h2>List All JobPosition</h2>
-	</center>
-	<table class="table table-striped table-hover table-bordered">
-		<tr>
-		<th>Id</th>
-		<th><a th:href="@{'/searchPosition/' + ${currentPage} + '?sortField=positionCode&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-							Code
-						</a></th>
-		<th>Name</th>
-		<th>Action</th>
-<tr th:each="position: ${list}">
-<td th:text="${position.positionId}" />
-<td th:text="${position.positionCode}" />
-<td th:text="${position.positionName}" />
-<td><a th:href="@{/editjobposition(id=${position.positionId})}">Action</a></td>
-</tr>
-</table>
-</div>
-<div>
-		Total Positions: [[${totalPositions}]] - Page [[${currentPage}]] of [[${totalPages}]]
-		&nbsp; - &nbsp;
-		
-		<a th:if="${currentPage > 1}" th:href="@{'/searchPosition/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
-		<span th:unless="${currentPage > 1}">First</span>
-		
-		<a th:if="${currentPage > 1}" th:href="@{'/searchPosition/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
-		<span th:unless="${currentPage > 1}">Previous</span>
-		
-		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			<a th:if="${i != currentPage}" th:href="@{'/searchPosition/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a> 
-			<span th:unless="${i != currentPage}">[[${i}]]</span>
-			&nbsp;&nbsp;
-		</span>
-		
-		<a th:if="${currentPage < totalPages}" th:href="@{'/searchPosition/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
-		<span th:unless="${currentPage < totalPages}">Next</span>
-		
-		<a th:if="${currentPage < totalPages}" th:href="@{'/searchPosition/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
-		<span th:unless="${currentPage < totalPages}">Last</span>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Job Position</title>
+	<div th:insert="../components/nav :: tags"></div>
+</head>
+
+<body>
+	<p class="errornoti" th:text="${message}"></p>
+
+	<nav th:insert="../components/nav :: navBar"></nav>
+	<div th:insert="../components/nav :: sideNav"></div>
+
+
+	<div class="addForm">
+		<form data-formName="Add JobPosition" th:action="@{/savejobposition}" method="post" th:object="${jobposition}">
+			<div>
+				<input type="text" th:field="*{positionName}" placeholder="Enter Position Name" required="required" />
+				<label for="name">Name</label>
+				<label th:if="${#fields.hasErrors('positionName')}" th:errors="*{positionName}"
+					style="color: red;">Error</label>
+			</div>
+			<div>
+				<input type="submit" th:value="Add">
+				<ion-icon name="add-outline"></ion-icon>
+			</div>
+		</form>
+		<div class="backgroundExit" onclick="generateTeamBox()"></div>
 	</div>
+	<br>
+	<div class="tableBox teamTableBox">
+		<div class="searchBox">
+			<h2>JobPosition</h2>
+			<form th:action="@{/searchPosition/1}" th:object="${jobposition}" method="get">
+				<input type="hidden" name="sortField" th:value="${sortField}" />
+				<input type="hidden" name="sortDir" th:value="${sortDir}" />
+				<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" required />
+				<button type="submit"><ion-icon name="search-outline"></ion-icon></button>
+				<a th:href="@{/jobposition}"><ion-icon name="refresh-outline"></ion-icon></a>
+				<div onclick="generateTeamBox()"><ion-icon name="add-outline"></ion-icon></div>
+			</form>
+		</div>
+		<div class="data-table-box">
+			<div class="data-table">
+				<div class="data-table-row">
+					<div class="data-table-col">NO</div>
+					<div class="data-table-col"><a class="sort-button"
+							th:href="@{'/searchPosition/' + ${currentPage} + '?sortField=positionCode&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+							Code<ion-icon name="funnel-outline"></ion-icon>
+						</a></div>
+					<div class="data-table-col"><a class="sort-button"
+							th:href="@{'/searchPosition/' + ${currentPage} + '?sortField=positionName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+							Name<ion-icon name="funnel-outline"></ion-icon>
+						</a></div>
+					<div class="data-table-col">Option</div>
+				</div>
+
+				<div class="data-table-row" th:each="position: ${list}">
+					<div class="data-table-col" th:text="${index+ positionStat.index}" />
+					<div class="data-table-col" th:text="${position.positionCode}" />
+					<div class="data-table-col" th:text="${position.positionName}" />
+					<div class="data-table-col"><a class="action-button" th:href="@{/editjobposition(id=${position.positionId})}">Action</a></div>
+				</div>
+			</div>	
+		</div>
+
+		<div class="pagination">
+			<div>Total Positions: <span class="pagenum">[[${totalPositions}]]</span> - Page <span class="pagenum">[[${currentPage}]] </span>of <span class="pagenum">[[${totalPages}]]</span></div>
+			
+			<div class="page-reference">
+
+				<a th:if="${currentPage > 1}"
+					th:href="@{'/searchPosition/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+				<span th:unless="${currentPage > 1}">First</span>
+
+				<a th:if="${currentPage > 1}"
+					th:href="@{'/searchPosition/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon name="chevron-back-circle-outline"></ion-icon></a>
+				<span th:unless="${currentPage > 1}"><ion-icon name="chevron-back-circle-outline"></ion-icon></span>
+
+				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+				<a th:if="${i != currentPage}"
+					th:href="@{'/searchPosition/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
+				<span th:unless="${i != currentPage}">[[${i}]]</span>
+				&nbsp;&nbsp;
+				</span>
+
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/searchPosition/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon name="chevron-forward-circle-outline"></ion-icon></a>
+				<span th:unless="${currentPage < totalPages}"><ion-icon name="chevron-forward-circle-outline"></ion-icon></ion-icon></span>
+
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/searchPosition/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+				<span th:unless="${currentPage < totalPages}">Last</span>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function clearFilter() {
+			window.location = '/jobposition';
+		}
+	</script>
 </body>
+
 </html>

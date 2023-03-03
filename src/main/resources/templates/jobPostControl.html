@@ -2,15 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<title>Job Post</title>
+<meta charset="UTF-8">
+<title>Job Post</title>
 
-	<!-- JQuery js1 -->
-	<script src="https://code.jquery.com/jquery-3.6.1.min.js" type="text/javascript"></script>
+<!-- JQuery js1 -->
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+	type="text/javascript"></script>
 
-	<script type="text/javascript" th:src="@{/js/ajax.js}"></script>
-	<script type="text/javascript" th:src="@{/js/main.js}" defer></script>
-	<script type="text/javascript" th:src="@{/js/form.js}" defer></script>
+<script type="text/javascript" th:src="@{/js/ajax.js}"></script>
+<script type="text/javascript" th:src="@{/js/main.js}" defer></script>
+<script type="text/javascript" th:src="@{/js/form.js}" defer></script>
 </head>
 
 <body>
@@ -21,82 +22,90 @@
 	<div>
 		<form th:action="@{/saveJobPost}" method="post" th:object="${jobPost}">
 			<div>
-				<label for="name">Name</label> <input type="text" th:field="*{postName}"
-					placeholder="Enter Job Post Name" /> <label th:if="${#fields.hasErrors('postName')}"
-					th:errors="*{postName}" style="color: red;">Error</label>
+				<label for="name">Name</label> <input type="text"
+					th:field="*{postName}" placeholder="Enter Job Post Name" /> <label
+					th:if="${#fields.hasErrors('postName')}" th:errors="*{postName}"
+					style="color: red;">Error</label>
 			</div>
 
 			<div>
-				<label for="count">Count</label> <input type="number" th:field="*{count}" placeholder="Enter Count" />
-				<label th:if="${#fields.hasErrors('count')}" th:errors="*{count}" style="color: red;">Error</label>
+				<label for="count">Count</label> <input type="number"
+					th:field="*{count}" placeholder="Enter Count" /> <label
+					th:if="${#fields.hasErrors('count')}" th:errors="*{count}"
+					style="color: red;">Error</label>
 			</div>
 
 			<div>
 				<label for="comment">Comment</label>
 				<textarea rows="1" th:field="*{comment}" placeholder="Enter Comment"></textarea>
-				<label th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" style="color: red;">Error</label>
+				<label th:if="${#fields.hasErrors('comment')}"
+					th:errors="*{comment}" style="color: red;">Error</label>
 			</div>
 
 			<div>
-				<label for="foc">FOC</label>
-				<input type="checkbox" th:field="*{foc}" />
-				<label th:if="${#fields.hasErrors('foc')}" th:errors="*{foc}" style="color: red;">Error</label>
+				<label for="foc">FOC</label> <input type="checkbox"
+					th:field="*{foc}" /> <label th:if="${#fields.hasErrors('foc')}"
+					th:errors="*{foc}" style="color: red;">Error</label>
 			</div>
 
 			<div>
-				<label for="postDate">Post Date</label> <input type="date" th:field="*{postDate}"
-					placeholder="Enter Post Date" class="customdate" /> <label th:if="${#fields.hasErrors('postDate')}"
-					th:errors="*{postDate}" style="color: red;">Error</label>
+				<label for="postDate">Post Date</label> <input type="date"
+					th:field="*{postDate}" placeholder="Enter Post Date"
+					class="customdate" /> <label
+					th:if="${#fields.hasErrors('postDate')}" th:errors="*{postDate}"
+					style="color: red;">Error</label>
 			</div>
 
 			<div class="dueDateBox">
-				<label for="dueDate">Due Date</label> <input type="date" th:field="*{dueDate}"
-					placeholder="Enter Due Date" class="customdate" /> <label th:if="${#fields.hasErrors('dueDate')}"
-					th:errors="*{dueDate}" style="color: red;">Error</label>
+				<label for="dueDate">Due Date</label> <input type="date"
+					th:field="*{dueDate}" placeholder="Enter Due Date"
+					class="customdate" /> <label
+					th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}"
+					style="color: red;">Error</label>
 			</div>
 
 			<div>
-				<label for="teams">Select Department</label> <select id="departmentSelect" name="departmentId"
-					onchange="getTeams();">
-					<option th:each="d : ${departmentList}" th:value="${d.departmentId}" th:text="${d.departmentName}">
+				<label for="teams">Select Department</label> <select
+					id="departmentSelect" name="departmentId" onchange="getTeams();">
+					<option th:each="d : ${departmentList}"
+						th:value="${d.departmentId}" th:text="${d.departmentName}">
 					</option>
 				</select>
 			</div>
 
-			<div>
-				<label for="teams">Select Team</label> <select id="teamSelect" th:field="*{teamBean}">
-			
-			<div class="teamBox">
-				<label for="teams">Select Team</label> <select
-				id="teamSelect"	th:field="*{teamBean}">
-				</select>
-			</div>
+					<div class="teamBox">
+						<label for="teams">Select Team</label> <select id="teamSelect"
+							th:field="*{teamBean}">
+						</select>
+					</div>
 
-			<div>
-				<label for="resource">Select Recruitement Resource</label> <select th:field="*{resourceBean}">
-					<option th:each="r : ${resourceList}" th:value="${r.resourceId}" th:text="${r.resourceName}">
-					</option>
-				</select>
-			</div>
+					<div>
+						<label for="resource">Select Recruitement Resource</label> <select
+							th:field="*{resourceBean}">
+							<option th:each="r : ${resourceList}" th:value="${r.resourceId}"
+								th:text="${r.resourceName}"></option>
+						</select>
+					</div>
 
-			<div>
-				<label for="position">Select Job Position</label> <select th:field="*{jobPositionBean}">
-					<option th:each="p : ${positionList}" th:value="${p.positionId}" th:text="${p.positionName}">
-					</option>
-				</select>
-			</div>
+					<div>
+						<label for="position">Select Job Position</label> <select
+							th:field="*{jobPositionBean}">
+							<option th:each="p : ${positionList}" th:value="${p.positionId}"
+								th:text="${p.positionName}"></option>
+						</select>
+					</div>
 
-			<div>
-				<label for="sheet">Sheet ID</label> <input type="text" th:field="*{sheetId}"
-					placeholder="Enter Sheet ID" /> <label th:if="${#fields.hasErrors('sheetId')}"
-					th:errors="*{sheetId}" style="color: red;">Error</label>
-			</div>
+					<div>
+						<label for="sheet">Sheet ID</label> <input type="text"
+							th:field="*{sheetId}" placeholder="Enter Sheet ID" /> <label
+							th:if="${#fields.hasErrors('sheetId')}" th:errors="*{sheetId}"
+							style="color: red;">Error</label>
+					</div>
 
 
-			<div>
-				<input type="submit" value="Add" />
-			</div>
-
+					<div>
+						<input type="submit" value="Add" />
+					</div>
 		</form>
 	</div>
 

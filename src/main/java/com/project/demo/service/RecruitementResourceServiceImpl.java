@@ -154,7 +154,7 @@ public class RecruitementResourceServiceImpl implements RecruitementResourceServ
 	@Override
 	public Long findTotalPages() {
 		// TODO Auto-generated method stub
-		Pageable sortById=PageRequest.of(0,3,Sort.by("resourceId"));
+		Pageable sortById=PageRequest.of(0,10,Sort.by("resourceId"));
 		Long totalPages=(long) repo.findAll(sortById).getTotalPages();
 		return totalPages;
 	}
@@ -174,7 +174,7 @@ public class RecruitementResourceServiceImpl implements RecruitementResourceServ
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		
-		Pageable pageable = PageRequest.of(pageNumber - 1, 3, sort);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
 		
 		if (keyword != null) {
 			return repo.findAll(keyword, pageable);
