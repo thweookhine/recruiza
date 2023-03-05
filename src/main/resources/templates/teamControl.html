@@ -9,8 +9,9 @@
 
 <body>
 	<p class="errornoti" th:text="${message}"></p>
+	<p class="errornoti">There has been an error somewhere in this page</p>
 
-	<nav th:insert="../components/nav :: navBar"></nav>
+	<div th:insert="../components/nav :: navBar"></div>
 	<div th:insert="../components/nav :: sideNav"></div>
 
 	<div class="addForm">

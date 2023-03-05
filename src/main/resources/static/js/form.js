@@ -1,12 +1,3 @@
-function deleteform() {
-    let form = document.querySelector(".deleteConfirmationModal");
-    form.style.display = "flex";
-}
-function deleteformclose() {
-    let form = document.querySelector(".deleteConfirmationModal");
-    form.style.display = "none";
-}
-
 // post date dur date 
 var today = new Date().toISOString().split('T')[0];
 var idate = document.querySelectorAll('.customdate')
@@ -57,4 +48,10 @@ function closeLogoutForm() {
 // generateTeamBox()
 function generateTeamBox() {
     document.querySelector('.addForm').classList.toggle('show')
+}
+
+// toggle form
+function toggleNav(){
+    document.querySelector('nav').classList.toggle('navhide')
+    document.querySelector('.hamburger').classList.toggle('hamburgermove')
 }
