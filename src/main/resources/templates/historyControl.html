@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+	<meta charset="UTF-8">
+	<title>Team</title>
+	<div th:insert="../components/nav :: tags"></div>
+</head>
+
+<body>
+	<p class="errornoti" th:text="${message}"></p>
+
+	<nav th:insert="../components/nav :: navBar"></nav>
+	<div th:insert="../components/nav :: sideNav"></div>
+
+	<div class="tableBox teamTableBox">
+		<div class="data-table-box">
+			<div class="data-table">
+				<div class="data-table-row">
+					<div class="data-table-col">ID</div>
+					<div class="data-table-col">
+						Action
+					</div>
+					<div class="data-table-col">
+						Data Name
+					</div>
+					<div class="data-table-col">
+						Table Name
+					</div>
+					<div class="data-table-col">
+						Data
+					</div>
+					<div>
+						Created Time
+					</div>
+				</div>
+				<div class="data-table-row" th:each="history : ${histories}">
+					<div class="data-table-col" th:text="${index + historyStat.index}"></div>
+					<div class="data-table-col" th:text="${history.action}"></div>
+					<div class="data-table-col" th:text="${history.dataName}"></div>
+					<div class="data-table-col" th:text="${history.tableName}"></div>
+					<div class="data-table-col" th:text="${history.data}"></div>
+					<div class="data-table-col" th:text="${history.historyCreatedTime}"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="pagination">
+			<div>Total Teams: <span class="pagenum">[[${totalHistories}]]</span> - Page <span
+					class="pagenum">[[${currentPage}]] </span>of <span class="pagenum">[[${totalPages}]]</span></div>
+
+			<div class="page-reference">
+				<a th:if="${currentPage > 1}"
+					th:href="@{'/searchHistory/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+				<span th:unless="${currentPage > 1}">First</span>
+
+				<a th:if="${currentPage > 1}"
+					th:href="@{'/searchHistory/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon
+						name="chevron-back-circle-outline"></ion-icon></a>
+				<span th:unless="${currentPage > 1}"><ion-icon name="chevron-back-circle-outline"></ion-icon></span>
+
+				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+					<a th:if="${i != currentPage}"
+						th:href="@{'/searchHistory/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
+					<span th:unless="${i != currentPage}">[[${i}]]</span>
+				</span>
+
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/searchHistory/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon
+						name="chevron-forward-circle-outline"></ion-icon></a>
+				<span th:unless="${currentPage < totalPages}"><ion-icon
+						name="chevron-forward-circle-outline"></ion-icon></span>
+
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/searchHistory/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+				<span th:unless="${currentPage < totalPages}">Last</span>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+
+</html>

@@ -12,10 +12,10 @@
 	<div th:insert="../components/nav :: navBar"></div>
 	<div th:insert="../components/nav :: sideNav"></div>
 
-	<h3 th:text="${message}"></h3>
+	<p class="errornoti" th:text="${message}"></p>
 
 	<div class="addForm">
-		<form th:action="@{/saveDepartment}" method="post" th:object="${department}">
+		<form data-formName="Add Department" th:action="@{/saveDepartment}" method="post" th:object="${department}">
 			<div>
 				<label for="name">Name</label> <input type="text" th:field="*{departmentName}"
 					placeholder="Enter Department Name" />
@@ -24,9 +24,11 @@
 			</div>
 			<div>
 				<input type="submit" value="Add" />
+				<ion-icon name="add-outline"></ion-icon>
 			</div>
 
 		</form>
+		<div class="backgroundExit" onclick="generabteTeamBox()"></div>
 	</div>
 
 	<div class="tableBox teamTableBox">
@@ -38,8 +40,10 @@
 				<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" />
 				<button type="submit"><ion-icon name="search-outline"></ion-icon></button>
 				<a th:href="@{/department}"><ion-icon name="refresh-outline"></ion-icon></a>
+				<div onclick="generateTeamBox()"><ion-icon name="add-outline"></ion-icon></div>
 
 			</form>
+
 		</div>
 
 		<div class="data-table-box">
@@ -47,15 +51,15 @@
 				<div class="data-table-row">
 					<div class="data-table-col">ID</div>
 					<div class="data-table-col">
-						<a
+						<a class="sort-button"
 							th:href="@{'/searchDepartment/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-							Code
+							Code<ion-icon name="funnel-outline"></ion-icon>
 						</a>
 					</div>
 					<div class="data-table-col">
-						<a
+						<a class="sort-button"
 							th:href="@{'/searchDepartment/' + ${currentPage} + '?sortField=departmentName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-							Name
+							Name<ion-icon name="funnel-outline"></ion-icon>
 						</a>
 					</div>
 					<div class="data-table-col">Options</div>
@@ -65,7 +69,7 @@
 					<div class="data-table-col" th:text="${dept.departmentCode}"></div>
 					<div class="data-table-col" th:text="${dept.departmentName}"></div>
 					<div class="data-table-col">
-						<a th:href="@{/updateDepartment(id=${dept.departmentId})}">Action</a>
+						<a class="action-button" th:href="@{/updateDepartment(id=${dept.departmentId})}">Action</a>
 					</div>
 				</div>
 			</div>

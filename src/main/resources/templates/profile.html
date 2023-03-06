@@ -15,12 +15,12 @@
         <h2>User Info</h2>
         <div class="profileContainer">
             <div class="profileBox">
-                <p data-name="UserId">USR0012345</p>
-                <p data-name="Username">username</p>
-                <p data-name="Email">email</p>
-                <p data-name="Phone Number">09441428181</p>
-                <p data-name="Role">Admin</p>
-                <img th:src="@{images/Qrcode/testQr.png}" alt="">
+                <p data-name="UserId" th:text="${userBean.userCode}"></p>
+                <p data-name="Username" th:text="${userBean.userName}"></p>
+                <p data-name="Email" th:text="${userBean.userEmail}"></p>
+                <p data-name="Phone Number" th:text="${userBean.userMobile}"></p>
+                <p data-name="Role" th:text="${userBean.role}"></p>
+                <img th:src="${'data:image/png;base64,' + qrcode}" alt="">
                 <button>
                     <ion-icon name="create-outline"></ion-icon>
                 </button>

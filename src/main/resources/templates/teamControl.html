@@ -17,20 +17,20 @@
 	<div class="addForm">
 		<form data-formName="Add Team" th:action="@{/saveTeam}" method="post" th:object="${team}">
 			<div>
-				<input type="text" th:field="*{teamName}" placeholder="Enter Team Name" required="required"/> 
+				<input type="text" th:field="*{teamName}" placeholder="Enter Team Name" required="required" />
 				<label for="name">Name</label>
-				<label th:if="${#fields.hasErrors('teamName')}"th:errors="*{teamName}" style="color: red;">Error</label>
+				<label th:if="${#fields.hasErrors('teamName')}" th:errors="*{teamName}"
+					style="color: red;">Error</label>
 			</div>
 
 			<div>
 				<label for="depts">Select Department</label> <select th:field="*{departmentName}">
-					<option th:value="none">Select Department</option>
 					<option th:each="d : ${deptNameList}" th:value="${d}" th:text="${d}"></option>
 				</select>
 				<p th:text="${selectDept}"></p>
 			</div>
 			<div>
-				<input type="submit" value="Add"/>
+				<input type="submit" value="Add" />
 				<ion-icon name="add-outline"></ion-icon>
 			</div>
 		</form>
@@ -79,13 +79,15 @@
 					<div class="data-table-col" th:text="${team.teamCode}"></div>
 					<div class="data-table-col" th:text="${team.teamName}"></div>
 					<div class="data-table-col" th:text="${team.department.departmentName}"></div>
-					<div class="data-table-col"><a class="action-button" th:href="@{/updateTeam(id=${team.teamId})}">Action</a></div>
+					<div class="data-table-col"><a class="action-button"
+							th:href="@{/updateTeam(id=${team.teamId})}">Action</a></div>
 				</div>
 			</div>
 		</div>
 
 		<div class="pagination">
-			<div>Total Teams: <span class="pagenum">[[${totalTeams}]]</span> - Page <span class="pagenum">[[${currentPage}]] </span>of <span class="pagenum">[[${totalPages}]]</span></div>
+			<div>Total Teams: <span class="pagenum">[[${totalTeams}]]</span> - Page <span
+					class="pagenum">[[${currentPage}]] </span>of <span class="pagenum">[[${totalPages}]]</span></div>
 
 			<div class="page-reference">
 				<a th:if="${currentPage > 1}"
@@ -93,7 +95,8 @@
 				<span th:unless="${currentPage > 1}">First</span>
 
 				<a th:if="${currentPage > 1}"
-					th:href="@{'/searchTeam/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon name="chevron-back-circle-outline"></ion-icon></a>
+					th:href="@{'/searchTeam/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon
+						name="chevron-back-circle-outline"></ion-icon></a>
 				<span th:unless="${currentPage > 1}"><ion-icon name="chevron-back-circle-outline"></ion-icon></span>
 
 				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
@@ -103,8 +106,10 @@
 				</span>
 
 				<a th:if="${currentPage < totalPages}"
-					th:href="@{'/searchTeam/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon name="chevron-forward-circle-outline"></ion-icon></a>
-				<span th:unless="${currentPage < totalPages}"><ion-icon name="chevron-forward-circle-outline"></ion-icon></span>
+					th:href="@{'/searchTeam/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon
+						name="chevron-forward-circle-outline"></ion-icon></a>
+				<span th:unless="${currentPage < totalPages}"><ion-icon
+						name="chevron-forward-circle-outline"></ion-icon></span>
 
 				<a th:if="${currentPage < totalPages}"
 					th:href="@{'/searchTeam/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>

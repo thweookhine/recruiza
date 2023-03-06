@@ -54,6 +54,11 @@ public class codeGenerator {
     	return "R" + String.format("%03d", lastId);
     }
     
+    //generate Code for History
+    public static String generateHistoryCode(long lastId){
+        return "H" + String.format("%03d", lastId);
+    }
+    
     public static void main(String[] args) {
         //Use like this
         System.out.println("User Code - "+generateUserCode(99));

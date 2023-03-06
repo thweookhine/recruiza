@@ -80,8 +80,6 @@ public class JobPostController {
 		JobPosition jobPosition = positionService.getPositionById(Long.parseLong(jobPostBean.getJobPositionBean()));
 		
 		UserBean userBean = (UserBean) session.getAttribute("user");
-		System.out.println("user bean"+userBean);
-		//System.out.println("userbean =>"+userBean.getUserName()+ " id =>"+ userBean.getUserId());
 		User user = userService.getById(userBean.getUserId());
 		
 		System.out.println("user id => "+user.getUserId());

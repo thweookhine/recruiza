@@ -1,7 +1,11 @@
 package com.project.demo.controller;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,25 +23,37 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.demo.entity.Department;
+import com.project.demo.entity.History;
 import com.project.demo.entity.Team;
+import com.project.demo.entity.User;
 import com.project.demo.model.DepartmentBean;
+import com.project.demo.model.UserBean;
 import com.project.demo.service.DepartmentService;
+import com.project.demo.service.HistoryService;
+import com.project.demo.service.UserService;
 
 @RestController
 public class DepartmentController {
 
 	@Autowired
 	private DepartmentService deptService;
+	
+	@Autowired
+	private HistoryService historyService;
+	
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/department")
-	public ModelAndView toDepartment(ModelMap model, RedirectAttributes ra,DepartmentBean deptBean) {
+	public ModelAndView toDepartment(ModelMap model, RedirectAttributes ra, DepartmentBean deptBean) {
 		String keyword = null;
-		
-		return searchDept(model,deptBean, ra, 1, "departmentId", "asc", keyword);
+
+		return searchDept(model, deptBean, ra, 1, "departmentId", "asc", keyword);
 	}
 
 	@GetMapping(value = "/searchDepartment/{pageNumber}")
-	public ModelAndView searchDept(ModelMap model,DepartmentBean deptBean , RedirectAttributes ra, @PathVariable("pageNumber") int currentPage,
+	public ModelAndView searchDept(ModelMap model, DepartmentBean deptBean, RedirectAttributes ra,
+			@PathVariable("pageNumber") int currentPage,
 			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword) {
 
 		Page<Department> page = deptService.listAllDepts(currentPage, sortField, sortDir, keyword);
@@ -46,76 +62,55 @@ public class DepartmentController {
 		int totalPages = page.getTotalPages();
 
 		List<Department> depts = page.getContent();
-		
-		int index = Integer.parseInt((currentPage-1)+"1");
-		
+
+		int index = Integer.parseInt((currentPage - 1) + "1");
+
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalDepts", totalDepts);
 		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("depts",depts );
+		model.addAttribute("depts", depts);
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("keyword", keyword);
-		model.addAttribute("index",index);
+		model.addAttribute("index", index);
 
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 		model.addAttribute("reverseSortDir", reverseSortDir);
-
-//		DepartmentBean deptBean = DepartmentBean.builder()
-//				.build();
-//		
 
 		return new ModelAndView("departmentControl", "department", deptBean);
 
 	}
 
-	@GetMapping("/nextDepartmentPage")
-	public ModelAndView nextDepartmentPage(@RequestParam("currentPage") String cp, ModelMap model) {
-		List<Department> depts = deptService.getAllDepts(Integer.parseInt(cp));
-		model.addAttribute("currentPage", Integer.parseInt(cp) + 1);
-		model.addAttribute("totalPages", deptService.findTotalPages());
-		model.addAttribute("depts", depts);
-		return new ModelAndView("departmentControl", "department", new DepartmentBean());
-	}
-
-	@GetMapping("/prevDepartmentPage")
-	public ModelAndView prevDepartmentPage(@RequestParam("currentPage") String cp, ModelMap model) {
-
-		List<Department> depts = deptService.getAllDepts(Integer.parseInt(cp) - 2);
-		model.addAttribute("currentPage", Integer.parseInt(cp) - 1);
-		model.addAttribute("totalPages", deptService.findTotalPages());
-		model.addAttribute("depts", depts);
-		return new ModelAndView("departmentControl", "department", new DepartmentBean());
-	}
-
 	@PostMapping("/saveDepartment")
 	public ModelAndView saveDepartment(@ModelAttribute("department") @Validated DepartmentBean departmentBean,
-			BindingResult bindingResult, ModelMap model, RedirectAttributes ra) {
+			BindingResult bindingResult,HttpSession session, ModelMap model, RedirectAttributes ra) {
 
 		if (bindingResult.hasErrors()) {
 			return toDepartment(model, ra, departmentBean);
 		}
 
 		Department dept = deptService.searchOneWithName(departmentBean.getDepartmentName());
-
+		
 		if (dept == null) {
 
 			// Created
 
 			Department dept2 = Department.builder().departmentName(departmentBean.getDepartmentName()).build();
-			System.out.println("dept name" + dept2.getDepartmentName());
 			Department result = deptService.createDept(dept2);
 			
 			if (result != null) {
+				generateHistoryForDept(result, session, "Add");
 				ra.addFlashAttribute("message", "Successfully Added.");
+				
 			}
 		} else {
+			generateHistoryForDept(dept, session, "Tried to insert existing data");
 			ra.addFlashAttribute("message", "Department already exists!");
 		}
 
 		return new ModelAndView("redirect:/department");
 	}
-
+	
 	@GetMapping("/updateDepartment")
 	public ModelAndView toUpdatePage(@RequestParam("id") long id, ModelMap model) {
 
@@ -128,27 +123,31 @@ public class DepartmentController {
 	@PostMapping("/updateDepartment")
 	public ModelAndView updateDepartment(@ModelAttribute("department") @Validated DepartmentBean deptBean,
 			BindingResult bindingResult, @RequestParam("oldName") String oldName, ModelMap model,
-			RedirectAttributes ra) {
+			RedirectAttributes ra,HttpSession session) {
 
 		if (bindingResult.hasErrors()) {
 			return new ModelAndView("departmentAction");
 		}
+
 		Department searchedDept = deptService.searchOneWithName(deptBean.getDepartmentName());
 		if (searchedDept == null || oldName.equals(deptBean.getDepartmentName())) {
 
 			Department dept = Department.builder().departmentId(deptBean.getDepartmentId())
 					.departmentName(deptBean.getDepartmentName()).build();
-
-			Department result = deptService.updateDept(dept);
-			if (result != null) {
-				if (oldName.equals(deptBean.getDepartmentName())) {
-					ra.addFlashAttribute("message", "No Data Changed!");
-				} else {
+			
+			if (oldName.equals(deptBean.getDepartmentName())) {
+				ra.addFlashAttribute("message", "No Data Changed!");
+				
+			}else {
+				Department result = deptService.updateDept(dept);
+				if(result != null) {
+					generateHistoryForDept(result, session, "Update");
 					ra.addFlashAttribute("message", "Successfully Updated.");
 				}
 			}
 
 		} else {
+			generateHistoryForDept(searchedDept, session, "Tried to update existing data");
 			model.addAttribute("message", "Department already exists!");
 			return new ModelAndView("departmentAction");
 		}
@@ -157,9 +156,12 @@ public class DepartmentController {
 	}
 
 	@GetMapping("/deleteDepartment")
-	public ModelAndView deleteDepartment(@RequestParam("id") long id, ModelMap model, RedirectAttributes ra) {
+	public ModelAndView deleteDepartment(@RequestParam("id") long id, ModelMap model, RedirectAttributes ra,HttpSession session) {
 
 		Department dept = deptService.searhWithId(id);
+		
+		UserBean userBean = (UserBean) session.getAttribute("user");
+		User user = userService.getById(userBean.getUserId());
 
 		if (dept != null && dept.getTeams().size() > 0) {
 
@@ -169,6 +171,7 @@ public class DepartmentController {
 				teams.add(t);
 			}
 
+			generateHistoryForDept(dept, session, "Tried to delete department having teams.");
 			model.addAttribute("message", "Can't Delete!");
 			model.addAttribute("teams", teams);
 
@@ -178,17 +181,26 @@ public class DepartmentController {
 		}
 
 		deptService.deleteDept(id);
+		generateHistoryForDept(dept, session, "Delete");
+		ra.addFlashAttribute("message", "Successfully Deleted!.");
 		return new ModelAndView("redirect:/department");
 	}
 
-//	@PostMapping("/searchDepartment")
-//	public ModelAndView searchDepartment(@RequestParam("keyword") String keyword, ModelMap model) {
-//		List<Department> depts = deptService.searchDept(keyword, keyword);
-////		model.addAttribute("currentPage", 1);
-////		model.addAttribute("totalPages", deptService.findTotalPages());
-//		model.addAttribute("keyword", keyword);
-//		model.addAttribute("depts", depts);
-//		return new ModelAndView("departmentControl", "department", new DepartmentBean());
-//	}
+	public void generateHistoryForDept(Department dept,HttpSession session,String action) {
+		UserBean userBean = (UserBean) session.getAttribute("user");
+		User user = userService.getById(userBean.getUserId());
+		
+		String data = dept.getDepartmentId()+","+dept.getDepartmentCode()+","+dept.getDepartmentName();
+		
+		History history = History.builder()
+				.user(user)
+				.action(action)
+				.dataName(dept.getDepartmentName())
+				.tableName("Department")
+				.data(data)
+				.historyCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
+				.build();
+		historyService.createHistory(history);
+	}
 
 }

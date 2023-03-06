@@ -26,11 +26,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Transactional
 	public Department createDept(Department dept) {
 		Department department = deptRepo.save(dept);
-		System.out.println("Saved dept");
+		
 		department = deptRepo.findById(department.getDepartmentId()).get();
-		System.out.println("finded dept");
+		
 		department.setDepartmentCode(generateDepartmentCode(department.getDepartmentId()));
-		System.out.println("dept code "+department.getDepartmentCode());
+		
 		return deptRepo.save(department);
 	}
 
