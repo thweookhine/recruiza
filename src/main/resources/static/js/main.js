@@ -1,10 +1,20 @@
 // Calculate the dimension of the web page
 var w = window.innerWidth;
 var h = window.innerHeight;
-console.log(w + " \n " + h);
-if(w>600){
-    document.querySelector('nav').classList.toggle('navhide')
+if(w>500){
+	document.querySelector('nav').classList.remove('navhide')
+}else{
+	document.querySelector('nav').classList.add('navhide')
 }
+window.addEventListener("resize", (event)=>{
+	w = window.innerWidth;
+	console.log(w);
+	if(w>500){
+		document.querySelector('nav').classList.remove('navhide')
+	}else{
+		document.querySelector('nav').classList.add('navhide')
+	}
+});
 
 function deleteform() {
     let form = document.querySelector(".deleteConfirmationModal");
@@ -27,7 +37,6 @@ function showPassword(id) {
 
 // Get page data
 const title = document.getElementsByTagName("title")[0].innerHTML;
-alert(title);
 const navlist = document.querySelectorAll('.list');
 
 function activeLink() {
