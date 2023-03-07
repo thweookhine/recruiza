@@ -12,6 +12,9 @@ public interface ApplicantRepository extends JpaRepository<Applicant,Long>{
 	@Query("SELECT u from Applicant u WHERE "
 			+ "CONCAT(u.applicantId, ' ', u.applicantCode, ' ', u.applicantName)"
 			+ "LIKE %?1%")
-	public Page<Applicant> findAll(String keyword, Pageable pageable);
+	public Page<Applicant> findSearchAll(String keyword, Pageable pageable);
+	
+	@Query("select a from Applicant a where a.applicantStatus = ?1")
+	public Page<Applicant> findApplicantProcess(String status, Pageable pageable);
 
 }

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import com.project.demo.repository.ApplicantRepository;
 import com.project.demo.service.ApplicantService;
 import com.project.demo.service.JobPositionService;
 import com.project.demo.service.JobPostService;
+import com.project.demo.utils.CheckStatus;
 
 @RestController
 public class ApplicantController {
@@ -47,7 +49,7 @@ public class ApplicantController {
     	String keyword = null;
     	return searchAppliicant(model, ra, session, beanApplicant, 1, "applicantId", "asc", keyword);
     }
-    
+   
     @GetMapping(value = "/searchApplicants/{pageNumber}")
     public ModelAndView searchAppliicant(ModelMap model,RedirectAttributes ra,HttpSession session,ApplicantBean beanApplicant,
     							@PathVariable("pageNumber") int currentPage,
@@ -76,6 +78,80 @@ public class ApplicantController {
         
         	return new ModelAndView("applicantControl","applicant",beanApplicant);
         }
+    
+    @GetMapping(value = "/applicantProcess")
+    public ModelAndView applicantPro(ModelMap model) {
+    	String keyword = "allApplicants";
+    	return applicantProcess(1, keyword, "applicantId", "asc", model);
+    }
+    
+    @GetMapping(value = "/applicantPro/{pageNumber}/{keyword}") 
+    public ModelAndView applicantProcess(@PathVariable("pageNumber") int currentPage, @PathVariable("keyword") String keyword, 
+    		@Param("sortField") String sortField,
+			@Param("sortDir") String sortDir,
+			ModelMap model) {
+    	
+    	Page<Applicant> aplicantPage = service.listApplicantProcess(currentPage, sortField, sortDir, keyword);
+    	
+    	long totalApplicants = aplicantPage.getTotalElements();
+    	int totalPages = aplicantPage.getTotalPages();
+    	
+    	List<Applicant> list = aplicantPage.getContent();
+    	
+    	model.addAttribute("currentPage", currentPage);
+    	model.addAttribute("totalApplicants", totalApplicants);
+    	model.addAttribute("totalPages", totalPages);
+    	model.addAttribute("applicants", list);
+    	model.addAttribute("sortField", sortField);
+    	model.addAttribute("sortDir", sortDir);
+    	model.addAttribute("keyword", keyword);
+    	
+    	model.addAttribute("ct","Code Test");
+    	model.addAttribute("ii","Intro Interview");
+    	model.addAttribute("si","Second Interview");
+    	model.addAttribute("jo","Job offer");
+    	model.addAttribute("h","Hired");
+    	
+    	String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+    	model.addAttribute("reverseSortDir", reverseSortDir);
+    			
+    	return new ModelAndView("applicantProcess");
+    }
+    
+    @GetMapping(value = "/nextProcess")
+    public ModelAndView nextApplicantProcess(@RequestParam("id") Long applicantId,ModelMap model,HttpServletRequest request) {
+    	
+    	Applicant applicant = service.getApplicantById(applicantId);
+    	model.addAttribute("nextStatus", CheckStatus.getApplicantStatus(applicant.getApplicantStatus()));
+    	ApplicantBean applicantBean = ApplicantBean.builder()
+    											   .applicantId(applicant.getApplicantId())
+    											   .applicantName(applicant.getApplicantName())
+    											   .applicantEmail(applicant.getApplicantEmail())
+    											   .applicantMobile(applicant.getApplicantMobile())
+    											   .address(applicant.getAddress())
+    											   .link(applicant.getLink())
+    											   .currentState(applicant.getCurrentState())
+    											   .applicantStatus(applicant.getApplicantStatus())
+    											   .jobPositionBean(applicant.getJobPosition().getPositionName())
+    											   .jobPostBean(applicant.getJobPost().getPostName())
+    											   .applyTime(applicant.getApplyTime().toString())
+    											   .build();
+    	return new ModelAndView("applicantChange", "bean", applicantBean);
+    }
+    
+    @PostMapping(value = "/applicantStatusChange")
+    public ModelAndView applicantStatusChange(@ModelAttribute("bean") ApplicantBean bean,HttpServletRequest request,ModelMap model) {
+    	
+    	Applicant applicant = service.changeApplicantStatus(bean, request.getParameter("checkStatus"), request.getParameter("getStatus"));
+    	
+    	if (applicant != null) {
+    		model.addAttribute("msg", "Applicant Status Change Successful !");
+    	}else {
+    		model.addAttribute("error", "Applicant Status Change Failed !");
+    	}
+    			
+    	return applicantPro(model);
+    }
   
     @ModelAttribute("jobPostList")
     public List<JobPost> getJobPostList() {
@@ -106,7 +182,7 @@ public class ApplicantController {
     			.address(applicantBean.getAddress())
     			.link(applicantBean.getLink())
     			.applyTime(Timestamp.valueOf(LocalDateTime.now()))
-    			.applicantStatus("None")
+    			.applicantStatus("Intro Interview")
     			.currentState("PENDING")
     			.jobPosition(jobPosition)
     			.jobPost(jobPost)

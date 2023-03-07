@@ -1,7 +1,5 @@
 package com.project.demo.model;
 
-import java.time.LocalDateTime;
-
 import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
@@ -39,7 +37,7 @@ public class ApplicantBean {
 	
 	private String applicantStatus;
 	
-	private LocalDateTime applyTime;
+	private String applyTime;
 	
 	//@NotEmpty(message = "Job Post must not be empty.")
 	private String jobPostBean;

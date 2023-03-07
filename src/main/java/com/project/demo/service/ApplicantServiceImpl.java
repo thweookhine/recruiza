@@ -10,7 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.project.demo.entity.Applicant;
-import com.project.demo.entity.RecruitementResource;
+import com.project.demo.model.ApplicantBean;
 import com.project.demo.repository.ApplicantRepository;
 import com.project.demo.utils.codeGenerator;
 
@@ -71,7 +71,7 @@ public class ApplicantServiceImpl implements ApplicantService{
 		Pageable pageable = PageRequest.of(pageNumber - 1, 3, sort);
 		
 		if (keyword != null) {
-			return repo.findAll(keyword, pageable);
+			return repo.findSearchAll(keyword, pageable);
 		}
 		return repo.findAll(pageable);
 	}
@@ -82,4 +82,34 @@ public class ApplicantServiceImpl implements ApplicantService{
 		return repo.findById(id).get();
 	}
 
+	@Override
+	public Page<Applicant> listApplicantProcess(int pageNumber, String sortField, String sortDir, String keyword) {
+		
+		Sort sort = Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		
+		Pageable pageable = PageRequest.of(pageNumber - 1, 3, sort);
+		
+		if (!keyword.equals("allApplicants")) {
+			return repo.findApplicantProcess(keyword, pageable);
+		}
+			return repo.findAll(pageable);
 	}
+
+	@Override
+	public Applicant changeApplicantStatus(ApplicantBean bean, String checkStatus, String getStatus) {
+		
+		Applicant applicant = repo.findById(bean.getApplicantId()).get();
+		
+		if (checkStatus.equals("Pass")) {
+			applicant.setApplicantStatus(getStatus);
+			if (getStatus.equals("Hired")) {
+				applicant.setCurrentState(checkStatus);
+			}
+		}else {
+			applicant.setCurrentState(checkStatus);
+		}
+		return repo.save(applicant);
+	}
+
+}
