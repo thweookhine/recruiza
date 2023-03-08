@@ -38,18 +38,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateUser(UserBean bean) {
+	public User updateUser(User input) {
 
-		User user = userRepository.findById(bean.getUserId()).get();
+		User user = userRepository.findById(input.getUserId()).get();
 
-		user.setUserName(bean.getUserName());
-		user.setUserEmail(bean.getUserEmail());
-		user.setUserMobile(bean.getUserMobile());
-		user.setPassword(bean.getPassword());
-		user.setRole(bean.getRole());
+		user.setUserName(input.getUserName());
+		user.setUserEmail(input.getUserEmail());
+		user.setUserMobile(input.getUserMobile());
 
 		return userRepository.save(user);
 	}
+	
+	@Override
+	public User changePassword(User input) {
+		User user = userRepository.findById(input.getUserId()).get();
+		user.setPassword(input.getPassword());
+		return userRepository.save(user);
+	}
+
 
 	@Override
 	public Page<User> listAllUsers(int pageNumber, String sortField, String sortDir, String keyword) {
@@ -101,4 +107,5 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findById(id).get();
 	}
 
+	
 }

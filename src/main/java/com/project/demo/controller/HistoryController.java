@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.project.demo.entity.Department;
 import com.project.demo.entity.History;
 import com.project.demo.entity.User;
-import com.project.demo.model.DepartmentBean;
 import com.project.demo.model.UserBean;
 import com.project.demo.service.HistoryService;
 import com.project.demo.service.UserService;
@@ -45,7 +43,7 @@ public class HistoryController {
 
 		UserBean userBean = (UserBean) session.getAttribute("user");
 		User user = userService.getById(userBean.getUserId());
-		Page<History> page = historyService.listAllHistory(currentPage, sortField, sortDir, keyword,user.getUserName());
+		Page<History> page = historyService.listAllHistory(currentPage, sortField, sortDir, keyword,user.getUserId());
 
 		long totalHistories = page.getTotalElements();
 		int totalPages = page.getTotalPages();

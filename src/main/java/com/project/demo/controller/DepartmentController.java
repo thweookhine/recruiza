@@ -37,10 +37,10 @@ public class DepartmentController {
 
 	@Autowired
 	private DepartmentService deptService;
-	
+
 	@Autowired
 	private HistoryService historyService;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -83,34 +83,34 @@ public class DepartmentController {
 
 	@PostMapping("/saveDepartment")
 	public ModelAndView saveDepartment(@ModelAttribute("department") @Validated DepartmentBean departmentBean,
-			BindingResult bindingResult,HttpSession session, ModelMap model, RedirectAttributes ra) {
+			BindingResult bindingResult, HttpSession session, ModelMap model, RedirectAttributes ra) {
 
 		if (bindingResult.hasErrors()) {
 			return toDepartment(model, ra, departmentBean);
 		}
 
 		Department dept = deptService.searchOneWithName(departmentBean.getDepartmentName());
-		
+
 		if (dept == null) {
 
 			// Created
 
 			Department dept2 = Department.builder().departmentName(departmentBean.getDepartmentName()).build();
 			Department result = deptService.createDept(dept2);
-			
+
 			if (result != null) {
-				generateHistoryForDept(result, session, "Add");
+				generateHistoryForDept(result, session, "added");
 				ra.addFlashAttribute("message", "Successfully Added.");
-				
+
 			}
 		} else {
-			generateHistoryForDept(dept, session, "Tried to insert existing data");
+			generateHistoryForDept(dept, session, "tried to insert existing data");
 			ra.addFlashAttribute("message", "Department already exists!");
 		}
 
 		return new ModelAndView("redirect:/department");
 	}
-	
+
 	@GetMapping("/updateDepartment")
 	public ModelAndView toUpdatePage(@RequestParam("id") long id, ModelMap model) {
 
@@ -123,7 +123,7 @@ public class DepartmentController {
 	@PostMapping("/updateDepartment")
 	public ModelAndView updateDepartment(@ModelAttribute("department") @Validated DepartmentBean deptBean,
 			BindingResult bindingResult, @RequestParam("oldName") String oldName, ModelMap model,
-			RedirectAttributes ra,HttpSession session) {
+			RedirectAttributes ra, HttpSession session) {
 
 		if (bindingResult.hasErrors()) {
 			return new ModelAndView("departmentAction");
@@ -134,20 +134,20 @@ public class DepartmentController {
 
 			Department dept = Department.builder().departmentId(deptBean.getDepartmentId())
 					.departmentName(deptBean.getDepartmentName()).build();
-			
+
 			if (oldName.equals(deptBean.getDepartmentName())) {
 				ra.addFlashAttribute("message", "No Data Changed!");
-				
-			}else {
+
+			} else {
 				Department result = deptService.updateDept(dept);
-				if(result != null) {
-					generateHistoryForDept(result, session, "Update");
+				if (result != null) {
+					generateHistoryForDept(result, session, "updated");
 					ra.addFlashAttribute("message", "Successfully Updated.");
 				}
 			}
 
 		} else {
-			generateHistoryForDept(searchedDept, session, "Tried to update existing data");
+			generateHistoryForDept(searchedDept, session, "tried to update existing data");
 			model.addAttribute("message", "Department already exists!");
 			return new ModelAndView("departmentAction");
 		}
@@ -156,10 +156,11 @@ public class DepartmentController {
 	}
 
 	@GetMapping("/deleteDepartment")
-	public ModelAndView deleteDepartment(@RequestParam("id") long id, ModelMap model, RedirectAttributes ra,HttpSession session) {
+	public ModelAndView deleteDepartment(@RequestParam("id") long id, ModelMap model, RedirectAttributes ra,
+			HttpSession session) {
 
 		Department dept = deptService.searhWithId(id);
-		
+
 		UserBean userBean = (UserBean) session.getAttribute("user");
 		User user = userService.getById(userBean.getUserId());
 
@@ -171,7 +172,7 @@ public class DepartmentController {
 				teams.add(t);
 			}
 
-			generateHistoryForDept(dept, session, "Tried to delete department having teams.");
+			generateHistoryForDept(dept, session, "tried to delete department having teams.");
 			model.addAttribute("message", "Can't Delete!");
 			model.addAttribute("teams", teams);
 
@@ -181,17 +182,17 @@ public class DepartmentController {
 		}
 
 		deptService.deleteDept(id);
-		generateHistoryForDept(dept, session, "Delete");
+		generateHistoryForDept(dept, session, "deleted");
 		ra.addFlashAttribute("message", "Successfully Deleted!.");
 		return new ModelAndView("redirect:/department");
 	}
 
-	public void generateHistoryForDept(Department dept,HttpSession session,String action) {
+	public void generateHistoryForDept(Department dept, HttpSession session, String action) {
 		UserBean userBean = (UserBean) session.getAttribute("user");
 		User user = userService.getById(userBean.getUserId());
-		
-		String data = dept.getDepartmentId()+","+dept.getDepartmentCode()+","+dept.getDepartmentName();
-		
+
+		String data = dept.getDepartmentId() + "," + dept.getDepartmentCode() + "," + dept.getDepartmentName();
+
 		History history = History.builder()
 				.user(user)
 				.action(action)

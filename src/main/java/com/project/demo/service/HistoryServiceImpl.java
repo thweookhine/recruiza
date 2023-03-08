@@ -1,5 +1,7 @@
 package com.project.demo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,17 +24,22 @@ public class HistoryServiceImpl implements HistoryService{
 	}
 
 	@Override
-	public Page<History> listAllHistory(int pageNumber, String sortField, String sortDir, String keyword,String username) {
+	public Page<History> listAllHistory(int pageNumber, String sortField, String sortDir, String keyword,long userId) {
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		
 		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
 		
-		if (username != null) {
-			return repo.findAllWithUname(username, pageable);
+		if (userId != 0) {
+			return repo.findAllWithUname(userId, pageable);
 		}
 		
 		return repo.findAll(pageable);
+	}
+
+	@Override
+	public List<History> listLast20History(long userId) {
+		return repo.findLast20(userId);
 	}
 
 }

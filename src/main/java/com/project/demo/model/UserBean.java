@@ -22,10 +22,8 @@ public class UserBean {
 	@NotEmpty(message = "User Name must not be empty")
 	private String userName;
 	
-	@NotEmpty(message = "User Password must not be empty")
 	private String password;
 	
-	@NotEmpty(message = "User Confirm Password must not be empty")
 	private String confPassword;
 	
 	@NotEmpty(message = "User Email must not be empty")
@@ -35,7 +33,7 @@ public class UserBean {
 	private String userMobile;
 	
 	private String lastAction;
-	@NotEmpty(message = "User Role must not be empty")
+	
 	private String role;
 	
 	private String userStatus;

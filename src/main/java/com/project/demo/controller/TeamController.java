@@ -41,13 +41,13 @@ public class TeamController {
 
 	@Autowired
 	private DepartmentService deptService;
-	
+
 	@Autowired
 	private HistoryService historyService;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@GetMapping("/team")
 	public ModelAndView toTeam(ModelMap model, RedirectAttributes ra, TeamBean teamBean) {
 
@@ -87,7 +87,7 @@ public class TeamController {
 
 	@PostMapping("/saveTeam")
 	public ModelAndView saveTeam(@ModelAttribute("team") @Validated TeamBean teamBean, BindingResult bindingResult,
-			RedirectAttributes ra, ModelMap model,HttpSession session) {
+			RedirectAttributes ra, ModelMap model, HttpSession session) {
 
 		if (bindingResult.hasErrors()) {
 			return toTeam(model, ra, teamBean);
@@ -101,19 +101,19 @@ public class TeamController {
 		Department dept = deptService.searchOneWithName(teamBean.getDepartmentName());
 
 		Team result = teamService.searchWithNameAndDept(teamBean.getTeamName(), dept.getDepartmentId());
-		
+
 		if (result != null) {
-			
-			//Create History for Inserting existing data
-			generateHistoryForTeam(result, session, "Tried to insert existing data");
+
+			// Create History for Inserting existing data
+			generateHistoryForTeam(result, session, "tried to insert existing data");
 			ra.addFlashAttribute("message", "Same Team and department already exists");
 		} else {
 			// create
 			Team team = Team.builder().teamName(teamBean.getTeamName()).department(dept).build();
 			Team value = teamService.createTeam(team);
 			if (value != null) {
-				//Add
-				generateHistoryForTeam(value, session, "Add");
+				// Add
+				generateHistoryForTeam(value, session, "added");
 				ra.addFlashAttribute("message", "Successfully Added");
 			}
 		}
@@ -131,7 +131,7 @@ public class TeamController {
 	@PostMapping("/updateTeam")
 	public ModelAndView updateTeam(@ModelAttribute("team") @Validated TeamBean teamBean,
 			@RequestParam("oldName") String oldName, @RequestParam("oldDeptName") String oldDeptName,
-			BindingResult bindingResult, ModelMap model, RedirectAttributes ra,HttpSession session) {
+			BindingResult bindingResult, ModelMap model, RedirectAttributes ra, HttpSession session) {
 
 		if (bindingResult.hasErrors()) {
 			return new ModelAndView("teamControl");
@@ -139,7 +139,7 @@ public class TeamController {
 
 		Department dept = deptService.searchOneWithName(teamBean.getDepartmentName());
 		Team searchedTeam = teamService.searchWithNameAndDept(teamBean.getTeamName(), dept.getDepartmentId());
-		
+
 		if (searchedTeam == null) {
 
 			// Update Team
@@ -147,7 +147,7 @@ public class TeamController {
 					.build();
 			Team result = teamService.updateTeam(team);
 			if (result != null) {
-				generateHistoryForTeam(result, session, "Update");
+				generateHistoryForTeam(result, session, "updated");
 				ra.addFlashAttribute("message", "Successfully Updated.");
 			}
 
@@ -155,7 +155,7 @@ public class TeamController {
 			if (teamBean.getTeamName().equals(oldName) && teamBean.getDepartmentName().equals(oldDeptName)) {
 				ra.addFlashAttribute("message", "No Data Change");
 			} else {
-				generateHistoryForTeam(searchedTeam, session, "Tried to update to existing data.");
+				generateHistoryForTeam(searchedTeam, session, "tried to update to existing data.");
 				model.addAttribute("message", "Team already exists!");
 				return new ModelAndView("teamAction");
 			}
@@ -166,22 +166,23 @@ public class TeamController {
 	}
 
 	@GetMapping("/deleteTeam")
-	public ModelAndView deleteTeam(@RequestParam("id") long id, ModelMap model, RedirectAttributes ra,HttpSession session) {
-		
+	public ModelAndView deleteTeam(@RequestParam("id") long id, ModelMap model, RedirectAttributes ra,
+			HttpSession session) {
+
 		UserBean userBean = (UserBean) session.getAttribute("user");
 		User user = userService.getById(userBean.getUserId());
-		
+
 		try {
 			Team t = teamService.getById(id);
-			generateHistoryForTeam(t, session, "Delete");
+			generateHistoryForTeam(t, session, "deleted");
 			teamService.deleteTeam(id);
-			
+
 		} catch (Exception expection) {
 			model.addAttribute("message", "You can't delete");
 			Team team = teamService.getById(id);
 			TeamBean teamBean = TeamBean.builder().teamId(id).teamCode(team.getTeamCode()).teamName(team.getTeamName())
 					.departmentName(team.getDepartment().getDepartmentName()).build();
-			generateHistoryForTeam(team, session, "Can't Delete");
+			generateHistoryForTeam(team, session, "Could not Delete");
 			return new ModelAndView("teamAction", "team", teamBean);
 		}
 		ra.addFlashAttribute("message", "Delete successfully!");
@@ -197,13 +198,14 @@ public class TeamController {
 		}
 		return deptNames;
 	}
-	
-	public void generateHistoryForTeam(Team team,HttpSession session,String action) {
+
+	public void generateHistoryForTeam(Team team, HttpSession session, String action) {
 		UserBean userBean = (UserBean) session.getAttribute("user");
 		User user = userService.getById(userBean.getUserId());
-		
-		String data = team.getTeamId()+","+team.getTeamCode()+","+team.getTeamName()+","+team.getDepartment().getDepartmentName();
-		
+
+		String data = team.getTeamId() + "," + team.getTeamCode() + "," + team.getTeamName() + ","
+				+ team.getDepartment().getDepartmentName();
+
 		History history = History.builder()
 				.user(user)
 				.action(action)
@@ -213,7 +215,7 @@ public class TeamController {
 				.historyCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
 				.build();
 		historyService.createHistory(history);
-		
+
 	}
 
 }

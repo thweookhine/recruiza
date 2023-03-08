@@ -226,30 +226,30 @@ public class UserController {
     }
 }
     
-    @PostMapping(value = "/admin/updateUser")
-    public ModelAndView updateUser(@ModelAttribute("bean") @Valid UserBean bean,BindingResult bs,ModelMap model,RedirectAttributes ra,HttpSession session) {
-    	
-    	if(checkSessionUser(session) == null) {
-    		ra.addFlashAttribute("error","Please login first !");
-        	return new ModelAndView("redirect:/login");
-    	}else if (bs.hasErrors()) {
-    		model.addAttribute("error", "Field cannot be blank !");
-			return new ModelAndView("editUser");
-		}else if(!bean.getPassword().equals(bean.getConfPassword())) {
-			model.addAttribute("error", "check your confirm password again !");
-			return new ModelAndView("editUser");
-		}else {
-			
-			User cUser = userServiceImpl.updateUser(bean);
-			
-			if(cUser == null) {
-				model.addAttribute("error", "Update User Fail !");
-				return new ModelAndView("editUser");
-			}
-		}
-    	ra.addFlashAttribute("msg", "Update User Successful !");
-    	return new ModelAndView("redirect:/admin/addUser");
-    }
+//    @PostMapping(value = "/admin/updateUser")
+//    public ModelAndView updateUser(@ModelAttribute("bean") @Valid UserBean bean,BindingResult bs,ModelMap model,RedirectAttributes ra,HttpSession session) {
+//    	
+//    	if(checkSessionUser(session) == null) {
+//    		ra.addFlashAttribute("error","Please login first !");
+//        	return new ModelAndView("redirect:/login");
+//    	}else if (bs.hasErrors()) {
+//    		model.addAttribute("error", "Field cannot be blank !");
+//			return new ModelAndView("editUser");
+//		}else if(!bean.getPassword().equals(bean.getConfPassword())) {
+//			model.addAttribute("error", "check your confirm password again !");
+//			return new ModelAndView("editUser");
+//		}else {
+//			
+//			User cUser = userServiceImpl.updateUser(bean);
+//			
+//			if(cUser == null) {
+//				model.addAttribute("error", "Update User Fail !");
+//				return new ModelAndView("editUser");
+//			}
+//		}
+//    	ra.addFlashAttribute("msg", "Update User Successful !");
+//    	return new ModelAndView("redirect:/admin/addUser");
+//    }
     
     @GetMapping("/admin/deleteUser")
     public ModelAndView deleteUser(@RequestParam("id") Long userId,RedirectAttributes ra) {

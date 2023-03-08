@@ -2,67 +2,129 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Profile</title>
-    <div th:insert="../components/nav :: tags"></div>
+	<meta charset="UTF-8">
+	<title>Profile</title>
+	<div th:insert="../components/nav :: tags"></div>
 </head>
 
 <body>
-    <div th:insert="../components/nav :: navBar"></div>
-    <div th:insert="../components/nav :: sideNav"></div>
+	<div th:insert="../components/nav :: navBar"></div>
+	<div th:insert="../components/nav :: sideNav"></div>
 
-    <section class="userAccount">
-        <h2>User Info</h2>
-        <div class="profileContainer">
-            <div class="profileBox">
-                <p data-name="UserId" th:text="${userBean.userCode}"></p>
-                <p data-name="Username" th:text="${userBean.userName}"></p>
-                <p data-name="Email" th:text="${userBean.userEmail}"></p>
-                <p data-name="Phone Number" th:text="${userBean.userMobile}"></p>
-                <p data-name="Role" th:text="${userBean.role}"></p>
-                <img th:src="${'data:image/png;base64,' + qrcode}" alt="">
-                <button>
-                    <ion-icon name="create-outline"></ion-icon>
-                </button>
-            </div>
-        </div>
+	<section class="userAccount">
+		<h2>User Info</h2>
+		<div class="profileContainer">
+			<div class="profileBox">
+				<p data-name="UserId" th:text="${userBean.userCode}"></p>
+				<p data-name="Username" th:text="${userBean.userName}"></p>
+				<p data-name="Email" th:text="${userBean.userEmail}"></p>
+				<p data-name="Phone Number" th:text="${userBean.userMobile}"></p>
+				<p data-name="Role" th:text="${userBean.role}"></p>
+				<img th:src="${'data:image/png;base64,' + qrcode}" alt="">
+				<button>
+					<a th:href="@{/admin/editUser(id=${userBean.userId})}"> <ion-icon name="create-outline"></ion-icon>
+					</a>
+				</button>
+			</div>
+		</div>
 
-        <div class="historyContainer">
-            <h2>History</h2>
-            <div class="historyRow">
-                <p class="historyDetails">
-                    <span>User</span>
-                    <span>Added</span>
-                    <span>Data</span>
-                    in
-                    <span>Data Table</span>
-                </p>
-                <h5>2023-02-22 14:01:57</h5>
-            </div>
+		<div>
+			<form th:action="@{/admin/updateUser}" th:object="${userBean}" method="post">
 
-            <div class="historyRow">
-                <p class="historyDetails">
-                    <span>User</span>
-                    <span>tried to add</span>
-                    <span>Data</span>
-                    in
-                    <span>Department Table</span>
-                </p>
-                <h5>2023-02-22 14:01:57</h5>
-            </div>
-            
-            <div class="historyRow">
-                <p class="historyDetails">
-                    <span>User</span>
-                    <span>tried to add</span>
-                    <span>Data</span>
-                    in
-                    <span>Department Table</span>
-                </p>
-                <h5>2023-02-22 14:01:57</h5>
-            </div>
-        </div>
-    </section>
+				<div>
+					<input type="hidden" th:field="*{userId}" placeholder="Enter user ID" />
+				</div>
+
+				<div>
+					<input type="text" th:field="*{userCode}" readonly="true" />
+				</div>
+
+				<div>
+					<input type="text" th:field="*{userName}" placeholder="Enter user name" />
+				</div>
+
+				<div>
+					<input type="email" th:field="*{userEmail}" placeholder="Enter user email" />
+				</div>
+
+				<div>
+					<input type="text" th:field="*{userMobile}" placeholder="Enter user phone" />
+				</div>
+
+				<div>
+					<input type="submit" value="Update User" /> <a th:if="${userBean.userStatus == 'ACTIVE'}"
+						th:href="@{/admin/deleteUser(id=${userBean.userId})}"> <span>DELETE</span>
+					</a> <a th:if="${userBean.userStatus == 'DELETED'}"
+						th:href="@{/admin/activeUser(id=${userBean.userId})}"> <span>ACTIVE</span>
+					</a>
+				</div>
+
+			</form>
+		</div>
+		
+		<div>
+		<h3>Change Password</h3>
+			<form  th:action="@{/admin/changePassword}" method="post">
+			
+				<div>
+					<input type="hidden" name="userId" th:value="${userBean.userId}" placeholder="Enter user ID" />
+				</div>
+				
+				<div>
+					<input type="password" name="oldPassword" value="" placeholder="Enter Old Password" required/>
+				</div>
+				
+				<div>
+					<input type="password" name="newPassword" value="" placeholder="Enter New Password" required/>
+				</div>
+
+			<div>
+				<input type="password" name="confirmPassword" value="" placeholder="Enter Confirm New password" required/>
+			</div>
+			
+			<input type="submit" value="Change" />
+				
+			</form>
+		</div>
+
+		<div class="historyContainer">
+			<h2>History</h2>
+
+			<div class="historyRow" th:each="history : ${histories}">
+				<p class="historyDetails">
+					<span>You</span> <span th:text="${history.action}"></span> <span
+						th:text="${history.dataName}"></span>
+					in <span th:text="${history.tableName}">
+					</span>
+				</p>
+				<h5 th:text="${history.historyCreatedTime}"></h5>
+			</div>
+			<!-- 
+			<div class="historyRow">
+				<p class="historyDetails">
+					<span>User</span> <span>Added</span> <span>Data</span> in <span>Data
+						Table</span>
+				</p>
+				<h5>2023-02-22 14:01:57</h5>
+			</div>
+
+			<div class="historyRow">
+				<p class="historyDetails">
+					<span>User</span> <span>tried to add</span> <span>Data</span> in <span>Department
+						Table</span>
+				</p>
+				<h5>2023-02-22 14:01:57</h5>
+			</div>
+
+			<div class="historyRow">
+				<p class="historyDetails">
+					<span>User</span> <span>tried to add</span> <span>Data</span> in <span>Department
+						Table</span>
+				</p>
+				<h5>2023-02-22 14:01:57</h5>
+			</div> -->
+		</div>
+	</section>
 </body>
 
 </html>

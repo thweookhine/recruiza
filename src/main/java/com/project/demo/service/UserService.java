@@ -15,7 +15,9 @@ public interface UserService {
 
 	User selectUserOne(Long id);
 
-	User updateUser(UserBean bean);
+	User updateUser(User user);
+	
+	User changePassword(User user);
 
 	User deleteUser(Long id);
 
@@ -26,4 +28,5 @@ public interface UserService {
 	User findUserEmail(String email);
 
 	User getById(long id);
+	
 }
