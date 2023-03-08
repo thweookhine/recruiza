@@ -66,7 +66,7 @@ public class UserController {
 		return "Hello Basic User";
 	}
 	
-	@GetMapping(value = "/home/homePage")
+	@GetMapping(value = "/home")
 	public ModelAndView homePage(HttpSession session) {
 		
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();

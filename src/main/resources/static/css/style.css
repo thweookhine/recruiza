@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Freehand&display=swap');
 
 * {
     margin: 0;
@@ -35,7 +36,7 @@ ion-icon {
     pointer-events: none;
 }
 
-.back_button{
+.back_button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -242,20 +243,22 @@ ion-icon {
         transform: translateX(1000px);
     }
 }
+
 /* hamburger */
-.hamburgerBox{
+.hamburgerBox {
     position: fixed;
     top: 5px;
     right: 5px;
     display: flex;
     gap: 5px;
 }
-.hamburgerBox a{
+
+.hamburgerBox a {
     text-decoration: none;
 }
 
 /* Nav Bar */
-.navbarDiv{
+.navbarDiv {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -266,7 +269,8 @@ ion-icon {
     width: 70px;
     z-index: 999;
 }
-.hamburger{
+
+.hamburger {
     position: absolute;
     display: none;
     top: 0;
@@ -279,9 +283,11 @@ ion-icon {
     transition: .4s cubic-bezier(0.375, 0.885, 0.32, 1.275);
     color: white;
 }
-.hamburgermove{
+
+.hamburgermove {
     right: -75%;
 }
+
 nav {
     position: fixed;
     top: 0;
@@ -298,22 +304,28 @@ nav {
     align-items: center;
     flex-direction: column;
 
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 nav::-webkit-scrollbar {
     display: none;
 }
-.navhide{
+
+.navhide {
     transform: translateX(-105%);
 }
-.logo{
+
+.logo {
     position: absolute;
     top: 10px;
     font-size: 2em;
     color: var(--secondaryColor);
 }
+
 nav:hover {
     width: 200px;
 }
@@ -555,7 +567,8 @@ nav ul li.active a .icon ion-icon {
     transition: .5s cubic-bezier(0.375, 0.885, 0.32, 1.275);
     z-index: 1000;
 }
-.sideResources::before{
+
+.sideResources::before {
     content: '';
     position: absolute;
     width: 30px;
@@ -566,10 +579,12 @@ nav ul li.active a .icon ion-icon {
     border-radius: 20px 0 0 20px;
     transition: .5s cubic-bezier(0.375, 0.885, 0.32, 1.275);
 }
-.sideResources:hover{
+
+.sideResources:hover {
     transform: translateX(0);
 }
-.sideResources:hover::before{
+
+.sideResources:hover::before {
     transform: translateX(100%);
 }
 
@@ -628,7 +643,7 @@ nav ul li.active a .icon ion-icon {
 }
 
 /* Add form */
-.addForm{
+.addForm {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -639,7 +654,8 @@ nav ul li.active a .icon ion-icon {
     align-items: center;
     transition: .5s ease-in-out;
 }
-.updateform{
+
+.updateform {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -651,10 +667,13 @@ nav ul li.active a .icon ion-icon {
     flex-direction: column;
     animation: loadIn 0.5s linear;
 }
-.addForm.show{
+
+.addForm.show {
     transform: translateX(0) scaleX(1);
 }
-.addForm>form,.updateform>form{
+
+.addForm>form,
+.updateform>form {
     position: relative;
     z-index: 1000;
     background: var(--background);
@@ -666,9 +685,11 @@ nav ul li.active a .icon ion-icon {
     padding-bottom: 100px;
     box-shadow: 0 0 20px var(--shadowColor);
 }
-.addForm>form::before,.updateform>form::before{
+
+.addForm>form::before,
+.updateform>form::before {
     content: attr(data-formName);
-    position:absolute;
+    position: absolute;
     top: -20px;
     font-size: 1.5em;
     background: var(--secondaryColor);
@@ -678,13 +699,20 @@ nav ul li.active a .icon ion-icon {
     box-shadow: 0 0 10px var(--shadowColor);
     color: #fff;
 }
-.addForm>form>div,.updateform>form>div{
+
+.addForm>form>div,
+.updateform>form>div {
     position: relative;
     display: flex;
     flex-direction: column;
     padding-top: 20px;
 }
-.addForm>form>div>input,.addForm>form>div>select,.updateform>form>div>input,.updateform>form>div>select,.updateform>form>div>button{
+
+.addForm>form>div>input,
+.addForm>form>div>select,
+.updateform>form>div>input,
+.updateform>form>div>select,
+.updateform>form>div>button {
     width: 300px;
     height: 35px;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -692,15 +720,20 @@ nav ul li.active a .icon ion-icon {
     border-radius: 10px;
     background: var(--background);
 }
-.updateform>form>.actionBox{
+
+.updateform>form>.actionBox {
     padding-top: 0;
 }
-.updateform>form>div>input[type=submit],.updateform>form>div>button{
+
+.updateform>form>div>input[type=submit],
+.updateform>form>div>button {
     background: var(--secondaryColor);
     color: white;
     cursor: pointer;
 }
-.addForm>form>div>label,.updateform>form>div>label{
+
+.addForm>form>div>label,
+.updateform>form>div>label {
     position: absolute;
     width: 50%;
     padding: 3px 5px;
@@ -708,16 +741,18 @@ nav ul li.active a .icon ion-icon {
     left: 10px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-bottom: 0;
-    border-radius: 10px 10px 0 0 ;
+    border-radius: 10px 10px 0 0;
 }
-.addForm>form>div:last-child{
+
+.addForm>form>div:last-child {
     position: relative;
     overflow: hidden;
     display: grid;
     place-items: center;
     padding: 0;
 }
-.addForm>form>div:last-child>ion-icon{
+
+.addForm>form>div:last-child>ion-icon {
     position: absolute;
     font-size: 10em;
     color: #ffffff50;
@@ -725,18 +760,22 @@ nav ul li.active a .icon ion-icon {
     transform: scale(0);
     transition: 0.5s ease-in-out;
 }
-.addForm>form>div:last-child:hover ion-icon{
+
+.addForm>form>div:last-child:hover ion-icon {
     transform: scale(1);
 }
-.addForm>form>div:last-child>input{
+
+.addForm>form>div:last-child>input {
     background: var(--secondaryColor);
     color: #ffffff;
 }
-.deleteBox{
+
+.deleteBox {
     transform: translateY(-85px);
     z-index: 1001;
 }
-.deleteBox>button{
+
+.deleteBox>button {
     width: 300px;
     height: 35px;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -745,7 +784,8 @@ nav ul li.active a .icon ion-icon {
     color: #ffffff;
     cursor: pointer;
 }
-.backgroundExit{
+
+.backgroundExit {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -754,7 +794,7 @@ nav ul li.active a .icon ion-icon {
 }
 
 /* .table  */
-.tableBox{
+.tableBox {
     position: absolute;
     width: 85%;
     height: 100%;
@@ -765,7 +805,8 @@ nav ul li.active a .icon ion-icon {
 
     flex-direction: column;
 }
-.searchBox{
+
+.searchBox {
     background: var(--secondaryColor);
     position: absolute;
     top: 20px;
@@ -776,15 +817,18 @@ nav ul li.active a .icon ion-icon {
     border-radius: 10px;
     justify-content: space-between;
 }
-.searchBox>h2{
+
+.searchBox>h2 {
     color: #fff;
 }
-.searchBox form{
+
+.searchBox form {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.searchBox>form>*{
+
+.searchBox>form>* {
     border: 0;
     text-decoration: none;
     border-radius: 8px;
@@ -797,56 +841,66 @@ nav ul li.active a .icon ion-icon {
     outline: 0;
     box-shadow: 0 0 10px var(--shadowColor);
 }
-.searchBox>form>input[type=submit]{
+
+.searchBox>form>input[type=submit] {
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
 }
+
 /* data table box */
-.data-table-box{
+.data-table-box {
     margin-top: 60px;
     width: 100%;
     height: 80%;
     overflow: hidden;
     animation: loadtable 1s linear;
 }
+
 @keyframes loadtable {
-    0%{
+    0% {
         opacity: 0;
     }
-    100%{
+
+    100% {
         opacity: 1;
     }
 }
-.data-table-row{
+
+.data-table-row {
     display: flex;
     background-color: var(--background);
     border-bottom: 1px solid #00000020;
 }
-.data-table-row:hover{
+
+.data-table-row:hover {
     background: rgba(0, 0, 0, 0.1);
 }
 
-.data-table-row:nth-child(1){
+.data-table-row:nth-child(1) {
     background: var(--secondaryColor);
-    border-radius: 10px 10px 0 0 ;
+    border-radius: 10px 10px 0 0;
     color: #ffffff;
 }
-.data-table-col{
+
+.data-table-col {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 40%;
     padding: 7px 20px;
 }
-.data-table-col:first-child{
+
+.data-table-col:first-child {
     width: 10%;
 }
-.data-table-col:last-child{
+
+.data-table-col:last-child {
     width: 13%;
 }
-.action-button{
+
+.action-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -860,7 +914,9 @@ nav ul li.active a .icon ion-icon {
     box-shadow: 0 0 5px var(--shadowColor);
     transition: 1s ease-in-out;
 }
-.action-button::before,.action-button::after{
+
+.action-button::before,
+.action-button::after {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -873,27 +929,33 @@ nav ul li.active a .icon ion-icon {
     transition: .5s ease-in-out;
     color: #fff;
 }
-.action-button::before{
+
+.action-button::before {
     content: 'Update';
     background: cornflowerblue;
     right: 50%;
     border-radius: 5px 0 0 5px;
 }
-.action-button::after{
+
+.action-button::after {
     content: 'Delete';
     background: tomato;
     left: 50%;
     border-radius: 0 5px 5px 0;
 }
-.action-button:hover{
+
+.action-button:hover {
     background: transparent;
     color: transparent;
 }
-.action-button:hover::before,.action-button:hover::after{
+
+.action-button:hover::before,
+.action-button:hover::after {
     opacity: 1;
     transform: rotateX(0);
 }
-.sort-button{
+
+.sort-button {
     text-decoration: none;
     display: flex;
     justify-content: center;
@@ -904,41 +966,46 @@ nav ul li.active a .icon ion-icon {
 }
 
 /* Pagination */
-.pagination{
+.pagination {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-.pagenum{
+
+.pagenum {
     background: var(--secondaryColor);
     font-weight: bolder;
     padding: 2px 8px;
     border-radius: 10px;
     color: #fff;
 }
-.pagenum div{
+
+.pagenum div {
     display: flex;
     flex-direction: row;
     gap: 5px;
 }
 
-.page-reference{
+.page-reference {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
 }
-.page-reference a ion-icon,.page-reference span ion-icon{
+
+.page-reference a ion-icon,
+.page-reference span ion-icon {
     transform: translateY(3px);
     font-size: 1.5em;
 }
-.deleteConfirmationModal{
+
+.deleteConfirmationModal {
     z-index: 100;
     background: #17171720;
 }
 
-.userAccount{
+.userAccount {
     width: 100%;
     min-height: 100vh;
     display: flex;
@@ -949,7 +1016,7 @@ nav ul li.active a .icon ion-icon {
 }
 
 /* Profile Container */
-.profileContainer{
+.profileContainer {
     position: relative;
     padding: 10px 0;
     width: 85%;
@@ -957,7 +1024,8 @@ nav ul li.active a .icon ion-icon {
     justify-content: center;
     align-items: center;
 }
-.profileBox{
+
+.profileBox {
     position: relative;
     background: var(--background);
     padding: 20px 20px 20px 20px;
@@ -968,7 +1036,8 @@ nav ul li.active a .icon ion-icon {
     gap: 20px;
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
-.profileBox>button{
+
+.profileBox>button {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -983,14 +1052,16 @@ nav ul li.active a .icon ion-icon {
     background: var(--secondaryColor);
     color: #ffffff;
 }
-.profileBox>p{
+
+.profileBox>p {
     width: 65%;
     border-radius: 20px;
     padding: 5px 20px;
     position: relative;
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
-.profileBox>p::before{
+
+.profileBox>p::before {
     position: absolute;
     content: attr(data-name);
     top: -60%;
@@ -999,13 +1070,15 @@ nav ul li.active a .icon ion-icon {
     background: var(--background);
     font-size: 0.75em;
 }
-.profileBox>img{
+
+.profileBox>img {
     position: absolute;
     width: 100px;
     bottom: 10px;
     right: 10px;
 }
-.historyContainer{
+
+.historyContainer {
     width: 85%;
     min-height: 300px;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1017,14 +1090,16 @@ nav ul li.active a .icon ion-icon {
     gap: 30px;
     padding: 30px 10px;
 }
-.historyRow{
+
+.historyRow {
     position: relative;
     width: 95%;
     padding: 10px 10px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
-.historyRow>h5{
+
+.historyRow>h5 {
     position: absolute;
     top: -20px;
     right: 10px;
@@ -1034,26 +1109,188 @@ nav ul li.active a .icon ion-icon {
     padding: 5px 10px;
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
-.historyContainer>h2{
+
+.historyContainer>h2 {
     width: 95%;
     text-align: left;
 }
-.userAccount>h2{
+
+.userAccount>h2 {
     width: 80%;
     margin-bottom: 10px;
 }
 
+/* Job Post */
+.jobPost,
+.jobPostHeader,
+.dateContainer,
+.jobPostComment,
+.jobPostFooter {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.jobPostSection {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.applicantSection {
+    width: 100%;
+    height: 100vh;
+    /* background: var(--secondaryColor); */
+}
+
+.jobPostSearch{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 87%;
+    background: var(--secondaryColor);
+    padding: 5px 20px;
+    border-radius: 10px;
+}
+.jobPostSearch>h2{
+    color: #fff;
+}
+.jobPostSearch>div{
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+    flex-wrap: wrap;
+    flex-grow: 1;
+}
+.jobPostSearch>div>*{
+    padding: 5px 20px;
+    border: 0;
+    border-radius: 10px;
+}
+.jobPostSearch>div>input[type=submit]:hover{
+    color: var(--secondaryColord);
+    cursor: pointer;
+}
+.jobPostContainer {
+    width: 89%;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: 325px;
+    overflow: hidden;
+    overflow-x: scroll;
+}
+
+.jobPostContainer::-webkit-scrollbar {
+    /* display: none; */
+}
+
+.jobPost {
+    position: relative;
+    width: 275px;
+    height: 300px;
+    overflow: hidden;
+}
+.jobPost::before{
+    position: absolute;
+    content: '';
+    width: 100%;
+    aspect-ratio: 1/1;
+    background: var(--secondaryColor);
+    border-radius: 50%;
+    left: 40%;
+    top: 50%;
+    opacity: 20%;
+    z-index: -5;
+    transition: .5s cubic-bezier(0.375, 0.885, 0.32, 1.275);
+}
+.jobPost:hover::before{
+    top: 80%;
+    left: 0;
+    transform: scale(1.2);
+}
+
+.dateContainer {
+    margin-top: 5px;
+    padding: 3px 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.dateContainer>span {
+    background: var(--secondaryColor);
+    padding: 0 10px;
+    border-radius: 10px;
+    color: #ffffff;
+}
+
+.jobPostComment {
+    margin-top: 15px;
+    height: 135px;
+    position: relative;
+
+}
+
+.jobPostComment::before {
+    content: 'Comment';
+    position: absolute;
+    top: -15px;
+    background: var(--background);
+    padding: 3px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.jobPostFooter {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.jobPostFooter>p,
+.jobPostFooter>p>span {
+    font-size: 0.95em;
+    font-family: 'Freehand', cursive;
+}
+
+.jobPostFooter>button {
+    padding: 0 10px;
+    border-radius: 10px;
+    border: 0;
+}
+.jobPostFooter>button:hover{
+    cursor: pointer;
+    color: var(--color-nav-active);
+    background: var(--secondaryColor);
+}
+
 @media only screen and (max-width: 500px) {
-   .hamburger{
+    .hamburger {
         display: block;
     }
-    .profileBox{
+
+    .profileBox {
         width: 100%;
     }
-    .profileBox{
+
+    .profileBox {
         left: 0;
     }
-    .historyRow{
+
+    .historyRow {
         width: 95%;
+    }
+    .jobPostSearch>div>*{
+        width: 150px;
     }
 }
