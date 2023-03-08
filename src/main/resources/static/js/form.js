@@ -55,3 +55,13 @@ function toggleNav(){
     document.querySelector('nav').classList.toggle('navhide')
     document.querySelector('.hamburger').classList.toggle('hamburgermove')
 }
+
+// password and confirm password validate
+function checkPasswordMatch() {
+			var pass = document.querySelector("#passcode");
+			if (pass.value != $("#password").val()) {
+				pass.setCustomValidity("Passwords did not match");
+			} else {
+				pass.setCustomValidity("");
+			}
+		}

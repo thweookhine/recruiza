@@ -75,6 +75,9 @@ public class User {
 	@Column(name = "enabled")
 	private boolean enabled;
 	
+	@Column(name = "token")
+	private String token;
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

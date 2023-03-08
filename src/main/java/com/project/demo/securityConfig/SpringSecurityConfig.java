@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -58,7 +57,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/admin/**").hasAuthority("ADMIN")
 				.antMatchers("/market/**").hasAnyAuthority("MARKETER", "ADMIN")
-				.antMatchers("/login", "/resources/**").permitAll()
+				.antMatchers("/login", "/resources/**", "/forgotPassword", "/reset_password").permitAll()
 				.antMatchers("/**").hasAnyAuthority("ADMIN", "USER", "MARKETER")
 				.antMatchers("/home/**")
 				.authenticated();

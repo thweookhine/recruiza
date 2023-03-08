@@ -1,10 +1,12 @@
 package com.project.demo.service;
 
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 
 import com.project.demo.entity.User;
 import com.project.demo.model.UserBean;
 
+@Service
 public interface UserService {
 
 	User userSelectOne(String email);
@@ -29,4 +31,9 @@ public interface UserService {
 
 	User getById(long id);
 	
+	User updateToken(String token, String email);
+	
+	User getUser(String token);
+	
+	User updatePassword(User user, String newPassword);
 }
