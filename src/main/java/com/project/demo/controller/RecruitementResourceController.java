@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -80,8 +81,17 @@ public class RecruitementResourceController {
 				.contactPerson(resource.getContactPerson()).resourceCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
 				.recruitementType(resource.getRecruitementType()).build();
 
-		service.createRecruitementResource(resource1);
-		ra.addFlashAttribute("message", "Save Successfully!");
+		RecruitementResource result=service.createRecruitementResource(resource1);
+		if(result != null) {
+			
+			generateHistoryforResource(result,session,"added");
+			ra.addFlashAttribute("message", "Save Successfully!");
+		}
+		else {
+			generateHistoryforResource(result,session,"fail to added");
+			ra.addFlashAttribute("message","Insert Fail");
+		}
+		
 		return new ModelAndView("redirect:/recruitementresource");
 
 	}
@@ -101,7 +111,7 @@ public class RecruitementResourceController {
 
 	@PostMapping(value = "/updateresource")
 	public ModelAndView updateResource(@ModelAttribute("resource") @Validated RecruitementResourceBean resource,
-			RedirectAttributes model, BindingResult bs) {
+			RedirectAttributes model, BindingResult bs,HttpSession session) {
 		if (bs.hasErrors()) {
 			model.addFlashAttribute("message", "Update Fail!");
 			return new ModelAndView("editResourceControl");
@@ -112,26 +122,39 @@ public class RecruitementResourceController {
 				.resourceCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
 				.recruitementType(resource.getRecruitementType()).build();
 
-		service.updateRecruitementResource(bean);
-		model.addFlashAttribute("message", "Updated Successfully!");
+		RecruitementResource result= service.updateRecruitementResource(bean);
+		if(result != null) {
+			generateHistoryforResource(result,session,"updated");
+			model.addFlashAttribute("message", "Updated Successfully!");
+			
+		}
+		else {
+			generateHistoryforResource(result, session, "fail to update");
+			model.addFlashAttribute("message", "Updated Fail!");
+		}
 		return new ModelAndView("redirect:/recruitementresource");
 	}
 
 	@GetMapping(value = "/deleteresource")
-	public ModelAndView deleteResource(ModelMap model, RedirectAttributes ra, @RequestParam("id") Long id, ModelMap m) {
+	public ModelAndView deleteResource(ModelMap model, RedirectAttributes ra, @RequestParam("id") Long id, ModelMap m,HttpSession session) {
 
-		// model.addFlashAttribute("message","delete successfully!");
 
 		try {
+			RecruitementResource result = service.getResourceById(id);
+			generateHistoryforResource(result, session, "deleted");
 			service.deleteRecruitementResource(id);
+			
 		} catch (Exception expection) {
+			
 			model.addAttribute("message", "You can't delete");
 			RecruitementResource resource = service.getResourceById(id);
+			
 			RecruitementResource bean = RecruitementResource.builder().resourceId(resource.getResourceId())
 					.resourceName(resource.getResourceName()).link(resource.getLink()).address(resource.getAddress())
 					.resourceMobile(resource.getResourceMobile()).contactPerson(resource.getContactPerson())
 					.recruitementType(resource.getRecruitementType()).build();
 
+			generateHistoryforResource(resource, session, "Delete Successfully");
 			m.addAttribute("rList", UIOptionData.generateResourceType());
 			return new ModelAndView("editResourceControl", "resource", bean);
 

@@ -84,10 +84,14 @@ public class JobPositionController {
 
 		List<JobPosition> list = repo.findByName(jobposition.getPositionName());
 		if (list.size() == 0) {
+			
+			generateHistoryforPosition(position, session, "added");
 			service.createJobPosition(position);
 			ra.addFlashAttribute("message", "Insert Successfully!");
 
 		} else {
+			
+			generateHistoryforPosition(position, session, "tried to added Existing Position");
 			ra.addFlashAttribute("message", "Position Already Exist!");
 
 		}
@@ -105,7 +109,7 @@ public class JobPositionController {
 
 	@PostMapping(value = "/updatejobposition")
 	public ModelAndView updateJobPosition(@ModelAttribute("jobposition") @Validated JobPositionBean jobposition,
-			BindingResult bs, ModelMap model, RedirectAttributes ra, @RequestParam("oldName") String oldName) {
+			BindingResult bs, ModelMap model, RedirectAttributes ra, @RequestParam("oldName") String oldName,HttpSession session) {
 		if (bs.hasErrors()) {
 			ra.addFlashAttribute("message", "Update Fail!");
 			return new ModelAndView("redirect:/editjobposition");
@@ -120,10 +124,15 @@ public class JobPositionController {
 			// System.out.print(position.getPositionId());
 			service.updateJobPosition(position);
 			if (oldName.equals(position.getPositionName())) {
+			
 				ra.addFlashAttribute("message", "No Data Changed!");
 			} else
+				
+				generateHistoryforPosition(position, session, "updated");
 				ra.addFlashAttribute("message", "Update Successful!");
 		} else {
+			
+			generateHistoryforPosition(position, session, "tried to updated Existing name");
 			model.addAttribute("message", "Can't update!Existing Name!!");
 			return new ModelAndView("editJobPosition");
 		}
@@ -131,10 +140,14 @@ public class JobPositionController {
 	}
 
 	@GetMapping(value = "/deletejobposition")
-	public ModelAndView deleteJobPosition(RedirectAttributes model, @RequestParam("id") Long id) {
+	public ModelAndView deleteJobPosition(RedirectAttributes model, @RequestParam("id") Long id,HttpSession session) {
 
-		model.addFlashAttribute("message", "delete successfully!");
-		service.deleteJobPosition(id);
+		JobPosition jobPosition=service.getPositionById(id);
+			
+			generateHistoryforPosition(jobPosition, session, "deleted");
+			model.addFlashAttribute("message", "delete successfully!");
+			service.deleteJobPosition(id);
+		
 		return new ModelAndView("redirect:/jobposition");
 	}
 

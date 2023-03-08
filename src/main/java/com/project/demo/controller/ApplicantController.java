@@ -130,6 +130,7 @@ public class ApplicantController {
     											   .applicantMobile(applicant.getApplicantMobile())
     											   .address(applicant.getAddress())
     											   .link(applicant.getLink())
+    											   .comment(applicant.getComment())
     											   .currentState(applicant.getCurrentState())
     											   .applicantStatus(applicant.getApplicantStatus())
     											   .jobPositionBean(applicant.getJobPosition().getPositionName())
@@ -142,7 +143,7 @@ public class ApplicantController {
     @PostMapping(value = "/applicantStatusChange")
     public ModelAndView applicantStatusChange(@ModelAttribute("bean") ApplicantBean bean,HttpServletRequest request,ModelMap model) {
     	
-    	Applicant applicant = service.changeApplicantStatus(bean, request.getParameter("checkStatus"), request.getParameter("getStatus"));
+    	Applicant applicant = service.changeApplicantStatus(bean, request.getParameter("checkStatus"), request.getParameter("getStatus"),request.getParameter("comment"));
     	
     	if (applicant != null) {
     		model.addAttribute("msg", "Applicant Status Change Successful !");
@@ -181,6 +182,7 @@ public class ApplicantController {
     			.applicantMobile(applicantBean.getApplicantMobile())
     			.address(applicantBean.getAddress())
     			.link(applicantBean.getLink())
+    			.comment(applicantBean.getComment())
     			.applyTime(Timestamp.valueOf(LocalDateTime.now()))
     			.applicantStatus("Intro Interview")
     			.currentState("PENDING")
@@ -209,6 +211,7 @@ public class ApplicantController {
     			.applicantMobile(applicant.getApplicantMobile())
     			.address(applicant.getAddress())
     			.link(applicant.getLink())
+    			.comment(applicant.getComment())
     			//.applyTime(Timestamp.valueOf(LocalDateTime.now()))
     			//.applicantStatus("PENDING")
     			//.currentState("none")

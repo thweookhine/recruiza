@@ -23,6 +23,6 @@ public interface ApplicantService {
 	
 	Page<Applicant> listApplicantProcess(int pageNumber, String sortField, String sortDir, String keyword);
 	
-	Applicant changeApplicantStatus(ApplicantBean bean, String checkStatus, String getStatus);
+	Applicant changeApplicantStatus(ApplicantBean bean, String checkStatus, String getStatus,String comment);
 	
 }

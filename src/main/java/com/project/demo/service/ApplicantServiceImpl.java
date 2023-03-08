@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.project.demo.entity.Applicant;
 import com.project.demo.model.ApplicantBean;
 import com.project.demo.repository.ApplicantRepository;
+import com.project.demo.utils.Text;
 import com.project.demo.utils.codeGenerator;
 
 @Service
@@ -19,6 +20,9 @@ public class ApplicantServiceImpl implements ApplicantService{
 	
 	@Autowired
 	ApplicantRepository repo;
+	
+	@Autowired
+	EmailSenderService emailSenderService;
 
 	@Override
 	public Applicant createApplicant(Applicant applicant) {
@@ -97,18 +101,27 @@ public class ApplicantServiceImpl implements ApplicantService{
 	}
 
 	@Override
-	public Applicant changeApplicantStatus(ApplicantBean bean, String checkStatus, String getStatus) {
+	public Applicant changeApplicantStatus(ApplicantBean bean, String checkStatus, String getStatus,String comment) {
 		
 		Applicant applicant = repo.findById(bean.getApplicantId()).get();
 		
 		if (checkStatus.equals("Pass")) {
+			String status=applicant.getApplicantStatus();
 			applicant.setApplicantStatus(getStatus);
+			emailSenderService.sendEmail(applicant.getApplicantEmail(),"You Pass "+ status,Text.getEmailSuccess()+applicant.getApplicantStatus()+".");
+			
+			
+			
 			if (getStatus.equals("Hired")) {
 				applicant.setCurrentState(checkStatus);
 			}
 		}else {
+			
+			emailSenderService.sendEmail(applicant.getApplicantEmail(), "You Fail "+ applicant.getApplicantStatus(), Text.getEmailFail());
 			applicant.setCurrentState(checkStatus);
+			
 		}
+		applicant.setComment(comment);
 		return repo.save(applicant);
 	}
 

@@ -67,6 +67,9 @@ public class Applicant {
 
 	@Column(name = "link")
 	private String link;
+	
+	@Column(name="comment")
+	private String comment;
 
 	@Column(
 		name = "current_state",

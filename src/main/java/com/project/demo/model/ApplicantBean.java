@@ -39,6 +39,8 @@ public class ApplicantBean {
 	
 	private String applyTime;
 	
+	private String comment;
+	
 	//@NotEmpty(message = "Job Post must not be empty.")
 	private String jobPostBean;
 	

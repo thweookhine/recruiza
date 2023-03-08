@@ -48,6 +48,7 @@
 				<th>JobPostName</th>
 				<th>Applied Date</th>
 				<th>Applied Position</th>
+				<th>Comment</th>
 				<th>Action</th>
 			<tr th:each="applicant: ${list}">
 				<td th:text="${applicant.applicantId}" />
@@ -62,6 +63,7 @@
 				<td th:text="${applicant.jobPost.postName}" />
 				<td th:text="${applicant.applyTime}" />
 				<td th:text="${applicant.jobPosition.positionName}" />
+				<td th:text="${applicant.comment}"/>
 				<td><a th:href="@{/editapplicant(id=${applicant.applicantId})}">Action</a></td>
 			</tr>
 		</table>
