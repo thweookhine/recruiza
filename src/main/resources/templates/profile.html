@@ -52,11 +52,7 @@
 				</div>
 
 				<div>
-					<input type="submit" value="Update User" /> <a th:if="${userBean.userStatus == 'ACTIVE'}"
-						th:href="@{/admin/deleteUser(id=${userBean.userId})}"> <span>DELETE</span>
-					</a> <a th:if="${userBean.userStatus == 'DELETED'}"
-						th:href="@{/admin/activeUser(id=${userBean.userId})}"> <span>ACTIVE</span>
-					</a>
+					<input type="submit" value="Update User" /> 
 				</div>
 
 			</form>

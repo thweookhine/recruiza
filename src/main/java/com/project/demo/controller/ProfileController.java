@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -36,6 +37,8 @@ public class ProfileController {
 	
 	@Autowired
 	UserService userService;
+	
+	BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 	
 	public UserBean checkSessionUser(HttpSession session) {
 		UserBean bean = null;
@@ -74,8 +77,6 @@ public class ProfileController {
     @PostMapping(value = "/admin/updateUser")
     public ModelAndView updateUser(@ModelAttribute("userBean") @Valid UserBean bean,BindingResult bs,ModelMap model,RedirectAttributes ra,HttpSession session) {
     	
-    	System.out.println("id"+bean.getUserId());
-    	
     	if(checkSessionUser(session) == null) {
     		ra.addFlashAttribute("error","Please login first !");
         	return new ModelAndView("redirect:/login");
@@ -112,14 +113,12 @@ public class ProfileController {
     public ModelAndView changePassword(@RequestParam("userId")String userId ,@RequestParam("oldPassword")String oldPw,@RequestParam("newPassword")String newPw, @RequestParam("confirmPassword") String conPw ,ModelMap model,RedirectAttributes ra,HttpSession session) {
     	
     	User user = userService.getById(Long.parseLong(userId));
+    
+    	boolean isPasswordMatches = bcrypt.matches(oldPw, user.getPassword());
     	
-//    	System.out.println("User pw => "+user.getPassword());
-//    	System.out.println("Old Pw => "+PasswordGenerator.generatePassword(oldPw));
-//    	
-//    	if(!user.getPassword().equals(PasswordGenerator.generatePassword(oldPw))) {
-//    		ra.addAttribute("message","Wrong Old Password!");
-//    	}else 
-    		if(!newPw.equals(conPw)) {
+    	if(!isPasswordMatches) {
+    		ra.addAttribute("message","Wrong Old Password!");
+    	}else if(!newPw.equals(conPw)) {
     		ra.addAttribute("message","New Password and confirm pw are not same.");
     	}else {
     		user.setPassword(PasswordGenerator.generatePassword(newPw));

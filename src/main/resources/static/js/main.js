@@ -53,4 +53,33 @@ if(title == 'Profile'){
 }
 // navlist.forEach((item) => item.addEventListener('click', activeLink));
 
-
+if(title == 'Home'){
+	let parent = document.querySelector('body');
+	let child = document.createElement('div');
+	child.className = 'loader-box';
+	child.innerHTML = `
+		 <h2>Recruiza</h2>
+        <div class="loader">
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+            <span class="ring"></span>
+        </div>
+        <h2>Loading ...</h2>
+	`
+	parent.append(child);
+	setTimeout(()=>{
+		document.querySelector('.loader-box').remove()
+	},4000)
+}
