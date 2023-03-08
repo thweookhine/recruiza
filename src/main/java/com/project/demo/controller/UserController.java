@@ -280,5 +280,4 @@ public class UserController {
         	return new ModelAndView("redirect:/admin/editUser");
         }
     }
-  
 }

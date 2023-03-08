@@ -1,5 +1,3 @@
-
-
 package com.project.demo.utils;
 
 import java.io.UnsupportedEncodingException;

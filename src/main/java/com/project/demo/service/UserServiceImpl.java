@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.project.demo.entity.User;
 import com.project.demo.model.UserBean;
 import com.project.demo.repository.UserRepository;
+import com.project.demo.utils.PasswordGenerator;
 import com.project.demo.utils.codeGenerator;
 
 @Service
@@ -107,5 +108,31 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findById(id).get();
 	}
 
-	
+	@Override
+	public User updateToken(String token, String email) {
+		
+		User user = userRepository.findByUserEmail(email);
+		
+		if (user != null) {
+			user.setToken(token);
+		return	userRepository.save(user);
+		}else {
+		return null;
+		}
+	}
+
+	@Override
+	public User getUser(String token) {
+		return userRepository.findByToken(token);
+	}
+
+	@Override
+	public User updatePassword(User user, String newPassword) {
+		
+		user.setPassword(PasswordGenerator.generatePassword(newPassword));
+		user.setToken(null);
+		
+		return userRepository.save(user);
+	}
+
 }
