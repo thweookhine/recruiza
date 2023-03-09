@@ -2,7 +2,6 @@ package com.project.demo.entity;
 
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -54,11 +53,11 @@ public class Team {
 	@JsonIgnore
 	private Department department;
 
-	@Override
-	public String toString() {
-		return "Team [teamId=" + teamId + ", teamCode=" + teamCode + ", teamName=" + teamName + ", department="
-				+ department + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Team [teamId=" + teamId + ", teamCode=" + teamCode + ", teamName=" + teamName + ", department="
+//				+ department + "]";
+//	}
 
 	@Override
 	public boolean equals(Object obj) {

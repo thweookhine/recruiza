@@ -1,6 +1,5 @@
 package com.project.demo.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 

@@ -2,6 +2,9 @@ package com.project.demo.model;
 
 import javax.validation.constraints.NotEmpty;
 
+import com.project.demo.entity.JobPosition;
+import com.project.demo.entity.JobPost;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

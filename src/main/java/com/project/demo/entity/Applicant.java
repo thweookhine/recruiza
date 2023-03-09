@@ -1,7 +1,6 @@
 package com.project.demo.entity;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;

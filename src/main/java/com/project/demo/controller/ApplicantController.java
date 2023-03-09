@@ -171,10 +171,9 @@ public class ApplicantController {
     	if(bindingResult.hasErrors()) {
     		return new ModelAndView("redirect:/applicant");
     	}
+    	JobPost jobPost=jobPostService.getByid(Long.parseLong(applicantBean.getJobPostBean()));
     	
-    	JobPost jobPost = jobPostService.getByid(Long.parseLong(applicantBean.getJobPostBean()));
-    	
-    	JobPosition jobPosition = jobPositionService.getPositionById(Long.parseLong(applicantBean.getJobPositionBean()));
+    	JobPosition jobPosition=jobPositionService.getPositionById(Long.parseLong(applicantBean.getJobPositionBean()));
     	
     	Applicant applicant = Applicant.builder()
     			.applicantName(applicantBean.getApplicantName())
@@ -184,7 +183,7 @@ public class ApplicantController {
     			.link(applicantBean.getLink())
     			.comment(applicantBean.getComment())
     			.applyTime(Timestamp.valueOf(LocalDateTime.now()))
-    			.applicantStatus("Intro Interview")
+    			.applicantStatus("None")
     			.currentState("PENDING")
     			.jobPosition(jobPosition)
     			.jobPost(jobPost)
@@ -212,13 +211,41 @@ public class ApplicantController {
     			.address(applicant.getAddress())
     			.link(applicant.getLink())
     			.comment(applicant.getComment())
-    			//.applyTime(Timestamp.valueOf(LocalDateTime.now()))
-    			//.applicantStatus("PENDING")
-    			//.currentState("none")
-    			//.jobPosition(applicant.get)
-    			//.jobPost(jobPost)
+    			.jobPostBean(String.valueOf(applicant.getJobPost().getPostId()))
+    			.jobPositionBean(String.valueOf(applicant.getJobPosition().getPositionId()))
     			.build();
+    	
+    	
+    	
     	return new ModelAndView("editApplicantControl","applicant",bean);
+    }
+    
+    @PostMapping(value ="/updateapplicant")
+    public ModelAndView updateApplicant(@ModelAttribute("applicant")@Validated ApplicantBean applicantBean,
+    		BindingResult bs,RedirectAttributes ra,HttpSession session) {
+    	if(bs.hasErrors()) {
+    		ra.addFlashAttribute("message", "Something Wrong");
+    	}
+    	
+JobPost jobPost=jobPostService.getByid(Long.parseLong(applicantBean.getJobPostBean()));
+    	
+JobPosition jobPosition=jobPositionService.getPositionById(Long.parseLong(applicantBean.getJobPositionBean()));
+    	
+Applicant applicant = Applicant.builder()
+    			.applicantId(applicantBean.getApplicantId())
+    			.applicantName(applicantBean.getApplicantName())
+    			.applicantEmail(applicantBean.getApplicantEmail())
+    			.applicantMobile(applicantBean.getApplicantMobile())
+    			.address(applicantBean.getAddress())
+    			.link(applicantBean.getLink())
+    			.comment(applicantBean.getComment())
+    			.jobPost(jobPost)
+    			.jobPosition(jobPosition)
+    			.build();
+    	
+    	service.updateApplicant(applicant);
+    	
+    	return new ModelAndView("redirect:/applicant");
     }
 
     @GetMapping(value="/deleteapplicant")
@@ -227,7 +254,7 @@ public class ApplicantController {
     	
     	Applicant applicant = service.getApplicantById(id);
     	
-    	applicant.setCurrentState("DEACTIVITE");
+    	applicant.setCurrentState("Rejected");
     	
     	service.updateApplicant(applicant);
     	ra.addFlashAttribute("message","Successfully!");
