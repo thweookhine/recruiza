@@ -110,6 +110,27 @@
         <a href="/home/homepage">...</a>/<a href="/home/homepage">...</a>/<a href="/home/homepage">Home</a>/<a
             href="/home/homepage">Control</a>
     </div>
+
+    <div th:fragment="setting" class="settingBox">
+        <div class="themeBox">
+            <label class="checkBoxContainer">Default
+                <input type="radio" value="default" checked="checked" name="radio" class="chooseTheme">
+                <span class="checkmark"></span>
+              </label>
+              <label class="checkBoxContainer">Orangy
+                <input type="radio" value="orangy" name="radio" class="chooseTheme">
+                <span class="checkmark"></span>
+              </label>
+              <label class="checkBoxContainer">Techno
+                <input type="radio" value="techno" name="radio" class="chooseTheme">
+                <span class="checkmark"></span>
+              </label>
+              <label class="checkBoxContainer">Hacker
+                <input type="radio" value="hacker" name="radio" class="chooseTheme">
+                <span class="checkmark"></span>
+              </label>
+        </div>
+    </div>
 </body>
 
 </html>

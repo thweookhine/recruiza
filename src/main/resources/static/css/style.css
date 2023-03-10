@@ -7,15 +7,16 @@
     box-sizing: border-box;
     font-family: 'Tilt Neon', cursive;
     transition: 0.5s ease-in-out;
+    color: var(--fontColor);
 }
 
 :root {
     --mainColor: white;
     --secondaryColor: #378eea;
-    --fontColor: #656565;
+    --fontColor: #2c2c2c;
     --fontSecondary: #8f8f8f;
     --background: #ffffff;
-    --boxColor: #ffffff;
+    --boxColor: #378eea;
     --shadowColor: rgba(0, 0, 0, 0.2);
     --errorColor: tomato;
     /* nav */
@@ -91,7 +92,7 @@ ion-icon {
 .loginform {
     position: absolute;
     inset: 2px;
-    background: var(--boxColor);
+    background: var(--background);
     z-index: 10;
     border-radius: 8px;
     padding: 50px 40px;
@@ -117,7 +118,7 @@ ion-icon {
     padding: 20px 10px 10px;
     background: transparent;
     border: none;
-    color: #23242a;
+    color: var(--fontColor);
     font-size: 1em;
     letter-spacing: 0.05em;
     outline: none;
@@ -474,7 +475,7 @@ nav ul li.active a .icon ion-icon {
 
 .confirmationModal .modalBox {
     position: relative;
-    color: #171717;
+    color: var(--fontColor);
     z-index: 12;
     background-color: var(--color-nav-active);
 
@@ -502,7 +503,7 @@ nav ul li.active a .icon ion-icon {
     padding: 10px 20px;
     height: auto;
     width: 50%;
-    color: #171717;
+    color: var(--fontColor);
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -600,7 +601,7 @@ nav ul li.active a .icon ion-icon {
     flex-direction: column;
     text-decoration: none;
     padding: 10px;
-    color: var(--fontSecondary);
+    color: var(--fontColor);
     transition: .5s cubic-bezier(0.375, 0.885, 0.32, 1.275);
 }
 
@@ -755,7 +756,7 @@ nav ul li.active a .icon ion-icon {
 .addForm>form>div:last-child>ion-icon {
     position: absolute;
     font-size: 10em;
-    color: #ffffff50;
+    color: var(--fontColor);
     right: 0;
     transform: scale(0);
     transition: 0.5s ease-in-out;
@@ -836,7 +837,7 @@ nav ul li.active a .icon ion-icon {
     padding: 5px 10px;
     height: 30px;
     font-size: 1em;
-    color: #23242a;
+    color: var(--fontColor);
     margin-left: 5px;
     outline: 0;
     box-shadow: 0 0 10px var(--shadowColor);
@@ -1216,7 +1217,7 @@ nav ul li.active a .icon ion-icon {
     border-radius: 50%;
     left: 40%;
     top: 50%;
-    opacity: 20%;
+    opacity: 5%;
     z-index: -5;
     transition: .5s cubic-bezier(0.375, 0.885, 0.32, 1.275);
 }
@@ -1278,32 +1279,13 @@ nav ul li.active a .icon ion-icon {
 
 .jobPostFooter>button:hover {
     cursor: pointer;
-    color: var(--color-nav-active);
+    color: var(--fontColor);
     background: var(--secondaryColor);
 }
 
-@media only screen and (max-width: 500px) {
-    .hamburger {
-        display: block;
-    }
-
-    .profileBox {
-        width: 100%;
-    }
-
-    .profileBox {
-        left: 0;
-    }
-
-    .historyRow {
-        width: 95%;
-    }
-}
-
-
 .loader-box {
     position: fixed;
-    top:0;
+    top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1465,6 +1447,167 @@ nav ul li.active a .icon ion-icon {
     bottom: 140px;
     right: 140px;
     animation-delay: 0s;
+}
+
+.applicantSection {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.applicantBox {
+    width: 86%;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 10px 0;
+}
+
+.applicantBox>h3 {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+.applicantBox>h3>span {
+    background: var(--secondaryColor);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.applicantContainer {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 7.5px;
+}
+
+.applicantCard {
+    position: relative;
+    background: var(--background);
+    width: 270px;
+    height: 300px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.applicantCard>* {
+    z-index: 5;
+}
+
+.applicantCard>img {
+    position: absolute;
+    width: 250px;
+    z-index: 2;
+    top: 10px;
+    border-radius: 10px;
+    opacity: 0.5;
+}
+
+.applicantCard:hover .applicantInfo {
+    transform: translateY(0px);
+}
+
+.applicantInfo {
+    position: absolute;
+    background: var(--background);
+    width: 100%;
+    padding: 10px;
+    border-radius: 0 50px 0 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    transform: translateY(130px);
+}
+
+.applicantInfo>* {
+    padding: 3px;
+}
+
+.applicantInfo h3 {
+    margin-bottom: 10px;
+}
+
+.applicantInfo p {
+    padding: 5px 10px;
+}
+
+.applicantInfo p:nth-child(4) ion-icon {
+    font-size: 1.5em;
+}
+
+.applicantInfo p:nth-child(2),
+.applicantInfo p:nth-child(3),
+.applicantInfo p:nth-child(4) {
+    background: #65656520;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.applicantButtonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.applicantButtonContainer>a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    background: var(--secondaryColor);
+    width: 50%;
+    border-radius: 10px;
+    padding: 5px;
+    color: #fff;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 500px) {
+    .hamburger {
+        display: block;
+    }
+
+    .profileBox {
+        width: 100%;
+    }
+
+    .profileBox {
+        left: 0;
+    }
+
+    .historyRow {
+        width: 95%;
+    }
+
+    .loader-box {
+        justify-content: space-between;
+        flex-direction: column;
+        padding: 30px 0 100px 0;
+    }
+
+    .loader {
+        width: 200px;
+        height: 200px;
+    }
 }
 
 .error-container {
@@ -1638,7 +1781,7 @@ nav ul li.active a .icon ion-icon {
 
 .error-page-button a {
     text-decoration: none;
-    color: #607d8b;
+    color: var(--fontColor);
 }
 
 .take-break {
@@ -1651,5 +1794,79 @@ nav ul li.active a .icon ion-icon {
     color: #fff;
 }
 
+/* setting checkBox */
+.checkBoxContainer {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
+/* Hide the browser's default radio button */
+.checkBoxContainer input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
 
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: var(--background);
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.checkBoxContainer:hover input~.checkmark {
+    background-color: var(--background);
+}
+
+/* When the radio button is checked, add a blue background */
+.checkBoxContainer input:checked~.checkmark {
+    background-color: var(--secondaryColor);
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.checkBoxContainer input:checked~.checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.checkBoxContainer .checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+.settingBox{
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 10px 0px;
+    border-radius: 0 0 10px 0;
+}
+.themeBox{
+    display: flex;
+    gap: 10px;
+    transform: scale(0.7);
+}

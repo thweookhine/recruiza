@@ -54,6 +54,6 @@ public class JobPostBean {
 	@NotEmpty(message = "SheetId must not be empty.")
 	private String sheetId;
 	
-	
+	private String postStatus;
 
 }

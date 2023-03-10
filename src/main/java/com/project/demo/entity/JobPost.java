@@ -91,9 +91,12 @@ public class JobPost {
 	@JoinColumn(name = "jobposition_id")
 	private JobPosition jobPosition;
 	
-	
 	@Column(name = "sheet_id")
 	private String sheetId;
+
+	@Column(name= "post_status")
+	private String postStatus;
+
 	@Column(
 		name = "created_time",
 		columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
