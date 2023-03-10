@@ -22,14 +22,14 @@
 				<p data-name="Phone Number" th:text="${userBean.userMobile}"></p>
 				<p data-name="Role" th:text="${userBean.role}"></p>
 				<img th:src="${'data:image/png;base64,' + qrcode}" alt="">
-				<button>
-					<a th:href="@{/admin/editUser(id=${userBean.userId})}"> <ion-icon name="create-outline"></ion-icon>
+				<button onclick="showProfileForm()">
+					<a> <ion-icon name="create-outline"></ion-icon>
 					</a>
 				</button>
 			</div>
 		</div>
 
-		<div>
+		<div class="user-update-new-data-form">
 			<form th:action="@{/admin/updateUser}" th:object="${userBean}" method="post">
 
 				<div>
@@ -53,34 +53,35 @@
 				</div>
 
 				<div>
-					<input type="submit" value="Update User" /> 
+					<input type="submit" value="Update User" />
 				</div>
 
 			</form>
 		</div>
-		
-		<div>
-		<h3>Change Password</h3>
-			<form  th:action="@{/admin/changePassword}" method="post">
-			
+
+		<div class="user-new-pw-change-form">
+			<h3>Change Password</h3>
+			<form th:action="@{/admin/changePassword}" method="post">
+
 				<div>
 					<input type="hidden" name="userId" th:value="${userBean.userId}" placeholder="Enter user ID" />
 				</div>
-				
+
 				<div>
-					<input type="password" name="oldPassword" value="" placeholder="Enter Old Password" required/>
-				</div>
-				
-				<div>
-					<input type="password" name="newPassword" value="" placeholder="Enter New Password" required/>
+					<input type="password" name="oldPassword" value="" placeholder="Enter Old Password" required />
 				</div>
 
-			<div>
-				<input type="password" name="confirmPassword" value="" placeholder="Enter Confirm New password" required/>
-			</div>
-			
-			<input type="submit" value="Change" />
-				
+				<div>
+					<input type="password" name="newPassword" value="" placeholder="Enter New Password" required />
+				</div>
+
+				<div>
+					<input type="password" name="confirmPassword" value="" placeholder="Enter Confirm New password"
+						required />
+				</div>
+
+				<input type="submit" value="Change" />
+
 			</form>
 		</div>
 

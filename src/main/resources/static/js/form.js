@@ -1,7 +1,7 @@
 // post date dur date 
 var today = new Date().toISOString().split('T')[0];
 var idate = document.querySelectorAll('.customdate')
-if (idate[0]){
+if (idate[0]) {
     idate[0].setAttribute('min', today);
 
     idate[0].addEventListener("change", (e) => {
@@ -11,15 +11,14 @@ if (idate[0]){
 }
 
 var dueDateBox = document.querySelector(".dueDateBox")
-if(dueDateBox){
+if (dueDateBox) {
     dueDateBox.style.display = "none"
 }
 
 // log out form generate
 function generateLogoutForm() {
-    var element =  document.getElementById('confirmationModal');
-    if (typeof(element) != 'undefined' && element != null)
-    {
+    var element = document.getElementById('confirmationModal');
+    if (typeof (element) != 'undefined' && element != null) {
         alert("alreay logging out");
     }
     let parent = document.querySelector('body')
@@ -51,17 +50,22 @@ function generateTeamBox() {
 }
 
 // toggle form
-function toggleNav(){
+function toggleNav() {
     document.querySelector('nav').classList.toggle('navhide')
     document.querySelector('.hamburger').classList.toggle('hamburgermove')
 }
 
 // password and confirm password validate
 function checkPasswordMatch() {
-			var pass = document.querySelector("#passcode");
-			if (pass.value != $("#password").val()) {
-				pass.setCustomValidity("Passwords did not match");
-			} else {
-				pass.setCustomValidity("");
-			}
-		}
+    var pass = document.querySelector("#passcode");
+    if (pass.value != $("#password").val()) {
+        pass.setCustomValidity("Passwords did not match");
+    } else {
+        pass.setCustomValidity("");
+    }
+}
+
+//profile form 
+function showProfileForm() {
+    document.querySelector('.user-update-new-data-form').classList.toggle('form-hider')
+}

@@ -145,6 +145,7 @@
 					<td th:text="${jp.user.userName}"></td>
 					<td th:text="${jp.sheetId}"></td>
 					<td th:text="${jp.postCreatedTime}"></td>
+					<td><a th:href="@{/applicant(jobPostId=${jp.postId})}">Add Applicant</a></td>
 				</tr>
 
 			</tbody>
