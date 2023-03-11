@@ -1,5 +1,9 @@
 package com.project.demo.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.URLConnection;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,6 +14,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -45,38 +54,37 @@ public class ApplicantController {
 	JobPositionService jobPositionService;
 	
 	@GetMapping(value="/applicant")
-    public ModelAndView addApplicant(ModelMap model,RedirectAttributes ra, HttpSession session,ApplicantBean beanApplicant) {
+    public ModelAndView addApplicant(@RequestParam("jobPostId")Long id,ModelMap model,RedirectAttributes ra, HttpSession session) {
     	String keyword = null;
-    	return searchAppliicant(model, ra, session, beanApplicant, 1, "applicantId", "asc", keyword);
+    
+    	JobPost jobPost=jobPostService.getByid(id);
+    	
+    	return searchAppliicant(model, ra, session, jobPost );
     }
    
     @GetMapping(value = "/searchApplicants/{pageNumber}")
-    public ModelAndView searchAppliicant(ModelMap model,RedirectAttributes ra,HttpSession session,ApplicantBean beanApplicant,
-    							@PathVariable("pageNumber") int currentPage,
-    							@Param("sortField") String sortField,
-    							@Param("sortDir") String sortDir,
-    							@Param("keyword") String keyword) {
+    public ModelAndView searchAppliicant(ModelMap model,RedirectAttributes ra,HttpSession session,JobPost jobPost) {
     	
                 	
-        	Page<Applicant> page = service.listAllApplicants(currentPage, sortField, sortDir, keyword);
+        	//Page<Applicant> page = service.listAllApplicants(currentPage, sortField, sortDir, keyword);
         	
-        	long totalApplicants = page.getTotalElements();
-        	int totalPages = page.getTotalPages();
+        	//long totalApplicants = page.getTotalElements();
+        	//int totalPages = page.getTotalPages();
         	
-        	List<Applicant> list = page.getContent();
+        	//List<Applicant> list = page.getContent();
         	
-        	model.addAttribute("currentPage", currentPage);
-        	model.addAttribute("totalApplicants", totalApplicants);
-        	model.addAttribute("totalPages", totalPages);
-        	model.addAttribute("list", list);
-        	model.addAttribute("sortField", sortField);
-        	model.addAttribute("sortDir", sortDir);
-        	model.addAttribute("keyword", keyword);
+//        	model.addAttribute("currentPage", currentPage);
+//        	model.addAttribute("totalApplicants", totalApplicants);
+//        	model.addAttribute("totalPages", totalPages);
+//        	model.addAttribute("list", list);
+//        	model.addAttribute("sortField", sortField);
+//        	model.addAttribute("sortDir", sortDir);
+//        	model.addAttribute("keyword", keyword);
         	
-        	String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-        	model.addAttribute("reverseSortDir", reverseSortDir);
+        	//String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+        	//model.addAttribute("reverseSortDir", reverseSortDir);
         
-        	return new ModelAndView("applicantControl","applicant",beanApplicant);
+        	return new ModelAndView("applicantControl","jobPost",jobPost);
         }
     
     @GetMapping(value = "/applicantProcess")
@@ -165,28 +173,24 @@ public class ApplicantController {
     }
     
     @PostMapping(value="/saveapplicant")
-    public ModelAndView saveApplicant(@ModelAttribute("applicant")@Validated ApplicantBean applicantBean,BindingResult bindingResult,HttpSession session
-    		,RedirectAttributes ra,ModelMap model) {
+    public ModelAndView saveApplicant(@RequestParam("file") MultipartFile file ,HttpServletRequest request,HttpSession session
+    		,RedirectAttributes ra,ModelMap model,JobPost jobPostBean) throws IOException {
     	
-    	if(bindingResult.hasErrors()) {
-    		return new ModelAndView("redirect:/applicant");
-    	}
-    	JobPost jobPost=jobPostService.getByid(Long.parseLong(applicantBean.getJobPostBean()));
-    	
-    	JobPosition jobPosition=jobPositionService.getPositionById(Long.parseLong(applicantBean.getJobPositionBean()));
+    	JobPost jobPost=jobPostService.getByid(jobPostBean.getPostId());
     	
     	Applicant applicant = Applicant.builder()
-    			.applicantName(applicantBean.getApplicantName())
-    			.applicantEmail(applicantBean.getApplicantEmail())
-    			.applicantMobile(applicantBean.getApplicantMobile())
-    			.address(applicantBean.getAddress())
-    			.link(applicantBean.getLink())
-    			.comment(applicantBean.getComment())
+    			.applicantName(request.getParameter("name"))
+    			.applicantEmail(request.getParameter("email"))
+    			.applicantMobile(request.getParameter("mobile"))
+    			.address(request.getParameter("address"))
+    			.link(request.getParameter("link"))
+    			.comment(request.getParameter("comment"))
     			.applyTime(Timestamp.valueOf(LocalDateTime.now()))
     			.applicantStatus("None")
     			.currentState("PENDING")
-    			.jobPosition(jobPosition)
+    			.jobPosition(jobPost.getJobPosition())
     			.jobPost(jobPost)
+    			.file(file.getBytes())
     			.build();
     	
     	Applicant result = service.createApplicant(applicant);
@@ -195,7 +199,7 @@ public class ApplicantController {
     		ra.addFlashAttribute("message","Successfully Added.");
     	}
     	
-    	return new ModelAndView("redirect:/applicant");
+    	return new ModelAndView("redirect:/jobPost");
     }
     
     @GetMapping(value="/editapplicant")
@@ -219,34 +223,6 @@ public class ApplicantController {
     	
     	return new ModelAndView("editApplicantControl","applicant",bean);
     }
-    
-    @PostMapping(value ="/updateapplicant")
-    public ModelAndView updateApplicant(@ModelAttribute("applicant")@Validated ApplicantBean applicantBean,
-    		BindingResult bs,RedirectAttributes ra,HttpSession session) {
-    	if(bs.hasErrors()) {
-    		ra.addFlashAttribute("message", "Something Wrong");
-    	}
-    	
-JobPost jobPost=jobPostService.getByid(Long.parseLong(applicantBean.getJobPostBean()));
-    	
-JobPosition jobPosition=jobPositionService.getPositionById(Long.parseLong(applicantBean.getJobPositionBean()));
-    	
-Applicant applicant = Applicant.builder()
-    			.applicantId(applicantBean.getApplicantId())
-    			.applicantName(applicantBean.getApplicantName())
-    			.applicantEmail(applicantBean.getApplicantEmail())
-    			.applicantMobile(applicantBean.getApplicantMobile())
-    			.address(applicantBean.getAddress())
-    			.link(applicantBean.getLink())
-    			.comment(applicantBean.getComment())
-    			.jobPost(jobPost)
-    			.jobPosition(jobPosition)
-    			.build();
-    	
-    	service.updateApplicant(applicant);
-    	
-    	return new ModelAndView("redirect:/applicant");
-    }
 
     @GetMapping(value="/deleteapplicant")
     public ModelAndView deleteApplicant(@RequestParam("id")Long id,RedirectAttributes ra) {
@@ -260,4 +236,18 @@ Applicant applicant = Applicant.builder()
     	ra.addFlashAttribute("message","Successfully!");
     	return new ModelAndView("redirect:/applicant");
     }
+    
+    @GetMapping(value = "/viewFile/{id}")
+    public ResponseEntity<byte[]> getImage(@PathVariable("id") Long id) throws IOException {
+
+    	Applicant applicant=service.getApplicantById(id);
+        byte[] imageContent = applicant.getFile();
+        
+        final HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        
+        return new ResponseEntity<byte[]>(imageContent, headers, HttpStatus.OK);
+    }
 }
+

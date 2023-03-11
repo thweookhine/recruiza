@@ -114,6 +114,7 @@ public class JobPostServiceImpl implements JobPostService {
 
 	@Override
 	public JobPost getByid(long id) {
+		
 		return jobPostRepo.findById(id).get();
 	}
 

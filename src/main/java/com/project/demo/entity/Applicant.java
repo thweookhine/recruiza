@@ -1,6 +1,7 @@
 package com.project.demo.entity;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -103,7 +105,10 @@ public class Applicant {
 		nullable = false
 	)
 	private JobPosition jobPosition;
-
+	
+	@Lob
+	@Column(name="file")
+	private byte[] file;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -119,14 +124,22 @@ public class Applicant {
 				&& Objects.equals(applicantMobile, other.applicantMobile)
 				&& Objects.equals(applicantName, other.applicantName)
 				&& Objects.equals(applicantStatus, other.applicantStatus) && Objects.equals(applyTime, other.applyTime)
-				&& Objects.equals(currentState, other.currentState) && Objects.equals(jobPost, other.jobPost)
-				&& Objects.equals(link, other.link) && Objects.equals(schedule, other.schedule);
+				&& Objects.equals(comment, other.comment) && Objects.equals(currentState, other.currentState)
+				&& Arrays.equals(file, other.file) && Objects.equals(jobPosition, other.jobPosition)
+				&& Objects.equals(jobPost, other.jobPost) && Objects.equals(link, other.link)
+				&& Objects.equals(schedule, other.schedule);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, applicantCode, applicantEmail, applicantId, applicantMobile, applicantName,
-				applicantStatus, applyTime, currentState, jobPost, link, schedule);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(file);
+		result = prime * result + Objects.hash(address, applicantCode, applicantEmail, applicantId, applicantMobile,
+				applicantName, applicantStatus, applyTime, comment, currentState, jobPosition, jobPost, link, schedule);
+		return result;
 	}
+
+
 	
 }

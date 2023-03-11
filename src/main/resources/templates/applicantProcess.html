@@ -51,6 +51,7 @@
 					<th>Applied Position</th>
 					<th>Applied Date</th>
 					<th>Comment</th>
+					<th>CV</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -68,6 +69,7 @@
 					<td th:text="${data.jobPosition.positionName}"></td>
 					<td th:text="${data.applyTime}"></td>
 					<td th:text="${data.comment}"></td>
+					<td><a th:href="@{'/viewFile/'+${data.applicantId}}">View</a>
 					<td th:if="${data.currentState != 'Pass' and data.currentState != 'Fail'}"><a th:href="@{/nextProcess(id=${data.applicantId})}">Next</a></td>
 				</tr>
 			</tbody>

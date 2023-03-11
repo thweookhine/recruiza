@@ -1,5 +1,6 @@
 package com.project.demo.model;
 
+import javax.persistence.Lob;
 import javax.validation.constraints.NotEmpty;
 
 import com.project.demo.entity.JobPosition;
@@ -48,5 +49,8 @@ public class ApplicantBean {
 	private String jobPostBean;
 	
 	private String jobPositionBean;
+	
+	@Lob
+	private byte[] file;
 	
 }
