@@ -1813,7 +1813,7 @@ nav ul li.active a .icon ion-icon {
     position: absolute;
     opacity: 0;
     cursor: pointer;
-=======
+}
 .user-update-new-data-form {
     position: fixed;
     top: 0;
@@ -1821,7 +1821,7 @@ nav ul li.active a .icon ion-icon {
     padding: 10px 50px;
     transform: scale(0);
     transform-origin: top;
->>>>>>> Stashed changes
+
 }
 
 /* Create a custom radio button */
@@ -1835,7 +1835,6 @@ nav ul li.active a .icon ion-icon {
     border-radius: 50%;
 }
 
-<<<<<<< Updated upstream
 /* On mouse-over, add a grey background color */
 .checkBoxContainer:hover input~.checkmark {
     background-color: var(--background);
@@ -1880,9 +1879,8 @@ nav ul li.active a .icon ion-icon {
     display: flex;
     gap: 10px;
     transform: scale(0.7);
-=======
+}
 .form-hider {
     transform: scale(1);
 
->>>>>>> Stashed changes
 }
