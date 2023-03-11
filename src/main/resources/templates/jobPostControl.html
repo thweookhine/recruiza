@@ -102,7 +102,6 @@
 							style="color: red;">Error</label>
 					</div>
 
-
 					<div>
 						<input type="submit" value="Add" />
 					</div>
@@ -126,6 +125,7 @@
 					<th>Job Position</th>
 					<th>User</th>
 					<th>Sheet ID</th>
+					<th>Status</th>
 					<th>Created Time</th>
 				</tr>
 			</thead>
@@ -144,6 +144,7 @@
 					<td th:text="${jp.jobPosition.positionName}"></td>
 					<td th:text="${jp.user.userName}"></td>
 					<td th:text="${jp.sheetId}"></td>
+					<td th:text="${jp.postStatus}"></td>
 					<td th:text="${jp.postCreatedTime}"></td>
 					<td><a th:href="@{/applicant(jobPostId=${jp.postId})}">Add Applicant</a></td>
 				</tr>

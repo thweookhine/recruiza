@@ -30,7 +30,7 @@
 		</div>
 
 		<div class="user-update-new-data-form">
-			<form th:action="@{/admin/updateUser}" th:object="${userBean}" method="post">
+			<form th:action="@{/admin/updateUserInformation}" th:object="${userBean}" method="post">
 
 				<div>
 					<input type="hidden" th:field="*{userId}" placeholder="Enter user ID" />

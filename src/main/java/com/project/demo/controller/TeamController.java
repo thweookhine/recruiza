@@ -103,7 +103,6 @@ public class TeamController {
 		Team result = teamService.searchWithNameAndDept(teamBean.getTeamName(), dept.getDepartmentId());
 
 		if (result != null) {
-
 			// Create History for Inserting existing data
 			generateHistoryForTeam(result, session, "tried to insert existing data");
 			ra.addFlashAttribute("message", "Same Team and department already exists");

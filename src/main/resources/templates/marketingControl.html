@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Marketing</title>
+	<div th:insert="../components/nav :: tags"></div>
+</head>
+
+<body>
+
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Code</th>
+					<th>Name</th>
+					<th>Count</th>
+					<th>Comment</th>
+					<th>FOC</th>
+					<th>Team</th>
+					<th>Recruitment Resource</th>
+					<th>Job Position</th>
+					<th>Status</th>
+					<th>Created Time</th>
+					<th>ACTION</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="jp : ${jobPosts}">
+					<td th:text="${jp.postId}"></td>
+					<td th:text="${jp.postCode}"></td>
+					<td th:text="${jp.postName}"></td>
+					<td th:text="${jp.count}"></td>
+					<td th:text="${jp.comment}"></td>
+					<td th:text="${jp.foc}"></td>
+					<td th:text="${jp.team.teamName}"></td>
+					<td th:text="${jp.resource.resourceName}"></td>
+					<td th:text="${jp.jobPosition.positionName}"></td>
+					<td th:text="${jp.postStatus}"></td>
+					<td th:text="${jp.postCreatedTime}"></td>
+					<td><a th:href="@{/postJP(jobPostId=${jp.postId})}">POST</a></td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>

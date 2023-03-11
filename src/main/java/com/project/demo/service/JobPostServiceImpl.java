@@ -69,7 +69,7 @@ public class JobPostServiceImpl implements JobPostService {
 //				list.add(jp);
 //			}
 //		}
-		
+//		
 //		if (!startDate.isEmpty() && !endDate.isEmpty()) {
 //			List<JobPost> jobPosts = jobPostRepo.findWithStartDateAndEndDate(startDate, endDate);
 //			for (JobPost jp : jobPosts) {
@@ -91,7 +91,7 @@ public class JobPostServiceImpl implements JobPostService {
 //		
 //		return list;
 //	}
-//	
+	
 	public List<JobPost> searchWithCodeAndName(String code,String name){
 		List<JobPost> jobPosts = jobPostRepo.findWithCodeAndName("%" + code + "%", "%" + name + "%");
 		return jobPosts;
@@ -108,13 +108,18 @@ public class JobPostServiceImpl implements JobPostService {
 	}
 
 	@Override
-	public List<JobPost> searchWithEndDate(String endDate) {
-		return jobPostRepo.findWithEndDate(endDate);
+	public List<JobPost> searchBeforeEndDate(String endDate) {
+		return jobPostRepo.findBeforeEndDate(endDate);
 	}
 
 	@Override
 	public JobPost getByid(long id) {
 		return jobPostRepo.findById(id).get();
+	}
+
+	@Override
+	public List<JobPost> searchWithStatus(String status) {
+		return jobPostRepo.findWithStatus(status);
 	}
 
 //	@Override

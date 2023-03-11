@@ -10,6 +10,13 @@ import com.project.demo.entity.JobPost;
 
 public interface JobPostRepository extends JpaRepository<JobPost, Long>{
 	
+
+	@Query(value = "select * from recruit.job_post where post_status = 'POSTED' and  due_date >= :endDate ",nativeQuery = true)
+	List<JobPost> findBeforeEndDate(@Param("endDate") String endDate);
+	
+	@Query(value = "select * from recruit.job_post where post_status = :status",nativeQuery = true)
+	List<JobPost> findWithStatus(@Param("status")String status);
+	
 	@Query(value ="select * from recruit.job_post where (code like :code) or (name like :name)",
 			nativeQuery=true )
 	List<JobPost> findWithCodeAndName(@Param("code")String code,@Param("name")String name);
@@ -17,7 +24,7 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long>{
 	@Query(value = "select * from recruit.job_post where post_date >= :startDate",nativeQuery = true)
 	List<JobPost> findWithStartDate(@Param("startDate") String startDate);
 	
-	@Query(value = "select * from recruit.job_post where post_date <= :endDate",nativeQuery = true)
+	@Query(value = "select * from recruit.job_post where due_date <= :endDate",nativeQuery = true)
 	List<JobPost> findWithEndDate(@Param("endDate") String endDate);
 	
 	@Query(value = "select * from recruit.job_post where post_date >= :startDate and post_date <= :endDate",nativeQuery = true)
