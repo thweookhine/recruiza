@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head>
-<meta charset="UTF-8">
-<title>Home</title>
-<div th:insert="../components/nav :: tags"></div>
+	<meta charset="UTF-8">
+	<title>Home</title>
+	<div th:insert="../components/nav :: tags"></div>
 </head>
+
 <body>
 	<div th:insert="../components/nav :: navBar"></div>
 
@@ -16,27 +18,33 @@
 				<input type="submit" value="Search">
 			</div>
 		</div>
+
 		<div class="jobPostContainer">
-			<!-- Jobpost -->
-			<div class="jobPost">
+
+			<div class="jobPost" th:each="jp : ${jobPosts}">
 				<div class="jobPostHeader">
-					<h4>Senior Developer Needed</h4>
+					<h4 th:text="${jp.postName}"></h4>
 					<div class="dateContainer">
-						<span>2023-02-15</span>
-						<span>2023-02-22</span>
+						<span th:text="${jp.postDate}"></span>
+						<span th:text="${jp.dueDate}"></span>
 					</div>
 				</div>
-				<p class="jobPostComment">
-					We need a person with skill profficient in Java developement
+				<p class="jobPostComment" th:text="${jp.comment}">
 				</p>
 				<div class="jobPostFooter">
-					<p><span>Team 1</span> from <span>Department 1</span></p>
+					<p><span th:text="${jp.team.teamName}"></span> from <span
+							th:text="${jp.team.department.departmentName}"></span>
+					</p>
 					<!-- Input function with sheet parameter eg. onclick='func(..link in here)' -->
 					<button>Get Data</button>
 				</div>
 			</div>
 
 		</div>
+
+
+
+
 	</div>
 	<div class="applicantSection">
 		<div class="applicantBox">
@@ -48,7 +56,8 @@
 						<h3>Thar Htet Zan</h3>
 						<p><ion-icon name="mail-outline"></ion-icon> thahtetzan@gmail.com</p>
 						<p><ion-icon name="phone-portrait-outline"></ion-icon> 09441428181</p>
-						<p><ion-icon name="earth-outline"></ion-icon>No 69, DagonThiri Street, Kyauk Myaung, Tamwe, Yangon</p>
+						<p><ion-icon name="earth-outline"></ion-icon>No 69, DagonThiri Street, Kyauk Myaung, Tamwe,
+							Yangon</p>
 						<div class="applicantButtonContainer">
 							<!-- insert drive link in here -->
 							<a href="#">
@@ -65,4 +74,5 @@
 		</div>
 	</div>
 </body>
+
 </html>

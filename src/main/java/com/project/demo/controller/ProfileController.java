@@ -74,7 +74,7 @@ public class ProfileController {
 		return new ModelAndView("profile","userBean",userBean);
 	}
     
-    @PostMapping(value = "/admin/updateUser")
+    @PostMapping(value = "/admin/updateUserInformation")
     public ModelAndView updateUser(@ModelAttribute("userBean") @Valid UserBean bean,BindingResult bs,ModelMap model,RedirectAttributes ra,HttpSession session) {
     	
     	if(checkSessionUser(session) == null) {

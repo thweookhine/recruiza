@@ -1,6 +1,7 @@
 package com.project.demo.controller;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.demo.entity.JobPost;
 import com.project.demo.entity.User;
 import com.project.demo.model.UserBean;
+import com.project.demo.service.JobPostService;
 import com.project.demo.service.UserServiceImpl;
 import com.project.demo.utils.NameCapital;
 import com.project.demo.utils.PasswordGenerator;
@@ -33,6 +37,9 @@ public class UserController {
 	
 	@Autowired
 	UserServiceImpl userServiceImpl;
+	
+	@Autowired
+	JobPostService jobPostService;
 	
 	public UserBean checkSessionUser(HttpSession session) {
 		UserBean bean = null;
@@ -67,11 +74,13 @@ public class UserController {
 	}
 	
 	@GetMapping(value = "/home")
-	public ModelAndView homePage(HttpSession session) {
+	public ModelAndView homePage(HttpSession session,Model model) {
 		
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		
 		User bean = userServiceImpl.userSelectOne(email);
+		
+		List<JobPost> jobPosts = jobPostService.searchBeforeEndDate(LocalDate.now().toString());
 		
 		UserBean user = UserBean.builder()
 						.userId(bean.getUserId())
@@ -88,6 +97,7 @@ public class UserController {
 						.build();
 		
 		session.setAttribute("user", user);
+		model.addAttribute("jobPosts",jobPosts);
 		
 		return new ModelAndView("home");
 	}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Post Action</title>
+    <div th:insert="../components/nav :: tags"></div>
+</head>
+
+<body>
+
+    <h3>Post</h3>
+    <div>
+        <form th:action="@{/postJP}" method="post" th:object="${jobPost}">
+
+            <input type="text" name="jobPostId" th:value="${jobPost.postId}">
+            <div>
+                <p>Name : <span th:text="${jobPost.postName}"></span></p>
+            </div>
+
+            <div>
+                <p>Count : <span th:text="${jobPost.count}"></span></p>
+            </div>
+
+            <div>
+                <label for="postDate">Post Date</label> <input type="date" name="postDate" placeholder="Enter Post Date"
+                    class="customdate" required />
+            </div>
+
+            <div class="dueDateBox">
+                <label for="dueDate">Due Date</label> <input type="date" name="dueDate" placeholder="Enter Due Date"
+                    class="customdate" required />
+            </div>
+
+            <div>
+                <label for="sheet">Sheet ID</label> <input type="text" name="sheetId" placeholder="Enter Sheet ID" />
+            </div>
+            <div>
+                <input type="submit" value="Post" />
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

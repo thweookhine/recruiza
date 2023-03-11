@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,47 +45,45 @@ public class JobPostController {
 
 	@Autowired
 	JobPostService jobPostService;
-	
+
 	@Autowired
 	RecruitementResourceService resourceService;
-	
+
 	@Autowired
 	TeamService teamService;
-	
+
 	@Autowired
 	JobPositionService positionService;
-	
+
 	@Autowired
 	UserService userService;
 
 	@Autowired
 	DepartmentService departmentService;
-	
+
 	@GetMapping("/jobPost")
-	public ModelAndView toJobPost(ModelMap model, RedirectAttributes ra,JobPostBean jobPostBean) {
+	public ModelAndView toJobPost(ModelMap model, RedirectAttributes ra, JobPostBean jobPostBean) {
 		List<JobPost> jobPosts = jobPostService.getAllJobPosts();
 		model.addAttribute("jobPosts", jobPosts);
 		return new ModelAndView("jobPostControl", "jobPost", jobPostBean);
 	}
-	
+
 	@PostMapping(value = "/saveJobPost")
-	public ModelAndView saveJobPost(@ModelAttribute("jobPost") @Validated JobPostBean jobPostBean, BindingResult bindingResult,HttpSession session,
+	public ModelAndView saveJobPost(@ModelAttribute("jobPost") @Validated JobPostBean jobPostBean,
+			BindingResult bindingResult, HttpSession session,
 			RedirectAttributes ra, ModelMap model) {
-		
-		if(bindingResult.hasErrors()) {
+
+		if (bindingResult.hasErrors()) {
 			return toJobPost(model, ra, jobPostBean);
 		}
-		
+
 		Team team = teamService.getById(jobPostBean.getTeamBean());
 		RecruitementResource resource = resourceService.getResourceById(Long.parseLong(jobPostBean.getResourceBean()));
 		JobPosition jobPosition = positionService.getPositionById(Long.parseLong(jobPostBean.getJobPositionBean()));
-		
+
 		UserBean userBean = (UserBean) session.getAttribute("user");
 		User user = userService.getById(userBean.getUserId());
-		
-		System.out.println("user id => "+user.getUserId());
-		
-		
+
 		JobPost jobPost = JobPost.builder()
 				.postName(jobPostBean.getPostName())
 				.count(jobPostBean.getCount())
@@ -98,26 +97,24 @@ public class JobPostController {
 				.user(user)
 				.postCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
 				.sheetId(jobPostBean.getSheetId())
+				.postStatus("PENDING")
 				.build();
-		
-		
+
 		JobPost result = jobPostService.createJobPost(jobPost);
-		if(result != null) {
+		if (result != null) {
 			ra.addFlashAttribute("message", "Successfully Added");
 		}
-		
+
 		return new ModelAndView("redirect:/jobPost");
 	}
 	
-	
-	
-	
+
 	@ModelAttribute("teamList")
-	List<TeamBean> getAllTeams(){
+	List<TeamBean> getAllTeams() {
 		List<TeamBean> list = new ArrayList<>();
 		List<Team> teams = teamService.getAllTeams();
-		
-		for(Team team : teams) {
+
+		for (Team team : teams) {
 			TeamBean teamBean = TeamBean.builder()
 					.teamId(team.getTeamId())
 					.teamCode(team.getTeamCode())
@@ -126,17 +123,17 @@ public class JobPostController {
 					.build();
 			list.add(teamBean);
 		}
-	
+
 		return list;
 	}
-	
+
 	@ModelAttribute("resourceList")
-	List<RecruitementResourceBean> getResources(){
+	List<RecruitementResourceBean> getResources() {
 		List<RecruitementResourceBean> list = new ArrayList<>();
 		List<RecruitementResource> resources = resourceService.getAllRecruitementResource();
-		
-		for(RecruitementResource r : resources) {
-			
+
+		for (RecruitementResource r : resources) {
+
 			RecruitementResourceBean rBean = RecruitementResourceBean.builder()
 					.resourceId(r.getResourceId())
 					.resourceCode(r.getResourceCode())
@@ -147,17 +144,17 @@ public class JobPostController {
 					.contactPerson(r.getContactPerson())
 					.recruitementType(r.getRecruitementType())
 					.build();
-			
+
 			list.add(rBean);
 		}
 		return list;
 	}
-	
+
 	@ModelAttribute("positionList")
-	List<JobPositionBean> getPositions(){
+	List<JobPositionBean> getPositions() {
 		List<JobPositionBean> list = new ArrayList<>();
 		List<JobPosition> positions = positionService.getAllJobPosition();
-		for(JobPosition p : positions) {
+		for (JobPosition p : positions) {
 			JobPositionBean jpBean = JobPositionBean.builder()
 					.positionId(p.getPositionId())
 					.positionCode(p.getPositionCode())
@@ -170,7 +167,7 @@ public class JobPostController {
 
 	@ModelAttribute("departmentList")
 	List<Department> getDepartments() {
-	return departmentService.readAllDepts();
+		return departmentService.readAllDepts();
 	}
 
 	@GetMapping("teamList/{departmentId}")
@@ -178,5 +175,5 @@ public class JobPostController {
 	public List<Team> getTeams(@PathVariable("departmentId") long departmentId) {
 		return departmentService.getTeamList(departmentId);
 	}
-	
+
 }

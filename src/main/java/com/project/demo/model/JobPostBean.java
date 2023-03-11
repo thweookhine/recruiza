@@ -50,8 +50,8 @@ public class JobPostBean {
 	
 //	@NotEmpty(message = "Job Position must not be empty.")
 	private String jobPositionBean;
-	
-	@NotEmpty(message = "SheetId must not be empty.")
+//	
+//	@NotEmpty(message = "SheetId must not be empty.")
 	private String sheetId;
 	
 	private String postStatus;
