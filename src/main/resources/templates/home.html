@@ -36,7 +36,7 @@
 							th:text="${jp.team.department.departmentName}"></span>
 					</p>
 					<!-- Input function with sheet parameter eg. onclick='func(..link in here)' -->
-					<button onclick="retrieveSheetData('1sU17VytFAeuNkBasPeGSqpAA-ltodKIM5i8PUna94MQ','JP001')">Get Data</button>
+					<button th:onclick="retrieveSheetData([[${jp.sheetId}]],[[${jp.postId}]]);">Get Data</button>
 				</div>
 			</div>
 

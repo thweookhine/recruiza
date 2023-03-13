@@ -67,10 +67,11 @@ function generateAppModel(i, id) {
 	let newcard = document.createElement('div')
 	newcard.className = "addApplicantBox";
 	newcard.innerHTML = `
-	<form class="addApplicant">
+	<form class="addApplicant"">
 		<h2>Add Applicant</h2>
 		<div>
 			<div>
+				<input type="hidden" name="id" th:field="*{${id}}">
 				<input data-name="Name" type="text" value="${sheetTemp[i].c[2].v}" placeholder="${sheetTemp[i].c[2].v}" required="required">
 				<input data-name="Email" type="email" value="${sheetTemp[i].c[1].v}" placeholder="${sheetTemp[i].c[1].v}" required="required">
 				<input data-name="Mobile" type="number" value="${sheetTemp[i].c[4].v}" placeholder="${sheetTemp[i].c[4].v}" required="required">
