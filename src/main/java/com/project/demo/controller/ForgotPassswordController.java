@@ -31,11 +31,6 @@ public class ForgotPassswordController {
 	
 	@Autowired
 	private JavaMailSender mailSender;
-	
-    @GetMapping(value = "/forgotPassword")
-    public ModelAndView getCheckMail() {
-    	return new ModelAndView("checkUserMail");
-    }
     
     @PostMapping(value = "/forgotPassword")
     public ModelAndView checkUserMail(HttpServletRequest request,RedirectAttributes ra) {
@@ -49,31 +44,29 @@ public class ForgotPassswordController {
     		// generate reset password link
     		String resetPasswordLink = SiteUrl.getSiteURL(request) + "/reset_password?token=" + token;
     		// send mail
-    		try {
-				sendEmail(email, resetPasswordLink);
-				ra.addFlashAttribute("message", "We have sent a reset password link to your email :" + email);
-			} catch (UnsupportedEncodingException | MessagingException e) {
-				ra.addFlashAttribute("error", "Error while sending email.");
-			}
+				try {
+					sendEmail(email, resetPasswordLink);
+					ra.addFlashAttribute("msg", "We have sent a reset password link to your email :" + email);
+				} catch (Exception e) {
+					ra.addFlashAttribute("mailError", "Error while sending email.");
+				}
     	}else {
-    		ra.addFlashAttribute("error", "Could not find any user with email :" + email);
+    		ra.addFlashAttribute("mailError", "Could not find any user with email :" + email);
     	}
     	
-    	return new ModelAndView("redirect:/forgotPassword");
+    	return new ModelAndView("redirect:/login");
     }
     
     @GetMapping(value = "/reset_password")
-    public ModelAndView resetPasswordForm(@Param(value = "token") String token, ModelMap model,RedirectAttributes ra) {
+    public ModelAndView resetPasswordForm(@Param(value = "token") String token,RedirectAttributes ra) {
     	User user = userService.getUser(token);
     	if (user == null) {
     		ra.addFlashAttribute("msg", "Reset your password");
     		ra.addFlashAttribute("error", "Invalid Token");
-    		return new ModelAndView("redirect:/login");
     	}else {
-    		model.addAttribute("token", token);
-    		return new ModelAndView("resetPasswordForm");
+    		ra.addFlashAttribute("token", token);
     	}
-    	
+    	return new ModelAndView("redirect:/login");
     }
     
     @PostMapping(value = "/reset_password")
@@ -92,7 +85,7 @@ public class ForgotPassswordController {
     	return new ModelAndView("redirect:/login");
     }
 
-	private void sendEmail(String email, String resetPasswordLink) throws UnsupportedEncodingException, MessagingException {
+	private void sendEmail(String email, String resetPasswordLink) throws Exception {
 		
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
