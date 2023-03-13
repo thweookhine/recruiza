@@ -36,7 +36,7 @@
 							th:text="${jp.team.department.departmentName}"></span>
 					</p>
 					<!-- Input function with sheet parameter eg. onclick='func(..link in here)' -->
-					<button>Get Data</button>
+					<button onclick="retrieveSheetData('1sU17VytFAeuNkBasPeGSqpAA-ltodKIM5i8PUna94MQ','JP001')">Get Data</button>
 				</div>
 			</div>
 
@@ -50,29 +50,34 @@
 		<div class="applicantBox">
 			<h3>Data for <span>Senior Developer</span></h3>
 			<div class="applicantContainer">
-				<div class="applicantCard">
-					<img th:src="@{images/profile.png}" alt="">
-					<div class="applicantInfo">
-						<h3>Thar Htet Zan</h3>
-						<p><ion-icon name="mail-outline"></ion-icon> thahtetzan@gmail.com</p>
-						<p><ion-icon name="phone-portrait-outline"></ion-icon> 09441428181</p>
-						<p><ion-icon name="earth-outline"></ion-icon>No 69, DagonThiri Street, Kyauk Myaung, Tamwe,
-							Yangon</p>
-						<div class="applicantButtonContainer">
-							<!-- insert drive link in here -->
-							<a href="#">
-								<ion-icon name="eye-outline"></ion-icon>
-							</a>
-							<!-- to add the applicant to the table -->
-							<a href="#">
-								<ion-icon name="person-add-outline"></ion-icon>
-							</a>
-						</div>
-					</div>
+				<div class="applicantsLoading">
+					<ion-icon name="cloud-download-outline"></ion-icon>
 				</div>
+				<!-- Applicant card generated here -->
 			</div>
 		</div>
 	</div>
+
+	<!-- <div class="addApplicantBox">
+		<form class="addApplicant">
+			<h2>Add Applicant</h2>
+			<div>
+				<div>
+					<input data-name="Name" type="text" value="" placeholder="Name" required="required">
+					<input data-name="Email" type="email" value="" placeholder="Email" required="required">
+					<input data-name="Mobile" type="number" value="" placeholder="Mobile" required="required">
+					<input data-name="Address" type="text" value="" placeholder="Address" required="required">
+				</div>
+				<div>
+					<textarea data-name="link" cols="30" rows="2" placeholder="link" readonly="readonly"></textarea>
+					<input type="file" name="" id="" required="required">
+					<textarea data-name="comment" cols="30" rows="4" placeholder="Comment"></textarea>
+				</div>
+			</div>
+			<input type="submit" value="Add to database">
+		</form>
+		<div class="backgroundExit" onclick=""></div>
+	</div> -->
 </body>
 
 </html>

@@ -6,7 +6,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Tilt Neon', cursive;
-    transition: 0.5s ease-in-out;
+    transition: .5s cubic-bezier(0.375, 0.885, 0.32, 1.275);
     color: var(--fontColor);
 }
 
@@ -186,7 +186,7 @@ ion-icon {
     border-radius: 4px;
     font-weight: 600;
     cursor: pointer;
-    color: var(--boxColor);
+    color: var(--background);
 }
 
 @keyframes animate {
@@ -461,8 +461,10 @@ nav ul li.active a .icon ion-icon {
     transform: rotate(90deg);
 }
 
-.confirmationModal .backgroundExit {
+.backgroundExit {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     display: flex;
@@ -591,7 +593,7 @@ nav ul li.active a .icon ion-icon {
 
 .resource {
     position: relative;
-    background: var(--boxColor);
+    background: var(--background);
     width: 45px;
     height: 45px;
     border-radius: 50%;
@@ -656,7 +658,7 @@ nav ul li.active a .icon ion-icon {
     transition: .5s ease-in-out;
 }
 
-.updateform {
+.updateform,.updateUserform{
     position: fixed;
     width: 100%;
     height: 100%;
@@ -674,13 +676,15 @@ nav ul li.active a .icon ion-icon {
 }
 
 .addForm>form,
-.updateform>form {
+.updateform>form,.updateUserform>form {
     position: relative;
     z-index: 1000;
     background: var(--background);
     padding: 50px;
     border-radius: 20px;
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
     flex-direction: column;
     padding-bottom: 100px;
@@ -688,7 +692,8 @@ nav ul li.active a .icon ion-icon {
 }
 
 .addForm>form::before,
-.updateform>form::before {
+.updateform>form::before,
+.updateUserform>form:before{
     content: attr(data-formName);
     position: absolute;
     top: -20px;
@@ -702,7 +707,8 @@ nav ul li.active a .icon ion-icon {
 }
 
 .addForm>form>div,
-.updateform>form>div {
+.updateform>form>div,
+.updateUserform>form>div {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -713,7 +719,10 @@ nav ul li.active a .icon ion-icon {
 .addForm>form>div>select,
 .updateform>form>div>input,
 .updateform>form>div>select,
-.updateform>form>div>button {
+.updateform>form>div>button,
+.updateUserform>form>div>input,
+.updateUserform>form>div>select,
+.updateUserform>form>div>button{
     width: 300px;
     height: 35px;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -722,19 +731,37 @@ nav ul li.active a .icon ion-icon {
     background: var(--background);
 }
 
-.updateform>form>.actionBox {
+.updateform>form>.actionBox,.updateUserform>form>.actionBox {
     padding-top: 0;
 }
 
 .updateform>form>div>input[type=submit],
-.updateform>form>div>button {
+.updateform>form>div>button,.updateUserform>form>div>input[type=submit],
+.updateUserform>form>div>button{
     background: var(--secondaryColor);
     color: white;
     cursor: pointer;
+    font-size: 1em;
+}
+
+
+.updateUserform>form>a {
+    text-decoration: none;
+    width: 100%;
+    border-radius: 10px;
+    text-align: center;
+    height: 35px;
+    background: var(--secondaryColor);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .addForm>form>div>label,
-.updateform>form>div>label {
+.updateform>form>div>label,
+.updateUserform>form>div>label {
     position: absolute;
     width: 50%;
     padding: 3px 5px;
@@ -786,13 +813,18 @@ nav ul li.active a .icon ion-icon {
     cursor: pointer;
 }
 
-.backgroundExit {
-    position: absolute;
+.background{
+    z-index: 10;
     width: 100%;
     height: 100%;
-    background: #23242a40;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.2);
+    opacity: 1;
     backdrop-filter: blur(5px);
 }
+
 
 /* .table  */
 .tableBox {
@@ -1024,18 +1056,44 @@ nav ul li.active a .icon ion-icon {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 20px;
+    overflow: hidden;
 }
 
-.profileBox {
+.profileBox{
     position: relative;
     background: var(--background);
     padding: 20px 20px 20px 20px;
     border-radius: 20px;
     width: 100%;
+    min-height: 282px;
     display: flex;
     flex-direction: column;
     gap: 20px;
     border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.profileBox>form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profileBox>p,.profileBox>form>input {
+    width: 65%;
+    border-radius: 20px;
+    padding: 5px 20px;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.profileBox>p::before,.profileBox>form>input::before {
+    position: absolute;
+    content: attr(data-name);
+    top: -60%;
+    left: 5px;
+    padding: 3px 10px;
+    background: var(--background);
+    font-size: 0.75em;
 }
 
 .profileBox>button {
@@ -1053,23 +1111,28 @@ nav ul li.active a .icon ion-icon {
     background: var(--secondaryColor);
     color: #ffffff;
 }
-
-.profileBox>p {
-    width: 65%;
-    border-radius: 20px;
-    padding: 5px 20px;
-    position: relative;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.profileBox>p::before {
-    position: absolute;
-    content: attr(data-name);
-    top: -60%;
-    left: 5px;
-    padding: 3px 10px;
+.profileBox>button:nth-child(3){
+    top: 60%;
+    height: 80px;
+    width: 80px;
     background: var(--background);
-    font-size: 0.75em;
+    border-radius: 10px;
+    border: 1px solid var(--secondaryColor);
+    font-size: 1em;
+    cursor: pointer;
+}
+.profileBox>button:nth-child(3):hover{
+    background: var(--secondaryColor);
+    border: 1px solid var(--background);
+}
+.profileBox>button:nth-child(3):hover p{
+    color: var(--background);
+}
+.profileBox>button:nth-child(3)>p{
+    /* writing-mode: vertical-lr;
+    text-orientation: upright;
+    text-align: start; */
+    font-size: 1em;
 }
 
 .profileBox>img {
@@ -1078,7 +1141,30 @@ nav ul li.active a .icon ion-icon {
     bottom: 10px;
     right: 10px;
 }
-
+.profileBox:nth-child(2){
+    position: absolute;
+}
+.profileBox:nth-child(3){
+    position: absolute;
+    width: 35%;
+    right: 0;
+}
+.profileBox:nth-child(3)>form>*{
+    width: 100%;
+}
+.profileBox:nth-child(3)>button{
+    width: 100%;
+    height: 30px;
+    position: relative;
+    border-radius: 30px;
+    transform: translateX(10px);
+}
+.movetop{
+    transform: translateY(110%);
+}
+.moveright{
+    transform: translateX(100%);
+}
 .historyContainer {
     width: 85%;
     min-height: 300px;
@@ -1173,6 +1259,7 @@ nav ul li.active a .icon ion-icon {
 }
 
 .jobPostSearch>div>* {
+    background: var(--background);
     padding: 5px 20px;
     border: 0;
     border-radius: 10px;
@@ -1198,7 +1285,7 @@ nav ul li.active a .icon ion-icon {
 }
 
 .jobPostContainer::-webkit-scrollbar {
-    /* display: none; */
+    /* display: none; */background: rgba(0, 0, 0, 0.2);
 }
 
 .jobPost {
@@ -1291,7 +1378,7 @@ nav ul li.active a .icon ion-icon {
     align-items: center;
     width: 100vw;
     height: 100vh;
-    background: #378eea;
+    background: var(--secondaryColor);
     gap: 50px;
     z-index: 100000;
 }
@@ -1480,11 +1567,12 @@ nav ul li.active a .icon ion-icon {
 
 .applicantContainer {
     width: 100%;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.05);
     padding: 10px;
     display: flex;
-    justify-content: flex-start;
+    justify-content:center;
     flex-wrap: wrap;
+    border-radius: 10px;
     gap: 7.5px;
 }
 
@@ -1501,6 +1589,20 @@ nav ul li.active a .icon ion-icon {
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     overflow: hidden;
+    transform: translateX(0px);
+    opacity: 1;
+    animation: loadinbox var(--i) linear;
+}
+
+@keyframes loadinbox {
+    0%{
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    100%{
+        transform: translateX(0px);
+        opacity: 1;
+    }
 }
 
 .applicantCard>* {
@@ -1517,7 +1619,7 @@ nav ul li.active a .icon ion-icon {
 }
 
 .applicantCard:hover .applicantInfo {
-    transform: translateY(0px);
+    bottom: 0;
 }
 
 .applicantInfo {
@@ -1530,7 +1632,7 @@ nav ul li.active a .icon ion-icon {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    transform: translateY(130px);
+    bottom: -195px;
 }
 
 .applicantInfo>* {
@@ -1558,6 +1660,9 @@ nav ul li.active a .icon ion-icon {
     align-items: center;
     gap: 10px;
 }
+.applicantInfo p:nth-child(4){
+    height: 100px;
+}
 
 .applicantButtonContainer {
     display: flex;
@@ -1579,35 +1684,6 @@ nav ul li.active a .icon ion-icon {
     color: #fff;
     font-size: 1.2em;
     font-weight: bold;
-}
-
-@media only screen and (max-width: 500px) {
-    .hamburger {
-        display: block;
-    }
-
-    .profileBox {
-        width: 100%;
-    }
-
-    .profileBox {
-        left: 0;
-    }
-
-    .historyRow {
-        width: 95%;
-    }
-
-    .loader-box {
-        justify-content: space-between;
-        flex-direction: column;
-        padding: 30px 0 100px 0;
-    }
-
-    .loader {
-        width: 200px;
-        height: 200px;
-    }
 }
 
 .error-container {
@@ -1871,16 +1947,179 @@ nav ul li.active a .icon ion-icon {
     position: absolute;
     right: 0;
     top: 0;
-    padding: 10px 0px;
-    border-radius: 0 0 10px 0;
+    padding: 0px 0px;
+    border-radius: 0 0 0 10px;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(90%);
+}
+.settingBox:hover{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transform: translateX(10%);
+}
+.settingBox>ion-icon{
+    position: absolute;
+    left: 10px;
+    font-size: 1.5em;
+    color: var(--secondaryColor);
 }
 
 .themeBox {
     display: flex;
     gap: 10px;
-    transform: scale(0.7);
+    transform: scale(0.7) translateY(5px);
 }
 .form-hider {
     transform: scale(1);
 
 }
+
+.addApplicantBox{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+.addApplicant{
+    position: absolute;
+    z-index: 21;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--background);
+    padding: 30px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--shadowColor);
+}
+.addApplicant>*{
+    width: 100%;
+}
+.addApplicant>div{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.addApplicant>div>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+.addApplicant>div>div>*{
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    min-height: 20px;
+    padding: 10px 20px;
+    width: 300px;
+}
+.addApplicant>div>div:last-child>*{
+    width: 400px;
+}
+.addApplicant>*:first-child,.addApplicant>*:last-child{
+    position: relative;
+    padding: 10px 20px;
+    background: var(--secondaryColor);
+    color: var(--background);
+}
+.addApplicant input[type=submit]{
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.addApplicant input[type=file]{
+    position: relative;
+    height: 45px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+.addApplicant>iframe{
+    position: absolute;
+    z-index: 30;
+}
+
+.addApplicant textarea{
+    resize: none;
+}
+
+.applicantsLoading{
+    width: 100%;
+    min-height: 350px;
+    background: transparent;
+    border-radius: 10px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 10em;
+}
+.applicantsLoading>*{
+    animation: myAnim 2s cubic-bezier(0.33, 1, 0.68, 1) 0s infinite normal forwards;
+}
+
+@keyframes myAnim {
+	0%,
+	50%,
+	100% {
+		opacity: 0.7;
+	}
+
+	25%,
+	75% {
+		opacity: 0.3;
+	}
+}
+
+@media only screen and (max-width: 500px) {
+    .hamburger {
+        display: block;
+    }
+    .addForm>form{
+        width: 90%;
+    }
+
+    .profileBox {
+        width: 100%;
+    }
+
+    .profileBox {
+        left: 0;
+    }
+
+    .profileBox:nth-child(3){
+        width: 100%;
+    }
+
+    .historyRow {
+        width: 95%;
+    }
+
+    .loader-box {
+        justify-content: space-between;
+        flex-direction: column;
+        padding: 30px 0 100px 0;
+    }
+
+    .loader {
+        width: 200px;
+        height: 200px;
+    }
+
+    .addApplicant{
+        width: 90vw;
+    }
+    .addApplicant>div>div:first-child>*{
+        width: 100%;
+    }
+    .addApplicant>div>div:last-child>*,.addApplicant>div>div:first-child>*,.addApplicant>div>div:first-child{
+        width: 100%;
+    }
+}
+

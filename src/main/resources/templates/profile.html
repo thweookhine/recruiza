@@ -22,67 +22,40 @@
 				<p data-name="Phone Number" th:text="${userBean.userMobile}"></p>
 				<p data-name="Role" th:text="${userBean.role}"></p>
 				<img th:src="${'data:image/png;base64,' + qrcode}" alt="">
-				<button onclick="showProfileForm()">
-					<a> <ion-icon name="create-outline"></ion-icon>
-					</a>
+				<button onclick="toggleUpdateProfile()">
+					<ion-icon name="create-outline"></ion-icon>
 				</button>
 			</div>
-		</div>
 
-		<div class="user-update-new-data-form">
-			<form th:action="@{/admin/updateUserInformation}" th:object="${userBean}" method="post">
-
-				<div>
-					<input type="hidden" th:field="*{userId}" placeholder="Enter user ID" />
-				</div>
-
-				<div>
-					<input type="text" th:field="*{userCode}" readonly="true" />
-				</div>
-
-				<div>
-					<input type="text" th:field="*{userName}" placeholder="Enter user name" />
-				</div>
-
-				<div>
-					<input type="email" th:field="*{userEmail}" placeholder="Enter user email" />
-				</div>
-
-				<div>
-					<input type="text" th:field="*{userMobile}" placeholder="Enter user phone" />
-				</div>
-
-				<div>
-					<input type="submit" value="Update User" />
-				</div>
-
-			</form>
-		</div>
-
-		<div class="user-new-pw-change-form">
-			<h3>Change Password</h3>
-			<form th:action="@{/admin/changePassword}" method="post">
-
-				<div>
+			<div class="profileBox movetop" >
+				<form th:action="@{/admin/updateUserInformation}" th:object="${userBean}" method="post">
+					<input data-name="UserId" type="hidden" th:field="*{userId}" placeholder="Enter user ID" />
+					<input data-name="Username" type="text" th:field="*{userCode}" readonly="true" />
+					<input data-name="Email" type="text" th:field="*{userName}" placeholder="Enter user name" />
+					<input data-name="Email" type="email" th:field="*{userEmail}" placeholder="Enter user email" />
+					<input data-name="Phone Number" type="text" th:field="*{userMobile}" placeholder="Enter user phone" />
+					<input type="submit" value="Change" />
+				</form>
+				<button onclick="toggleUpdateProfile()">
+					<ion-icon name="arrow-back-outline"></ion-icon>
+				</button>
+				<button onclick="toggleUpdatePasswordProfile()">
+					<p>Change Password</p>
+				</button>
+			</div>
+			
+			<div class="profileBox moveright">
+				<form th:action="@{/admin/changePassword}" method="post">
 					<input type="hidden" name="userId" th:value="${userBean.userId}" placeholder="Enter user ID" />
-				</div>
-
-				<div>
 					<input type="password" name="oldPassword" value="" placeholder="Enter Old Password" required />
-				</div>
-
-				<div>
 					<input type="password" name="newPassword" value="" placeholder="Enter New Password" required />
-				</div>
-
-				<div>
-					<input type="password" name="confirmPassword" value="" placeholder="Enter Confirm New password"
-						required />
-				</div>
-
-				<input type="submit" value="Change" />
-
-			</form>
+					<input type="password" name="confirmPassword" value="" placeholder="Enter Confirm New password" required />
+					<input type="submit" value="Change" />
+				</form>
+				<button onclick="toggleUpdatePasswordProfile()">
+					<ion-icon name="arrow-back-outline"></ion-icon>
+				</button>
+			</div>
 		</div>
 
 		<div class="historyContainer">

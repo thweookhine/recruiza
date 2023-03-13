@@ -24,6 +24,9 @@ function deleteformclose() {
 	let form = document.querySelector(".deleteConfirmationModal");
 	form.style.display = "none";
 }
+function deleteUpdateform(){
+	document.querySelector('.updateUserform').remove();
+}
 
 // Show password
 function showPassword(id) {
@@ -81,7 +84,7 @@ if (title == 'Home') {
 	parent.append(child);
 	setTimeout(() => {
 		document.querySelector('.loader-box').remove()
-	}, 0000)
+	}, 2000)
 }
 
 if(localStorage.getItem('theme')==null){
@@ -95,41 +98,61 @@ if(localStorage.getItem('theme')==null){
 var checkBoxes = document.querySelectorAll('.chooseTheme');
 checkBoxes.forEach(element => {
 	element.addEventListener("change", () => {
-		console.log("Old Theme - " + localStorage.getItem('theme'));
 		localStorage.setItem('theme', element.value);
-		console.log("New Theme - " + localStorage.getItem('theme'));
 		changeTheme()
 	})
 });
 
 function changeTheme(){
+	let settingbox = document.querySelector('.settingBox')
 	if(localStorage.getItem('theme')=='default'){
-		document.documentElement.style.setProperty('--boxColor', '#378eea');
+		if(settingbox){
+			document.getElementById('default').checked = true;
+		}
+		document.documentElement.style.setProperty('--boxColor', '#ffffff');
 		document.documentElement.style.setProperty('--background', '#ffffff');
 		document.documentElement.style.setProperty('--fontColor', 'black');
 		document.documentElement.style.setProperty('--secondaryColor', '#378eea');
 		document.documentElement.style.setProperty('--shadowColor', 'rgba(0, 0, 0, 0.2)');
 		document.documentElement.style.setProperty('--errorColor', 'tomato');
 	}else if(localStorage.getItem('theme')=='orangy'){
-		document.documentElement.style.setProperty('--boxColor', '#f6922e');
+		if(settingbox){
+			document.getElementById('orangy').checked = true;
+		}
+		document.documentElement.style.setProperty('--boxColor', '#fff2de');
 		document.documentElement.style.setProperty('--background', '#fff2de');
 		document.documentElement.style.setProperty('--fontColor', 'black');
 		document.documentElement.style.setProperty('--secondaryColor', '#f6922e');
 		document.documentElement.style.setProperty('--shadowColor', 'rgba(0, 0, 0, 0.2)');
 		document.documentElement.style.setProperty('--errorColor', 'tomato');
 	}else if(localStorage.getItem('theme')=='techno'){
-		document.documentElement.style.setProperty('--boxColor', '#f6922e');
+		if(settingbox){
+			document.getElementById('techno').checked = true;
+		}
+		document.documentElement.style.setProperty('--boxColor', '#222222');
 		document.documentElement.style.setProperty('--background', '#222222');
 		document.documentElement.style.setProperty('--fontColor', '#0AE4EE');
 		document.documentElement.style.setProperty('--secondaryColor', '#0B32B0');
 		document.documentElement.style.setProperty('--shadowColor', 'rgba(76, 174, 255, 0.5)');
 		document.documentElement.style.setProperty('--errorColor', '#EF1B23');
-	}else if(localStorage.getItem('theme')=='techno'){
-		document.documentElement.style.setProperty('--boxColor', '#f6922e');
-		document.documentElement.style.setProperty('--background', '#222222');
-		document.documentElement.style.setProperty('--fontColor', '#0AE4EE');
-		document.documentElement.style.setProperty('--secondaryColor', '#0B32B0');
-		document.documentElement.style.setProperty('--shadowColor', 'rgba(76, 174, 255, 0.5)');
-		document.documentElement.style.setProperty('--errorColor', '#EF1B23');
+	}else if(localStorage.getItem('theme')=='hacker'){
+		if(settingbox){
+			document.getElementById('hacker').checked = true;
+		}
+		document.documentElement.style.setProperty('--boxColor', '#111212');
+		document.documentElement.style.setProperty('--background', '#111212');
+		document.documentElement.style.setProperty('--fontColor', 'limegreen');
+		document.documentElement.style.setProperty('--secondaryColor', '#11851e');
+		document.documentElement.style.setProperty('--shadowColor', 'rgba(0, 209, 24, 0.5)');
+		document.documentElement.style.setProperty('--errorColor', '#004f09');
 	}
+}
+
+function toggleUpdateProfile(){
+	document.querySelector(".profileBox:nth-child(2)").classList.toggle('movetop');
+}
+
+function toggleUpdatePasswordProfile(){
+	toggleUpdateProfile();
+	document.querySelector(".profileBox:nth-child(3)").classList.toggle('moveright');
 }

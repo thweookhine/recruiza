@@ -5,12 +5,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -74,7 +76,7 @@ public class UserController {
 	}
 	
 	@GetMapping(value = "/home")
-	public ModelAndView homePage(HttpSession session,Model model) {
+	public ModelAndView homePage(HttpSession session,ModelMap model) {
 		
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		

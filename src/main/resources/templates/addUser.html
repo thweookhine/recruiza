@@ -1,78 +1,68 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>User Registration</title>
-	<script type="text/javascript" th:src="@{/js/form.js}" defer></script>
-	<!-- JQuery js1 -->
-	<script src="https://code.jquery.com/jquery-3.6.1.min.js" type="text/javascript"></script>
+	<meta charset="UTF-8">
+	<title>User Registration</title>
+	<div th:insert="../components/nav :: tags"></div>
 </head>
+
 <body>
-	<h1>User Registration</h1>
-	<p th:text="${msg}"></p>
-	<p th:text="${error}"></p>
-	<form th:action="@{/admin/addUserServlet}" th:object="${bean}"
-		method="post">
+	<div th:insert="../components/nav :: navBar"></div>
 
-		<div>
+	<!-- error -->
+	<p class="errornoti" th:text="${msg}"></p>
+	<p class="errornoti" th:text="${error}"></p>
+
+	<div class="addForm">
+		<form data-formName="Create New User" th:action="@{/admin/addUserServlet}" th:object="${bean}" method="post">
 			<div>
-				<input type="text" th:field="*{userName}"
-					placeholder="Enter user name"/>
-			</div>
+				<input type="text" th:field="*{userName}" placeholder="Enter user name" required="required" />
+				<label for="name">Name</label>
 				<span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
-		</div>
-
-		<div>
-			<div>
-				<input type="email" th:field="*{userEmail}"
-				placeholder="Enter user email" />
 			</div>
+			<div>
+				<input type="email" th:field="*{userEmail}" placeholder="Enter user email" />
+				<label for="email">Email</label>
 				<p th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}"></p>
-		</div>
-
-		<div>
-			<div>
-				<input type="text" th:field="*{userMobile}"
-				placeholder="Enter user phone" />
 			</div>
+			<div>
+				<input type="text" th:field="*{userMobile}" placeholder="Enter user phone" />
+				<label for="mobile">mobile</label>
 				<p th:if="${#fields.hasErrors('userMobile')}" th:errors="*{userMobile}"></p>
-		</div>
-
-		<div>
-			<div>
-				<input type="password" id="password" th:field="*{password}"
-				placeholder="Enter user password" required autofocus />
 			</div>
+			<div>
+				<select th:field="*{role}">
+					<option th:value="'HR_Role'">Human Resource (HR)</option>
+					<option th:value="'DH_Role'">Department Head (DH)</option>
+					<option th:value="'GM_Role'">General Manager (GM)</option>
+					<option th:value="'PM_Role'">Project Manager (PM)</option>
+					<option th:value="'TM_Role'">Team Manager (TM)</option>
+					<option th:value="'MARKETER'">Marketing Team (MT)</option>
+				</select>
+				<label for="role">Role</label>
+				<p th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></p>
+			</div>
+			<div>
+				<input type="password" id="password" th:field="*{password}" placeholder="Enter user password" required />
+				<label for="password">Password</label>
 				<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-		</div>
-
-		<div>
-			<div>
-				<input type="password" th:field="*{confPassword}"
-				placeholder="Enter user confirm password" id="passcode" required autofocus
-				oninput="checkPasswordMatch();"/>
 			</div>
+			<div>
+				<input type="password" th:field="*{confPassword}" placeholder="Enter user confirm password"
+					id="passcode" required oninput="checkPasswordMatch();" />
+				<label for="confirm-password">Re-Password</label>
 				<p th:if="${#fields.hasErrors('confPassword')}" th:errors="*{confPassword}"></p>
-		</div>
+			</div>
 
-		<div>
-			<select th:field="*{role}">
-				<option th:value="'HR_Role'">HR</option>
-				<option th:value="'DH_Role'">DH</option>
-				<option th:value="'GM_Role'">GM</option>
-				<option th:value="'PM_Role'">PM</option>
-				<option th:value="'TM_Role'">TM</option>
-				<option th:value="'MARKETER'">MK</option>
-			</select>
-			<p th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></p>
-		</div>
+			<div>
+				<input type="submit" value="Create User" />
+				<ion-icon name="add-outline"></ion-icon>
+			</div>
+		</form>
+		<div class="backgroundExit" onclick="generateTeamBox()"></div>
+	</div>
 
-		<div>
-			<input type="submit" value="Add User" />
-		</div>
-
-	</form>
-	
 	<div>
 		<form th:action="@{/admin/searchUser/1}">
 			<input type="hidden" name="sortField" th:value="${sortField}" />
@@ -89,13 +79,15 @@
 			<thead>
 				<tr>
 					<th>
-						<a th:href="@{'/admin/searchUser/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+						<a
+							th:href="@{'/admin/searchUser/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 							ID
 						</a>
 					</th>
 					<th>Code</th>
 					<th>
-						<a th:href="@{'/admin/searchUser/' + ${currentPage} + '?sortField=userName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+						<a
+							th:href="@{'/admin/searchUser/' + ${currentPage} + '?sortField=userName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 							Name
 						</a>
 					</th>
@@ -118,7 +110,8 @@
 					<td th:text="${data.userStatus}"></td>
 					<td th:text="${data.userCreatedTime}"></td>
 					<td>
-						<a th:href="@{/admin/editUser(id=${data.userId})}"> Action </a>
+						<!-- <a th:href="@{/admin/editUser(id=${data.userId})}"> Action </a> -->
+						<button th:onclick="generateUpdateRoleForm([[${data.userCode}]],[[${data.userId}]],[[${data.role}]]);">Change Role</button>
 					</td>
 				</tr>
 			</tbody>
@@ -127,23 +120,28 @@
 	<div>
 		Total Users: [[${totalUsers}]] - Page [[${currentPage}]] of [[${totalPages}]]
 		&nbsp; - &nbsp;
-		
-		<a th:if="${currentPage > 1}" th:href="@{'/admin/searchUser/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+
+		<a th:if="${currentPage > 1}"
+			th:href="@{'/admin/searchUser/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
 		<span th:unless="${currentPage > 1}">First</span>
-		
-		<a th:if="${currentPage > 1}" th:href="@{'/admin/searchUser/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
+
+		<a th:if="${currentPage > 1}"
+			th:href="@{'/admin/searchUser/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
 		<span th:unless="${currentPage > 1}">Previous</span>
-		
+
 		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			<a th:if="${i != currentPage}" th:href="@{'/admin/searchUser/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a> 
+			<a th:if="${i != currentPage}"
+				th:href="@{'/admin/searchUser/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
 			<span th:unless="${i != currentPage}">[[${i}]]</span>
 			&nbsp;&nbsp;
 		</span>
-		
-		<a th:if="${currentPage < totalPages}" th:href="@{'/admin/searchUser/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
+
+		<a th:if="${currentPage < totalPages}"
+			th:href="@{'/admin/searchUser/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
 		<span th:unless="${currentPage < totalPages}">Next</span>
-		
-		<a th:if="${currentPage < totalPages}" th:href="@{'/admin/searchUser/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+
+		<a th:if="${currentPage < totalPages}"
+			th:href="@{'/admin/searchUser/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
 		<span th:unless="${currentPage < totalPages}">Last</span>
 	</div>
 	<script type="text/javascript">
@@ -152,4 +150,5 @@
 		}
 	</script>
 </body>
+
 </html>
