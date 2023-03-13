@@ -67,23 +67,23 @@ function generateAppModel(i, id) {
 	let newcard = document.createElement('div')
 	newcard.className = "addApplicantBox";
 	newcard.innerHTML = `
-	<form class="addApplicant"">
+	<form class="addApplicant" action="/saveapplicant">
 		<h2>Add Applicant</h2>
 		<div>
 			<div>
-				<input type="hidden" name="id" th:field="*{${id}}">
-				<input data-name="Name" type="text" value="${sheetTemp[i].c[2].v}" placeholder="${sheetTemp[i].c[2].v}" required="required">
-				<input data-name="Email" type="email" value="${sheetTemp[i].c[1].v}" placeholder="${sheetTemp[i].c[1].v}" required="required">
-				<input data-name="Mobile" type="number" value="${sheetTemp[i].c[4].v}" placeholder="${sheetTemp[i].c[4].v}" required="required">
-				<input data-name="Address" type="text" value="${sheetTemp[i].c[5].v}" placeholder="${sheetTemp[i].c[5].v}" required="required">
+				<input type="hidden" name="jobPostId" value="${id}">
+				<input name="name" data-name="Name" type="text" value="${sheetTemp[i].c[2].v}" placeholder="${sheetTemp[i].c[2].v}" required="required">
+				<input name="email" data-name="Email" type="email" value="${sheetTemp[i].c[1].v}" placeholder="${sheetTemp[i].c[1].v}" required="required">
+				<input name="mobile" data-name="Mobile" type="number" value="${sheetTemp[i].c[4].v}" placeholder="${sheetTemp[i].c[4].v}" required="required">
+				<input name="address" data-name="Address" type="text" value="${sheetTemp[i].c[5].v}" placeholder="${sheetTemp[i].c[5].v}" required="required">
 			</div>
 			<div>
-				<textarea data-name="link" cols="30" rows="2" placeholder="${sheetTemp[i].c[6].v}" readonly="readonly">${sheetTemp[i].c[6].v}</textarea>
-				<input type="file" name="" id="" required="required">
-				<textarea data-name="comment" cols="30" rows="4" placeholder="Comment"></textarea>
+				<textarea data-name="link" name="link" cols="30" rows="2" placeholder="${sheetTemp[i].c[6].v}" readonly="readonly">${sheetTemp[i].c[6].v}</textarea>
+				<input type="file" name="file" multiple required="required">
+				<textarea name="comment" data-name="comment" cols="30" rows="4" placeholder="Comment"></textarea>
 			</div>
 		</div>
-		<input type="submit" value="Add to database">
+		<input type="submit" value="Add To Database"/>
 	</form>
 	<div class="backgroundExit" onclick="closeAppModel()"></div>
 	`

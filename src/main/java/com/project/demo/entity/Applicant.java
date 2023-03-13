@@ -109,7 +109,7 @@ public class Applicant {
 	@Lob
 	@Column(name="file")
 	private byte[] file;
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -1,9 +1,6 @@
 package com.project.demo.controller;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.URLConnection;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,17 +11,18 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.CacheControl;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -172,11 +170,13 @@ public class ApplicantController {
     	return jobPositionService.getAllJobPosition();
     }
     
-    @PostMapping(value="/saveapplicant")
-    public ModelAndView saveApplicant(@RequestParam("file") MultipartFile file ,HttpServletRequest request,HttpSession session
-    		,RedirectAttributes ra,ModelMap model,JobPost jobPostBean) throws IOException {
+    @GetMapping(value="/saveapplicant")
+    public ModelAndView saveApplicant(HttpServletRequest request,HttpSession session
+    		,RedirectAttributes ra,ModelMap model) throws IOException {
     	
-    	JobPost jobPost=jobPostService.getByid(jobPostBean.getPostId());
+    	Long id=Long.parseLong(request.getParameter("jobPostId"));
+    	
+    	JobPost jobPost=jobPostService.getByid(id);
     	
     	Applicant applicant = Applicant.builder()
     			.applicantName(request.getParameter("name"))
@@ -190,16 +190,16 @@ public class ApplicantController {
     			.currentState("PENDING")
     			.jobPosition(jobPost.getJobPosition())
     			.jobPost(jobPost)
-    			.file(file.getBytes())
+    			.file(request.getParameter("file").getBytes())
     			.build();
-    	
+   
     	Applicant result = service.createApplicant(applicant);
     	
     	if(result != null) {
     		ra.addFlashAttribute("message","Successfully Added.");
     	}
     	
-    	return new ModelAndView("redirect:/jobPost");
+    	return new ModelAndView("redirect:/applicantProcess");
     }
     
     @GetMapping(value="/editapplicant")
@@ -237,17 +237,18 @@ public class ApplicantController {
     	return new ModelAndView("redirect:/applicant");
     }
     
-    @GetMapping(value = "/viewFile/{id}")
+    @GetMapping(value = "/viewFile/{id}",
+    			produces = {MediaType.IMAGE_PNG_VALUE,MediaType.APPLICATION_PDF_VALUE})
     public ResponseEntity<byte[]> getImage(@PathVariable("id") Long id) throws IOException {
 
     	Applicant applicant=service.getApplicantById(id);
-        byte[] imageContent = applicant.getFile();
+         byte[] imageContent = applicant.getFile();
         
-        final HttpHeaders headers = new HttpHeaders();
+        //final HttpHeaders headers = new HttpHeaders();
 
-        headers.setContentType(MediaType.APPLICATION_PDF);
+        //headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         
-        return new ResponseEntity<byte[]>(imageContent, headers, HttpStatus.OK);
+        return new ResponseEntity<>(imageContent, HttpStatus.FOUND);
     }
 }
 
