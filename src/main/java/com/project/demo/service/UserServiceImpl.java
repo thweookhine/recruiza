@@ -8,7 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.project.demo.entity.User;
-import com.project.demo.model.UserBean;
 import com.project.demo.repository.UserRepository;
 import com.project.demo.utils.PasswordGenerator;
 import com.project.demo.utils.codeGenerator;
@@ -76,7 +75,7 @@ public class UserServiceImpl implements UserService {
 	public User deleteUser(Long id) {
 
 		User user = userRepository.findById(id).get();
-		user.setUserStatus("DELETED");
+		user.setUserStatus("INACTIVE");
 		user.setEnabled(false);
 
 		return userRepository.save(user);
@@ -132,6 +131,13 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(PasswordGenerator.generatePassword(newPassword));
 		user.setToken(null);
 		
+		return userRepository.save(user);
+	}
+
+	@Override
+	public User editUserRole(Long userId, String role) {
+		User user = userRepository.findById(userId).get();
+			 user.setRole(role);
 		return userRepository.save(user);
 	}
 

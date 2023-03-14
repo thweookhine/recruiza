@@ -110,7 +110,8 @@
 					<td th:text="${data.userStatus}"></td>
 					<td th:text="${data.userCreatedTime}"></td>
 					<td>
-						<!-- <a th:href="@{/admin/editUser(id=${data.userId})}"> Action </a> -->
+						<a th:if="${data.userStatus == 'ACTIVE'}" th:href="@{/admin/deleteUser(id=${data.userId})}"><span>Ban</span></a>
+						<a th:if="${data.userStatus == 'INACTIVE'}" th:href="@{/admin/activeUser(id=${data.userId})}"><span>Active</span></a>
 						<button th:onclick="generateUpdateRoleForm([[${data.userCode}]],[[${data.userId}]],[[${data.role}]]);">Change Role</button>
 					</td>
 				</tr>

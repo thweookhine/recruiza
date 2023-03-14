@@ -2,9 +2,7 @@ package com.project.demo.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
 import com.project.demo.entity.User;
-import com.project.demo.model.UserBean;
 
 @Service
 public interface UserService {
@@ -36,4 +34,6 @@ public interface UserService {
 	User getUser(String token);
 	
 	User updatePassword(User user, String newPassword);
+	
+	User editUserRole(Long userId,String role);
 }

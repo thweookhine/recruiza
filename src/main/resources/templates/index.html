@@ -6,11 +6,66 @@
 	<title>User Login</title>
 	<link th:href="@{/css/style.css}" rel="stylesheet" />
 	<script type="text/javascript" th:src="@{/js/main.js}"></script>
+	<!-- JQuery js1 -->
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js" type="text/javascript"></script>
 </head>
-
+	<style>
+		.modal1 {
+			display: none;
+		}
+		.modal2 {
+			display: none;
+		}
+	</style>
 <body>
 	<p class="errornoti" th:text="${msg}"></p>
 	<p class="errornoti" th:text="${error}"></p>
+	<input type="hidden" id="mailError" name="mailError" th:value="${mailError}"/>
+	<input type="hidden" id="token" name="token" th:value="${token}" />
+	
+	<!-- mail modal start -->
+	<div id="mailModal" class="modal1">
+		<div class="modal-header">
+			<span class="close">$times;</span>
+			<h2>We will be sending a reset password link to your email.</h2>
+			<div  th:if="${mailError != null}">
+				<p id="mError">[[${mailError}]]</p>
+			</div>
+		</div>
+		<div class="modal-body">
+			<form th:action="@{/forgotPassword}" method="post">
+				<div>
+					<input type="email" name="email" placeholder="Enter user email" required autofocus />
+				</div>
+				<div>
+					<input type="submit" value="Send">
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- mail modal end -->
+	
+	<!-- reset password modal start -->
+	<div class="modal2">
+		<!--reset password form start -->
+		<div>
+			<form th:action="@{/reset_password}" method="post">
+				<input type="hidden" name="token" th:value="${token}" />
+				<div>
+					<input type="password" id="password" name="password" placeholder="Enter user password" required autofocus />
+				</div>
+				<div>
+					<input type="password" name="confPassword" placeholder="Enter user confirm password" id="passcode" required autofocus
+					oninput="checkPasswordMatch();"/>
+				</div>
+				<div>
+				<input type="submit" value="Change Password" />
+			</div>
+			</form>
+		</div>
+		<!-- reset password form end -->
+	</div>
+	<!-- reset password modal start -->
 
 	<div class="box">
         <form class="loginform" th:action="@{/j_spring_security_check}" method="POST">
@@ -23,12 +78,33 @@
                 <input type="password" id="passwordbox" name="password" th:value="${password}" title="double click to show password" required="required" ondblclick="showPassword(this.id)">
                 <span>Password</span><i></i>
             </div>
-            <div class="links">
-                <a th:href="@{/forgotPassword}">Forgot password</a>
-            </div>
             <input type="submit" value="Login">
         </form>
     </div>
+    <div class="links">
+        <button class="forgotPassword">Forgot password</button>
+    </div>
+	<script type="text/javascript">
+		var modal1 = document.querySelector('.modal1');
+		   var mailError = document.getElementById('mailError').value;
+		if (mailError != "") {
+			modal1.style.display = "block";
+		} 
+		document.querySelector('.forgotPassword').addEventListener('click',() => {
+			if(modal1.style.display == "none") {
+				modal1.style.display = "block";
+				document.getElementById("mError").innerText = "";
+			}else{
+				modal1.style.display = "none";
+			}
+		})
+		
+		var modal2 = document.querySelector('.modal2');
+		var token = document.getElementById('token').value;
+		
+		if (token != "") {
+			modal2.style.display = "block";
+		} 
+	</script>
 </body>
-
 </html>

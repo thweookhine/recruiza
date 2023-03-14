@@ -12,9 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +28,7 @@ import com.project.demo.entity.JobPost;
 import com.project.demo.entity.User;
 import com.project.demo.model.UserBean;
 import com.project.demo.service.JobPostService;
-import com.project.demo.service.UserServiceImpl;
+import com.project.demo.service.UserService;
 import com.project.demo.utils.NameCapital;
 import com.project.demo.utils.PasswordGenerator;
 
@@ -38,7 +36,7 @@ import com.project.demo.utils.PasswordGenerator;
 public class UserController {
 	
 	@Autowired
-	UserServiceImpl userServiceImpl;
+	UserService userService;
 	
 	@Autowired
 	JobPostService jobPostService;
@@ -80,7 +78,7 @@ public class UserController {
 		
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		
-		User bean = userServiceImpl.userSelectOne(email);
+		User bean = userService.userSelectOne(email);
 		
 		List<JobPost> jobPosts = jobPostService.searchBeforeEndDate(LocalDate.now().toString());
 		
@@ -143,7 +141,7 @@ public class UserController {
         	return new ModelAndView("redirect:/login");
         }else {
         	
-        	Page<User> page = userServiceImpl.listAllUsers(currentPage, sortField, sortDir, keyword);
+        	Page<User> page = userService.listAllUsers(currentPage, sortField, sortDir, keyword);
         	
         	long totalUsers = page.getTotalElements();
         	int totalPages = page.getTotalPages();
@@ -182,9 +180,9 @@ public class UserController {
     		model.addAttribute("error", "Field cannot be blank !");
 		}else if(!bean.getPassword().equals(bean.getConfPassword())) {
 			model.addAttribute("error", "check your confirm password again !");
-		}else if(userServiceImpl.findUserName(bean.getUserName()) != null) {
+		}else if(userService.findUserName(bean.getUserName()) != null) {
 			model.addAttribute("error", "User name is has been !");
-		}else if(userServiceImpl.findUserEmail(bean.getUserEmail()) != null) {
+		}else if(userService.findUserEmail(bean.getUserEmail()) != null) {
 			model.addAttribute("error", "User email is has been !");
 		}else {
 			
@@ -199,7 +197,7 @@ public class UserController {
 							.enabled(true)
 							.build();
 			
-			User cUser = userServiceImpl.insertUser(user);
+			User cUser = userService.insertUser(user);
 			
 			if(cUser == null) {
 				model.addAttribute("error", "Add User Fail !");
@@ -210,86 +208,48 @@ public class UserController {
     	return addUser(bean, model, ra, session);
     }
     
-    @GetMapping("/admin/editUser")
-    public ModelAndView editUser(@RequestParam("id") Long userId,HttpSession session,RedirectAttributes ra) {
+    @PostMapping(value = "/admin/updateUser")
+    public ModelAndView updateUser(@RequestParam("id") Long userId, HttpSession session, RedirectAttributes ra, HttpServletRequest request, ModelMap model,UserBean bean) {
     	
-    	 if(checkSessionUser(session) == null) {
-         	ra.addFlashAttribute("error","Please login first !");
-         	return new ModelAndView("redirect:/login");
-         }else {
-        	 
-    	User user = userServiceImpl.selectUserOne(userId);
-    	
-    	UserBean bean = UserBean.builder()
-				.userId(user.getUserId())
-				.userCode(user.getUserCode())
-				.userName(user.getUserName())
-				.userEmail(user.getUserEmail())
-				.userMobile(user.getUserMobile())
-				.password(user.getPassword())
-				.lastAction(user.getLastAction())
-				.role(user.getRole())
-				.userStatus(user.getUserStatus())
-				.userCreatedTime(user.getUserCreatedTime())
-				.enabled(user.isEnabled())
-				.build();
-    	
-    	return new ModelAndView("editUser","bean",bean);
+    	if(checkSessionUser(session) == null) {
+    		ra.addFlashAttribute("error","Please login first !");
+        	return new ModelAndView("redirect:/login");
+    	}else {
+    		String role = request.getParameter("role");
+    		System.out.println("Role " + role);
+			User user = userService.editUserRole(userId, role);
+			if(user != null) {
+				model.addAttribute("msg", "Update Role Successfully !");
+			}else {
+				model.addAttribute("error", "Update Role Failed !");
+			}
+			return addUser(bean, model, ra, session);
+		}
     }
-}
-    
-//    @PostMapping(value = "/admin/updateUser")
-//    public ModelAndView updateUser(@ModelAttribute("bean") @Valid UserBean bean,BindingResult bs,ModelMap model,RedirectAttributes ra,HttpSession session) {
-//    	
-//    	if(checkSessionUser(session) == null) {
-//    		ra.addFlashAttribute("error","Please login first !");
-//        	return new ModelAndView("redirect:/login");
-//    	}else if (bs.hasErrors()) {
-//    		model.addAttribute("error", "Field cannot be blank !");
-//			return new ModelAndView("editUser");
-//		}else if(!bean.getPassword().equals(bean.getConfPassword())) {
-//			model.addAttribute("error", "check your confirm password again !");
-//			return new ModelAndView("editUser");
-//		}else {
-//			
-//			User cUser = userServiceImpl.updateUser(bean);
-//			
-//			if(cUser == null) {
-//				model.addAttribute("error", "Update User Fail !");
-//				return new ModelAndView("editUser");
-//			}
-//		}
-//    	ra.addFlashAttribute("msg", "Update User Successful !");
-//    	return new ModelAndView("redirect:/admin/addUser");
-//    }
     
     @GetMapping("/admin/deleteUser")
-    public ModelAndView deleteUser(@RequestParam("id") Long userId,RedirectAttributes ra) {
+    public ModelAndView deleteUser(@RequestParam("id") Long userId,RedirectAttributes ra, ModelMap model,UserBean bean, HttpSession session) {
     	
-            User user = userServiceImpl.deleteUser(userId);
+            User user = userService.deleteUser(userId);
             
             if (user != null) {
-	            ra.addFlashAttribute("msg", "Delete User Successful !");
-	        	return new ModelAndView("redirect:/admin/addUser");
+	            model.addAttribute("msg", "Ban User Successful !");
             }else {
-	        	ra.addAttribute("id",userId);
-	        	ra.addFlashAttribute("msg", "Delete User Failed !");
-	        	return new ModelAndView("redirect:/admin/editUser");
+	        	model.addAttribute("msg", "Ban User Failed !");
             }
+            return addUser(bean, model, ra, session);
     }
     
     @GetMapping("/admin/activeUser")
-    public ModelAndView activeUser(@RequestParam("id") Long userId,RedirectAttributes ra) {
+    public ModelAndView activeUser(@RequestParam("id") Long userId,RedirectAttributes ra, ModelMap model, HttpSession session, UserBean bean) {
     	
-    	User user = userServiceImpl.activeUser(userId);
+    	User user = userService.activeUser(userId);
         
-        if (user != null) {
-            ra.addFlashAttribute("msg", "Active User Successful !");
-        	return new ModelAndView("redirect:/admin/addUser");
+    	if (user != null) {
+            model.addAttribute("msg", "Active User Successful !");
         }else {
-        	ra.addAttribute("id",userId);
-        	ra.addFlashAttribute("msg", "Active User Failed !");
-        	return new ModelAndView("redirect:/admin/editUser");
+        	model.addAttribute("msg", "Active User Failed !");
         }
+        return addUser(bean, model, ra, session);
     }
 }
