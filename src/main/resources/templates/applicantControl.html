@@ -5,7 +5,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<p th:text="${message}"></p>
+	<p th:text="${msg}"></p>
 	
 	<!-- job post information start  -->
 	<div>
@@ -29,10 +29,10 @@
 	<!-- job post information end  -->
 	<h3>Add New Applicant</h3>
 	<div>
-		<form th:action="@{/saveapplicant}" method="post" encType="multipart/form-data" th:object="${jobPost}">
+		<form th:action="@{/saveApplicant}" method="post" encType="multipart/form-data" th:object="${jobPost}">
 			<input type="hidden" name="id" th:field="*{postId}">
 			<input type="text" placeholder="Enter Name" name="name" required/><br> 
-			<input type="text" placeholder="Enter Email" name="email" required/><br>
+			<input type="email" placeholder="Enter Email" name="email" required/><br>
 			<input type="text" placeholder="Enter Mobile" name="mobile" required/><br> 
 			<textarea rows="5" cols="24" name="address" required placeholder="Enter Address"></textarea><br>
 			<input type="text" placeholder="Enter Link" name="link" required/><br>

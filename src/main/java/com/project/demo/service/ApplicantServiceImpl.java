@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.project.demo.entity.Applicant;
 import com.project.demo.model.ApplicantBean;
@@ -108,18 +107,38 @@ public class ApplicantServiceImpl implements ApplicantService{
 		
 		if (checkStatus.equals("Pass")) {
 			String status=applicant.getApplicantStatus();
-			applicant.setApplicantStatus(getStatus);
-			emailSenderService.sendEmail(applicant.getApplicantEmail(),"You Pass "+ status,Text.getEmailSuccess()+applicant.getApplicantStatus()+".");
+			try {
+				if(status.equalsIgnoreCase("None")) {
+				emailSenderService.sendEmail(applicant.getApplicantEmail(),"Hello Applicant ","Dear Applicants,You have the opportunity to answer the code test!");
+				applicant.setApplicantStatus(getStatus);
+				}else if(status.equalsIgnoreCase("Code Test")) {
+					emailSenderService.sendEmail(applicant.getApplicantEmail(),"Hello Applicant ","Dear Applicant,You pass the Code Test.You have the opportunity to do the next state,Intro Interview.");
+					applicant.setApplicantStatus(getStatus);
+				}else if(status.equalsIgnoreCase("Intro Interview")) {
+					emailSenderService.sendEmail(applicant.getApplicantEmail(),"Hello Applicant ","Dear Applicants,You pass intro interview successfully and we want you to interview for the second time!");
+					applicant.setApplicantStatus(getStatus);
+				}else {
+					emailSenderService.sendEmail(applicant.getApplicantEmail(),"Hello Applicant ","Dear Applicants,You pass the second interview and we want you to hire position you applied!");
+					applicant.setApplicantStatus(getStatus);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("Connection Error!");
+			}
 			
-			
-			
+		
 			if (getStatus.equals("Hired")) {
 				applicant.setCurrentState(checkStatus);
 			}
 		}else {
+			try {
+				emailSenderService.sendEmail(applicant.getApplicantEmail(), "Hello Applicant ","Sorry Applicant,You lost the opportunity to join our Company.Try Next Time!");
+				applicant.setCurrentState(checkStatus);
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("Connection Error!");
+			}
 			
-			emailSenderService.sendEmail(applicant.getApplicantEmail(), "You Fail "+ applicant.getApplicantStatus(), Text.getEmailFail());
-			applicant.setCurrentState(checkStatus);
 			
 		}
 		applicant.setComment(comment);

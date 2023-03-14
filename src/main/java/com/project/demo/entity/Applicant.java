@@ -110,6 +110,9 @@ public class Applicant {
 	@Column(name="file")
 	private byte[] file;
 	
+	@Column(name="source")
+	private String source;
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -127,7 +130,7 @@ public class Applicant {
 				&& Objects.equals(comment, other.comment) && Objects.equals(currentState, other.currentState)
 				&& Arrays.equals(file, other.file) && Objects.equals(jobPosition, other.jobPosition)
 				&& Objects.equals(jobPost, other.jobPost) && Objects.equals(link, other.link)
-				&& Objects.equals(schedule, other.schedule);
+				&& Objects.equals(schedule, other.schedule) && Objects.equals(source, other.source);
 	}
 
 	@Override
@@ -136,10 +139,10 @@ public class Applicant {
 		int result = 1;
 		result = prime * result + Arrays.hashCode(file);
 		result = prime * result + Objects.hash(address, applicantCode, applicantEmail, applicantId, applicantMobile,
-				applicantName, applicantStatus, applyTime, comment, currentState, jobPosition, jobPost, link, schedule);
+				applicantName, applicantStatus, applyTime, comment, currentState, jobPosition, jobPost, link, schedule,
+				source);
 		return result;
 	}
-
-
 	
+
 }

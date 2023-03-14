@@ -53,4 +53,6 @@ public class ApplicantBean {
 	@Lob
 	private byte[] file;
 	
+	private String source;
+	
 }

@@ -53,34 +53,35 @@ public class ApplicantController {
 	
 	@GetMapping(value="/applicant")
     public ModelAndView addApplicant(@RequestParam("jobPostId")Long id,ModelMap model,RedirectAttributes ra, HttpSession session) {
-    	String keyword = null;
-    
+		
+		String keyword=null;
     	JobPost jobPost=jobPostService.getByid(id);
     	
-    	return searchAppliicant(model, ra, session, jobPost );
+    	return searchAppliicant(model, ra, session, jobPost ,1, "applicantId", "asc", keyword);
     }
    
     @GetMapping(value = "/searchApplicants/{pageNumber}")
-    public ModelAndView searchAppliicant(ModelMap model,RedirectAttributes ra,HttpSession session,JobPost jobPost) {
+    public ModelAndView searchAppliicant(ModelMap model,RedirectAttributes ra,HttpSession session,JobPost jobPost,@PathVariable("pageNumber") int currentPage,
+			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword) {
     	
                 	
-        	//Page<Applicant> page = service.listAllApplicants(currentPage, sortField, sortDir, keyword);
+        	Page<Applicant> page = service.listAllApplicants(currentPage, sortField, sortDir, keyword);
         	
-        	//long totalApplicants = page.getTotalElements();
-        	//int totalPages = page.getTotalPages();
+        	long totalApplicants = page.getTotalElements();
+        	int totalPages = page.getTotalPages();
         	
-        	//List<Applicant> list = page.getContent();
+        	List<Applicant> list = page.getContent();
         	
-//        	model.addAttribute("currentPage", currentPage);
-//        	model.addAttribute("totalApplicants", totalApplicants);
-//        	model.addAttribute("totalPages", totalPages);
-//        	model.addAttribute("list", list);
-//        	model.addAttribute("sortField", sortField);
-//        	model.addAttribute("sortDir", sortDir);
-//        	model.addAttribute("keyword", keyword);
+        	model.addAttribute("currentPage", currentPage);
+        	model.addAttribute("totalApplicants", totalApplicants);
+        	model.addAttribute("totalPages", totalPages);
+        	model.addAttribute("list", list);
+        	model.addAttribute("sortField", sortField);
+        	model.addAttribute("sortDir", sortDir);
+        	model.addAttribute("keyword", keyword);
         	
-        	//String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-        	//model.addAttribute("reverseSortDir", reverseSortDir);
+        	String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+        	model.addAttribute("reverseSortDir", reverseSortDir);
         
         	return new ModelAndView("applicantControl","jobPost",jobPost);
         }
@@ -148,13 +149,15 @@ public class ApplicantController {
     
     @PostMapping(value = "/applicantStatusChange")
     public ModelAndView applicantStatusChange(@ModelAttribute("bean") ApplicantBean bean,HttpServletRequest request,ModelMap model) {
+    	String statusString = bean.getApplicantStatus();
     	
     	Applicant applicant = service.changeApplicantStatus(bean, request.getParameter("checkStatus"), request.getParameter("getStatus"),request.getParameter("comment"));
+    
     	
-    	if (applicant != null) {
-    		model.addAttribute("msg", "Applicant Status Change Successful !");
+    	if (applicant.getApplicantStatus().equalsIgnoreCase(statusString)) {
+    		model.addAttribute("msg", "Connection Error!");
     	}else {
-    		model.addAttribute("error", "Applicant Status Change Failed !");
+    		model.addAttribute("error", "Applicant Status Change Success and Mail Sent Successfully!");
     	}
     			
     	return applicantPro(model);
@@ -171,8 +174,7 @@ public class ApplicantController {
     }
     
     @GetMapping(value="/saveapplicant")
-    public ModelAndView saveApplicant(HttpServletRequest request,HttpSession session
-    		,RedirectAttributes ra,ModelMap model) throws IOException {
+    public ModelAndView saveApplicant(HttpServletRequest request,RedirectAttributes ra,ModelMap model) throws IOException {
     	
     	Long id=Long.parseLong(request.getParameter("jobPostId"));
     	
@@ -191,6 +193,34 @@ public class ApplicantController {
     			.jobPosition(jobPost.getJobPosition())
     			.jobPost(jobPost)
     			.file(request.getParameter("file").getBytes())
+    			.build();
+   
+    	Applicant result = service.createApplicant(applicant);
+    	
+    	if(result != null) {
+    		ra.addFlashAttribute("message","Successfully Added.");
+    	}
+    	
+    	return new ModelAndView("redirect:/applicantProcess");
+    }
+    @PostMapping(value = "/saveApplicant")
+    public ModelAndView saveApplicants(JobPost jpost,HttpServletRequest request,RedirectAttributes ra,MultipartFile file) throws IOException {
+    	
+    	JobPost jobPost=jobPostService.getByid(jpost.getPostId());
+    	
+    	Applicant applicant = Applicant.builder()
+    			.applicantName(request.getParameter("name"))
+    			.applicantEmail(request.getParameter("email"))
+    			.applicantMobile(request.getParameter("mobile"))
+    			.address(request.getParameter("address"))
+    			.link(request.getParameter("link"))
+    			.comment(request.getParameter("comment"))
+    			.applyTime(Timestamp.valueOf(LocalDateTime.now()))
+    			.applicantStatus("None")
+    			.currentState("PENDING")
+    			.jobPosition(jobPost.getJobPosition())
+    			.jobPost(jobPost)
+    			.file(file.getBytes())
     			.build();
    
     	Applicant result = service.createApplicant(applicant);
@@ -238,7 +268,7 @@ public class ApplicantController {
     }
     
     @GetMapping(value = "/viewFile/{id}",
-    			produces = {MediaType.IMAGE_PNG_VALUE,MediaType.APPLICATION_PDF_VALUE})
+    			produces = {MediaType.APPLICATION_PDF_VALUE})
     public ResponseEntity<byte[]> getImage(@PathVariable("id") Long id) throws IOException {
 
     	Applicant applicant=service.getApplicantById(id);
