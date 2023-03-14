@@ -10,6 +10,7 @@
 <body>
 
 	<div>
+		<h3>Pending Job Posts</h3>
 		<table>
 			<thead>
 				<tr>
@@ -28,7 +29,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="jp : ${jobPosts}">
+				<tr th:each="jp : ${pendingJobPosts}">
 					<td th:text="${jp.postId}"></td>
 					<td th:text="${jp.postCode}"></td>
 					<td th:text="${jp.postName}"></td>
@@ -45,6 +46,76 @@
 
 			</tbody>
 		</table>
+	</div>
+
+	<div>
+		<h3>Posted Job Posts</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Code</th>
+					<th>Name</th>
+					<th>Count</th>
+					<th>Comment</th>
+					<th>FOC</th>
+					<th>Team</th>
+					<th>Recruitment Resource</th>
+					<th>Job Position</th>
+					<th>Status</th>
+					<th>Created Time</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="jp : ${postedJobPosts}">
+					<td th:text="${jp.postId}"></td>
+					<td th:text="${jp.postCode}"></td>
+					<td th:text="${jp.postName}"></td>
+					<td th:text="${jp.count}"></td>
+					<td th:text="${jp.comment}"></td>
+					<td th:text="${jp.foc}"></td>
+					<td th:text="${jp.team.teamName}"></td>
+					<td th:text="${jp.resource.resourceName}"></td>
+					<td th:text="${jp.jobPosition.positionName}"></td>
+					<td th:text="${jp.postStatus}"></td>
+					<td th:text="${jp.postCreatedTime}"></td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+
+	<div class="pagination">
+		<div>Total Posted Job Posts: <span class="pagenum">[[${totalJobPosts}]]</span> - Page <span
+				class="pagenum">[[${currentPage}]]
+			</span>of <span class="pagenum">[[${totalPages}]]</span></div>
+
+		<div class="page-reference">
+			<a th:if="${currentPage > 1}"
+				th:href="@{'/showJobPosts/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+			<span th:unless="${currentPage > 1}">First</span>
+
+			<a th:if="${currentPage > 1}"
+				th:href="@{'/showJobPosts/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon
+					name="chevron-back-circle-outline"></ion-icon></a>
+			<span th:unless="${currentPage > 1}"><ion-icon name="chevron-back-circle-outline"></ion-icon></span>
+
+			<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+				<a th:if="${i != currentPage}"
+					th:href="@{'/showJobPosts/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
+				<span th:unless="${i != currentPage}">[[${i}]]</span>
+			</span>
+
+			<a th:if="${currentPage < totalPages}"
+				th:href="@{'/showJobPosts/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon
+					name="chevron-forward-circle-outline"></ion-icon></a>
+			<span th:unless="${currentPage < totalPages}"><ion-icon
+					name="chevron-forward-circle-outline"></ion-icon></span>
+
+			<a th:if="${currentPage < totalPages}"
+				th:href="@{'/showJobPosts/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+			<span th:unless="${currentPage < totalPages}">Last</span>
+		</div>
 	</div>
 </body>
 

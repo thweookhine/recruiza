@@ -133,7 +133,7 @@ public class TeamController {
 			BindingResult bindingResult, ModelMap model, RedirectAttributes ra, HttpSession session) {
 
 		if (bindingResult.hasErrors()) {
-			return new ModelAndView("teamControl");
+			return new ModelAndView("teamAction");
 		}
 
 		Department dept = deptService.searchOneWithName(teamBean.getDepartmentName());

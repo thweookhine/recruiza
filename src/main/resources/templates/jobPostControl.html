@@ -2,16 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<meta charset="UTF-8">
-<title>Job Post</title>
+	<meta charset="UTF-8">
+	<title>Job Post</title>
 
-<!-- JQuery js1 -->
-<script src="https://code.jquery.com/jquery-3.6.1.min.js"
-	type="text/javascript"></script>
+	<!-- JQuery js1 -->
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js" type="text/javascript"></script>
 
-<script type="text/javascript" th:src="@{/js/ajax.js}"></script>
-<script type="text/javascript" th:src="@{/js/main.js}" defer></script>
-<script type="text/javascript" th:src="@{/js/form.js}" defer></script>
+	<script type="text/javascript" th:src="@{/js/ajax.js}"></script>
+	<script type="text/javascript" th:src="@{/js/main.js}" defer></script>
+	<script type="text/javascript" th:src="@{/js/form.js}" defer></script>
 </head>
 
 <body>
@@ -22,100 +21,102 @@
 	<div>
 		<form th:action="@{/saveJobPost}" method="post" th:object="${jobPost}">
 			<div>
-				<label for="name">Name</label> <input type="text"
-					th:field="*{postName}" placeholder="Enter Job Post Name" /> <label
-					th:if="${#fields.hasErrors('postName')}" th:errors="*{postName}"
+				<label for="name">Name</label> <input type="text" th:field="*{postName}"
+					placeholder="Enter Job Post Name" />
+				<label th:if="${#fields.hasErrors('postName')}" th:errors="*{postName}"
 					style="color: red;">Error</label>
 			</div>
 
 			<div>
-				<label for="count">Count</label> <input type="number"
-					th:field="*{count}" placeholder="Enter Count" /> <label
-					th:if="${#fields.hasErrors('count')}" th:errors="*{count}"
-					style="color: red;">Error</label>
+				<label for="count">Count</label> <input type="number" th:field="*{count}" placeholder="Enter Count" />
+				<label th:if="${#fields.hasErrors('count')}" th:errors="*{count}" style="color: red;">Error</label>
 			</div>
 
 			<div>
 				<label for="comment">Comment</label>
 				<textarea rows="1" th:field="*{comment}" placeholder="Enter Comment"></textarea>
-				<label th:if="${#fields.hasErrors('comment')}"
-					th:errors="*{comment}" style="color: red;">Error</label>
+				<label th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" style="color: red;">Error</label>
 			</div>
 
 			<div>
-				<label for="foc">FOC</label> <input type="checkbox"
-					th:field="*{foc}" /> <label th:if="${#fields.hasErrors('foc')}"
-					th:errors="*{foc}" style="color: red;">Error</label>
+				<label for="foc">FOC</label> <input type="checkbox" th:field="*{foc}" /> <label
+					th:if="${#fields.hasErrors('foc')}" th:errors="*{foc}" style="color: red;">Error</label>
 			</div>
 
 			<div>
-				<label for="postDate">Post Date</label> <input type="date"
-					th:field="*{postDate}" placeholder="Enter Post Date"
-					class="customdate" /> <label
-					th:if="${#fields.hasErrors('postDate')}" th:errors="*{postDate}"
-					style="color: red;">Error</label>
-			</div>
-
-			<div class="dueDateBox">
-				<label for="dueDate">Due Date</label> <input type="date"
-					th:field="*{dueDate}" placeholder="Enter Due Date"
-					class="customdate" /> <label
-					th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}"
-					style="color: red;">Error</label>
-			</div>
-
-			<div>
-				<label for="teams">Select Department</label> <select
-					id="departmentSelect" name="departmentId" onchange="getTeams();">
-					<option th:each="d : ${departmentList}"
-						th:value="${d.departmentId}" th:text="${d.departmentName}">
+				<label for="teams">Select Department</label> <select id="departmentSelect" name="departmentId"
+					onchange="getTeams();">
+					<option th:each="d : ${departmentList}" th:value="${d.departmentId}" th:text="${d.departmentName}">
 					</option>
 				</select>
 			</div>
 
-					<div class="teamBox">
-						<label for="teams">Select Team</label> <select id="teamSelect"
-							th:field="*{teamBean}">
-						</select>
-					</div>
+			<div class="teamBox">
+				<label for="teams">Select Team</label>
+				<select id="teamSelect" th:field="*{teamBean}">
+				</select>
+			</div>
 
-					<div>
-						<label for="resource">Select Recruitement Resource</label> <select
-							th:field="*{resourceBean}">
-							<option th:each="r : ${resourceList}" th:value="${r.resourceId}"
-								th:text="${r.resourceName}"></option>
-						</select>
-					</div>
+			<div>
+				<label for="resource">Select Recruitement Resource</label> <select th:field="*{resourceId}">
+					<option th:each="r : ${resourceList}" th:value="${r.resourceId}" th:text="${r.resourceName}">
+					</option>
+				</select>
+			</div>
 
-					<div>
-						<label for="position">Select Job Position</label> <select
-							th:field="*{jobPositionBean}">
-							<option th:each="p : ${positionList}" th:value="${p.positionId}"
-								th:text="${p.positionName}"></option>
-						</select>
-					</div>
+			<div>
+				<label for="position">Select Job Position</label> <select th:field="*{jobPositionId}">
+					<option th:each="p : ${positionList}" th:value="${p.positionId}" th:text="${p.positionName}">
+					</option>
+				</select>
+			</div>
 
-					<div>
-						<label for="sheet">Sheet ID</label> <input type="text"
-							th:field="*{sheetId}" placeholder="Enter Sheet ID" /> <label
-							th:if="${#fields.hasErrors('sheetId')}" th:errors="*{sheetId}"
-							style="color: red;">Error</label>
-					</div>
-
-					<div>
-						<input type="submit" value="Add" />
-					</div>
+			<div>
+				<input type="submit" value="Add" />
+			</div>
 		</form>
 	</div>
 
+	<div class="searchBox">
+		<h2>Job Post</h2>
+		<form th:action="@{/searchJobPost/1}">
+			<input type="hidden" name="sortField" th:value="${sortField}" />
+			<input type="hidden" name="sortDir" th:value="${sortDir}" />
+			<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" />
+
+			<div>
+				<label for="status">Select Status</label>
+				<select name="postStatus">
+					<option th:each="status : ${postStatusList}" th:value="${status}"
+						th:selected="(${status} == *{postStatus})" th:text="${status}"></option>
+				</select>
+			</div>
+
+			<button type="submit">Search</button>
+			<button><a th:href="@{/jobPost}">Reset</a></button>
+
+		</form>
+	</div>
 	<div>
 		<table>
 			<thead>
 				<tr>
 					<th>ID</th>
-					<th>Code</th>
-					<th>Name</th>
-					<th>Count</th>
+					<th>
+						<a class="sort-button"
+							th:href="@{'/searchJobPost/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != null ? '&postStatus=' + postStatus : '' }}">
+							Code<ion-icon name="funnel-outline"></ion-icon>
+						</a>
+					</th>
+					<th>
+						<a class="sort-button"
+							th:href="@{'/searchJobPost/' + ${currentPage} + '?sortField=postName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != null ? '&postStatus=' + postStatus : '' }}">
+							Name<ion-icon name="funnel-outline"></ion-icon>
+						</a>
+					</th>
+					<th>
+						Count
+					</th>
 					<th>Post Date</th>
 					<th>Due Date</th>
 					<th>Comment</th>
@@ -126,7 +127,7 @@
 					<th>User</th>
 					<th>Sheet ID</th>
 					<th>Status</th>
-					<th>Created Time</th>
+					<th>Options</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -145,12 +146,55 @@
 					<td th:text="${jp.user.userName}"></td>
 					<td th:text="${jp.sheetId}"></td>
 					<td th:text="${jp.postStatus}"></td>
-					<td th:text="${jp.postCreatedTime}"></td>
-					<td><a th:href="@{/applicant(jobPostId=${jp.postId})}">Add Applicant</a></td>
+					<td>
+						<div>
+							<div th:if="${jp.postStatus == 'PENDING'}">
+								<a th:href="@{/updateJobPost(jobPostId=${jp.postId})}">Action</a>
+							</div>
+							<a th:href="@{/applicant(jobPostId=${jp.postId})}">Add Applicant</a>
+							<div th:if="${jp.postStatus == 'POSTED'}">
+								<a th:href="@{/closeJobPost(jobPostId=${jp.postId})}"><button>Close</button></a>
+							</div>
+
+						</div>
+					</td>
 				</tr>
 
 			</tbody>
 		</table>
+	</div>
+
+	<div class="pagination">
+		<div>Total Job Posts: <span class="pagenum">[[${totalJobPosts}]]</span> - Page <span
+				class="pagenum">[[${currentPage}]]
+			</span>of <span class="pagenum">[[${totalPages}]]</span></div>
+
+		<div class="page-reference">
+			<a th:if="${currentPage > 1}"
+				th:href="@{'/searchJobPost/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != '' ? '&postStatus=' + postStatus : '' }}">First</a>
+			<span th:unless="${currentPage > 1}">First</span>
+
+			<a th:if="${currentPage > 1}"
+				th:href="@{'/searchJobPost/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != '' ? '&postStatus=' + postStatus : '' }}"><ion-icon
+					name="chevron-back-circle-outline"></ion-icon></a>
+			<span th:unless="${currentPage > 1}"><ion-icon name="chevron-back-circle-outline"></ion-icon></span>
+
+			<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+				<a th:if="${i != currentPage}"
+					th:href="@{'/searchJobPost/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}  + ${postStatus != '' ? '&postStatus=' + postStatus : '' }">[[${i}]]</a>
+				<span th:unless="${i != currentPage}">[[${i}]]</span>
+			</span>
+
+			<a th:if="${currentPage < totalPages}"
+				th:href="@{'/searchJobPost/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != '' ? '&postStatus=' + postStatus : '' }}"><ion-icon
+					name="chevron-forward-circle-outline"></ion-icon></a>
+			<span th:unless="${currentPage < totalPages}"><ion-icon
+					name="chevron-forward-circle-outline"></ion-icon></span>
+
+			<a th:if="${currentPage < totalPages}"
+				th:href="@{'/searchJobPost/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != '' ? '&postStatus=' + postStatus : '' }}">Last</a>
+			<span th:unless="${currentPage < totalPages}">Last</span>
+		</div>
 	</div>
 </body>
 

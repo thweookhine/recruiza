@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.project.demo.entity.JobPosition;
@@ -34,13 +38,14 @@ public class JobPostServiceImpl implements JobPostService {
 		jP.setCount(jobPost.getCount());
 		jP.setComment(jobPost.getComment());
 		jP.setFoc(jobPost.isFoc());
-		jP.setPostDate(jobPost.getPostDate());
-		jP.setDueDate(jobPost.getDueDate());
+		// jP.setPostDate(jobPost.getPostDate());
+		// jP.setDueDate(jobPost.getDueDate());
 		jP.setTeam(jobPost.getTeam());
 		jP.setUser(jobPost.getUser());
 		jP.setResource(jobPost.getResource());
 		jP.setJobPosition(jobPost.getJobPosition());
-		jP.setSheetId(jobPost.getSheetId());
+		// jP.setSheetId(jobPost.getSheetId());
+		jP.setPostStatus(jobPost.getPostStatus());
 		return jobPostRepo.save(jP);
 	}
 
@@ -49,122 +54,84 @@ public class JobPostServiceImpl implements JobPostService {
 		jobPostRepo.deleteById(jobPost.getPostId());
 	}
 
-	@Override
-	public List<JobPost> getAllJobPosts() {
-		return jobPostRepo.findAll();
-	}
-
-//	@Override
-//	public List<JobPost> searchJobPosts(String code, String name,String startDate,String endDate) {
-//
-//		List<JobPost> list = new ArrayList<>();
-//		
-//		if (code.isEmpty() && name.isEmpty() && startDate.isEmpty() && endDate.isEmpty()) {
-//			return jobPostRepo.findAll();
-//		}
-//		
-//		if (!code.isEmpty() && !name.isEmpty()) {
-//			List<JobPost> result = jobPostRepo.findWithCodeAndName(code, name);
-//			for(JobPost jp : result ) {
-//				list.add(jp);
-//			}
-//		}
-//		
-//		if (!startDate.isEmpty() && !endDate.isEmpty()) {
-//			List<JobPost> jobPosts = jobPostRepo.findWithStartDateAndEndDate(startDate, endDate);
-//			for (JobPost jp : jobPosts) {
-//				list.add(jp);
-//			}
-//		} else if (!startDate.isEmpty() && endDate.isEmpty()) {
-//			List<JobPost> jobPosts = jobPostRepo.findWithStartDate(startDate);
-//			for (JobPost jp : jobPosts) {
-//				list.add(jp);
-//			}
-//		} else if (startDate.isEmpty() && !endDate.isEmpty()) {
-//			List<JobPost> jobPosts = jobPostRepo.findWithEndDate(endDate);
-//			for (JobPost jp : jobPosts) {
-//				list.add(jp);
-//			}
-//		}
-//		
-//		list = list.stream().distinct().toList();
-//		
-//		return list;
-//	}
-	
-	public List<JobPost> searchWithCodeAndName(String code,String name){
-		List<JobPost> jobPosts = jobPostRepo.findWithCodeAndName("%" + code + "%", "%" + name + "%");
-		return jobPosts;
-	}
-
-	public List<JobPost> searchWithStartDate(String startDate) {
-
-		return jobPostRepo.findWithStartDate(startDate);
-	}
-
 	public List<JobPost> searchWithStartDateAndEndDate(String startDate, String endDate) {
 
 		return jobPostRepo.findWithStartDateAndEndDate(startDate, endDate);
 	}
 
 	@Override
-	public List<JobPost> searchBeforeEndDate(String endDate) {
-		return jobPostRepo.findBeforeEndDate(endDate);
+	public List<JobPost> searchBeforeDueDate(String endDate) {
+		return jobPostRepo.findBeforeDueDate(endDate);
 	}
 
 	@Override
 	public JobPost getByid(long id) {
-		
 		return jobPostRepo.findById(id).get();
 	}
 
 	@Override
 	public List<JobPost> searchWithStatus(String status) {
-		return jobPostRepo.findWithStatus(status);
+		return jobPostRepo.findByPostStatus(status);
 	}
 
-//	@Override
-//	public List<JobPost> searchJobPosts(String code, String name) {
-//
-//		List<JobPost> list = new ArrayList<>();
+	@Override
+	public Page<JobPost> searchPostedJobPosts(int pageNumber, String sortField, String sortDir) {
+		Sort sort = Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 
-//		if (code.isEmpty() && name.isEmpty() && startDate.isEmpty() && endDate.isEmpty()) {
-//			return jobPostRepo.findAll();
-//		}
-//
-//		if (!code.isEmpty() && !name.isEmpty()) {
-//			List<JobPost> jobPosts = jobPostRepo.findByCodeAndName("%" + code + "%", "%" + name + "%");
-//			for (JobPost jp : jobPosts) {
-//				list.add(jp);
-//			}
-//		}
-//
-//		if (!startDate.isEmpty() && !endDate.isEmpty()) {
-//			List<JobPost> jobPosts = jobPostRepo.findByStartDateAndEndDate(startDate, endDate);
-//			for (JobPost jp : jobPosts) {
-//				list.add(jp);
-//			}
-//		} else if (!startDate.isEmpty() && endDate.isEmpty()) {
-//			List<JobPost> jobPosts = jobPostRepo.findByStartDate(startDate);
-//			for (JobPost jp : jobPosts) {
-//				list.add(jp);
-//			}
-//		} else if (startDate.isEmpty() && !endDate.isEmpty()) {
-//			List<JobPost> jobPosts = jobPostRepo.findByEndDate(endDate);
-//			for (JobPost jp : jobPosts) {
-//				list.add(jp);
-//			}
-//		}
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
 
-//		List<JobPost> jobPosts = jobPostRepo.findByCodeAndName("%"+ code+"%", "%"+name +"%");
-//		for (JobPost jp : jobPosts) {
-//			System.out.println(jp.getPostName());
-//			list.add(jp);
-//		}
-//
-//		list = list.stream().distinct().toList();
-//
-//		return list;
-//	}
+		return jobPostRepo.findPostedJobPosts(pageable);
+	}
+
+	@Override
+	public Page<JobPost> listAllJobPosts(int pageNumber, String sortField, String sortDir, String keyword,
+			String status) {
+		Sort sort = Sort.by(sortField);
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
+
+		if (keyword != null && !status.isEmpty()) {
+			return jobPostRepo.findAll(keyword, status, pageable);
+		} else if (keyword != null && status.isEmpty()) {
+			return jobPostRepo.findAllWithKeyword(keyword, pageable);
+		}
+
+		return jobPostRepo.findAll(pageable);
+
+	}
+
+	@Override
+	public List<JobPost> getAllJobPosts() {
+		return jobPostRepo.findAll();
+	}
+
+	public List<JobPost> searchAfterDueDate(String dueDate) {
+		return jobPostRepo.findAfterDueDate(dueDate);
+	}
+
+	@Override
+	public List<JobPost> findJobPost(String keyword, String startDate, String endDate) {
+
+		if (!keyword.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+			return jobPostRepo.findWithKeywordAndStartDateAndEndDate(keyword, startDate, endDate);
+		} else if (!keyword.isEmpty() && startDate.isEmpty() && endDate.isEmpty()) {
+			return jobPostRepo.findWithKeywordAndStatus(keyword, "POSTED");
+		} else if (!keyword.isEmpty() && !startDate.isEmpty() && endDate.isEmpty()) {
+			return jobPostRepo.findWithKeywordAndStartDate(keyword, startDate);
+		} else if (!keyword.isEmpty() && startDate.isEmpty() && !endDate.isEmpty()) {
+			return jobPostRepo.findWithKeywordAndEndDate(keyword, endDate);
+		} else if (keyword.isEmpty() && !startDate.isEmpty() && endDate.isEmpty()) {
+			return jobPostRepo.findWithStartDate(startDate);
+		} else if (keyword.isEmpty() && !startDate.isEmpty() && !endDate.isEmpty()) {
+			return jobPostRepo.findWithStartDateAndEndDate(startDate, endDate);
+		} else if (keyword.isEmpty() && startDate.isEmpty() && !endDate.isEmpty()) {
+			return jobPostRepo.findWithEndDate(endDate);
+		} else {
+			return jobPostRepo.findByPostStatus("POSTED");
+		}
+
+	}
 
 }

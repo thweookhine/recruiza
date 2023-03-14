@@ -3,6 +3,7 @@ package com.project.demo.controller;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +81,9 @@ public class UserController {
 		
 		User bean = userService.userSelectOne(email);
 		
-		List<JobPost> jobPosts = jobPostService.searchBeforeEndDate(LocalDate.now().toString());
+		closeJobPosts();
+		
+		List<JobPost> jobPosts = jobPostService.searchBeforeDueDate(LocalDate.now().toString());
 		
 		UserBean user = UserBean.builder()
 						.userId(bean.getUserId())
@@ -252,4 +255,12 @@ public class UserController {
         }
         return addUser(bean, model, ra, session);
     }
+    
+	public void closeJobPosts() {
+		List<JobPost> list = jobPostService.searchAfterDueDate(LocalDate.now().toString());
+		for(JobPost jp : list) {
+			jp.setPostStatus("CLOSED");
+			jobPostService.updateJobPost(jp);
+		}
+	}
 }

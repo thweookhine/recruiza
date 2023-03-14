@@ -14,8 +14,23 @@
 		<div class="jobPostSearch">
 			<h2>Job Posts</h2>
 			<div>
-				<input type="text" name="jobpost">
-				<input type="submit" value="Search">
+				<form th:action="@{/searchPostedJobPost}" method="post">
+					<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" />
+
+					<div>
+						<label for="startDate">Start Date</label>
+						<input type="date" name="startDate" th:value="${startDate}" />
+					</div>
+
+					<div>
+						<label for="endDate">Due Date</label>
+						<input type="date" name="endDate" th:value="${endDate}" />
+					</div>
+
+					<input type="submit" value="Search">
+					<button><a th:href="@{/home}">Reset</a></button>
+
+				</form>
 			</div>
 		</div>
 

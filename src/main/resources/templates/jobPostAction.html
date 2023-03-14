@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Post Action</title>
+    <!-- JQuery js1 -->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript" th:src="@{/js/ajax.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}" defer></script>
+    <script type="text/javascript" th:src="@{/js/form.js}" defer></script>
+</head>
+
+<body>
+    <div>
+        <form th:action="@{/updateJobPost}" method="post" th:object="${jobPost}">
+
+            <input type="hidden" th:field="*{postId}">
+            <input type="text" th:field="*{postStatus}">
+
+            <div>
+                <label for="name">Name</label> <input type="text" th:field="*{postName}"
+                    placeholder="Enter Job Post Name" />
+                <label th:if="${#fields.hasErrors('postName')}" th:errors="*{postName}"
+                    style="color: red;">Error</label>
+            </div>
+
+            <div>
+                <label for="count">Count</label> <input type="number" th:field="*{count}" placeholder="Enter Count" />
+                <label th:if="${#fields.hasErrors('count')}" th:errors="*{count}" style="color: red;">Error</label>
+            </div>
+
+            <div>
+                <label for="comment">Comment</label>
+                <textarea rows="1" th:field="*{comment}" placeholder="Enter Comment"></textarea>
+                <label th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" style="color: red;">Error</label>
+            </div>
+
+            <div>
+                <label for="foc">FOC</label> <input type="checkbox" th:field="*{foc}" /> <label
+                    th:if="${#fields.hasErrors('foc')}" th:errors="*{foc}" style="color: red;">Error</label>
+            </div>
+
+            <div>
+                <label for="department">Select Department</label> <select id="departmentSelect" name="departmentId"
+                    onchange="getTeams();" th:field="*{departmentId}">
+                    <option th:each="d : ${departmentList}" th:value="${d.departmentId}" th:text="${d.departmentName}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="teamBox">
+                <label for="teams">Select Team</label>
+                <select id="teamSelect" th:field="*{teamBean}">
+                </select>
+            </div>
+
+
+            <div>
+                <label for="resource">Select Recruitement Resource</label> <select th:field="*{resourceId}">
+                    <option th:each="r : ${resourceList}" th:value="${r.resourceId}" th:text="${r.resourceName}">
+                    </option>
+                </select>
+            </div>
+
+            <div>
+                <label for="position">Select Job Position</label>
+                <select th:field="*{jobPositionId}">
+                    <option th:each="p : ${positionList}" th:value="${p.positionId}" th:text="${p.positionName}">
+                    </option>
+                </select>
+
+            </div>
+
+            <div>
+                <p>Status : <span th:text="*{postStatus}"></span></p>
+            </div>
+
+            <div>
+                <input type="submit" value="Update" />
+            </div>
+        </form>
+        <div>
+            <a th:href="@{/jobPost}">Back</a>
+        </div>
+    </div>
+
+</body>
+
+</html>

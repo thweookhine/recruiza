@@ -2,31 +2,64 @@ package com.project.demo.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.project.demo.entity.JobPost;
 
-public interface JobPostRepository extends JpaRepository<JobPost, Long>{
-	
+public interface JobPostRepository extends JpaRepository<JobPost, Long> {
 
-	@Query(value = "select * from recruit.job_post where post_status = 'POSTED' and  due_date >= :endDate ",nativeQuery = true)
-	List<JobPost> findBeforeEndDate(@Param("endDate") String endDate);
+	@Query("SELECT p from JobPost p WHERE "
+			+ "CONCAT(p.postName, ' ', p.postCode, ' ',p.team.teamName,' ',p.team.department.departmentName,' ',p.resource.resourceName,' ',p.jobPosition.positionName)"
+			+ "LIKE %?1% and p.postStatus = ?2")
+	public Page<JobPost> findAll(String keyword,String status, Pageable pageable);
 	
-	@Query(value = "select * from recruit.job_post where post_status = :status",nativeQuery = true)
-	List<JobPost> findWithStatus(@Param("status")String status);
+	@Query("SELECT p from JobPost p WHERE "
+			+ "CONCAT(p.postName, ' ', p.postCode, ' ',p.team.teamName,' ',p.team.department.departmentName,' ',p.resource.resourceName,' ',p.jobPosition.positionName)"
+			+ "LIKE %?1% and p.postStatus = ?2")
+	public List<JobPost> findWithKeywordAndStatus(String keyword,String status);
 	
-	@Query(value ="select * from recruit.job_post where (code like :code) or (name like :name)",
-			nativeQuery=true )
-	List<JobPost> findWithCodeAndName(@Param("code")String code,@Param("name")String name);
+	@Query("SELECT p from JobPost p WHERE "
+			+ "CONCAT(p.postName, ' ', p.postCode, ' ',p.team.teamName,' ',p.team.department.departmentName,' ',p.resource.resourceName,' ',p.jobPosition.positionName)"
+			+ "LIKE %?1% and post_status='POSTED' and post_date >= ?2")
+	public List<JobPost> findWithKeywordAndStartDate(String keyword,String startDate);
 	
-	@Query(value = "select * from recruit.job_post where post_date >= :startDate",nativeQuery = true)
-	List<JobPost> findWithStartDate(@Param("startDate") String startDate);
+	@Query("SELECT p from JobPost p WHERE "
+			+ "CONCAT(p.postName, ' ', p.postCode, ' ',p.team.teamName,' ',p.team.department.departmentName,' ',p.resource.resourceName,' ',p.jobPosition.positionName)"
+			+ "LIKE %?1% and post_status='POSTED' and post_date <= ?2")
+	public List<JobPost> findWithKeywordAndEndDate(String keyword,String endDate);
 	
-	@Query(value = "select * from recruit.job_post where due_date <= :endDate",nativeQuery = true)
-	List<JobPost> findWithEndDate(@Param("endDate") String endDate);
+	@Query("SELECT p from JobPost p WHERE post_status='POSTED' and post_date >= ?1")
+	public List<JobPost> findWithStartDate(String startDate);
 	
-	@Query(value = "select * from recruit.job_post where post_date >= :startDate and post_date <= :endDate",nativeQuery = true)
-	List<JobPost> findWithStartDateAndEndDate(@Param("startDate") String startDate,@Param("endDate") String endDate);
+	@Query("SELECT p from JobPost p WHERE post_status='POSTED' and post_date <= ?1")
+	public List<JobPost> findWithEndDate(String endDate);
+	
+	@Query("SELECT p from JobPost p WHERE post_status='POSTED' and post_date >= ?1 and post_date <= ?2")
+	public List<JobPost> findWithStartDateAndEndDate(String startDate,String ndDate);
+	
+	@Query("SELECT p from JobPost p WHERE "
+			+ "CONCAT(p.postName, ' ', p.postCode, ' ',p.team.teamName,' ',p.team.department.departmentName,' ',p.resource.resourceName,' ',p.jobPosition.positionName)"
+			+ "LIKE %?1% and post_status='POSTED' and post_date >= ?2 and post_date <= ?3")
+	public List<JobPost> findWithKeywordAndStartDateAndEndDate(String keyword,String startDate,String endDate);
+	
+	@Query("SELECT p from JobPost p WHERE "
+			+ "CONCAT(p.postName, ' ', p.postCode, ' ',p.team.teamName,' ',p.team.department.departmentName,' ',p.resource.resourceName,' ',p.jobPosition.positionName)"
+			+ "LIKE %?1%")
+	public Page<JobPost> findAllWithKeyword(String keyword, Pageable pageable);
+
+	@Query(value = "select * from recruit.job_post where post_status = 'POSTED' and  due_date >= :dueDate ", nativeQuery = true)
+	List<JobPost> findBeforeDueDate(@Param("dueDate") String dueDate);
+
+	@Query(value = "select * from recruit.job_post where post_status = 'POSTED' ",nativeQuery=true)
+	Page<JobPost> findPostedJobPosts(Pageable pageable);
+	
+	@Query(value = "select * from recruit.job_post where due_date < :dueDate ", nativeQuery = true)
+	List<JobPost> findAfterDueDate(@Param("dueDate") String dueDate);
+
+	List<JobPost> findByPostStatus(String poststatus);
+
 }

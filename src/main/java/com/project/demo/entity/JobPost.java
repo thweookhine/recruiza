@@ -25,30 +25,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(
-	uniqueConstraints = { 
-		@UniqueConstraint(
-			name = "code_unique", 
-			columnNames = "code"
-		)
-	}
-)
+@Table(uniqueConstraints = {
+		@UniqueConstraint(name = "code_unique", columnNames = "code")
+})
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobPost {
 	@Id
-	@GeneratedValue(
-		strategy = GenerationType.SEQUENCE,
-		generator = "jobpost_generator"
-	)
-	@SequenceGenerator(
-		name = "jobpost_generator", 
-		sequenceName = "jobpost_sequence_name", 
-		allocationSize = 1
-	)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "jobpost_generator")
+	@SequenceGenerator(name = "jobpost_generator", sequenceName = "jobpost_sequence_name", allocationSize = 1)
+	@Column(name = "id")
 	private long postId;
 
 	@Column(name = "code")
@@ -71,43 +59,36 @@ public class JobPost {
 
 	@Column(name = "due_date")
 	private LocalDate dueDate;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	private Department department;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "team_id")
 	private Team team;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name ="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "resource_id")
 	private RecruitementResource resource;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "jobposition_id")
 	private JobPosition jobPosition;
-	
+
 	@Column(name = "sheet_id")
 	private String sheetId;
 
-	@Column(name= "post_status")
+	@Column(name = "post_status")
 	private String postStatus;
 
-	@Column(
-		name = "created_time",
-		columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
-	)
+	@Column(name = "created_time", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp postCreatedTime;
-	
-	@OneToMany(
-			mappedBy = "jobPost",
-			fetch = FetchType.EAGER,
-			cascade = CascadeType.ALL
-		)
+
+	@OneToMany(mappedBy = "jobPost", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Applicant> applicants;
 
 	@Override
@@ -134,6 +115,4 @@ public class JobPost {
 				postId, postName, resource, sheetId, team, user);
 	}
 
-	
-	
 }

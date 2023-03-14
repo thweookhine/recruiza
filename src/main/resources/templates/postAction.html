@@ -13,7 +13,7 @@
     <div>
         <form th:action="@{/postJP}" method="post" th:object="${jobPost}">
 
-            <input type="text" name="jobPostId" th:value="${jobPost.postId}">
+            <input type="hidden" name="jobPostId" th:value="${jobPost.postId}">
             <div>
                 <p>Name : <span th:text="${jobPost.postName}"></span></p>
             </div>
@@ -33,7 +33,8 @@
             </div>
 
             <div>
-                <label for="sheet">Sheet ID</label> <input type="text" name="sheetId" placeholder="Enter Sheet ID" />
+                <label for="sheet">Sheet ID</label> <input type="text" name="sheetId" placeholder="Enter Sheet ID"
+                    required />
             </div>
             <div>
                 <input type="submit" value="Post" />
