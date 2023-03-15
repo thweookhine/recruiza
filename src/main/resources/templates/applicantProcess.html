@@ -16,26 +16,39 @@
 	<!-- navbar start -->
 	<div>
 		<div>
-			<a th:href="@{'/applicantProcess'}">All</a>
+			<a th:href="@{'/applicantProcess/' + ${all}}">All</a>
 		</div>
 		<div>
-			<a th:href="@{'/applicantPro/1/' + ${ct} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Code Test</a>
+			<a th:href="@{'/applicantProcess/' + ${ct}}">Code Test</a>
 		</div>
 		<div>
-			<a th:href="@{'/applicantPro/1/' + ${ii} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Intro Interview</a>
+			<a th:href="@{'/applicantProcess/' + ${ii}}">Intro Interview</a>
 		</div>
 		<div>
-			<a th:href="@{'/applicantPro/1/' + ${si} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Second Interview</a>
+			<a th:href="@{'/applicantProcess/' + ${si}}">Second Interview</a>
 		</div>
 		<div>
-			<a th:href="@{'/applicantPro/1/' + ${jo} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Job offer</a>
+			<a th:href="@{'/applicantProcess/' + ${jo}}">Job offer</a>
 		</div>
 		<div>
-			<a th:href="@{'/applicantPro/1/' + ${h} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Hired</a>
+			<a th:href="@{'/applicantProcess/' + ${h}}">Hired</a>
 		</div>
 		
 	</div>
 	<!-- navbar end -->
+
+	<!-- search form start  -->
+	<div>
+		<form th:action="@{'/applicantPro/1/' + ${keyword}}">
+			<input type="hidden" name="sortField" th:value="${sortField}" />
+			<input type="hidden" name="sortDir" th:value="${sortDir}" />
+			<input type="text" name="searchKey" onfocus="this.value=''" th:value="${searchKey}" required/>
+			<button type="submit">
+				<ion-icon name="search-outline"></ion-icon>
+			</button>
+		</form>
+	</div>
+	<!-- search form end  -->
 	
 	<!-- show applicant result start -->
 	<div>
@@ -84,22 +97,22 @@
 		Total Applicants: [[${totalApplicants}]] - Page [[${currentPage}]] of [[${totalPages}]]
 		&nbsp; - &nbsp;
 		
-		<a th:if="${currentPage > 1}" th:href="@{'/applicantPro/1/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+		<a th:if="${currentPage > 1}" th:href="@{'/applicantPro/1/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">First</a>
 		<span th:unless="${currentPage > 1}">First</span>
 		
-		<a th:if="${currentPage > 1}" th:href="@{'/applicantPro/' + ${currentPage - 1} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+		<a th:if="${currentPage > 1}" th:href="@{'/applicantPro/' + ${currentPage - 1} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">Previous</a>
 		<span th:unless="${currentPage > 1}">Previous</span>
 		
 		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			<a th:if="${i != currentPage}" th:href="@{'/applicantPro/' + ${i} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a> 
+			<a th:if="${i != currentPage}" th:href="@{'/applicantPro/' + ${i} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">[[${i}]]</a> 
 			<span th:unless="${i != currentPage}">[[${i}]]</span>
 			&nbsp;&nbsp;
 		</span>
 		
-		<a th:if="${currentPage < totalPages}" th:href="@{'/applicantPro/' + ${currentPage + 1} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+		<a th:if="${currentPage < totalPages}" th:href="@{'/applicantPro/' + ${currentPage + 1} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">Next</a>
 		<span th:unless="${currentPage < totalPages}">Next</span>
 		
-		<a th:if="${currentPage < totalPages}" th:href="@{'/applicantPro/' + ${totalPages} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+		<a th:if="${currentPage < totalPages}" th:href="@{'/applicantPro/' + ${totalPages} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">Last</a>
 		<span th:unless="${currentPage < totalPages}">Last</span>
 	</div>
 	<!-- paging end -->

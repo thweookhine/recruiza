@@ -21,7 +21,7 @@ public interface ApplicantService {
 	
 	Applicant getApplicantById(Long id);
 	
-	Page<Applicant> listApplicantProcess(int pageNumber, String sortField, String sortDir, String keyword);
+	Page<Applicant> listApplicantProcess(int pageNumber, String sortField, String sortDir, String keyword, String searchKey);
 	
 	Applicant changeApplicantStatus(ApplicantBean bean, String checkStatus, String getStatus,String comment);
 	

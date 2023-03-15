@@ -86,7 +86,7 @@ public class ApplicantServiceImpl implements ApplicantService{
 	}
 
 	@Override
-	public Page<Applicant> listApplicantProcess(int pageNumber, String sortField, String sortDir, String keyword) {
+	public Page<Applicant> listApplicantProcess(int pageNumber, String sortField, String sortDir, String keyword, String searchKey) {
 		
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
@@ -94,9 +94,9 @@ public class ApplicantServiceImpl implements ApplicantService{
 		Pageable pageable = PageRequest.of(pageNumber - 1, 3, sort);
 		
 		if (!keyword.equals("allApplicants")) {
-			return repo.findApplicantProcess(keyword, pageable);
+			return repo.findApplicantProcess(keyword, searchKey, pageable);
 		}
-			return repo.findAll(pageable);
+			return repo.findWithSearchKey(searchKey, pageable);
 	}
 
 	@Override

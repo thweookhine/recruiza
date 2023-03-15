@@ -86,19 +86,20 @@ public class ApplicantController {
         	return new ModelAndView("applicantControl","jobPost",jobPost);
         }
     
-    @GetMapping(value = "/applicantProcess")
-    public ModelAndView applicantPro(ModelMap model) {
-    	String keyword = "allApplicants";
-    	return applicantProcess(1, keyword, "applicantId", "asc", model);
+    @GetMapping(value = "/applicantProcess/{keyword}")
+    public ModelAndView applicantPro(@PathVariable("keyword") String keyword, ModelMap model) {
+		String searchKey = " ";
+    	return applicantProcess(1, keyword, "applicantId", "asc", searchKey, model);
     }
     
     @GetMapping(value = "/applicantPro/{pageNumber}/{keyword}") 
     public ModelAndView applicantProcess(@PathVariable("pageNumber") int currentPage, @PathVariable("keyword") String keyword, 
     		@Param("sortField") String sortField,
 			@Param("sortDir") String sortDir,
+			@Param("searchKey") String searchKey,
 			ModelMap model) {
     	
-    	Page<Applicant> aplicantPage = service.listApplicantProcess(currentPage, sortField, sortDir, keyword);
+    	Page<Applicant> aplicantPage = service.listApplicantProcess(currentPage, sortField, sortDir, keyword, searchKey);
     	
     	long totalApplicants = aplicantPage.getTotalElements();
     	int totalPages = aplicantPage.getTotalPages();
@@ -112,7 +113,9 @@ public class ApplicantController {
     	model.addAttribute("sortField", sortField);
     	model.addAttribute("sortDir", sortDir);
     	model.addAttribute("keyword", keyword);
+		model.addAttribute("searchKey", searchKey);
     	
+		model.addAttribute("all","allApplicants");
     	model.addAttribute("ct","Code Test");
     	model.addAttribute("ii","Intro Interview");
     	model.addAttribute("si","Second Interview");
@@ -160,7 +163,7 @@ public class ApplicantController {
     		model.addAttribute("error", "Applicant Status Change Success and Mail Sent Successfully!");
     	}
     			
-    	return applicantPro(model);
+    	return applicantPro("allApplicants", model);
     }
   
     @ModelAttribute("jobPostList")
