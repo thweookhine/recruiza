@@ -2,8 +2,6 @@ package com.project.demo.service;
 
 import static com.project.demo.utils.codeGenerator.*;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.project.demo.entity.JobPosition;
 import com.project.demo.entity.JobPost;
 import com.project.demo.repository.JobPostRepository;
 
@@ -136,6 +133,18 @@ public class JobPostServiceImpl implements JobPostService {
 			return jobPostRepo.findByPostStatus("POSTED");
 		}
 
+	}
+
+	@Override
+	public List<JobPost> searchWithCodeAndName(String code, String name) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'searchWithCodeAndName'");
+	}
+
+	@Override
+	public List<JobPost> searchWithStartDate(String startDate) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'searchWithStartDate'");
 	}
 
 }

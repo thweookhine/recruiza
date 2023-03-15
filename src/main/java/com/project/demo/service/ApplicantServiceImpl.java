@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.project.demo.entity.Applicant;
 import com.project.demo.model.ApplicantBean;
 import com.project.demo.repository.ApplicantRepository;
-import com.project.demo.utils.Text;
 import com.project.demo.utils.codeGenerator;
 
 @Service
@@ -144,5 +143,10 @@ public class ApplicantServiceImpl implements ApplicantService{
 		applicant.setComment(comment);
 		return repo.save(applicant);
 	}
-
+	
+	@Override
+	public List<Applicant> getApplicantList(Long postId) {
+		System.out.println(repo.getApplicantsByJobPostId(postId).size());
+		return repo.getApplicantsByJobPostId(postId);
+	}
 }

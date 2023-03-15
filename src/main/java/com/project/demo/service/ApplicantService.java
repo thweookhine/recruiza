@@ -25,4 +25,6 @@ public interface ApplicantService {
 	
 	Applicant changeApplicantStatus(ApplicantBean bean, String checkStatus, String getStatus,String comment);
 	
+	List<Applicant> getApplicantList(Long postId);
+	
 }

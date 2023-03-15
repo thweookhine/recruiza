@@ -19,6 +19,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -87,8 +89,13 @@ public class JobPost {
 
 	@Column(name = "created_time", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp postCreatedTime;
-
-	@OneToMany(mappedBy = "jobPost", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	
+	@JsonIgnore
+	@OneToMany(
+			mappedBy = "jobPost",
+			fetch = FetchType.EAGER,
+			cascade = CascadeType.ALL
+		)
 	private List<Applicant> applicants;
 
 	@Override

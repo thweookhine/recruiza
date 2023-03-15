@@ -1,7 +1,7 @@
 package com.project.demo.utils;
 
 public class NameCapital {
-	
+
     public static String capitalizeFirstLetter(String text) {
 
         StringBuilder str = new StringBuilder();
@@ -17,7 +17,6 @@ public class NameCapital {
         return str.toString();
 
     }
-    
     public static void main(String args []) {
     	System.out.println(capitalizeFirstLetter("java se develover"));
     }

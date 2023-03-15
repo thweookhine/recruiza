@@ -72,4 +72,7 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
 
 	List<JobPost> findByPostStatus(String poststatus);
 
+	// @Query(value = "select * from recruit.job_post where post_date >= :startDate and post_date <= :endDate",nativeQuery = true)
+	// List<JobPost> findWithStartDateAndEndDate(@Param("startDate") String startDate,@Param("endDate") String endDate);
+	
 }

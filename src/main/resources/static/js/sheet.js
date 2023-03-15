@@ -9,7 +9,9 @@ function retrieveSheetData(sheetid, postid) {
 	let SHEET_RANGE = 'A2:K100'
 
 	let FULL_URL = ('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?sheet=' + SHEET_TITLE + '&range=' + SHEET_RANGE);
-
+	
+	getApplicants(postid);
+	
 	fetch(FULL_URL)
 		.then(res => res.text())
 		.then(rep => {
@@ -94,4 +96,27 @@ function generateAppModel(i, id) {
 }
 function closeAppModel() {
 	document.querySelector(".addApplicantBox").remove();
+}
+
+// ajax call for applicant data
+
+function getApplicants(postId) {
+	
+	$.ajax({
+		url: '/applicantList/' + postId,
+		type: "get",
+		success: function (response) {
+			
+			if (response == 0) {
+				console.log("error");
+			} else {
+				for (item in response) {
+					console.log(response[item].applicantId);
+				}
+			}
+		},
+		error: function (e) {
+			alert("Submit failed" + JSON.stringify(e));
+		}
+	});
 }
