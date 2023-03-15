@@ -75,12 +75,16 @@ public class JobPostServiceImpl implements JobPostService {
 	}
 
 	@Override
-	public Page<JobPost> searchJobPostsWithoutPending(int pageNumber, String sortField, String sortDir) {
+	public Page<JobPost> searchJobPostsWithoutPending(int pageNumber, String sortField, String sortDir,String keyword) {
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 
 		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
-
+		
+		if(!keyword.isEmpty()) {
+			return jobPostRepo.findJobPostsWithKeywordAndNotPending(keyword, pageable);
+		}
+		
 		return jobPostRepo.findJobPostsWithoutPending(pageable);
 	}
 

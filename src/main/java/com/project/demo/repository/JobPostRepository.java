@@ -11,7 +11,12 @@ import org.springframework.data.repository.query.Param;
 import com.project.demo.entity.JobPost;
 
 public interface JobPostRepository extends JpaRepository<JobPost, Long> {
+	
 
+	String FINDWITHOUTPENDING = "select * from recruit.job_post where post_status != 'PENDING' ";
+
+	String FINDWITHKEYWORD = "SELECT p from JobPost p WHERE CONCAT(p.postName, ' ', p.postCode, ' ',p.team.teamName,' ',p.team.department.departmentName,' ',p.resource.resourceName,' ',p.jobPosition.positionName) LIKE %?1%";
+	
 	@Query("SELECT p from JobPost p WHERE "
 			+ "CONCAT(p.postName, ' ', p.postCode, ' ',p.team.teamName,' ',p.team.department.departmentName,' ',p.resource.resourceName,' ',p.jobPosition.positionName)"
 			+ "LIKE %?1% and p.postStatus = ?2")
@@ -54,9 +59,14 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
 	@Query(value = "select * from recruit.job_post where post_status = 'POSTED' and  due_date >= :dueDate ", nativeQuery = true)
 	List<JobPost> findBeforeDueDate(@Param("dueDate") String dueDate);
 
-	@Query(value = "select * from recruit.job_post where post_status != 'PENDING' ",nativeQuery=true)
+	@Query(value = FINDWITHOUTPENDING ,nativeQuery=true)
 	Page<JobPost> findJobPostsWithoutPending(Pageable pageable);
 	
+	@Query(value = "SELECT p from JobPost p WHERE "
+			+ "CONCAT(p.postName, ' ', p.postCode, ' ',p.team.teamName,' ',p.team.department.departmentName,' ',p.resource.resourceName,' ',p.jobPosition.positionName, ' ',p.postStatus)"
+			+ "LIKE %?1% and p.postStatus != 'PENDING'" )
+	Page<JobPost> findJobPostsWithKeywordAndNotPending(String keyword,Pageable pageable);
+
 	@Query(value = "select * from recruit.job_post where due_date < :dueDate ", nativeQuery = true)
 	List<JobPost> findAfterDueDate(@Param("dueDate") String dueDate);
 

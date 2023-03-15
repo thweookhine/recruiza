@@ -3,6 +3,7 @@ package com.project.demo.controller;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,8 +45,8 @@ public class MarketingController {
 	@GetMapping("/marketing")
 	public ModelAndView toMarketing(ModelMap model, RedirectAttributes ra) {
 
-		String keyword = null;
-
+		String keyword = "";
+	
 		return showJobPosts(model, ra, 1, "id", "asc", keyword);
 	}
 
@@ -53,7 +55,8 @@ public class MarketingController {
 			@PathVariable("pageNumber") int currentPage,
 			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword) {
 
-		Page<JobPost> page = jobPostService.searchJobPostsWithoutPending(currentPage, sortField, sortDir);
+		
+		Page<JobPost> page = jobPostService.searchJobPostsWithoutPending(currentPage, sortField, sortDir,keyword);
 
 		long totalJobPosts = page.getTotalElements();
 		int totalPages = page.getTotalPages();
@@ -81,14 +84,6 @@ public class MarketingController {
 		return new ModelAndView("marketingControl");
 
 	}
-
-	// @GetMapping("/marketing")
-	// public ModelAndView toMarketing(Model model) {
-	// List<JobPost> jobPosts = jobPostService.searchWithStatus("PENDING");
-	// model.addAttribute("jobPosts", jobPosts);
-
-	// return new ModelAndView("marketingControl");
-	// }
 
 	@GetMapping(value = "/postJP")
 	public ModelAndView toPostJP(@RequestParam("jobPostId") long postId) {
@@ -139,6 +134,17 @@ public class MarketingController {
 				.historyCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
 				.build();
 		historyService.createHistory(history);
+	}
+	
+	@ModelAttribute("postStatusList")
+	public List<String> getAllPostStatus(){
+		List<String> list = new ArrayList<>();
+		list.add("ALL");
+		list.add("PENDING");
+		list.add("POSTED");
+		list.add("CLOSED");
+		list.add("CLOSED*");
+		return list;
 	}
 	
 }

@@ -50,6 +50,17 @@
 
 	<div>
 		<h3>Posted Job Posts</h3>
+
+		<form th:action="@{/showJobPosts/1}">
+			<input type="hidden" name="sortField" th:value="${sortField}" />
+			<input type="hidden" name="sortDir" th:value="${sortDir}" />
+			<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" />
+
+			<button type="submit">Search</button>
+			<button><a th:href="@{/marketing}">Reset</a></button>
+
+		</form>
+
 		<table>
 			<thead>
 				<tr>
@@ -92,28 +103,28 @@
 
 		<div class="page-reference">
 			<a th:if="${currentPage > 1}"
-				th:href="@{'/showJobPosts/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+				th:href="@{'/showJobPosts/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}  + ${postStatus != '' ? '&postStatus=' + postStatus : '' }}">First</a>
 			<span th:unless="${currentPage > 1}">First</span>
 
 			<a th:if="${currentPage > 1}"
-				th:href="@{'/showJobPosts/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon
+				th:href="@{'/showJobPosts/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}  + ${postStatus != '' ? '&postStatus=' + postStatus : '' }}"><ion-icon
 					name="chevron-back-circle-outline"></ion-icon></a>
 			<span th:unless="${currentPage > 1}"><ion-icon name="chevron-back-circle-outline"></ion-icon></span>
 
 			<span th:each="i: ${#numbers.sequence(1, totalPages)}">
 				<a th:if="${i != currentPage}"
-					th:href="@{'/showJobPosts/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
+					th:href="@{'/showJobPosts/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}  + ${postStatus != '' ? '&postStatus=' + postStatus : '' }">[[${i}]]</a>
 				<span th:unless="${i != currentPage}">[[${i}]]</span>
 			</span>
 
 			<a th:if="${currentPage < totalPages}"
-				th:href="@{'/showJobPosts/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon
+				th:href="@{'/showJobPosts/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}  + ${postStatus != '' ? '&postStatus=' + postStatus : '' }}"><ion-icon
 					name="chevron-forward-circle-outline"></ion-icon></a>
 			<span th:unless="${currentPage < totalPages}"><ion-icon
 					name="chevron-forward-circle-outline"></ion-icon></span>
 
 			<a th:if="${currentPage < totalPages}"
-				th:href="@{'/showJobPosts/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+				th:href="@{'/showJobPosts/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}  + ${postStatus != '' ? '&postStatus=' + postStatus : '' }}">Last</a>
 			<span th:unless="${currentPage < totalPages}">Last</span>
 		</div>
 	</div>

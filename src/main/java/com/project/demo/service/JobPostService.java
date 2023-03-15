@@ -24,7 +24,7 @@ public interface JobPostService {
 
 	List<JobPost> searchWithStatus(String status);
 
-	Page<JobPost> searchJobPostsWithoutPending(int pageNumber, String sortField, String sortDir);
+	Page<JobPost> searchJobPostsWithoutPending(int pageNumber, String sortField, String sortDir,String keyword);
 	
 	List<JobPost> searchAfterDueDate(String dueDate);
 
