@@ -53,6 +53,9 @@ if (title == 'Profile') {
 } else if (title == 'Team' || title == 'Department' || title == 'Job Position' || title == 'RecruitementResource') {
 	activeLink()
 	navlist[3].classList.add('active')
+}else if (title == 'Admin') {
+	activeLink()
+	navlist[4].classList.add('active')
 }
 // navlist.forEach((item) => item.addEventListener('click', activeLink));
 

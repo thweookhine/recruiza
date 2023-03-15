@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>User Registration</title>
+	<title>Admin</title>
 	<div th:insert="../components/nav :: tags"></div>
 </head>
 
@@ -44,7 +44,8 @@
 				<p th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></p>
 			</div>
 			<div>
-				<input type="password" id="password" th:field="*{password}" placeholder="Enter user password" required />
+				<input type="password" id="password" th:field="*{password}" placeholder="Enter user password"
+					required />
 				<label for="password">Password</label>
 				<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 			</div>
@@ -63,93 +64,98 @@
 		<div class="backgroundExit" onclick="generateTeamBox()"></div>
 	</div>
 
-	<div>
-		<form th:action="@{/admin/searchUser/1}">
-			<input type="hidden" name="sortField" th:value="${sortField}" />
-			<input type="hidden" name="sortDir" th:value="${sortDir}" />
-			<input type="text" name="keyword" th:value="${keyword}" required />
-			&nbsp;
-			<input type="submit" value="Search" />
-			&nbsp;
-			<input type="button" value="Clear" onclick="clearFilter()" />
-		</form>
-	</div>
-	<div>
-		<table>
-			<thead>
-				<tr>
-					<th>
-						<a
-							th:href="@{'/admin/searchUser/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-							ID
-						</a>
-					</th>
-					<th>Code</th>
-					<th>
-						<a
-							th:href="@{'/admin/searchUser/' + ${currentPage} + '?sortField=userName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-							Name
-						</a>
-					</th>
-					<th>Email</th>
-					<th>Phone</th>
-					<th>Role</th>
-					<th>Status</th>
-					<th>Created Time</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody th:if="${users != null }">
-				<tr th:each="data : ${users}">
-					<td th:text="${data.userId}"></td>
-					<td th:text="${data.userCode}"></td>
-					<td th:text="${data.userName}"></td>
-					<td th:text="${data.userEmail}"></td>
-					<td th:text="${data.userMobile}"></td>
-					<td th:text="${data.role}"></td>
-					<td th:text="${data.userStatus}"></td>
-					<td th:text="${data.userCreatedTime}"></td>
-					<td>
-						<a th:if="${data.userStatus == 'ACTIVE'}" th:href="@{/admin/deleteUser(id=${data.userId})}"><span>Ban</span></a>
-						<a th:if="${data.userStatus == 'INACTIVE'}" th:href="@{/admin/activeUser(id=${data.userId})}"><span>Active</span></a>
-						<button th:onclick="generateUpdateRoleForm([[${data.userCode}]],[[${data.userId}]],[[${data.role}]]);">Change Role</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<div>
-		Total Users: [[${totalUsers}]] - Page [[${currentPage}]] of [[${totalPages}]]
-		&nbsp; - &nbsp;
+	<section class="adminUserSection">
+		<div class="usersearchBox">
+			<h3>Users Management</h3>
+			<span>Total Users: [[${totalUsers}]]</span>
+			<div class="newSearchForm">
+				<form th:action="@{/admin/searchUser/1}">
+					<input type="hidden" name="sortField" th:value="${sortField}" />
+					<input type="hidden" name="sortDir" th:value="${sortDir}" />
+					<input type="text" name="keyword" th:value="${keyword}" required />
+					<button type="submit">
+						<ion-icon name="search-outline"></ion-icon>
+					</button>
+				</form>
 
-		<a th:if="${currentPage > 1}"
-			th:href="@{'/admin/searchUser/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
-		<span th:unless="${currentPage > 1}">First</span>
+				<button type="submit">
+					<ion-icon name="refresh-outline"></ion-icon>
+				</button>
 
-		<a th:if="${currentPage > 1}"
-			th:href="@{'/admin/searchUser/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
-		<span th:unless="${currentPage > 1}">Previous</span>
+				<button type="submit" onclick="generateTeamBox()">
+					<ion-icon name="add-outline"></ion-icon>
+				</button>
+			</div>
+		</div>
 
-		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			<a th:if="${i != currentPage}"
-				th:href="@{'/admin/searchUser/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
-			<span th:unless="${i != currentPage}">[[${i}]]</span>
-			&nbsp;&nbsp;
-		</span>
+		<div class="userContainer" th:if="${users != null }">
+			<div class="userCard" th:each="data : ${users}">
+				<div class="activity">
+					<div th:if="${data.userStatus == 'ACTIVE'}" class="uactive"></div>
+					<div th:if="${data.userStatus == 'INACTIVE'}" class="uinactive"></div>
+				</div>
+				<p class="role" th:text="${data.role}"></p>
+				<img class="userImage" th:src="'https://api.dicebear.com/5.x/micah/svg?seed='+${data.userName}+''"
+					alt="">
+				<div class="userInfo">
+					<div class="userInfoText">
+						<div>
+							<ion-icon name="person-outline"></ion-icon>
+							<p th:text="${data.userName}"></p>
+						</div>
+						<div>
+							<ion-icon name="key-outline"></ion-icon>
+							<p th:text="${data.userCode}"></p>
+						</div>
+						<div>
+							<ion-icon name="mail-outline"></ion-icon>
+							<p th:text="${data.userEmail}"></p>
+						</div>
+						<div>
+							<ion-icon name="phone-portrait-outline"></ion-icon>
+							<p th:text="${data.userMobile}"></p>
+						</div>
+					</div>
+				</div>
+				<div class="userInfoFooter">
+					<a th:if="${data.userStatus == 'ACTIVE'}"
+						th:href="@{/admin/deleteUser(id=${data.userId})}"><span>Ban</span></a>
+					<a th:if="${data.userStatus == 'INACTIVE'}"
+						th:href="@{/admin/activeUser(id=${data.userId})}"><span>Active</span></a>
+					<button
+						th:onclick="generateUpdateRoleForm([[${data.userCode}]],[[${data.userId}]],[[${data.role}]]);">Change
+						Role</button>
+				</div>
+			</div>
+		</div>
 
-		<a th:if="${currentPage < totalPages}"
-			th:href="@{'/admin/searchUser/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
-		<span th:unless="${currentPage < totalPages}">Next</span>
+		<div class="newPagination">
+			<div>
+				<a th:if="${currentPage > 1}"
+					th:href="@{'/admin/searchUser/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+				<span th:unless="${currentPage > 1}">First</span>
 
-		<a th:if="${currentPage < totalPages}"
-			th:href="@{'/admin/searchUser/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
-		<span th:unless="${currentPage < totalPages}">Last</span>
-	</div>
-	<script type="text/javascript">
-		function clearFilter() {
-			window.location = '/admin/addUser';
-		}
-	</script>
+				<a th:if="${currentPage > 1}"
+					th:href="@{'/admin/searchUser/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
+				<span th:unless="${currentPage > 1}">Previous</span>
+
+				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+					<a th:if="${i != currentPage}"
+						th:href="@{'/admin/searchUser/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
+					<span th:unless="${i != currentPage}">[[${i}]]</span>
+				</span>
+
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/admin/searchUser/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
+				<span th:unless="${currentPage < totalPages}">Next</span>
+
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/admin/searchUser/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+				<span th:unless="${currentPage < totalPages}">Last</span>
+			</div>
+		</div>
+
+	</section>
 </body>
 
 </html>

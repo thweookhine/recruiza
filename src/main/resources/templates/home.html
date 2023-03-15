@@ -13,7 +13,7 @@
 	<div class="jobPostSection">
 		<div class="jobPostSearch">
 			<h2>Job Posts</h2>
-			<div>
+			<div class="searchForm">
 				<form th:action="@{/searchPostedJobPost}" method="post">
 					<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" />
 
@@ -27,8 +27,18 @@
 						<input type="date" name="endDate" th:value="${endDate}" />
 					</div>
 
-					<input type="submit" value="Search">
-					<button><a th:href="@{/home}">Reset</a></button>
+					<div>
+						<button type="submit">
+							<a>
+								<ion-icon name="search-outline"></ion-icon>
+							</a>
+						</button>
+						<button>
+							<a th:href="@{/home}">
+								<ion-icon name="refresh-outline"></ion-icon>
+							</a>
+						</button>
+					</div>
 
 				</form>
 			</div>
@@ -38,6 +48,7 @@
 
 			<div class="jobPost" th:each="jp : ${jobPosts}">
 				<div class="jobPostHeader">
+					<input type="hidden" th:class="J+${jp.postId}" th:value="${jp.postName}">
 					<h4 th:text="${jp.postName}"></h4>
 					<div class="dateContainer">
 						<span th:text="${jp.postDate}"></span>
@@ -63,7 +74,7 @@
 	</div>
 	<div class="applicantSection">
 		<div class="applicantBox">
-			<h3>Data for <span>Senior Developer</span></h3>
+			<h3 class="titleForApplicants">No Data</h3>
 			<div class="applicantContainer">
 				<div class="applicantsLoading">
 					<ion-icon name="cloud-download-outline"></ion-icon>

@@ -2,6 +2,7 @@ let sheetTemp = [];
 let jobpostid = 1;
 
 function retrieveSheetData(sheetid, postid) {
+	document.querySelector('.titleForApplicants').innerHTML = document.querySelector('.J'+postid).value;
 	sheetTemp = [];
 	let SHEET_ID = sheetid
 	let SHEET_TITLE = 'formresponse';
@@ -35,7 +36,7 @@ function retrieveSheetData(sheetid, postid) {
 					newcard.style = "--i:0."+(i+5)+"s;";
 					newcard.innerHTML = `
 						<h4 class="applicantsource">${data.table.rows[i].c[5].v}</h4>
-						<img src="images/profile.png" alt="">
+						<img src="https://api.dicebear.com/5.x/micah/svg?seed=${data.table.rows[i].c[2].v}" alt="">
 						<div class="applicantInfo">
 							<h3>${data.table.rows[i].c[2].v}</h3>
 							<p><ion-icon name="mail-outline"></ion-icon> ${data.table.rows[i].c[1].v}</p>

@@ -56,6 +56,9 @@ ion-icon {
 
 .box {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 350px;
     height: 420px;
     background: var(--background);
@@ -1062,7 +1065,7 @@ nav ul li.active a .icon ion-icon {
 
 .profileBox{
     position: relative;
-    background: var(--background);
+    background: transparent;
     padding: 20px 20px 20px 20px;
     border-radius: 20px;
     width: 100%;
@@ -1092,7 +1095,6 @@ nav ul li.active a .icon ion-icon {
     top: -60%;
     left: 5px;
     padding: 3px 10px;
-    background: var(--background);
     font-size: 0.75em;
 }
 
@@ -1225,7 +1227,7 @@ nav ul li.active a .icon ion-icon {
     align-items: center;
     flex-direction: column;
     width: 100%;
-    height: 400px;
+    min-height: 400px;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
@@ -1240,6 +1242,7 @@ nav ul li.active a .icon ion-icon {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
     width: 87%;
     background: var(--secondaryColor);
     padding: 5px 20px;
@@ -1257,6 +1260,28 @@ nav ul li.active a .icon ion-icon {
     flex-wrap: wrap;
     flex-grow: 1;
 }
+.jobPostSearch>div>form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.jobPostSearch>div>form>div:last-child{
+    display: flex;
+    gap:5px;
+}
+.jobPostSearch>div>form input,.jobPostSearch>div>form button{
+    text-decoration: none;
+    background: var(--background);
+    padding: 5px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+}
+.jobPostSearch>div>form button a{
+    text-decoration: none;
+}
+
 
 .jobPostSearch>div>* {
     background: var(--background);
@@ -1271,11 +1296,12 @@ nav ul li.active a .icon ion-icon {
 }
 
 .jobPostContainer {
-    width: 89%;
+    width: 85%;
     padding: 10px;
     border-radius: 10px;
     display: flex;
     justify-content: flex-start;
+    align-items: flex-start;
     gap: 10px;
     flex-wrap: wrap;
     flex-direction: column;
@@ -1953,7 +1979,7 @@ nav ul li.active a .icon ion-icon {
 }
 
 .settingBox {
-    position: absolute;
+    position: fixed;
     right: 0;
     top: 0;
     padding: 0px 0px;
@@ -2086,6 +2112,315 @@ nav ul li.active a .icon ion-icon {
 	}
 }
 
+.modal1,.modal2{
+    display: none;
+    z-index: 1000;
+    max-width: 95vw;
+    position: absolute;
+    bottom: 0;
+    padding: 10px 40px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-top: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    border-radius: 10px 10px 0 0;
+}
+.modal1,.modal2,.modal-header,.modal-body,.modal-body>form,.modal-header>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+.modal-header>div>p{
+    color: var(--errorColor);
+    margin-bottom: 5px;
+}
+.modal-header>h4{
+    text-align: center;
+    margin-bottom: 10px;
+}
+.modal-header>*,.modal-body>*,.modal-body>form>*{
+    width: 100%;
+}
+.modal-body>form>*{
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    min-height: 35px;
+    padding: 3px 10px;
+}
+.modal-body>form>input[type=submit]{
+    background: var(--boxColor);
+    color: var(--background);
+}
+
+.forgotPassword{
+    z-index: 100;
+    transform: translateY(-80px);
+    padding: 5px 20px;
+    /* background: var(--secondaryColor);
+    color: var(--background); */
+    border: 0;
+    border-radius: 10px;
+}
+
+.modal1>.background{
+    z-index: 11;
+}
+
+.closeButton{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: var(--errorColor);
+    border-radius: 50%;
+    top: -20px;
+    right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.adminUserSection{
+    height: 100vh;
+    width: 100%;
+    padding-left: 80px;
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.usersearchBox{
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 10px;
+}
+.usersearchBox h3{
+    color: var(--secondaryColor);
+}
+.usersearchBox form{
+    display: flex;
+    gap: 3px;
+}
+.usersearchBox>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.usersearchBox form>*,.usersearchBox>div>button{
+    border: 1px solid var(--shadowColor);
+    height: 25px;
+    padding: 3px 10px;
+    background: var(--background);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.usersearchBox form>button:hover,.usersearchBox div>button:hover{
+    cursor: pointer;
+    background: var(--secondaryColor);
+}
+.usersearchBox form>button:hover ion-icon,.usersearchBox div>button:hover ion-icon{
+    color: var(--background);
+}
+
+.userContainer{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding: 20px;
+    min-height: 81.5vh;
+    gap: 10px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.userContainer::-webkit-scrollbar {
+    display: none;
+}
+
+
+.userCard{
+    width: 225px;
+    height: 225px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.userCard:hover .userImage{
+    width: 15%;
+    top: 5px;
+    right: 5px;
+}
+
+.userProfile{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    opacity: 0.2;
+    transform: scale(2);
+    transform-origin: bottom left;
+    z-index: -2;
+}
+
+.userImage{
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    width: 70%;
+    top: 10px;
+    right: inherit;
+}
+
+.userInfo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+.activity{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+.uactive,.uinactive{
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: grey;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.uactive{
+    background: rgb(60, 242, 60);
+}
+.uinactive{
+    background: rgb(255, 95, 67);
+}
+.userCard:hover .userInfoFooter{
+    transform: scale(1);
+}
+.userInfoFooter{
+    position: absolute;
+    bottom: 0;
+    /* background: var(--secondaryColor); */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+    transform: scale(0);
+    transition-delay: 0.3s;
+}
+.userInfoFooter>*{
+    width: 50%;
+    border-radius: 10px;
+    border: 1px solid var(--shadowColor);
+    padding: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    background: var(--background);
+}
+.userInfoFooter>*:hover{
+    background: var(--secondaryColor);
+    color: var(--background);
+}
+.userInfoText{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    position: absolute;
+    transform: translateY(144px);
+}
+.userCard:hover .userInfoText{
+    transform: translateY(0);
+}
+.userInfoText>div{
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.userInfoText>div>p{
+    width: 85%;
+    background: rgba(0, 0, 0, 0.1);
+    text-align: left;
+    padding: 3px 10px;
+    border-radius: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.role{
+    position: absolute;
+    bottom: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 3px 5px;
+    font-size: 0.6em;
+    z-index: 11;
+    background: var(--background);
+}
+.userCard:hover .role{
+    bottom: 198px;
+    left: 25px;
+}
+.newSearchForm{
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 3px;
+    border-radius: 10px;
+}
+.newPagination{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.newPagination>div{
+    padding: 10px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    display: flex;
+    gap: 5px;
+}
+.newPagination>div>span,.newPagination>div>a,.newPagination>div>span>span,.newPagination>div>span>a{
+    padding: 3px 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+.newPagination>div>span>span,.newPagination>div>span>a{
+    padding: 3px 5px;
+    border: 0;
+}
+
+.newPagination>div>span>a,.newPagination>div>a{
+    text-decoration: none;
+    color: var(--secondaryColor);
+}
 @media only screen and (max-width: 500px) {
     .hamburger {
         display: block;
@@ -2130,5 +2465,29 @@ nav ul li.active a .icon ion-icon {
     .addApplicant>div>div:last-child>*,.addApplicant>div>div:first-child>*,.addApplicant>div>div:first-child{
         width: 100%;
     }
+    .adminUserSection{
+        padding-left: 0;
+    }
+    .jobPostSearch>div>form{
+        width: 100%;
+        flex-direction: column;
+    }
+    .jobPostSearch>div>form>*{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .jobPostSearch>div>form>div>input[type=date]{
+        width: 70%;
+    }
+    .jobPostSearch>div>form>div:last-child>*{
+        width: 50%;
+    }
+    .usersearchBox{
+        padding: 10px 60px;
+    }
+    .userContainer{
+        justify-content: center;
+    }
 }
-

@@ -2,15 +2,17 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>Applicant Process</title>
+	<div th:insert="../components/nav :: tags"></div>
 </head>
 <body>
 	<!-- message start -->
-	<div>
-		<p th:text="${msg}"></p>
-		<p th:text="${error}"></p>
-	</div>
+		<p class="errornoti" th:text="${msg}"></p>
+		<p class="errornoti" th:text="${error}"></p>
 	<!-- message end -->
+
+	<div th:insert="../components/nav :: navBar"></div>
+	<div th:insert="../components/nav :: sideNav"></div>
 	<!-- navbar start -->
 	<div>
 		<div>
