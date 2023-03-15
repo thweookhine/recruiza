@@ -61,14 +61,16 @@
 					<div class="data-table-col" th:text="${index+ positionStat.index}" />
 					<div class="data-table-col" th:text="${position.positionCode}" />
 					<div class="data-table-col" th:text="${position.positionName}" />
-					<div class="data-table-col"><a class="action-button" th:href="@{/editjobposition(id=${position.positionId})}">Action</a></div>
+					<div class="data-table-col"><a class="action-button"
+							th:href="@{/editjobposition(id=${position.positionId})}">Action</a></div>
 				</div>
-			</div>	
+			</div>
 		</div>
 
 		<div class="pagination">
-			<div>Total Positions: <span class="pagenum">[[${totalPositions}]]</span> - Page <span class="pagenum">[[${currentPage}]] </span>of <span class="pagenum">[[${totalPages}]]</span></div>
-			
+			<div>Total Positions: <span class="pagenum">[[${totalPositions}]]</span> - Page <span
+					class="pagenum">[[${currentPage}]] </span>of <span class="pagenum">[[${totalPages}]]</span></div>
+
 			<div class="page-reference">
 
 				<a th:if="${currentPage > 1}"
@@ -76,19 +78,22 @@
 				<span th:unless="${currentPage > 1}">First</span>
 
 				<a th:if="${currentPage > 1}"
-					th:href="@{'/searchPosition/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon name="chevron-back-circle-outline"></ion-icon></a>
+					th:href="@{'/searchPosition/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon
+						name="chevron-back-circle-outline"></ion-icon></a>
 				<span th:unless="${currentPage > 1}"><ion-icon name="chevron-back-circle-outline"></ion-icon></span>
 
 				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-				<a th:if="${i != currentPage}"
-					th:href="@{'/searchPosition/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
-				<span th:unless="${i != currentPage}">[[${i}]]</span>
-				&nbsp;&nbsp;
+					<a th:if="${i != currentPage}"
+						th:href="@{'/searchPosition/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
+					<span th:unless="${i != currentPage}">[[${i}]]</span>
+					&nbsp;&nbsp;
 				</span>
 
 				<a th:if="${currentPage < totalPages}"
-					th:href="@{'/searchPosition/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon name="chevron-forward-circle-outline"></ion-icon></a>
-				<span th:unless="${currentPage < totalPages}"><ion-icon name="chevron-forward-circle-outline"></ion-icon></ion-icon></span>
+					th:href="@{'/searchPosition/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon
+						name="chevron-forward-circle-outline"></ion-icon></a>
+				<span th:unless="${currentPage < totalPages}"><ion-icon
+						name="chevron-forward-circle-outline"></ion-icon></ion-icon></span>
 
 				<a th:if="${currentPage < totalPages}"
 					th:href="@{'/searchPosition/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>

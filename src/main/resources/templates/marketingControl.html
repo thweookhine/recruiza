@@ -68,7 +68,7 @@
 			</thead>
 			<tbody>
 				<tr th:each="jp : ${postedJobPosts}">
-					<td th:text="${jp.postId}"></td>
+					<td th:text="${index + jpStat.index}"></td>
 					<td th:text="${jp.postCode}"></td>
 					<td th:text="${jp.postName}"></td>
 					<td th:text="${jp.count}"></td>

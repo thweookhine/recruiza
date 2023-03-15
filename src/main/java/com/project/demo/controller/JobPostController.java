@@ -217,12 +217,13 @@ public class JobPostController {
 	}
 	
 	@GetMapping(value = "/closeJobPost")
-	public ModelAndView closeJobPost(@RequestParam("jobPostId") long id, ModelMap model,RedirectAttributes ra) {
+	public ModelAndView closeJobPost(@RequestParam("jobPostId") long id, ModelMap model,RedirectAttributes ra,HttpSession session) {
 		
 		JobPost jobPost = jobPostService.getByid(id);
 		jobPost.setPostStatus("CLOSED*");
 		JobPost result = jobPostService.updateJobPost(jobPost);
 		if(result != null) {
+			generateHistoryForJobPost(jobPost, session, "closed");
 			ra.addFlashAttribute("message","Successfully Closed.");
 		}
 		

@@ -1,7 +1,11 @@
 package com.project.demo.controller;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,15 +20,25 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.demo.entity.History;
 import com.project.demo.entity.JobPost;
+import com.project.demo.entity.User;
+import com.project.demo.model.UserBean;
+import com.project.demo.service.HistoryService;
 import com.project.demo.service.JobPostService;
-import com.project.demo.service.JobPostServiceImpl;
+import com.project.demo.service.UserService;
 
 @RestController
 public class MarketingController {
 
 	@Autowired
 	JobPostService jobPostService;
+	
+	@Autowired
+	UserService userService;
+	
+	@Autowired
+	HistoryService historyService;
 
 	@GetMapping("/marketing")
 	public ModelAndView toMarketing(ModelMap model, RedirectAttributes ra) {
@@ -39,7 +53,7 @@ public class MarketingController {
 			@PathVariable("pageNumber") int currentPage,
 			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword) {
 
-		Page<JobPost> page = jobPostService.searchPostedJobPosts(currentPage, sortField, sortDir);
+		Page<JobPost> page = jobPostService.searchJobPostsWithoutPending(currentPage, sortField, sortDir);
 
 		long totalJobPosts = page.getTotalElements();
 		int totalPages = page.getTotalPages();
@@ -88,7 +102,8 @@ public class MarketingController {
 			@RequestParam("jobPostId") long postId,
 			@RequestParam("postDate") String postDate,
 			@RequestParam("dueDate") String dueDate,
-			@RequestParam("sheetId") String sheetId) {
+			@RequestParam("sheetId") String sheetId,
+			HttpSession session) {
 
 		JobPost jobPost = jobPostService.getByid(postId);
 		jobPost.setPostDate(LocalDate.parse(postDate));
@@ -97,10 +112,33 @@ public class MarketingController {
 		jobPost.setPostStatus("POSTED");
 		JobPost result = jobPostService.updateJobPost(jobPost);
 		if (result != null) {
+			generateHistoryForJobPost(result,session , "posted");
 			model.addAttribute("message", "Successfully Posted.");
 		}
 
 		return new ModelAndView("redirect:/marketing");
+	}
+	
+	public void generateHistoryForJobPost(JobPost jobPost, HttpSession session, String action) {
+		UserBean userBean = (UserBean) session.getAttribute("user");
+		User user = userService.getById(userBean.getUserId());
+
+		String data = jobPost.getPostId() + "," + jobPost.getPostCode() + "," + jobPost.getPostName() + ","
+				+ jobPost.getCount() + "," + jobPost.getComment() + ","
+				+ jobPost.isFoc() + "," + jobPost.getPostDate() + ","
+				+ jobPost.getDueDate() + "," + jobPost.getTeam().getTeamName() + ","
+				+ jobPost.getResource().getResourceName() + "," + jobPost.getJobPosition().getPositionName() + ","
+				+ jobPost.getPostStatus() + "," + jobPost.getSheetId();
+
+		History history = History.builder()
+				.user(user)
+				.action(action)
+				.dataName(jobPost.getPostName())
+				.tableName("Job Post")
+				.data(data)
+				.historyCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
+				.build();
+		historyService.createHistory(history);
 	}
 	
 }

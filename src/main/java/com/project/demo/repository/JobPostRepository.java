@@ -54,8 +54,8 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
 	@Query(value = "select * from recruit.job_post where post_status = 'POSTED' and  due_date >= :dueDate ", nativeQuery = true)
 	List<JobPost> findBeforeDueDate(@Param("dueDate") String dueDate);
 
-	@Query(value = "select * from recruit.job_post where post_status = 'POSTED' ",nativeQuery=true)
-	Page<JobPost> findPostedJobPosts(Pageable pageable);
+	@Query(value = "select * from recruit.job_post where post_status != 'PENDING' ",nativeQuery=true)
+	Page<JobPost> findJobPostsWithoutPending(Pageable pageable);
 	
 	@Query(value = "select * from recruit.job_post where due_date < :dueDate ", nativeQuery = true)
 	List<JobPost> findAfterDueDate(@Param("dueDate") String dueDate);
