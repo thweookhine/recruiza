@@ -93,11 +93,6 @@ public class TeamController {
 			return toTeam(model, ra, teamBean);
 		}
 
-		// if (teamBean.getDepartmentName().equals("none")) {
-		// ra.addFlashAttribute("selectDept", "Please Select One Department!.");
-		// return new ModelAndView("redirect:/team");
-		// }
-
 		Department dept = deptService.searchOneWithName(teamBean.getDepartmentName());
 
 		Team result = teamService.searchWithNameAndDept(teamBean.getTeamName(), dept.getDepartmentId());

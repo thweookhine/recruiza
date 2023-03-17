@@ -29,7 +29,7 @@
 	<!-- job post information end  -->
 	<h3>Add New Applicant</h3>
 	<div>
-		<form th:action="@{/saveApplicant}" method="post" encType="multipart/form-data" th:object="${jobPost}">
+		<form th:action="@{/saveApplicants}" method="post" encType="multipart/form-data" th:object="${jobPost}">
 			<input type="hidden" name="id" th:field="*{postId}">
 			<input type="text" placeholder="Enter Name" name="name" required/><br> 
 			<input type="email" placeholder="Enter Email" name="email" required/><br>

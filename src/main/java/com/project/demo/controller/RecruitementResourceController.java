@@ -55,18 +55,6 @@ public class RecruitementResourceController {
 	@Autowired
 	HistoryService historyService;
 
-//	@RequestMapping(value="/recruitementresource",method=RequestMethod.GET)
-//	public ModelAndView display(ModelMap model) {
-//		
-//		List<RecruitementResource> list = new ArrayList<RecruitementResource>();
-//		model.addAttribute("currentPage",1);
-//		model.addAttribute("totalPages",service.findTotalPages());
-//		list=service.getAllRecruitementResource(0);
-//		model.addAttribute("rList",UIOptionData.generateResourceType());
-//		model.addAttribute("list",list);
-//		return new ModelAndView("recruitementResourceControl","resource",new RecruitementResourceBean());
-//	}
-
 	@PostMapping(value = "/saveresource")
 	public ModelAndView saveResource(@ModelAttribute("resource") @Validated RecruitementResourceBean resource,
 			HttpSession session, RedirectAttributes ra, BindingResult bs, ModelMap model) {
@@ -207,14 +195,6 @@ public class RecruitementResourceController {
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 		model.addAttribute("reverseSortDir", reverseSortDir);
 
-//        	if(beanResource.getResourceMobile()==null) {
-//        		beanResource=RecruitementResourceBean.builder()
-//        				.resourceMobile("09")
-//        				.build();
-//        	}
-//        	
-////        	RecruitementResourceBean beanResource = RecruitementResourceBean.builder()
-////					        			.build();
 		return new ModelAndView("recruitementResourceControl", "resource", beanResource);
 	}
 

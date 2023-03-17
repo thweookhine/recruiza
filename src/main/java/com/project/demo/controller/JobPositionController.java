@@ -59,18 +59,6 @@ public class JobPositionController {
 		return new Date();
 	}
 
-//	@RequestMapping(value="/jobposition", method=RequestMethod.GET)
-//	public ModelAndView displayView(ModelMap model) {
-//	
-//		List<JobPosition> list = new ArrayList<JobPosition>();
-//		//model.addAttribute("currentPage",1);
-//		//model.addAttribute("totalPages",service.findTotalPages());
-//		list=service.getAllJobPosition();
-//		model.addAttribute("list",list);
-//	   return new ModelAndView("jobPositonControl","jobposition",new JobPositionBean());
-//
-//	}
-
 	@PostMapping(value = "/savejobposition")
 	public ModelAndView saveJobPositio(@ModelAttribute("jobposition") @Validated JobPositionBean jobposition,
 			BindingResult bs, RedirectAttributes ra, ModelMap model, HttpSession session) {
@@ -154,8 +142,7 @@ public class JobPositionController {
 	@PostMapping(value = "/searchjobposition")
 	public ModelAndView searchJobPosition(ModelMap model, @RequestParam("name") String name) {
 		List<JobPosition> list = service.getPositionByCodeAndName(name, name);
-		// model.addAttribute("currentPage",1);
-		// model.addAttribute("totalPages",service.findTotalPages());
+		
 		model.addAttribute("list", list);
 		System.out.print(list.toString());
 		return new ModelAndView("jobPositonControl", "jobposition", new JobPositionBean());

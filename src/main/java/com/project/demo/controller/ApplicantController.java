@@ -11,9 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.CacheControl;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -196,6 +192,7 @@ public class ApplicantController {
     			.jobPosition(jobPost.getJobPosition())
     			.jobPost(jobPost)
     			.file(request.getParameter("file").getBytes())
+    			.source(request.getParameter("Source"))
     			.build();
    
     	Applicant result = service.createApplicant(applicant);
@@ -204,10 +201,10 @@ public class ApplicantController {
     		ra.addFlashAttribute("message","Successfully Added.");
     	}
     	
-    	return new ModelAndView("redirect:/applicantProcess");
+    	return applicantPro("allApplicants", model);
     }
-    @PostMapping(value = "/saveApplicant")
-    public ModelAndView saveApplicants(JobPost jpost,HttpServletRequest request,RedirectAttributes ra,MultipartFile file) throws IOException {
+    @PostMapping(value = "/saveApplicants")
+    public ModelAndView saveApplicants(JobPost jpost,HttpServletRequest request,RedirectAttributes ra,MultipartFile file,ModelMap model) throws IOException {
     	
     	JobPost jobPost=jobPostService.getByid(jpost.getPostId());
     	
@@ -224,6 +221,7 @@ public class ApplicantController {
     			.jobPosition(jobPost.getJobPosition())
     			.jobPost(jobPost)
     			.file(file.getBytes())
+    			.source("Direct Recruitement")
     			.build();
    
     	Applicant result = service.createApplicant(applicant);
@@ -232,7 +230,7 @@ public class ApplicantController {
     		ra.addFlashAttribute("message","Successfully Added.");
     	}
     	
-    	return new ModelAndView("redirect:/applicantProcess");
+    	return applicantPro("allApplicants", model);
     }
     
     @GetMapping(value="/editapplicant")
