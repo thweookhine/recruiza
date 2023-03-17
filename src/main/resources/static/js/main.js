@@ -56,6 +56,9 @@ if (title == 'Profile') {
 }else if (title == 'Admin') {
 	activeLink()
 	navlist[4].classList.add('active')
+}else if (title == 'Marketing') {
+	activeLink()
+	navlist[5].classList.add('active')
 }
 // navlist.forEach((item) => item.addEventListener('click', activeLink));
 

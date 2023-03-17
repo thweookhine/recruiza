@@ -5,16 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Post Action</title>
-    <!-- JQuery js1 -->
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" type="text/javascript"></script>
-
-    <script type="text/javascript" th:src="@{/js/ajax.js}"></script>
-    <script type="text/javascript" th:src="@{/js/main.js}" defer></script>
-    <script type="text/javascript" th:src="@{/js/form.js}" defer></script>
+    <title>Edit JobPost</title>
+	<div th:insert="../components/nav :: tags"></div>
 </head>
 
 <body>
+	<div th:insert="../components/nav :: navBar"></div>
     <div>
         <form th:action="@{/updateJobPost}" method="post" th:object="${jobPost}">
 

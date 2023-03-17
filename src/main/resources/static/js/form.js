@@ -97,3 +97,32 @@ function generateUpdateRoleForm(code,id,role){
     `
     parent.append(modal)
 }
+
+function editclose(){
+    console.log('closed');
+    document.querySelector('.jobPostEdit').remove()
+}
+
+function generateUpdateRoleForm(id,name,count){
+    let parent = document.querySelector('body')
+    let modal = document.createElement('div')
+    modal.className = 'jobPostEdit'
+    modal.innerHTML = `
+    <div class="closer" onclick="editclose()"></div>
+		<form class="jobPostEditForm" action="/postJP" method="post">
+			<input type="hidden" name="jobPostId" value="${id}">
+			<h2 data-label="Name" >
+				<img src="https://api.dicebear.com/5.x/shapes/svg?seed=${name}">
+				<p>${name}</p>
+			</h2>
+			<input data-label="Post Date" type="date" name="postDate" placeholder="Enter Post Date" class="customdate" required="" min="2023-03-16">
+			<input data-label="Due Date"  type="date" name="dueDate" placeholder="Enter Due Date" class="customdate" required="">
+			<textarea data-label="Sheet ID" name="sheetId" cols="30" rows="10" placeholder="Enter Sheet ID" required=""></textarea>
+			<div>
+				<span>Count : <span>${count}</span></span>
+				<input type="submit" value="Post">
+			</div>
+		</form>
+    `
+    parent.append(modal)
+}

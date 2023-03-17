@@ -11,65 +11,71 @@
 	<div th:insert="../components/nav :: navBar"></div>
 
 	<div class="jobPostSection">
-		<div class="jobPostSearch">
+
+		<form class="searchForm" th:action="@{/searchPostedJobPost}" method="post">
+			
 			<h2>Job Posts</h2>
-			<div class="searchForm">
-				<form th:action="@{/searchPostedJobPost}" method="post">
-					<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" />
+			<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" />
 
-					<div>
-						<label for="startDate">Start Date</label>
-						<input type="date" name="startDate" th:value="${startDate}" />
-					</div>
-
-					<div>
-						<label for="endDate">Due Date</label>
-						<input type="date" name="endDate" th:value="${endDate}" />
-					</div>
-
-					<div>
-						<button type="submit">
-							<a>
-								<ion-icon name="search-outline"></ion-icon>
-							</a>
-						</button>
-						<button>
-							<a th:href="@{/home}">
-								<ion-icon name="refresh-outline"></ion-icon>
-							</a>
-						</button>
-					</div>
-
-				</form>
+			<div>
+				<input type="date" name="startDate" th:value="${startDate}" />
+				<input type="date" name="endDate" th:value="${endDate}" />
 			</div>
-		</div>
 
-		<div class="jobPostContainer">
+			<button type="submit">
+				<ion-icon name="search-outline"></ion-icon>
+			</button>
+			<button>
+				<a th:href="@{/home}">
+					<ion-icon name="refresh-outline"></ion-icon>
+				</a>
+			</button>
+		</form>
 
-			<div class="jobPost" th:each="jp : ${jobPosts}">
-				<div class="jobPostHeader">
+		<div class="pendingPostSection">
+			<div class="jobPostsCantainer">
+				<div class="jobPostCard" th:each="jp : ${jobPosts}">
 					<input type="hidden" th:class="J+${jp.postId}" th:value="${jp.postName}">
-					<h4 th:text="${jp.postName}"></h4>
-					<div class="dateContainer">
-						<span th:text="${jp.postDate}"></span>
-						<span th:text="${jp.dueDate}"></span>
+					<img th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jp.postCode}+''">
+					<div class="jobPostStatus">
+						<p th:text="${jp.postStatus}"></p>
+						<span class="focyes" th:if="${jp.foc == true}"></span>
+						<span class="focno" th:if="${jp.foc == false}"></span>
+					</div>
+					<p class="jobPostCode" th:text="${jp.postCode}"></p>
+					<div class="jobPostInfo">
+						<p>
+							<span>Name</span> <span th:text="${jp.postName}"></span>
+						</p>
+						<p>
+							<span>Position</span><span th:text="${jp.jobPosition.positionName}"></span>
+						</p>
+						<p>
+							<span>Comment</span> <span th:text="${jp.comment}"></span>
+						</p>
+						<div>
+							<p>
+								<ion-icon name="people-outline"></ion-icon>
+								<span th:text="${jp.team.teamName}"></span>
+							</p>
+							<p>
+								<ion-icon name="business-outline"></ion-icon>
+								<span th:text="${jp.team.department.departmentName}"></span>
+							</p>
+						</div>
+					</div>
+	
+					<div class="jobPostFooterM">
+						<p>Need
+							<span th:text="${jp.count}"></span>
+						</p>
+						<a th:onclick="retrieveSheetData([[${jp.sheetId}]],[[${jp.postId}]]);">
+							<ion-icon name="checkmark-done-outline"></ion-icon>Get Data
+						</a>
 					</div>
 				</div>
-				<p class="jobPostComment" th:text="${jp.comment}">
-				</p>
-				<div class="jobPostFooter">
-					<p><span th:text="${jp.team.teamName}"></span> from <span
-							th:text="${jp.team.department.departmentName}"></span>
-					</p>
-					<!-- Input function with sheet parameter eg. onclick='func(..link in here)' -->
-					<button th:onclick="retrieveSheetData([[${jp.sheetId}]],[[${jp.postId}]]);">Get Data</button>
-				</div>
 			</div>
-
 		</div>
-
-
-
 
 	</div>
 	<div class="applicantSection">
