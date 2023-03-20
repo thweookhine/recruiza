@@ -3,7 +3,6 @@ package com.project.demo.controller;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -236,7 +235,7 @@ public class UserController {
             User user = userService.deleteUser(userId);
             
             if (user != null) {
-	            model.addAttribute("msg", "Ban User Successful !");
+	            model.addAttribute("msg", "Ban " + user.getUserName() + " Successful !");
             }else {
 	        	model.addAttribute("msg", "Ban User Failed !");
             }
@@ -249,7 +248,7 @@ public class UserController {
     	User user = userService.activeUser(userId);
         
     	if (user != null) {
-            model.addAttribute("msg", "Active User Successful !");
+            model.addAttribute("msg", "Active " + user.getUserName() + " Successful !");
         }else {
         	model.addAttribute("msg", "Active User Failed !");
         }

@@ -149,4 +149,12 @@ public class ApplicantServiceImpl implements ApplicantService{
 		System.out.println(repo.getApplicantsByJobPostId(postId).size());
 		return repo.getApplicantsByJobPostId(postId);
 	}
+
+	@Override
+	public long countOfApplicantStatus(String status) {
+		if (!status.equals("allApplicants")) {
+			return repo.countByApplicantStatus(status);
+		}
+		return repo.count();
+	}
 }

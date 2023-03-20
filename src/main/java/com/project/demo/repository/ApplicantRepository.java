@@ -28,5 +28,7 @@ public interface ApplicantRepository extends JpaRepository<Applicant,Long>{
 			+ "concat(a.applicantId, ' ', a.applicantCode, ' ', a.applicantName, ' ', a.applicantEmail, ' ', a.applicantMobile, ' ', a.address, ' ', a.currentState, ' ', a.jobPosition.positionName, ' ')"
 			+ "like %?1%")
 	public Page<Applicant> findWithSearchKey(String searchKey, Pageable pageable);
+	
+	long countByApplicantStatus(String status);
 
 }

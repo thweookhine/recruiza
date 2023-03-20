@@ -27,4 +27,6 @@ public interface ApplicantService {
 	
 	List<Applicant> getApplicantList(Long postId);
 	
+	long countOfApplicantStatus(String status);
+	
 }

@@ -118,6 +118,13 @@ public class ApplicantController {
     	model.addAttribute("jo","Job offer");
     	model.addAttribute("h","Hired");
     	
+    	model.addAttribute("allCount", service.countOfApplicantStatus("allApplicants"));
+    	model.addAttribute("ctCount", service.countOfApplicantStatus("Code Test"));
+    	model.addAttribute("iiCount", service.countOfApplicantStatus("Intro Interview"));
+    	model.addAttribute("siCount", service.countOfApplicantStatus("Second Interview"));
+    	model.addAttribute("joCount", service.countOfApplicantStatus("Job offer"));
+    	model.addAttribute("hCount", service.countOfApplicantStatus("Hired"));
+    	
     	String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
     	model.addAttribute("reverseSortDir", reverseSortDir);
     			
