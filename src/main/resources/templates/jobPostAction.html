@@ -19,14 +19,14 @@
 
             <div>
                 <label for="name">Name</label> <input type="text" th:field="*{postName}"
-                    placeholder="Enter Job Post Name" />
+                    placeholder="Enter Job Post Name" required />
                 <label th:if="${#fields.hasErrors('postName')}" th:errors="*{postName}"
                     style="color: red;">Error</label>
             </div>
 
             <div>
                 <label for="count">Count</label> <input type="number" th:field="*{count}" placeholder="Enter Count"
-                    min="1" max="10" />
+                    min="1" max="10" required />
                 <label th:if="${#fields.hasErrors('count')}" th:errors="*{count}" style="color: red;">Error</label>
             </div>
 

@@ -18,4 +18,5 @@ public interface RecruitementResourceService {
 	Long findTotalPages();
 	List<RecruitementResource> getResourceByName(String name);
 	Page<RecruitementResource> listAllResources(int pageNumber, String sortField, String sortDir, String keyword);
+	int getCountByType(String type);
 }

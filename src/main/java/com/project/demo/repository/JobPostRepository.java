@@ -71,6 +71,9 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
 	List<JobPost> findAfterDueDate(@Param("dueDate") String dueDate);
 
 	List<JobPost> findByPostStatus(String poststatus);
+	
+	@Query(value= "select count(*) from recruit.job_post where (jobposition_id = :positionId) ", nativeQuery=true)
+	Integer getCountByPosition(@Param("positionId")long positionId);
 
 	// @Query(value = "select * from recruit.job_post where post_date >= :startDate and post_date <= :endDate",nativeQuery = true)
 	// List<JobPost> findWithStartDateAndEndDate(@Param("startDate") String startDate,@Param("endDate") String endDate);

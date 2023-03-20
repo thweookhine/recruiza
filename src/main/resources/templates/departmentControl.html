@@ -62,12 +62,16 @@
 							Name<ion-icon name="funnel-outline"></ion-icon>
 						</a>
 					</div>
+					<div class="data-table-col">
+						Team Count
+					</div>
 					<div class="data-table-col">Options</div>
 				</div>
 				<div class="data-table-row" th:each="dept : ${depts}">
 					<div class="data-table-col" th:text="${index + deptStat.index}"></div>
 					<div class="data-table-col" th:text="${dept.departmentCode}"></div>
 					<div class="data-table-col" th:text="${dept.departmentName}"></div>
+					<div class="data-table-col" th:text="${dept.getTeams().size()}"></div>
 					<div class="data-table-col">
 						<a class="action-button" th:href="@{/updateDepartment(id=${dept.departmentId})}">Action</a>
 					</div>

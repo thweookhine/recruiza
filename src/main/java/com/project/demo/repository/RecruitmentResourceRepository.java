@@ -23,4 +23,7 @@ public interface RecruitmentResourceRepository extends JpaRepository<Recruitemen
 			+ "CONCAT(u.resourceCode, ' ', u.resourceName, ' ', u.resourceMobile, ' ',u.recruitementType)"
 			+ "LIKE %?1%")
 	public Page<RecruitementResource> findAll(String keyword, Pageable pageable);
+	
+	@Query(value= "select count(*) from recruit.recruitement_resource where (recruitement_type = :type) ", nativeQuery=true)
+	Integer getCountByType(@Param("type") String type);
 }

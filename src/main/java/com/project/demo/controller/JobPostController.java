@@ -229,6 +229,20 @@ public class JobPostController {
 		
 		return new ModelAndView("redirect:/jobPost");
 	}
+	
+	@GetMapping(value = "/openJobPost")
+	public ModelAndView openJobPost(@RequestParam("jobPostId") long id, ModelMap model,RedirectAttributes ra,HttpSession session) {
+		
+		JobPost jobPost = jobPostService.getByid(id);
+		jobPost.setPostStatus("POSTED");
+		JobPost result = jobPostService.updateJobPost(jobPost);
+		if(result != null) {
+			generateHistoryForJobPost(jobPost, session, "opened");
+			ra.addFlashAttribute("message","Successfully Opened.");
+		}
+		
+		return new ModelAndView("redirect:/jobPost");
+	}
 
 	@ModelAttribute("teamList")
 	List<Team> getAllTeams() {

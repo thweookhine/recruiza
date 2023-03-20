@@ -126,7 +126,6 @@ public class RecruitementResourceController {
 	@GetMapping(value = "/deleteresource")
 	public ModelAndView deleteResource(ModelMap model, RedirectAttributes ra, @RequestParam("id") Long id, ModelMap m,HttpSession session) {
 
-
 		try {
 			RecruitementResource result = service.getResourceById(id);
 			generateHistoryforResource(result, session, "deleted");
@@ -181,6 +180,12 @@ public class RecruitementResourceController {
 		int totalPages = page.getTotalPages();
 
 		List<RecruitementResource> list = page.getContent();
+		
+		model.addAttribute("totalResourcesByUni",service.getCountByType("University"));
+		model.addAttribute("totalResourcesByAgency",service.getCountByType("Agency"));
+		model.addAttribute("totalResourcesByDirect",service.getCountByType("DirectRecruit"));
+		model.addAttribute("totalResourcesByTrainingCenter",service.getCountByType("Training Center"));
+		model.addAttribute("totalResourcesByOthers",service.getCountByType("Others"));
 
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalResources", totalResource);

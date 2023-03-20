@@ -137,14 +137,17 @@ public class JobPostServiceImpl implements JobPostService {
 
 	@Override
 	public List<JobPost> searchWithCodeAndName(String code, String name) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'searchWithCodeAndName'");
 	}
 
 	@Override
 	public List<JobPost> searchWithStartDate(String startDate) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'searchWithStartDate'");
+	}
+
+	@Override
+	public Integer getCountByPosition(long positionId) {
+		return jobPostRepo.getCountByPosition(positionId);
 	}
 
 }

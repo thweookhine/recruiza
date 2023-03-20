@@ -182,4 +182,10 @@ public class RecruitementResourceServiceImpl implements RecruitementResourceServ
 		return repo.findAll(pageable);
 	}
 
+
+	@Override
+	public int getCountByType(String type) {
+		return repo.getCountByType(type);
+	}
+
 }

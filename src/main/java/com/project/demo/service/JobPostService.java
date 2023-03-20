@@ -30,10 +30,7 @@ public interface JobPostService {
 
 	JobPost getByid(long id);
 	
-	//code name 
-	//start date pr yin start ka sa p a kone pya
-	//end date pl => end date hti a kone pya
-//	List<JobPost> searchJobPosts(String code, String name,String startDate,String endDate);	
+	Integer getCountByPosition(long positionId);
 	
 	List<JobPost> searchWithCodeAndName(String code,String name);
 	

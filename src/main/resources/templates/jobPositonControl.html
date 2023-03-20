@@ -53,7 +53,9 @@
 					<div class="data-table-col"><a class="sort-button"
 							th:href="@{'/searchPosition/' + ${currentPage} + '?sortField=positionName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 							Name<ion-icon name="funnel-outline"></ion-icon>
-						</a></div>
+						</a>
+					</div>
+					<div class="data-table-col">Job Post Count</div>
 					<div class="data-table-col">Option</div>
 				</div>
 
@@ -61,6 +63,7 @@
 					<div class="data-table-col" th:text="${index+ positionStat.index}" />
 					<div class="data-table-col" th:text="${position.positionCode}" />
 					<div class="data-table-col" th:text="${position.positionName}" />
+					<div class="data-table-col" th:text="${countMap.get(position.positionId)}"></div>
 					<div class="data-table-col"><a class="action-button"
 							th:href="@{/editjobposition(id=${position.positionId})}">Action</a></div>
 				</div>

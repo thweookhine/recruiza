@@ -18,6 +18,5 @@ public interface JobPositionService {
 	Long findTotalPages();
 	List<JobPosition> getPositionByName(String name);
 	Page<JobPosition> listAllPositions(int pageNumber, String sortField, String sortDir, String keyword);
-	
 
 }

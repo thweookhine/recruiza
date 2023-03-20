@@ -3,7 +3,9 @@ package com.project.demo.controller;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -32,6 +34,7 @@ import com.project.demo.model.UserBean;
 import com.project.demo.repository.JobPositionRepository;
 import com.project.demo.service.HistoryService;
 import com.project.demo.service.JobPositionService;
+import com.project.demo.service.JobPostService;
 import com.project.demo.service.UserService;
 
 @RestController
@@ -39,6 +42,9 @@ public class JobPositionController {
 
 	@Autowired
 	JobPositionService service;
+	
+	@Autowired
+	JobPostService jobPostService;
 	
 	@Autowired
 	JobPositionRepository repo;
@@ -167,6 +173,15 @@ public class JobPositionController {
 		int totalPages = page.getTotalPages();
 
 		List<JobPosition> list = page.getContent();
+		
+		Map<Long, Integer> map = new HashMap<>();
+		
+		for(JobPosition p : list) {
+			int count = jobPostService.getCountByPosition(p.getPositionId());
+			map.put((long)p.getPositionId(), count);	
+		}
+		
+		model.addAttribute("countMap",map);
 
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalPositions", totalPosition);
