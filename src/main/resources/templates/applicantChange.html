@@ -1,92 +1,128 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Applicant Process</title>
+	<div th:insert="../components/nav :: tags"></div>
 </head>
+
 <body>
+	<!-- message start -->
+	<p class="errornoti" th:text="${msg}"></p>
+	<p class="errornoti" th:text="${error}"></p>
+	<!-- message end -->
+
+	<div th:insert="../components/nav :: navBar"></div>
 	<!-- form start -->
-	<div>
-		<form th:action="@{/applicantStatusChange}" th:object="${bean}" method="post">
-			<!-- form data start -->
-			<div>
-				<input type="hidden" th:field="*{applicantId}" />
-				<div>
-					<label>Name</label>
-					<input type="text" th:field="*{applicantName}" />
+	<a class="back-button" th:href="@{/applicantProcess/allApplicants}">
+		<ion-icon name="arrow-back-outline"></ion-icon>
+		<span class="title">Back</span>
+	</a>
+	<form class="applicant-process-form" th:action="@{/applicantStatusChange}" th:object="${bean}" method="post">
+		
+		<img class="backImage2" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+*{applicantName}+''" alt="">
+		<!-- form data start -->
+		<div class="applicantProcessingBox">
+			<input type="hidden" th:field="*{applicantId}" />
+
+			<div class="applicard">
+				<img class="applicantImage" th:src="'https://api.dicebear.com/5.x/micah/svg?seed='+*{applicantName}+''"
+					alt="">
+				<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+*{applicantName}+''" alt="">
+
+				<div class="applicantStatusBox">
+					<div class="pf passed" th:if="*{currentState == 'Pass'}"></div>
+					<div class="pf pending" th:if="*{currentState == 'PENDING'}"></div>
+					<div class="pf failed" th:if="*{currentState == 'Fail'}"></div>
+
+					<p class="applicantStatus" th:text="*{applicantStatus}"></p>
 				</div>
-				<div>
-					<label>Email</label>
-					<input type="text" th:field="*{applicantEmail}" />
+
+				<p class="applicantCode" th:text="*{applicantCode}"></p>
+				<div class="applicantInformation">
+					<p>
+						<ion-icon name="person-outline"></ion-icon>
+						<span th:text="*{applicantName}"></span>
+					</p>
+					<p>
+						<ion-icon name="mail-outline"></ion-icon>
+						<span th:text="*{applicantEmail}"></span>
+					</p>
+					<p>
+						<ion-icon name="phone-portrait-outline"></ion-icon>
+						<span th:text="*{applicantMobile}"></span>
+					</p>
+					<p>
+						<ion-icon name="storefront-outline"></ion-icon>
+						<span th:text="*{address}"></span>
+					</p>
+					<p>
+						<span>
+							<ion-icon name="chatbox-ellipses-outline"></ion-icon>
+							Comment
+						</span>
+						<span th:text="*{comment}"></span>
+					</p>
 				</div>
-				<div>
-					<label>Mobile</label>
-					<input type="text" th:field="*{applicantMobile}" />
+
+				<div class="jobPostInformation">
+					<span th:text="*{jobPostBean}"></span>
+					<span th:text="*{jobPositionBean}"></span>
 				</div>
-				<div>
-					<label>Address</label>
-					<input type="text" th:field="*{address}" />
-				</div>
-				<div>
-					<label>Link</label>
-					<input type="text" th:field="*{link}" />
-				</div>
-				<div>
-					<label>Current State</label>
-					<input type="text" th:field="*{currentState}" />
-				</div>
-				<div>
-					<label>Status</label>
-					<input type="text" th:field="*{applicantStatus}" />
-					<span> => </span>
-					<input type="text" name="nextStatus" th:value="${nextStatus}"/>
-				</div>
-				<div>
-					<label>Job Post Name</label>
-					<input type="text" th:field="*{jobPostBean}" />
-				</div>
-				<div>
-					<label>Applied Position</label>
-					<input type="text" th:field="*{jobPositionBean}" />
-				</div>
-				<div>
-					<label>Applied Date</label>
-					<input type="text" th:field="*{applyTime}" />
-				</div>
-				<div>
+				<div class="applicardButtonContainer">
 					<div>
-						<label>Comment</label>
+						<a class="applicantProcessButton">
+							<ion-icon name="stopwatch-outline"></ion-icon>
+							<span th:text="*{applyTime}"></span>
+						</a>
 					</div>
-					<textarea rows="5" cols="50" th:field="*{comment}"></textarea>
+					<div>
+						<a class="applicantProcessButton" th:href="*{link}" target="_blank">
+							<ion-icon name="cloud-outline"></ion-icon>
+						</a>
+					</div>
+					<div>
+						<a class="applicantProcessButton" th:href="@{'/viewFile/'+*{applicantId}}">
+							<ion-icon name="eye-outline"></ion-icon>
+						</a>
+					</div>
 				</div>
 			</div>
-			<!-- form data end -->
-			<!-- check box start -->
-			<div>
-				<span>Pass</span>
-				<input type="radio" name="checkStatus" th:value="'Pass'" checked> <span> | </span>
-				<span>Fail</span>
-				<input type="radio" name="checkStatus" th:value="'Fail'">
+
+			<div class="status-box">
+				<div class="pass-fail-box">
+					<span>Pass</span>
+					<input type="radio" name="checkStatus" th:value="'Pass'" checked> <span> | </span>
+					<span>Fail</span>
+					<input type="radio" name="checkStatus" th:value="'Fail'">
+				</div>
+				<div class="stages">
+					<p th:text="*{applicantStatus}"></p>
+					<input type="text" name="nextStatus" th:value="${nextStatus}" title="Skip Stage?"
+						onclick="showCommentBox()" readonly />
+					<select class="skip-stages" name="getStatus">
+						<option th:value="'Code Test'" th:selected="${nextStatus == 'Code Test'}">Code Test
+						</option>
+						<option th:value="'Intro Interview'" th:selected="${nextStatus == 'Intro Interview'}">
+							Intro
+							Interview</option>
+						<option th:value="'Second Interview'" th:selected="${nextStatus == 'Second Interview'}">
+							Second
+							Interview</option>
+						<option th:value="'Job Offer'" th:selected="${nextStatus == 'Job Offer'}">Job Offer
+						</option>
+						<option th:value="'Hired'" th:selected="${nextStatus == 'Hired'}">Hired</option>
+					</select>
+				</div>
+				<div class="new-comment">
+					<p>Add new comments</p>
+					<textarea rows="5" cols="50" th:field="*{comment}"></textarea>
+					<button type="submit">Save</button>
+				</div>
 			</div>
-			<!-- check box end -->
-			<!-- status select box start -->
-			<div>
-				<select name="getStatus">
-					<option th:value="'Code Test'" th:selected="${nextStatus == 'Code Test'}">Code Test</option>
-					<option th:value="'Intro Interview'" th:selected="${nextStatus == 'Intro Interview'}">Intro Interview</option>
-					<option th:value="'Second Interview'" th:selected="${nextStatus == 'Second Interview'}">Second Interview</option>
-					<option th:value="'Job Offer'" th:selected="${nextStatus == 'Job Offer'}">Job Offer</option>
-					<option th:value="'Hired'" th:selected="${nextStatus == 'Hired'}">Hired</option>
-				</select>
-			</div>
-			<!-- status select box start -->
-			<!-- button start -->
-			<div>
-				<button type="submit">Save</button>
-			</div>
-			<!-- button end -->
-		</form>
-	</div>
+	</form>
 	<!-- form end -->
 </body>
+
 </html>

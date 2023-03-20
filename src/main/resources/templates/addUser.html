@@ -13,6 +13,7 @@
 	<!-- error -->
 	<p class="errornoti" th:text="${msg}"></p>
 	<p class="errornoti" th:text="${error}"></p>
+	<img class="backImage2" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${#dates.format(#dates.createNow(),'YYYY/MM/dd HH:mm:ss')}+''" alt="">
 
 	<div class="addForm">
 		<form data-formName="Create New User" th:action="@{/admin/addUserServlet}" th:object="${bean}" method="post">

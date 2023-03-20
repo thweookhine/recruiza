@@ -71,7 +71,7 @@ public class ApplicantServiceImpl implements ApplicantService{
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		
-		Pageable pageable = PageRequest.of(pageNumber - 1, 3, sort);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 9, sort);
 		
 		if (keyword != null) {
 			return repo.findSearchAll(keyword, pageable);
@@ -91,7 +91,7 @@ public class ApplicantServiceImpl implements ApplicantService{
 		Sort sort = Sort.by(sortField);
 		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 		
-		Pageable pageable = PageRequest.of(pageNumber - 1, 3, sort);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 9, sort);
 		
 		if (!keyword.equals("allApplicants")) {
 			return repo.findApplicantProcess(keyword, searchKey, pageable);

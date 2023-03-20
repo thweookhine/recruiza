@@ -50,7 +50,7 @@ function activeLink() {
 if (title == 'Profile') {
 	activeLink()
 	navlist[0].classList.add('active')
-} else if (title == 'Team' || title == 'Department' || title == 'Job Position' || title == 'RecruitementResource') {
+} else if (title == 'Team' || title == 'Department' || title == 'Job Position' || title == 'RecruitementResource' || title == 'Job Post') {
 	activeLink()
 	navlist[3].classList.add('active')
 }else if (title == 'Admin') {
@@ -59,6 +59,9 @@ if (title == 'Profile') {
 }else if (title == 'Marketing') {
 	activeLink()
 	navlist[5].classList.add('active')
+}else if (title == 'Applicant Process') {
+	activeLink()
+	navlist[2].classList.add('active')
 }
 // navlist.forEach((item) => item.addEventListener('click', activeLink));
 
@@ -161,4 +164,12 @@ function toggleUpdateProfile(){
 function toggleUpdatePasswordProfile(){
 	toggleUpdateProfile();
 	document.querySelector(".profileBox:nth-child(3)").classList.toggle('moveright');
+}
+
+function showCommentBox(){
+	console.log('hi');
+	document.querySelector('.skip-stages').classList.toggle('show-skip-stages');
+	setTimeout(() => {
+		document.querySelector('.skip-stages').classList.toggle('show-skip-stages');
+	}, 60000);
 }

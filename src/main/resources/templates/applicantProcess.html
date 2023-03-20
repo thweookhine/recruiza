@@ -1,120 +1,243 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<title>Applicant Process</title>
 	<div th:insert="../components/nav :: tags"></div>
 </head>
+
 <body>
 	<!-- message start -->
-		<p class="errornoti" th:text="${msg}"></p>
-		<p class="errornoti" th:text="${error}"></p>
+	<p class="errornoti" th:text="${msg}"></p>
+	<p class="errornoti" th:text="${error}"></p>
 	<!-- message end -->
 
 	<div th:insert="../components/nav :: navBar"></div>
-	<div th:insert="../components/nav :: sideNav"></div>
-	<!-- navbar start -->
-	<div>
-		<div>
-			<a th:href="@{'/applicantProcess/' + ${all}}">All</a>
+	<section class="applicantProcessSection">
+		<!-- navbar start -->
+		<div class="processsStages">
+			<a class="activeProcess" data-label="All" th:href="@{'/applicantProcess/' + ${all}}">
+				<ion-icon name="receipt-outline"></ion-icon>
+			</a>
+			<a data-label="Code Test" th:href="@{'/applicantProcess/' + ${ct}}">
+				<ion-icon name="laptop-outline"></ion-icon>
+			</a>
+			<a data-label="Intro Interview" th:href="@{'/applicantProcess/' + ${ii}}">
+				<ion-icon name="chatbox-outline"></ion-icon>
+			</a>
+			<a data-label="Second Interview" th:href="@{'/applicantProcess/' + ${si}}">
+				<ion-icon name="chatbox-ellipses-outline"></ion-icon>
+			</a>
+			<a data-label="Job offer" th:href="@{'/applicantProcess/' + ${jo}}">
+				<ion-icon name="briefcase-outline"></ion-icon>
+			</a>
+			<a data-label="Hired" th:href="@{'/applicantProcess/' + ${h}}">
+				<ion-icon name="id-card-outline"></ion-icon>
+			</a>
+			<img src="https://api.dicebear.com/5.x/shapes/svg?seed=seoulK" alt="">
 		</div>
-		<div>
-			<a th:href="@{'/applicantProcess/' + ${ct}}">Code Test</a>
-		</div>
-		<div>
-			<a th:href="@{'/applicantProcess/' + ${ii}}">Intro Interview</a>
-		</div>
-		<div>
-			<a th:href="@{'/applicantProcess/' + ${si}}">Second Interview</a>
-		</div>
-		<div>
-			<a th:href="@{'/applicantProcess/' + ${jo}}">Job offer</a>
-		</div>
-		<div>
-			<a th:href="@{'/applicantProcess/' + ${h}}">Hired</a>
-		</div>
-		
-	</div>
-	<!-- navbar end -->
 
-	<!-- search form start  -->
-	<div>
-		<form th:action="@{'/applicantPro/1/' + ${keyword}}">
-			<input type="hidden" name="sortField" th:value="${sortField}" />
-			<input type="hidden" name="sortDir" th:value="${sortDir}" />
-			<input type="text" name="searchKey" onfocus="this.value=''" th:value="${searchKey}" required/>
-			<button type="submit">
-				<ion-icon name="search-outline"></ion-icon>
-			</button>
-		</form>
-	</div>
-	<!-- search form end  -->
-	
-	<!-- show applicant result start -->
-	<div>
-		<table>
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Name</th>
-					<th>Email</th>
-					<th>Mobile</th>
-					<th>Address</th>
-					<th>Link</th>
-					<th>Current State</th>
-					<th>Status</th>
-					<th>Job Post Name</th>
-					<th>Applied Position</th>
-					<th>Applied Date</th>
-					<th>Comment</th>
-					<th>CV</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody th:each="data : ${applicants} ">
-				<tr>
-					<td th:text="${data.applicantId}"></td>
-					<td th:text="${data.applicantName}"></td>
-					<td th:text="${data.applicantEmail}"></td>
-					<td th:text="${data.applicantMobile}"></td>
-					<td th:text="${data.address}"></td>
-					<td th:text="${data.link}"></td>
-					<td th:text="${data.currentState}"></td>
-					<td th:text="${data.applicantStatus}"></td>
-					<td th:text="${data.jobPost.postName}"></td>
-					<td th:text="${data.jobPosition.positionName}"></td>
-					<td th:text="${data.applyTime}"></td>
-					<td th:text="${data.comment}"></td>
-					<td><a th:href="@{'/viewFile/'+${data.applicantId}}">View</a>
-					<td th:if="${data.currentState != 'Pass' and data.currentState != 'Fail'}"><a th:href="@{/nextProcess(id=${data.applicantId})}">Next</a></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<!-- show applicant result end -->
-	<!-- paging start -->
-	<div>
-		Total Applicants: [[${totalApplicants}]] - Page [[${currentPage}]] of [[${totalPages}]]
-		&nbsp; - &nbsp;
+		<div class="applicantsParent">
+			<form class="searchForm" th:action="@{'/applicantPro/1/' + ${keyword}}">
+				<h2>Applicants</h2>
+				<input type="hidden" name="sortField" th:value="${sortField}" />
+				<input type="hidden" name="sortDir" th:value="${sortDir}" />
+				<input type="text" name="searchKey" onfocus="this.value=''" th:value="${searchKey}"
+					placeholder="Search here" required />
+
+				<button type="submit">
+					<ion-icon name="search-outline"></ion-icon>
+				</button>
+				<button>
+					<a th:href="@{/applicantProcess/allApplicants}">
+						<ion-icon name="refresh-outline"></ion-icon>
+					</a>
+				</button>
+			</form>
+
+			<div class="applicantsContainer">
+				<div class="applicard"  th:each="data : ${applicants}" th:style="'--i:'+${dataStat.index}+';'">
+					<img class="applicantImage" th:src="'https://api.dicebear.com/5.x/micah/svg?seed='+${data.applicantName}+''" alt="">
+					<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${data.applicantName}+''" alt="">
+
+					<div class="applicantStatusBox">
+						<!-- <span class="focyes" th:if="${jp.foc == true}"></span> -->
+						<div class="pf passed" th:if="${data.currentState == 'Pass'}"></div>
+						<div class="pf pending" th:if="${data.currentState == 'PENDING'}"></div>
+						<div class="pf failed" th:if="${data.currentState == 'Fail'}"></div>
+						<p class="applicantStatus" th:text="${data.applicantStatus}"></p>
+					</div>
+
+					<p class="applicantCode" th:text="${data.applicantCode}"></p>
+					<div class="applicantInformation">
+						<p>
+							<ion-icon name="person-outline"></ion-icon>
+							<span th:text="${data.applicantName}"></span>
+						</p>
+						<p>
+							<ion-icon name="mail-outline"></ion-icon>
+							<span th:text="${data.applicantEmail}"></span>
+						</p>
+						<p>
+							<ion-icon name="phone-portrait-outline"></ion-icon>
+							<span th:text="${data.applicantMobile}"></span>
+						</p>
+						<p>
+							<ion-icon name="storefront-outline"></ion-icon>
+							<span th:text="${data.address}"></span>
+						</p>
+						<p>
+							<span>
+								<ion-icon name="chatbox-ellipses-outline"></ion-icon>
+								Comment
+							</span>
+							<span th:text="${data.comment}"></span>
+						</p>
+					</div>
+					
+					<!-- <p th:text="${data.link}"></p> -->
+					<!-- <p th:text="${data.currentState}"></p> -->
+					<div class="jobPostInformation">
+							<span th:text="${data.jobPost.postName}"></span>
+							<span th:text="${data.jobPosition.positionName}"></span>
+					</div>
+					<div class="applicardButtonContainer">
+						<div>
+							<a class="applicantProcessButton">
+								<ion-icon name="stopwatch-outline"></ion-icon>
+								<span th:text="${data.applyTime}"></span>
+							</a>
+						</div>
+						<div>
+							<a class="applicantProcessButton" th:href="${data.link}" target="_blank">
+								<ion-icon name="cloud-outline"></ion-icon>
+							</a>
+						</div>
+						<div>
+							<a class="applicantProcessButton" th:href="@{'/viewFile/'+${data.applicantId}}">
+								<ion-icon name="eye-outline"></ion-icon>
+							</a>
+						</div>
+						<div th:if="${data.currentState != 'Pass' and data.currentState != 'Fail'}">
+							<a class="applicantProcessButton" th:href="@{/nextProcess(id=${data.applicantId})}">
+								Next<ion-icon name="chevron-forward-outline"></ion-icon>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- pagination -->
+			<div class="newPagination">
+				<div>
+					<a th:if="${currentPage > 1}"
+						th:href="@{'/applicantPro/1/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">First</a>
+					<span th:unless="${currentPage > 1}">First</span>
+
+					<a th:if="${currentPage > 1}"
+						th:href="@{'/applicantPro/' + ${currentPage - 1} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">Previous</a>
+					<span th:unless="${currentPage > 1}">Previous</span>
+
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${i != currentPage}"
+							th:href="@{'/applicantPro/' + ${i} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">[[${i}]]</a>
+						<span th:unless="${i != currentPage}">[[${i}]]</span>
+					</span>
+
+					<a th:if="${currentPage < totalPages}"
+						th:href="@{'/applicantPro/' + ${currentPage + 1} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">Next</a>
+					<span th:unless="${currentPage < totalPages}">Next</span>
+
+					<a th:if="${currentPage < totalPages}"
+						th:href="@{'/applicantPro/' + ${totalPages} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">Last</a>
+					<span th:unless="${currentPage < totalPages}">Last</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- <div>
+			<form th:action="@{'/applicantPro/1/' + ${keyword}}">
+				<input type="hidden" name="sortField" th:value="${sortField}" />
+				<input type="hidden" name="sortDir" th:value="${sortDir}" />
+				<input type="text" name="searchKey" onfocus="this.value=''" th:value="${searchKey}" required />
+				<button type="submit">
+					<ion-icon name="search-outline"></ion-icon>
+				</button>
+			</form>
+		</div>
+
+		<div>
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Mobile</th>
+						<th>Address</th>
+						<th>Link</th>
+						<th>Current State</th>
+						<th>Status</th>
+						<th>Job Post Name</th>
+						<th>Applied Position</th>
+						<th>Applied Date</th>
+						<th>Comment</th>
+						<th>CV</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody th:each="data : ${applicants} ">
+					<tr>
+						<td th:text="${data.applicantId}"></td>
+						<td th:text="${data.applicantName}"></td>
+						<td th:text="${data.applicantEmail}"></td>
+						<td th:text="${data.applicantMobile}"></td>
+						<td th:text="${data.address}"></td>
+						<td th:text="${data.link}"></td>
+						<td th:text="${data.currentState}"></td>
+						<td th:text="${data.applicantStatus}"></td>
+						<td th:text="${data.jobPost.postName}"></td>
+						<td th:text="${data.jobPosition.positionName}"></td>
+						<td th:text="${data.applyTime}"></td>
+						<td th:text="${data.comment}"></td>
+						<td><a th:href="@{'/viewFile/'+${data.applicantId}}">View</a>
+						<td th:if="${data.currentState != 'Pass' and data.currentState != 'Fail'}"><a
+								th:href="@{/nextProcess(id=${data.applicantId})}">Next</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		
-		<a th:if="${currentPage > 1}" th:href="@{'/applicantPro/1/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">First</a>
-		<span th:unless="${currentPage > 1}">First</span>
-		
-		<a th:if="${currentPage > 1}" th:href="@{'/applicantPro/' + ${currentPage - 1} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">Previous</a>
-		<span th:unless="${currentPage > 1}">Previous</span>
-		
-		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			<a th:if="${i != currentPage}" th:href="@{'/applicantPro/' + ${i} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">[[${i}]]</a> 
-			<span th:unless="${i != currentPage}">[[${i}]]</span>
-			&nbsp;&nbsp;
-		</span>
-		
-		<a th:if="${currentPage < totalPages}" th:href="@{'/applicantPro/' + ${currentPage + 1} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">Next</a>
-		<span th:unless="${currentPage < totalPages}">Next</span>
-		
-		<a th:if="${currentPage < totalPages}" th:href="@{'/applicantPro/' + ${totalPages} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">Last</a>
-		<span th:unless="${currentPage < totalPages}">Last</span>
-	</div>
-	<!-- paging end -->
+		<div>
+			Total Applicants: [[${totalApplicants}]] - Page [[${currentPage}]] of [[${totalPages}]]
+			&nbsp; - &nbsp;
+
+			<a th:if="${currentPage > 1}"
+				th:href="@{'/applicantPro/1/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">First</a>
+			<span th:unless="${currentPage > 1}">First</span>
+
+			<a th:if="${currentPage > 1}"
+				th:href="@{'/applicantPro/' + ${currentPage - 1} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">Previous</a>
+			<span th:unless="${currentPage > 1}">Previous</span>
+
+			<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+				<a th:if="${i != currentPage}"
+					th:href="@{'/applicantPro/' + ${i} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">[[${i}]]</a>
+				<span th:unless="${i != currentPage}">[[${i}]]</span>
+				&nbsp;&nbsp;
+			</span>
+
+			<a th:if="${currentPage < totalPages}"
+				th:href="@{'/applicantPro/' + ${currentPage + 1} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">Next</a>
+			<span th:unless="${currentPage < totalPages}">Next</span>
+
+			<a th:if="${currentPage < totalPages}"
+				th:href="@{'/applicantPro/' + ${totalPages} + '/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">Last</a>
+			<span th:unless="${currentPage < totalPages}">Last</span>
+		</div> -->
+	</section>
+
 </body>
+
 </html>

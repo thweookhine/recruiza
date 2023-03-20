@@ -54,7 +54,7 @@
 					<p>Need
 						<span th:text="${jp.count}"></span>
 					</p>
-					<a th:onclick="generateUpdateRoleForm([[${jp.postId}]],[[${jp.postName}]],[[${jp.count}]]);">
+					<a th:onclick="generateUpdateRoleFormJP([[${jp.postId}]],[[${jp.postName}]],[[${jp.count}]]);">
 					<!-- <a th:href="@{/postJP(jobPostId=${jp.postId})}"> -->
 						<ion-icon name="checkmark-done-outline"></ion-icon>POST
 					</a>
@@ -121,9 +121,6 @@
 					<p>Need
 						<span th:text="${jp.count}"></span>
 					</p>
-					<a th:href="@{/postJP(jobPostId=${jp.postId})}">
-						<ion-icon name="checkmark-done-outline"></ion-icon>POST
-					</a>
 				</div>
 			</div>
 		</div>

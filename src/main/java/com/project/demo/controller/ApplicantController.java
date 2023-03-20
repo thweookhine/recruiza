@@ -131,6 +131,7 @@ public class ApplicantController {
     	model.addAttribute("nextStatus", CheckStatus.getApplicantStatus(applicant.getApplicantStatus()));
     	ApplicantBean applicantBean = ApplicantBean.builder()
     											   .applicantId(applicant.getApplicantId())
+												   .applicantCode(applicant.getApplicantCode())
     											   .applicantName(applicant.getApplicantName())
     											   .applicantEmail(applicant.getApplicantEmail())
     											   .applicantMobile(applicant.getApplicantMobile())

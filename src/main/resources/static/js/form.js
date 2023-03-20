@@ -103,7 +103,7 @@ function editclose(){
     document.querySelector('.jobPostEdit').remove()
 }
 
-function generateUpdateRoleForm(id,name,count){
+function generateUpdateRoleFormJP(id,name,count){
     let parent = document.querySelector('body')
     let modal = document.createElement('div')
     modal.className = 'jobPostEdit'

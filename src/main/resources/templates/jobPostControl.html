@@ -5,18 +5,14 @@
 	<meta charset="UTF-8">
 	<title>Job Post</title>
 
-	<!-- JQuery js1 -->
-	<script src="https://code.jquery.com/jquery-3.6.1.min.js" type="text/javascript"></script>
-
-	<script type="text/javascript" th:src="@{/js/ajax.js}"></script>
-	<script type="text/javascript" th:src="@{/js/main.js}" defer></script>
-	<script type="text/javascript" th:src="@{/js/form.js}" defer></script>
+	<div th:insert="../components/nav :: tags"></div>
 </head>
 
 <body>
-	<h3>Add Job Post</h3>
+	<p class="errornoti" th:text="${message}"></p>
 
-	<h3 th:text="${message}"></h3>
+	<div th:insert="../components/nav :: navBar"></div>
+	<div th:insert="../components/nav :: sideNav"></div>
 
 	<div>
 		<form th:action="@{/saveJobPost}" method="post" th:object="${jobPost}">

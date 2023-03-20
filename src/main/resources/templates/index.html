@@ -20,6 +20,10 @@
 	<input type="hidden" id="mailError" name="mailError" th:value="${mailError}"/>
 	<input type="hidden" id="token" name="token" th:value="${token}" />
 	
+	<img class="backImage2" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${#dates.format(#dates.createNow(),'YYYY/MM/dd HH:mm:ss')}+''" alt="">
+
+			
+	<img class="applicantImage" th:src="'https://api.dicebear.com/5.x/micah/svg?seed='+${#dates.format(#dates.createNow(),'YYYY/MM/dd HH:mm:ss')}+''" alt="">
 	<!-- mail modal start -->
 	<div id="mailModal" class="modal1">
 		<span class="closeButton" onclick="boxclose()">
