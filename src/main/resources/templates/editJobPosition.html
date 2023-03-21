@@ -10,45 +10,51 @@
 <body>
     <p class="errornoti" th:text="${message}"></p>
 
-	<div th:insert="../components/nav :: navBar"></div>
-	<div th:insert="../components/nav :: sideNav"></div>
+    <div th:insert="../components/nav :: navBar"></div>
+    <div th:insert="../components/nav :: sideNav"></div>
 
-        <button class="back_button">
-            <a th:href="@{/jobposition}"><ion-icon name="arrow-back-outline"></ion-icon></a>
-        </button>
+    <img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jobposition.positionCode}+''"
+        alt="">
+
+    <button class="back_button">
+        <a th:href="@{/jobposition}"><ion-icon name="arrow-back-outline"></ion-icon></a>
+    </button>
     <div class="updateform">
-        <form data-formName="Edit JobPosition" th:action="@{/updatejobposition}" th:object="${jobposition}" method="post">
+        <form data-formName="Edit JobPosition" th:action="@{/updatejobposition}" th:object="${jobposition}"
+            method="post">
             <div>
                 <input type="hidden" th:field="*{positionId}">
                 <input type="text" th:field="*{positionName}" placeholder="Enter Position Name">
-                <label for="name">Name</label>	
-				<label th:if="${#fields.hasErrors('positionName')}"th:errors="*{positionName}" style="color: red;">Error</label>
+                <label for="name">Name</label>
+                <label th:if="${#fields.hasErrors('positionName')}" th:errors="*{positionName}"
+                    style="color: red;">Error</label>
                 <input type="hidden" th:value="${jobposition.positionName}" name="oldName" />
             </div>
             <div class="actionBox">
-            <input type="submit" th:value="Update">
+                <input type="submit" th:value="Update">
             </div>
         </form>
 
         <div class="deleteBox">
-			<button onclick="deleteform()">Delete</button>
-		</div>
+            <button onclick="deleteform()">Delete</button>
+        </div>
     </div>
-    <div class="confirmationModal deleteConfirmationModal"  style="display: none;">
-		<div class="modalBox">
+    <div class="confirmationModal deleteConfirmationModal" style="display: none;">
+        <div class="modalBox">
             <button onclick="deleteformclose()">
                 <ion-icon name="close-outline"></ion-icon>
             </button>
             <h2>Delete ?</h2>
             <p>Are u sure u want to delete <b th:text="${jobposition.positionName}"></b> ?</p>
             <div class="modalButtonBox">
-                <a th:href="@{/deletejobposition(id=${jobposition.positionId})}">Yes <ion-icon name="sad-outline"></ion-icon></a>
+                <a th:href="@{/deletejobposition(id=${jobposition.positionId})}">Yes <ion-icon
+                        name="sad-outline"></ion-icon></a>
                 <a onclick="deleteformclose()">No <ion-icon name="happy-outline"></ion-icon></a>
             </div>
         </div>
         <div class="backgroundExit" onclick="deleteformclose()"></div>
-	</div>
-        
+    </div>
+
     <script type="text/javascript" th:src="@{/js/form.js}"></script>
 </body>
 

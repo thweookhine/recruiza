@@ -157,4 +157,9 @@ public class ApplicantServiceImpl implements ApplicantService{
 		}
 		return repo.count();
 	}
+
+	@Override
+	public Integer getCountByJobPost(long postId) {
+		return repo.getApplicantCountByJobPost(postId);
+	}
 }

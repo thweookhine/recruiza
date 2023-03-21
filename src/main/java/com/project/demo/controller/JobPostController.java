@@ -4,7 +4,9 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -33,6 +35,7 @@ import com.project.demo.entity.Team;
 import com.project.demo.entity.User;
 import com.project.demo.model.JobPostBean;
 import com.project.demo.model.UserBean;
+import com.project.demo.service.ApplicantService;
 import com.project.demo.service.DepartmentService;
 import com.project.demo.service.HistoryService;
 import com.project.demo.service.JobPositionService;
@@ -64,30 +67,43 @@ public class JobPostController {
 
 	@Autowired
 	HistoryService historyService;
+	
+	@Autowired
+	ApplicantService applicantService;
 
 	@GetMapping("/jobPost")
 	public ModelAndView toJobPost(ModelMap model, RedirectAttributes ra, JobPostBean jobPostBean) {
-		
+
 		String keyword = null;
 		String status = "";
-		return searchJobPost(model, jobPostBean, ra, 1, "postId", "asc", keyword,status);
+		return searchJobPost(model, jobPostBean, ra, 1, "postId", "asc", keyword, status);
 	}
 
 	@GetMapping(value = "/searchJobPost/{pageNumber}")
 	public ModelAndView searchJobPost(ModelMap model, JobPostBean jobPostBean, RedirectAttributes ra,
-			@PathVariable("pageNumber") int currentPage,
-			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword,@RequestParam("postStatus")String status) {
+			@PathVariable("pageNumber") int currentPage, @Param("sortField") String sortField,
+			@Param("sortDir") String sortDir, @Param("keyword") String keyword,
+			@RequestParam("postStatus") String status) {
 
-		if(status != null && status.equals("ALL")) {
+		if (status != null && status.equals("ALL")) {
 			status = "";
 		}
-		
-		Page<JobPost> page = jobPostService.listAllJobPosts(currentPage, sortField, sortDir, keyword,status);
+
+		Page<JobPost> page = jobPostService.listAllJobPosts(currentPage, sortField, sortDir, keyword, status);
 
 		long totalJobPosts = page.getTotalElements();
 		int totalPages = page.getTotalPages();
 
 		List<JobPost> jobPosts = page.getContent();
+
+		Map<Long, Integer> map = new HashMap<>();
+
+		for (JobPost jp : jobPosts) {
+			int count = applicantService.getCountByJobPost(jp.getPostId());
+			map.put((long) jp.getPostId(), count);
+		}
+		
+		model.addAttribute("countMap",map);
 
 		int index = Integer.parseInt((currentPage - 1) + "1");
 
@@ -98,7 +114,7 @@ public class JobPostController {
 		model.addAttribute("sortField", sortField);
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("keyword", keyword);
-		model.addAttribute("postStatus",status.isEmpty() ? "ALL":status);
+		model.addAttribute("postStatus", status.isEmpty() ? "ALL" : status);
 		model.addAttribute("index", index);
 
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
@@ -107,19 +123,18 @@ public class JobPostController {
 		return new ModelAndView("jobPostControl", "jobPost", jobPostBean);
 
 	}
-	
+
 	@PostMapping(value = "/searchPostedJobPost")
 	public ModelAndView searchPostedJobPost(ModelMap model, RedirectAttributes ra,
-			@RequestParam("keyword") String keyword,
-			@RequestParam("startDate") String startDate,@RequestParam("endDate") String endDate
-			) {
+			@RequestParam("keyword") String keyword, @RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate) {
 
 		List<JobPost> jobPosts = jobPostService.findJobPost(keyword, startDate, endDate);
 
 		model.addAttribute("jobPosts", jobPosts);
 		model.addAttribute("keyword", keyword);
-		model.addAttribute("startDate",startDate);
-		model.addAttribute("endDate",endDate);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
 
 		return new ModelAndView("home");
 
@@ -127,8 +142,7 @@ public class JobPostController {
 
 	@PostMapping(value = "/saveJobPost")
 	public ModelAndView saveJobPost(@ModelAttribute("jobPost") @Validated JobPostBean jobPostBean,
-			BindingResult bindingResult, HttpSession session,
-			RedirectAttributes ra, ModelMap model) {
+			BindingResult bindingResult, HttpSession session, RedirectAttributes ra, ModelMap model) {
 
 		if (bindingResult.hasErrors()) {
 			return toJobPost(model, ra, jobPostBean);
@@ -141,18 +155,10 @@ public class JobPostController {
 		UserBean userBean = (UserBean) session.getAttribute("user");
 		User user = userService.getById(userBean.getUserId());
 
-		JobPost jobPost = JobPost.builder()
-				.postName(jobPostBean.getPostName())
-				.count(jobPostBean.getCount())
-				.comment(jobPostBean.getComment())
-				.foc(jobPostBean.isFoc())
-				.team(team)
-				.resource(resource)
-				.jobPosition(jobPosition)
-				.user(user)
-				.postCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
-				.postStatus("PENDING")
-				.build();
+		JobPost jobPost = JobPost.builder().postName(jobPostBean.getPostName()).count(jobPostBean.getCount())
+				.comment(jobPostBean.getComment()).foc(jobPostBean.isFoc()).team(team).resource(resource)
+				.jobPosition(jobPosition).user(user).postCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
+				.postStatus("PENDING").build();
 
 		JobPost result = jobPostService.createJobPost(jobPost);
 		if (result != null) {
@@ -167,19 +173,11 @@ public class JobPostController {
 	public ModelAndView toUpdateJobPost(@RequestParam("jobPostId") long id, ModelMap model) {
 		JobPost post = jobPostService.getByid(id);
 
-		JobPostBean jobPostBean = JobPostBean.builder()
-				.postId(id)
-				.postCode(post.getPostCode())
-				.postName(post.getPostName())
-				.count(post.getCount())
-				.comment(post.getComment())
-				.foc(post.isFoc())
-				.teamBean(post.getTeam().getTeamId())
-				.departmentId(post.getTeam().getDepartment().getDepartmentId())
-				.resourceId(post.getResource().getResourceId())
-				.postStatus(post.getPostStatus())
-				.jobPositionId(post.getJobPosition().getPositionId())
-				.build();
+		JobPostBean jobPostBean = JobPostBean.builder().postId(id).postCode(post.getPostCode())
+				.postName(post.getPostName()).count(post.getCount()).comment(post.getComment()).foc(post.isFoc())
+				.teamBean(post.getTeam().getTeamId()).departmentId(post.getTeam().getDepartment().getDepartmentId())
+				.resourceId(post.getResource().getResourceId()).postStatus(post.getPostStatus())
+				.jobPositionId(post.getJobPosition().getPositionId()).build();
 		return new ModelAndView("jobPostAction", "jobPost", jobPostBean);
 	}
 
@@ -194,18 +192,9 @@ public class JobPostController {
 		UserBean userBean = (UserBean) session.getAttribute("user");
 		User user = userService.getById(userBean.getUserId());
 
-		JobPost jobPost = JobPost.builder()
-				.postId(jobPostBean.getPostId())
-				.postName(jobPostBean.getPostName())
-				.count(jobPostBean.getCount())
-				.comment(jobPostBean.getComment())
-				.foc(jobPostBean.isFoc())
-				.team(team)
-				.user(user)
-				.resource(resource)
-				.jobPosition(position)
-				.postStatus(jobPostBean.getPostStatus())
-				.build();
+		JobPost jobPost = JobPost.builder().postId(jobPostBean.getPostId()).postName(jobPostBean.getPostName())
+				.count(jobPostBean.getCount()).comment(jobPostBean.getComment()).foc(jobPostBean.isFoc()).team(team)
+				.user(user).resource(resource).jobPosition(position).postStatus(jobPostBean.getPostStatus()).build();
 		JobPost result = jobPostService.updateJobPost(jobPost);
 
 		if (result != null) {
@@ -215,32 +204,34 @@ public class JobPostController {
 
 		return new ModelAndView("redirect:/jobPost");
 	}
-	
+
 	@GetMapping(value = "/closeJobPost")
-	public ModelAndView closeJobPost(@RequestParam("jobPostId") long id, ModelMap model,RedirectAttributes ra,HttpSession session) {
-		
+	public ModelAndView closeJobPost(@RequestParam("jobPostId") long id, ModelMap model, RedirectAttributes ra,
+			HttpSession session) {
+
 		JobPost jobPost = jobPostService.getByid(id);
 		jobPost.setPostStatus("CLOSED*");
 		JobPost result = jobPostService.updateJobPost(jobPost);
-		if(result != null) {
+		if (result != null) {
 			generateHistoryForJobPost(jobPost, session, "closed");
-			ra.addFlashAttribute("message","Successfully Closed.");
+			ra.addFlashAttribute("message", "Successfully Closed.");
 		}
-		
+
 		return new ModelAndView("redirect:/jobPost");
 	}
-	
+
 	@GetMapping(value = "/openJobPost")
-	public ModelAndView openJobPost(@RequestParam("jobPostId") long id, ModelMap model,RedirectAttributes ra,HttpSession session) {
-		
+	public ModelAndView openJobPost(@RequestParam("jobPostId") long id, ModelMap model, RedirectAttributes ra,
+			HttpSession session) {
+
 		JobPost jobPost = jobPostService.getByid(id);
 		jobPost.setPostStatus("POSTED");
 		JobPost result = jobPostService.updateJobPost(jobPost);
-		if(result != null) {
+		if (result != null) {
 			generateHistoryForJobPost(jobPost, session, "opened");
-			ra.addFlashAttribute("message","Successfully Opened.");
+			ra.addFlashAttribute("message", "Successfully Opened.");
 		}
-		
+
 		return new ModelAndView("redirect:/jobPost");
 	}
 
@@ -275,25 +266,18 @@ public class JobPostController {
 		User user = userService.getById(userBean.getUserId());
 
 		String data = jobPost.getPostId() + "," + jobPost.getPostCode() + "," + jobPost.getPostName() + ","
-				+ jobPost.getCount() + "," + jobPost.getComment() + ","
-				+ jobPost.isFoc() + "," + jobPost.getPostDate() + ","
-				+ jobPost.getDueDate() + "," + jobPost.getTeam().getTeamName() + ","
+				+ jobPost.getCount() + "," + jobPost.getComment() + "," + jobPost.isFoc() + "," + jobPost.getPostDate()
+				+ "," + jobPost.getDueDate() + "," + jobPost.getTeam().getTeamName() + ","
 				+ jobPost.getResource().getResourceName() + "," + jobPost.getJobPosition().getPositionName() + ","
 				+ jobPost.getPostStatus() + "," + jobPost.getSheetId();
 
-		History history = History.builder()
-				.user(user)
-				.action(action)
-				.dataName(jobPost.getPostName())
-				.tableName("Job Post")
-				.data(data)
-				.historyCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
-				.build();
+		History history = History.builder().user(user).action(action).dataName(jobPost.getPostName())
+				.tableName("Job Post").data(data).historyCreatedTime(Timestamp.valueOf(LocalDateTime.now())).build();
 		historyService.createHistory(history);
 	}
-	
+
 	@ModelAttribute("postStatusList")
-	public List<String> getAllPostStatus(){
+	public List<String> getAllPostStatus() {
 		List<String> list = new ArrayList<>();
 		list.add("ALL");
 		list.add("PENDING");
@@ -302,6 +286,5 @@ public class JobPostController {
 		list.add("CLOSED*");
 		return list;
 	}
-	
-	
+
 }

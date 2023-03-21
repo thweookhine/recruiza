@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.project.demo.entity.Applicant;
 
@@ -30,5 +31,9 @@ public interface ApplicantRepository extends JpaRepository<Applicant,Long>{
 	public Page<Applicant> findWithSearchKey(String searchKey, Pageable pageable);
 	
 	long countByApplicantStatus(String status);
+	
+	@Query(value= "select count(*) from recruit.applicant where (job_post_id = :jobPostId) ", nativeQuery=true)
+	Integer getApplicantCountByJobPost(@Param("jobPostId")long jobPostId);
 
+	
 }

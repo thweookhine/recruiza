@@ -15,6 +15,7 @@
 
 
 	<div class="addForm">
+		<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed=codemayychinwo'" alt="">
 		<form data-formName="Add JobPosition" th:action="@{/savejobposition}" method="post" th:object="${jobposition}">
 			<div>
 				<input type="text" th:field="*{positionName}" placeholder="Enter Position Name" required="required" />
@@ -59,10 +60,12 @@
 		<div class="resourceContainer">
 			<div class="sort-box">
 				<div class="sort-links">
-					<a th:href="@{'/searchPosition/' + ${currentPage} + '?sortField=positionCode&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+					<a
+						th:href="@{'/searchPosition/' + ${currentPage} + '?sortField=positionCode&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 						Code
 					</a>
-					<a th:href="@{'/searchPosition/' + ${currentPage} + '?sortField=positionName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+					<a
+						th:href="@{'/searchPosition/' + ${currentPage} + '?sortField=positionName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 						Name
 					</a>
 				</div>
@@ -70,8 +73,8 @@
 
 			<div class="data-card" th:each="position: ${list}">
 
-				<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${position.positionCode}+''"
-					alt="">
+				<img class="backImage"
+					th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${position.positionCode}+''" alt="">
 
 				<p class="data-code" th:text="${position.positionCode}"></p>
 				<div class="data-row">
@@ -136,7 +139,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- <div class="tableBox teamTableBox">
 		<div class="searchBox">
 			<h2>JobPosition</h2>

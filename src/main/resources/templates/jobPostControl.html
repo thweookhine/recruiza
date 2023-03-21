@@ -114,6 +114,7 @@
 					<th>
 						Count
 					</th>
+					<th>Applicant Count</th>
 					<th>Post Date</th>
 					<th>Due Date</th>
 					<th>Comment</th>
@@ -133,6 +134,7 @@
 					<td th:text="${jp.postCode}"></td>
 					<td th:text="${jp.postName}"></td>
 					<td th:text="${jp.count}"></td>
+					<td  th:text="${countMap.get(jp.postId)}"></td>
 					<td th:text="${jp.postDate}"></td>
 					<td th:text="${jp.dueDate}"></td>
 					<td th:text="${jp.comment}"></td>
@@ -148,7 +150,9 @@
 							<div th:if="${jp.postStatus == 'PENDING'}">
 								<a th:href="@{/updateJobPost(jobPostId=${jp.postId})}">Action</a>
 							</div>
-							<a th:href="@{/applicant(jobPostId=${jp.postId})}">Add Applicant</a>
+							<div th:if="${jp.postStatus == 'POSTED'}">
+								<a th:href="@{/applicant(jobPostId=${jp.postId})}">Add Applicant</a>
+							</div>
 							<div th:if="${jp.postStatus == 'POSTED'}">
 								<a th:href="@{/closeJobPost(jobPostId=${jp.postId})}"><button>Close</button></a>
 							</div>

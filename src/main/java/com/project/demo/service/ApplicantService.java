@@ -29,4 +29,6 @@ public interface ApplicantService {
 	
 	long countOfApplicantStatus(String status);
 	
+	Integer getCountByJobPost(long postId);
+	
 }
