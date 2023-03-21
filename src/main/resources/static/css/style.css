@@ -2665,8 +2665,7 @@ nav ul li.active a .icon ion-icon {
 
 .jobPostInfo {
     position: relative;
-    width: 95%;
-    height: 70%;
+    width: 100%;
     border-radius: 10px;
     padding: 5px;
     background: rgba(0, 0, 0, 0.1);
@@ -2694,7 +2693,6 @@ nav ul li.active a .icon ion-icon {
 }
 
 .jobPostInfo>div {
-    position: absolute;
     bottom: 5px;
     display: flex;
     gap: 10px;
@@ -3400,6 +3398,79 @@ nav ul li.active a .icon ion-icon {
     padding: 3px 10px;
     border-radius: 10px;
     text-decoration: none;
+}
+.data-status>p{
+    border: 1px solid var(--shadowColor);
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 0.7em;
+}
+.data-card-head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.data-card-head>div:first-child{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.data-code{
+    width: fit-content;
+    border: 1px solid var(--shadowColor);
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 0.9em;
+}
+.closed{
+    background: orange;
+}
+.dued{
+    background-color: orangered;
+}
+.posted{
+    background: lime;
+}
+.none{
+    background: lightgray;
+}
+.data-card.jobPostCardo{
+    width: 400px;
+}
+.data-card-body{
+    border: 1px solid var(--shadowColor);
+    padding: 10px;
+    border-radius: 10px;
+}
+.data-card-body>div{
+    display: flex;
+    border: 1px solid var(--shadowColor);
+    padding: 3px 5px;
+    border-radius: 10px;
+}
+.data-card-body>div:first-child{
+}
+.data-card-footer,.data-card-footer>div,.data-card-footer>div>div{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.data-card-footer{
+    justify-content: space-between;
+}
+.data-card-footer>div:first-child>div{
+    padding: 3px 5px;
+    border: 1px solid var(--shadowColor);
+    border-radius: 20px;
+}
+.data-card-footer a{
+    padding: 3px 5px;
+    border: 1px solid var(--shadowColor);
+    border-radius: 20px;
+}
+.data-card-footer img{
+    width: 20px;
+    border-radius: 10px;
 }
 @media only screen and (max-width: 500px) {
     .jobPostSection,.data-section{

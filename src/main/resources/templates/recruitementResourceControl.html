@@ -42,13 +42,149 @@
 			</div>
 			<div>
 				<input type="submit" value="Add" />
-				<ion-icon name="add-outline"></ion-icon>
 			</div>
 		</form>
 		<div class="backgroundExit" onclick="generateTeamBox()"></div>
 	</div>
 
-	<div class="tableBox teamTableBox">
+	<div class="data-section">
+		<form class="searchForm" th:action="@{/searchResource/1}" th:object="${resource}" method="get">
+			<h2>
+				<ion-icon name="people-outline"></ion-icon>
+				Recruitment Resources
+				<span>[[${totalResources}]]</span>
+			</h2>
+			<input type="hidden" name="sortField" th:value="${sortField}" />
+			<input type="hidden" name="sortDir" th:value="${sortDir}" />
+			<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" required />
+
+			<button type="submit">
+				<ion-icon name="search-outline"></ion-icon>
+			</button>
+			<button>
+				<a th:href="@{/recruitementresource}">
+					<ion-icon name="refresh-outline"></ion-icon>
+				</a>
+			</button>
+			<button type="button" onclick="generateTeamBox()">
+				<a>
+					<ion-icon name="add-outline"></ion-icon>
+				</a>
+			</button>
+		</form>
+
+
+		<div class="resourceContainer">
+			<div class="sort-box">
+				<div class="sort-links">
+					<a class="sort-button" th:href="@{'/searchResource/' + ${currentPage} + '?sortField=resourceCode&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+						Code
+					</a>
+					<a class="sort-button" th:href="@{'/searchResource/' + ${currentPage} + '?sortField=resourceName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+						Name
+					</a>
+				</div>
+			</div>
+
+			<div class="data-card" th:each="resource : ${list}">
+
+				<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${resource.resourceCode}+''"
+					alt="">
+
+				<p class="data-code" th:text="${resource.resourceCode}"></p>
+				<div class="data-row">
+					<span class="data-label">Name</span>
+					<p class="data-text" th:text="${resource.resourceName}"></p>
+				</div>
+				<div class="data-row">
+					<span class="data-label">Link</span>
+					<p class="data-text" th:text="${resource.link}"></p>
+				</div>
+				<div class="data-row">
+					<span class="data-label">Address</span>
+					<p class="data-text" th:text="${resource.address}"></p>
+				</div>
+				<div class="data-row">
+					<span class="data-label">Mobile</span>
+					<p class="data-text" th:text="${resource.resourceMobile}"></p>
+				</div>
+				<div class="data-row">
+					<span class="data-label">Contact Person</span>
+					<p class="data-text" th:text="${resource.contactPerson}"></p>
+				</div>
+				<div class="data-row">
+					<span class="data-label">Recruitment Type</span>
+					<p class="data-text" th:text="${resource.recruitementType}"></p>
+				</div>
+				<a class="data-edit-button" th:href="@{/editresource(id=${resource.resourceId})}" title="Edit Data">
+					<ion-icon name="create-outline"></ion-icon>
+				</a>
+			</div>
+
+			<!-- <div class="data-table-row" th:each="resource : ${list}">
+				<div class="data-table-col" th:text="${index+ resourceStat.index}"></div>
+				<div class="data-table-col" th:text="${resource.resourceCode}"></div>
+				<div class="data-table-col" th:text="${resource.resourceName}"></div>
+				<div class="data-table-col" th:text="${resource.link}"></div>
+				<div class="data-table-col" th:text="${resource.address}"></div>
+				<div class="data-table-col" th:text="${resource.resourceMobile}"></div>
+				<div class="data-table-col" th:text="${resource.contactPerson}"></div>
+				<div class="data-table-col" th:text="${resource.recruitementType}"></div>
+				<div class="data-table-col"><a class="action-button"
+						th:href="@{/editresource(id=${resource.resourceId})}">Action</a></div>
+			</div> -->
+
+		</div>
+
+		<!-- pagination -->
+		<div class="newPagination">
+			<div>
+				<a th:if="${currentPage > 1}"
+					th:href="@{'/searchResource/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+					<ion-icon name="play-skip-back-outline"></ion-icon>
+				</a>
+				<span th:unless="${currentPage > 1}">
+					<ion-icon name="play-skip-back-outline"></ion-icon>
+				</span>
+
+				<a th:if="${currentPage > 1}"
+					th:href="@{'/searchResource/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+					<ion-icon name="chevron-back-outline"></ion-icon>
+				</a>
+				<span th:unless="${currentPage > 1}">
+					<ion-icon name="chevron-back-outline"></ion-icon>
+				</span>
+
+				<p>
+					[[${currentPage}]] - [[${totalPages}]]
+				</p>
+
+				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+					<a th:if="${i != currentPage}"
+						th:href="@{'/searchResource/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
+					<span th:unless="${i != currentPage}">[[${i}]]</span>
+				</span>
+
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/searchResource/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+					<ion-icon name="chevron-forward-outline"></ion-icon>
+				</a>
+				<span th:unless="${currentPage < totalPages}">
+					<ion-icon name="chevron-forward-outline"></ion-icon>
+				</span>
+
+				<a th:if="${currentPage < totalPages}"
+					th:href="@{'/searchResource/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+					<ion-icon name="play-skip-forward-outline"></ion-icon>
+				</a>
+				<span th:unless="${currentPage < totalPages}">
+					<ion-icon name="play-skip-forward-outline"></ion-icon>
+				</span>
+			</div>
+		</div>
+	</div>
+
+	<!-- <div class="tableBox teamTableBox">
 		<div class="searchBox">
 			<h2>Recruitement Resource</h2>
 			<form th:action="@{/searchResource/1}" th:object="${resource}" method="get">
@@ -142,7 +278,7 @@
 		</div>
 
 
-	</div>
+	</div> -->
 </body>
 
 </html>

@@ -87,11 +87,15 @@
 
 				<p class="data-code" th:text="${team.teamCode}"></p>
 				<div class="data-row">
-					<span class="data-label">Name</span>
+					<span class="data-label">
+						<ion-icon name="people-outline"></ion-icon>
+					</span>
 					<p class="data-text" th:text="${team.teamName}"></p>
 				</div>
 				<div class="data-row">
-					<span class="data-label">Department</span>
+					<span class="data-label">
+						<ion-icon name="business-outline"></ion-icon>
+					</span>
 					<p class="data-text" th:text="${team.department.departmentName}"></p>
 				</div>
 				<a class="data-edit-button" th:href="@{/updateTeam(id=${team.teamId})}" title="Edit Data">
