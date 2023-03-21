@@ -43,7 +43,8 @@
 			</a>
 			<img src="https://api.dicebear.com/5.x/shapes/svg?seed=seoulK" alt="">
 		</div>
-<div class="applicantsParent">
+		
+		<div class="applicantsParent">
 			<form class="searchForm" th:action="@{'/applicantPro/1/' + ${keyword}}">
 				<h2>Applicants</h2>
 				<input type="hidden" name="sortField" th:value="${sortField}" />
@@ -61,9 +62,11 @@
 				</button>
 			</form>
 			<div class="applicantsContainer">
-				<div class="applicard"  th:each="data : ${applicants}" th:style="'--i:'+${dataStat.index}+';'">
-					<img class="applicantImage" th:src="'https://api.dicebear.com/5.x/micah/svg?seed='+${data.applicantName}+''" alt="">
-					<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${data.applicantName}+''" alt="">
+				<div class="applicard" th:each="data : ${applicants}" th:style="'--i:'+${dataStat.index}+';'">
+					<img class="applicantImage"
+						th:src="'https://api.dicebear.com/5.x/micah/svg?seed='+${data.applicantName}+''" alt="">
+					<img class="backImage"
+						th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${data.applicantName}+''" alt="">
 
 					<div class="applicantStatusBox">
 						<!-- <span class="focyes" th:if="${jp.foc == true}"></span> -->
@@ -99,12 +102,12 @@
 							<span th:text="${data.comment}"></span>
 						</p>
 					</div>
-					
+
 					<!-- <p th:text="${data.link}"></p> -->
 					<!-- <p th:text="${data.currentState}"></p> -->
 					<div class="jobPostInformation">
-							<span th:text="${data.jobPost.postName}"></span>
-							<span th:text="${data.jobPosition.positionName}"></span>
+						<span th:text="${data.jobPost.postName}"></span>
+						<span th:text="${data.jobPosition.positionName}"></span>
 					</div>
 					<div class="applicardButtonContainer">
 						<div>

@@ -30,7 +30,7 @@ function getTeams() {
 			}
 		},
 		error: function (e) {
-			alert("Submit failed" + JSON.stringify(e));
+			// alert("Submit failed" + JSON.stringify(e));
 		}
 	});
 }

@@ -173,3 +173,7 @@ function showCommentBox(){
 		document.querySelector('.skip-stages').classList.toggle('show-skip-stages');
 	}, 60000);
 }
+
+function clearFilter() {
+	window.location = '/team';
+}

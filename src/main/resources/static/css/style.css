@@ -479,7 +479,7 @@ nav ul li.active a .icon ion-icon {
     justify-content: center;
     align-items: center;
     z-index: 11;
-    background-color: #ffffff50;
+    background-color: var(--shadowColor);
     backdrop-filter: blur(10px);
 }
 
@@ -656,6 +656,7 @@ nav ul li.active a .icon ion-icon {
 /* Add form */
 .addForm {
     position: fixed;
+    top: 0;
     width: 100%;
     height: 100%;
     transform: translateX(100%) scaleX(0);
@@ -1248,7 +1249,7 @@ nav ul li.active a .icon ion-icon {
     border-radius: 10px;
 }
 
-.jobPostSection {
+.jobPostSection,.data-section{
     padding: 20px;
     padding-left: 90px;
     display: flex;
@@ -1256,11 +1257,18 @@ nav ul li.active a .icon ion-icon {
     align-items: center;
     flex-direction: column;
     width: 100%;
-    min-height: 400px;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+.jobPostSection{
+    min-height: 400px;
+}
+
+.data-section{
+    justify-content: flex-start;
+    min-height: 100vh;
+}
 
 .applicantSection {
     width: 100%;
@@ -2497,6 +2505,7 @@ nav ul li.active a .icon ion-icon {
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 10px;
     flex-wrap: wrap;
     gap: 10px;
@@ -2529,6 +2538,14 @@ nav ul li.active a .icon ion-icon {
 .newPagination>div>a {
     text-decoration: none;
     color: var(--secondaryColor);
+}
+.newPagination>div>a>ion-icon{
+    color: var(--secondaryColor);
+}
+.newPagination>div>p{
+    padding: 3px 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
 }
 
 .jobPostCard {
@@ -2783,6 +2800,21 @@ nav ul li.active a .icon ion-icon {
     bottom: 5px;
     left: 20px;
     color: var(--secondaryColor);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-weight: lighter;
+}
+.searchForm>h2>ion-icon{
+    color: var(--secondaryColor);
+}
+.searchForm>h2>span{
+    position: absolute;
+    transform: scale(0.8);
+    font-weight: lighter;
+    top: -5px;
+    left: 110%;
 }
 
 .postedJobPostsContainer,
@@ -3285,8 +3317,92 @@ nav ul li.active a .icon ion-icon {
     border-radius: 50%;
     opacity: 20%;
 }
+.processsStages>a>span{
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    padding: 3px 5px;
+    min-width: 30px;
+    border-radius: 10px;
+    background: var(--background);
+}
+
+.data-container{
+    display: flex;
+    gap: 10px;
+}
+.resourceContainer{
+    position: relative;
+    border: 1px solid var(--shadowColor);
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.data-card{
+    position: relative;
+    border: 1px solid var(--shadowColor);
+    padding: 10px;
+    border-radius: 10px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow: hidden;
+}
+.data-row{
+    border: 1px solid var(--shadowColor);
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.data-button{
+    width: 100%;
+    border: 1px solid var(--shadowColor);
+    margin-top: 10px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background: var(--secondaryColor);
+    text-decoration: none;
+    text-align: center;
+    color: var(--background);
+}
+.data-edit-button{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 5px;
+    border-radius: 0 0 0 10px;
+    /* background: var(--secondaryColor); */
+}
+.sort-box>ion-icon{
+    /* color: var(--background); */
+}
+.sort-box{
+    width: 100%;
+    border-bottom: 1px solid var(--shadowColor);
+    padding-bottom: 10px;
+    text-align: right;
+    transition: 0.5s ease-in-out;
+    display: flex;
+}
+.sort-links{
+    display: flex;
+    gap: 5px;
+}
+.sort-links>a{
+    color: var(--background);
+    background: var(--secondaryColor);
+    padding: 3px 10px;
+    border-radius: 10px;
+    text-decoration: none;
+}
 @media only screen and (max-width: 500px) {
-    .jobPostSection {
+    .jobPostSection,.data-section{
         padding-left: 20px;
     }
 
