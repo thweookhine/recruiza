@@ -1,6 +1,7 @@
 package com.project.demo.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
@@ -37,5 +38,17 @@ public interface JobPostService {
 	List<JobPost> searchWithStartDate(String startDate);
 	
 	List<JobPost> searchWithStartDateAndEndDate(String startDate,String endDate);
+	
+	long totalApplicantsCount(long postId);
+	
+	long hiredApplicantsCount(long postId);
+	
+	long rejectedApplicantsCount(long postId);
+	
+	List<Map<String, Object>> recruizaReport();
+	
+	Map<String, Object> getParameters(long postId);
+	
+	List<Map<String, Object>> getApplicantsList(long postId);
 	
 }

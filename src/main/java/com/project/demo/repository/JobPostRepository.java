@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.project.demo.entity.Applicant;
 import com.project.demo.entity.JobPost;
 
 public interface JobPostRepository extends JpaRepository<JobPost, Long> {
@@ -74,6 +75,18 @@ public interface JobPostRepository extends JpaRepository<JobPost, Long> {
 	
 	@Query(value= "select count(*) from recruit.job_post where (jobposition_id = :positionId) ", nativeQuery=true)
 	Integer getCountByPosition(@Param("positionId")long positionId);
+	
+	@Query("select count(a) from JobPost j join j.applicants a where j.postId = ?1")
+	long getTotalApplicants(long postId);
+	
+	@Query("select count(a) from JobPost j join j.applicants a where j.postId = ?1 and a.applicantStatus = 'Hired'")
+	long getByHiredApplicants(long postId);
+	
+	@Query("select count(a) from JobPost j join j.applicants a where j.postId = ?1 and a.currentState = 'Fail'")
+	long getByRejectedApplicants(long postId);
+	
+	@Query("select a from JobPost j join j.applicants a where j.postId = ?1")
+	List<Applicant> getApplicantsByPostId(long postId);
 
 	// @Query(value = "select * from recruit.job_post where post_date >= :startDate and post_date <= :endDate",nativeQuery = true)
 	// List<JobPost> findWithStartDateAndEndDate(@Param("startDate") String startDate,@Param("endDate") String endDate);

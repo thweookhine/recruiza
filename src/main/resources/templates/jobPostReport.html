@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Job Post Report</title>
+</head>
+<body>
+	<h1>[[${para.reportTitle}]]</h1>
+	<!-- button start -->
+	<div>
+		<a th:href="@{'/jobpostreport/' + ${postId}}">Report</a>
+	</div>
+	<!-- button start -->
+	<!-- date start -->
+	<div>
+		<span>Post Date - [[${para.postDate}]] | Due Date - [[${para.dueDate}]]</span>
+	</div>
+	<!-- date end -->
+	<!-- parameter start -->
+	<div>
+		<p>Job Post Name - [[${para.jobPostName}]]</p>
+		<p>Position Name - [[${para.positionName}]]</p>
+		<p>Required		 - [[${para.requiredCount}]]</p>
+		<p>Applied  	 - [[${para.appliedCount}]]</p>
+		<p>Hired		 - [[${para.hiredCount}]]</p>
+		<p>Rejected 	 - [[${para.rejectedCount}]]</p>
+	</div>
+	<!-- parameter end -->
+	<h1>Applicant Table</h1>
+	<!-- applicant table start -->
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Mobile</th>
+					<th>Resource</th>
+					<th>Status</th>
+					<th>State</th>
+					<th>Apply Time</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="data : ${applicantList}">
+					<td>[[${data.name}]]</td>
+					<td>[[${data.email}]]</td>
+					<td>[[${data.mobile}]]</td>
+					<td>[[${data.resource}]]</td>
+					<td>[[${data.status}]]</td>
+					<td>[[${data.state}]]</td>
+					<td>[[${data.applyTime}]]</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- applicant table end -->
+</body>
+</html>

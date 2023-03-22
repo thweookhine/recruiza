@@ -2,7 +2,7 @@ package com.project.demo.service;
 
 import static com.project.demo.utils.codeGenerator.*;
 
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,8 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.project.demo.entity.Applicant;
 import com.project.demo.entity.JobPost;
 import com.project.demo.repository.JobPostRepository;
+
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
 public class JobPostServiceImpl implements JobPostService {
@@ -150,4 +153,86 @@ public class JobPostServiceImpl implements JobPostService {
 		return jobPostRepo.getCountByPosition(positionId);
 	}
 
+	@Override
+	public long totalApplicantsCount(long postId) {
+		return jobPostRepo.getTotalApplicants(postId);
+	}
+
+	@Override
+	public long hiredApplicantsCount(long postId) {
+		return jobPostRepo.getByHiredApplicants(postId);
+	}
+
+	@Override
+	public long rejectedApplicantsCount(long postId) {
+		return jobPostRepo.getByRejectedApplicants(postId);
+	}
+
+	@Override
+	public List<Map<String, Object>> recruizaReport() {
+		
+		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		
+		for (JobPost jobPost : jobPostRepo.findAll()) {
+			
+			Map<String, Object> item = new HashMap<String, Object>();
+			
+			item.put("jobPostName", jobPost.getPostName());
+			item.put("positionName", jobPost.getJobPosition().getPositionName());
+			item.put("requiredCount", jobPost.getCount());
+			item.put("appliedCount", totalApplicantsCount(jobPost.getPostId()));
+			item.put("hiredCount", hiredApplicantsCount(jobPost.getPostId()));
+			item.put("rejectedCount", rejectedApplicantsCount(jobPost.getPostId()));
+			
+			result.add(item);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public Map<String, Object> getParameters(long postId) {
+		
+		JobPost jobPost = jobPostRepo.findById(postId).get();
+		
+		Map<String, Object> item = new HashMap<String, Object>();
+		
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(getApplicantsList(postId));
+		
+		item.put("reportTitle", "Recruiza Report");
+		item.put("postDate", jobPost.getPostDate());
+		item.put("dueDate", jobPost.getDueDate());
+		item.put("jobPostName", jobPost.getPostName());
+		item.put("positionName", jobPost.getJobPosition().getPositionName());
+		item.put("requiredCount", jobPost.getCount());
+		item.put("appliedCount", totalApplicantsCount(jobPost.getPostId()));
+		item.put("hiredCount", hiredApplicantsCount(jobPost.getPostId()));
+		item.put("rejectedCount", rejectedApplicantsCount(jobPost.getPostId()));
+		item.put("collectionBeanParam", dataSource);
+		
+		return item;
+	}
+
+	@Override
+	public List<Map<String, Object>> getApplicantsList(long postId) {
+		
+			List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		
+		for (Applicant applicant : jobPostRepo.getApplicantsByPostId(postId)) {
+			
+			Map<String, Object> item = new HashMap<String, Object>();
+			
+			item.put("name", applicant.getApplicantName());
+			item.put("email", applicant.getApplicantEmail());
+			item.put("mobile", applicant.getApplicantMobile());
+			item.put("resource", applicant.getSource());
+			item.put("status", applicant.getApplicantStatus());
+			item.put("state", applicant.getCurrentState());
+			item.put("applyTime", applicant.getApplyTime());
+			
+			result.add(item);
+		}
+		
+		return result;
+	}
 }

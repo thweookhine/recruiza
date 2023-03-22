@@ -207,8 +207,8 @@
 				<a th:if="${currentPage < totalPages}"
 					th:href="@{'/searchPosition/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon
 						name="chevron-forward-circle-outline"></ion-icon></a>
-				<span th:unless="${currentPage < totalPages}"><ion-icon
-						name="chevron-forward-circle-outline"></ion-icon></ion-icon></span>
+				<span th:unless="${currentPage < totalPages}">
+				<ion-icon name="chevron-forward-circle-outline"></ion-icon></span>
 
 				<a th:if="${currentPage < totalPages}"
 					th:href="@{'/searchPosition/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>

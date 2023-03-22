@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3d9b6671-eee5-4072-9abc-3bef14ab593b">
+	<parameter name="ReportTitle" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="jobPostName" class="java.lang.String"/>
+	<field name="positionName" class="java.lang.String"/>
+	<field name="requiredCount" class="java.lang.Integer"/>
+	<field name="appliedCount" class="java.lang.Long"/>
+	<field name="hiredCount" class="java.lang.Long"/>
+	<field name="rejectedCount" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<textField>
+				<reportElement x="140" y="24" width="280" height="30" uuid="cf6f21d6-6a68-47ee-a390-d8f46cf8da59"/>
+				<textElement textAlignment="Center">
+					<font size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ReportTitle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="-20" y="0" width="140" height="30" uuid="026acc04-f1ed-46c8-a8c0-8a49ad09355a"/>
+				<box>
+					<pen lineColor="#3A3870"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Job Post Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="0" width="100" height="30" uuid="d172d144-9aa3-4dbd-8893-563b34384fc9"/>
+				<box>
+					<pen lineColor="#3A3870"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Position Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="0" width="90" height="30" uuid="5acaabe9-5e31-4544-afa1-b1a1331017d4"/>
+				<box>
+					<pen lineColor="#3A3870"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Required]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="1" width="90" height="30" uuid="65f18118-a374-46ae-b752-be3044db9a6c"/>
+				<box>
+					<pen lineColor="#3A3870"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Applied]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="1" width="90" height="30" uuid="01503f44-8c6c-429d-b241-d84b841548f7"/>
+				<box>
+					<pen lineColor="#3A3870"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Hired]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="0" width="90" height="30" uuid="69248262-b313-461b-9b2c-a9eaa9ee6ec8"/>
+				<box>
+					<pen lineColor="#3A3870"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Rejected]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="36" splitType="Stretch">
+			<textField>
+				<reportElement x="-20" y="0" width="140" height="30" uuid="f356aa56-03b4-48b9-a4e5-2cb90756db2c"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jobPostName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="0" width="100" height="30" uuid="9f294da8-ac44-4bfa-a36c-bcba41509cbe"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{positionName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="0" width="90" height="30" uuid="81f55d63-9c8d-4362-930b-e607f009e713"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{requiredCount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="0" width="90" height="30" uuid="da4f7869-657d-47a8-ba67-5c137df8df45"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{appliedCount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="0" width="90" height="30" uuid="2f81369f-0010-4d87-88a8-2a744da64bba"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hiredCount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="490" y="0" width="80" height="30" uuid="287dee39-0d86-4e01-9c0c-fb4caca44b5f"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rejectedCount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
