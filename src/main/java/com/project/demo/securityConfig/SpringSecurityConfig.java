@@ -33,9 +33,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/resources/**")
-		.antMatchers("/static/**")
-		.antMatchers("/css/**")
-		.antMatchers("/js/**");
+				.antMatchers("/static/**")
+				.antMatchers("/css/**")
+				.antMatchers("/js/**");
 	}
 
 	@Override
@@ -58,7 +58,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**").hasAuthority("ADMIN")
 				.antMatchers("/market/**").hasAnyAuthority("MARKETER", "ADMIN")
 				.antMatchers("/login", "/resources/**", "/forgotPassword", "/reset_password").permitAll()
-				.antMatchers("/**").hasAnyAuthority("ADMIN", "MARKETER", "HR_Role", "PM_Role", "GM_Role", "DH_Role", "TM_Role")
+				.antMatchers("/**")
+				.hasAnyAuthority("ADMIN", "MARKETER", "HR_Role", "PM_Role", "GM_Role", "DH_Role", "TM_Role")
 				.antMatchers("/home/**")
 				.authenticated();
 

@@ -2,16 +2,16 @@ let sheetTemp = [];
 let jobpostid = 1;
 
 function retrieveSheetData(sheetid, postid) {
-	document.querySelector('.titleForApplicants').innerHTML = document.querySelector('.J'+postid).value;
+	document.querySelector('.titleForApplicants').innerHTML = document.querySelector('.J' + postid).value;
 	sheetTemp = [];
 	let SHEET_ID = sheetid
 	let SHEET_TITLE = 'formresponse';
 	let SHEET_RANGE = 'A2:K100'
 
 	let FULL_URL = ('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?sheet=' + SHEET_TITLE + '&range=' + SHEET_RANGE);
-	
+
 	getApplicants(postid);
-	
+
 	fetch(FULL_URL)
 		.then(res => res.text())
 		.then(rep => {
@@ -35,7 +35,7 @@ function retrieveSheetData(sheetid, postid) {
 					let parent = document.querySelector('.applicantContainer');
 					let newcard = document.createElement('div')
 					newcard.className = "applicantCard";
-					newcard.style = "--i:0."+(i+5)+"s;";
+					newcard.style = "--i:0." + (i + 5) + "s;";
 					newcard.innerHTML = `
 						<h4 class="applicantsource">${data.table.rows[i].c[5].v}</h4>
 						<img src="https://api.dicebear.com/5.x/micah/svg?seed=${data.table.rows[i].c[2].v}" alt="">
@@ -71,7 +71,7 @@ function generateAppModel(i, id) {
 	let newcard = document.createElement('div')
 	newcard.className = "addApplicantBox";
 	newcard.innerHTML = `
-	<form class="addApplicant" action="/saveapplicant">
+	<form class="addApplicant" action="/saveapplicant" method="post" enctype="multipart/form-data">
 		<h2>Add Applicant</h2>
 		<div>
 			<div>
@@ -84,7 +84,7 @@ function generateAppModel(i, id) {
 			</div>
 			<div>
 				<textarea data-name="link" name="link" cols="30" rows="2" placeholder="${sheetTemp[i].c[6].v}" readonly="readonly">${sheetTemp[i].c[6].v}</textarea>
-				<input type="file" name="file" multiple required="required">
+				<input type="file" name="file" multiple required/>
 				<textarea name="comment" data-name="comment" cols="30" rows="4" placeholder="Comment"></textarea>
 			</div>
 		</div>
@@ -101,12 +101,12 @@ function closeAppModel() {
 // ajax call for applicant data
 
 function getApplicants(postId) {
-	
+
 	$.ajax({
 		url: '/applicantList/' + postId,
 		type: "get",
 		success: function (response) {
-			
+
 			if (response == 0) {
 				console.log("error");
 			} else {

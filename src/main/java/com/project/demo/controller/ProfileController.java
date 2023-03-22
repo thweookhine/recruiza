@@ -84,6 +84,10 @@ public class ProfileController {
     	}else if (bs.hasErrors()) {
     		model.addAttribute("error", "Field cannot be blank !");
 			return new ModelAndView("editUser");
+		}else if(userService.findUserName(bean.getUserName()) != null) {
+			ra.addFlashAttribute("message", "User name is has been !");
+		}else if(userService.findUserEmail(bean.getUserEmail()) != null) {
+			ra.addFlashAttribute("message", "User email is has been !");
 		}else {
 			User u = User.builder()
 					.userId(bean.getUserId())
@@ -94,19 +98,20 @@ public class ProfileController {
 			User cUser = userService.updateUser(u);
 			
 			if(cUser == null) {
-				model.addAttribute("error", "Update User Fail !");
+				model.addAttribute("message", "Update User Fail !");
 				return new ModelAndView("editUser");
+			}else {
+				ra.addFlashAttribute("message", "Update User Successful !");
+				UserBean loginUser = (UserBean) session.getAttribute("user");
+				if (loginUser.getUserCode().equals(bean.getUserCode())) {
+					loginUser.setUserName(bean.getUserName());
+					loginUser.setUserEmail(bean.getUserEmail());
+					loginUser.setUserMobile(bean.getUserMobile());
+					session.setAttribute("loginUser", loginUser);
+				}
 			}
-			UserBean loginUser = (UserBean) session.getAttribute("user");
-			if (loginUser.getUserCode().equals(bean.getUserCode())) {
-				loginUser.setUserName(bean.getUserName());
-				loginUser.setUserEmail(bean.getUserEmail());
-				loginUser.setUserMobile(bean.getUserMobile());
-				session.setAttribute("loginUser", loginUser);
-			}
+			
 		}
-    	
-    	ra.addFlashAttribute("msg", "Update User Successful !");
     	return new ModelAndView("redirect:/profile");
     }
     

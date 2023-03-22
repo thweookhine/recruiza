@@ -35,34 +35,33 @@ public class MarketingController {
 
 	@Autowired
 	JobPostService jobPostService;
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	HistoryService historyService;
 
-	@GetMapping("/marketing")
+	@GetMapping("/market/marketing")
 	public ModelAndView toMarketing(ModelMap model, RedirectAttributes ra) {
 
 		String keyword = "";
-	
+
 		return showJobPosts(model, ra, 1, "id", "asc", keyword);
 	}
 
-	@GetMapping(value = "/showJobPosts/{pageNumber}")
+	@GetMapping(value = "/market/showJobPosts/{pageNumber}")
 	public ModelAndView showJobPosts(ModelMap model, RedirectAttributes ra,
 			@PathVariable("pageNumber") int currentPage,
 			@Param("sortField") String sortField, @Param("sortDir") String sortDir, @Param("keyword") String keyword) {
 
-		
-		Page<JobPost> page = jobPostService.searchJobPostsWithoutPending(currentPage, sortField, sortDir,keyword);
+		Page<JobPost> page = jobPostService.searchJobPostsWithoutPending(currentPage, sortField, sortDir, keyword);
 
 		long totalJobPosts = page.getTotalElements();
 		int totalPages = page.getTotalPages();
 
 		List<JobPost> postedJobPosts = page.getContent();
-		
+
 		List<JobPost> pendingJobPosts = jobPostService.searchWithStatus("PENDING");
 
 		int index = Integer.parseInt((currentPage - 1) + "1");
@@ -78,20 +77,20 @@ public class MarketingController {
 
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 		model.addAttribute("reverseSortDir", reverseSortDir);
-		
-		model.addAttribute("pendingJobPosts",pendingJobPosts);
+
+		model.addAttribute("pendingJobPosts", pendingJobPosts);
 
 		return new ModelAndView("marketingControl");
 
 	}
 
-	@GetMapping(value = "/postJP")
+	@GetMapping(value = "/market/postJP")
 	public ModelAndView toPostJP(@RequestParam("jobPostId") long postId) {
 		JobPost post = jobPostService.getByid(postId);
 		return new ModelAndView("postAction", "jobPost", post);
 	}
 
-	@PostMapping(value = "/postJP")
+	@PostMapping(value = "/market/postJP")
 	public ModelAndView postJP(
 			Model model,
 			@RequestParam("jobPostId") long postId,
@@ -107,13 +106,13 @@ public class MarketingController {
 		jobPost.setPostStatus("POSTED");
 		JobPost result = jobPostService.updateJobPost(jobPost);
 		if (result != null) {
-			generateHistoryForJobPost(result,session , "posted");
+			generateHistoryForJobPost(result, session, "posted");
 			model.addAttribute("message", "Successfully Posted.");
 		}
 
-		return new ModelAndView("redirect:/marketing");
+		return new ModelAndView("redirect:/market/marketing");
 	}
-	
+
 	public void generateHistoryForJobPost(JobPost jobPost, HttpSession session, String action) {
 		UserBean userBean = (UserBean) session.getAttribute("user");
 		User user = userService.getById(userBean.getUserId());
@@ -135,9 +134,9 @@ public class MarketingController {
 				.build();
 		historyService.createHistory(history);
 	}
-	
+
 	@ModelAttribute("postStatusList")
-	public List<String> getAllPostStatus(){
+	public List<String> getAllPostStatus() {
 		List<String> list = new ArrayList<>();
 		list.add("ALL");
 		list.add("PENDING");
@@ -146,5 +145,5 @@ public class MarketingController {
 		list.add("CLOSED*");
 		return list;
 	}
-	
+
 }

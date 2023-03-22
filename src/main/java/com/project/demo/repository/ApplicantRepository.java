@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.project.demo.entity.Applicant;
+import java.lang.String;
 
 public interface ApplicantRepository extends JpaRepository<Applicant,Long>{
 
@@ -35,5 +36,7 @@ public interface ApplicantRepository extends JpaRepository<Applicant,Long>{
 	@Query(value= "select count(*) from recruit.applicant where (job_post_id = :jobPostId) ", nativeQuery=true)
 	Integer getApplicantCountByJobPost(@Param("jobPostId")long jobPostId);
 
+	@Query("select a from Applicant a where a.applicantEmail = ?1 and a.jobPost.postId = ?2")
+	Applicant findByApplicantEmailAndJobPost(String email,long jobPostId);
 	
 }

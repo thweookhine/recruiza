@@ -13,7 +13,9 @@
 	<!-- error -->
 	<p class="errornoti" th:text="${msg}"></p>
 	<p class="errornoti" th:text="${error}"></p>
-	<img class="backImage2" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${#dates.format(#dates.createNow(),'YYYY/MM/dd HH:mm:ss')}+''" alt="">
+	<img class="backImage2"
+		th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${#dates.format(#dates.createNow(),'YYYY/MM/dd HH:mm:ss')}+''"
+		alt="">
 
 	<div class="addForm">
 		<form data-formName="Create New User" th:action="@{/admin/addUserServlet}" th:object="${bean}" method="post">
@@ -59,7 +61,6 @@
 
 			<div>
 				<input type="submit" value="Create User" />
-				<ion-icon name="add-outline"></ion-icon>
 			</div>
 		</form>
 		<div class="backgroundExit" onclick="generateTeamBox()"></div>
@@ -80,7 +81,7 @@
 				</form>
 
 				<button type="submit">
-					<ion-icon name="refresh-outline"></ion-icon>
+					<a th:href="@{/admin/addUser}"><ion-icon name="refresh-outline"></ion-icon></a>
 				</button>
 
 				<button type="submit" onclick="generateTeamBox()">
@@ -118,11 +119,13 @@
 						</div>
 					</div>
 				</div>
-				<div class="userInfoFooter">
-					<a th:if="${data.userStatus == 'ACTIVE'}" th:onclick="generateBanForm([[${data.userId}]],[[${data.userName}]],'ACTIVE');">
+				<div class="userInfoFooter" th:if="${data.role != 'ADMIN'}">
+					<a th:if="${data.userStatus == 'ACTIVE'}"
+						th:onclick="generateBanForm([[${data.userId}]],[[${data.userName}]],'ACTIVE');">
 						<span>Ban</span>
 					</a>
-					<a th:if="${data.userStatus == 'INACTIVE'}" th:onclick="generateBanForm([[${data.userId}]],[[${data.userName}]],'INACTIVE');">
+					<a th:if="${data.userStatus == 'INACTIVE'}"
+						th:onclick="generateBanForm([[${data.userId}]],[[${data.userName}]],'INACTIVE');">
 						<span>Active</span>
 					</a>
 					<button

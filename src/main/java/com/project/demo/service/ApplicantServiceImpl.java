@@ -162,4 +162,11 @@ public class ApplicantServiceImpl implements ApplicantService{
 	public Integer getCountByJobPost(long postId) {
 		return repo.getApplicantCountByJobPost(postId);
 	}
+
+	@Override
+	public Applicant findApplicantByEmailAndJobPost(String email, long jobPostId) {
+		return repo.findByApplicantEmailAndJobPost(email, jobPostId);
+	}
+
+	
 }

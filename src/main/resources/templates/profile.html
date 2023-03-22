@@ -8,6 +8,7 @@
 </head>
 
 <body>
+	<p class="errornoti" th:text="${message}"></p>
 	<div th:insert="../components/nav :: navBar"></div>
 
 	<div th:insert="../components/nav :: setting"></div>
@@ -25,16 +26,18 @@
 				<button onclick="toggleUpdateProfile()">
 					<ion-icon name="create-outline"></ion-icon>
 				</button>
-				<img class="userProfile" th:src="'https://api.dicebear.com/5.x/micah/svg?seed='+${userBean.userName}+''" alt="">
+				<img class="userProfile" th:src="'https://api.dicebear.com/5.x/micah/svg?seed='+${userBean.userName}+''"
+					alt="">
 			</div>
 
-			<div class="profileBox movetop" >
+			<div class="profileBox movetop">
 				<form th:action="@{/admin/updateUserInformation}" th:object="${userBean}" method="post">
 					<input data-name="UserId" type="hidden" th:field="*{userId}" placeholder="Enter user ID" />
 					<input data-name="Username" type="text" th:field="*{userCode}" readonly="true" />
 					<input data-name="Email" type="text" th:field="*{userName}" placeholder="Enter user name" />
 					<input data-name="Email" type="email" th:field="*{userEmail}" placeholder="Enter user email" />
-					<input data-name="Phone Number" type="text" th:field="*{userMobile}" placeholder="Enter user phone" />
+					<input data-name="Phone Number" type="text" th:field="*{userMobile}"
+						placeholder="Enter user phone" />
 					<input type="submit" value="Change" />
 				</form>
 				<button onclick="toggleUpdateProfile()">
@@ -44,13 +47,14 @@
 					<p>Change Password</p>
 				</button>
 			</div>
-			
+
 			<div class="profileBox moveright">
 				<form th:action="@{/admin/changePassword}" method="post">
 					<input type="hidden" name="userId" th:value="${userBean.userId}" placeholder="Enter user ID" />
 					<input type="password" name="oldPassword" value="" placeholder="Enter Old Password" required />
 					<input type="password" name="newPassword" value="" placeholder="Enter New Password" required />
-					<input type="password" name="confirmPassword" value="" placeholder="Enter Confirm New password" required />
+					<input type="password" name="confirmPassword" value="" placeholder="Enter Confirm New password"
+						required />
 					<input type="submit" value="Change" />
 				</form>
 				<button onclick="toggleUpdatePasswordProfile()">

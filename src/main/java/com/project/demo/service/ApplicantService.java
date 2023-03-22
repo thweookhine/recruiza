@@ -31,4 +31,6 @@ public interface ApplicantService {
 	
 	Integer getCountByJobPost(long postId);
 	
+	Applicant findApplicantByEmailAndJobPost(String email,long jobPostId);
+	
 }

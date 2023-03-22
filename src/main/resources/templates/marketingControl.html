@@ -16,7 +16,7 @@
 		<div class="pendingPostHead">
 			<h3>Pending Job Posts</h3>
 			<div>
-				Total <span>2</span>
+				Total <span th:text="${pendingJobPosts.size()}"></span>
 			</div>
 		</div>
 		<div class="jobPostsCantainer">
@@ -55,7 +55,7 @@
 						<span th:text="${jp.count}"></span>
 					</p>
 					<a th:onclick="generateUpdateRoleFormJP([[${jp.postId}]],[[${jp.postName}]],[[${jp.count}]]);">
-					<!-- <a th:href="@{/postJP(jobPostId=${jp.postId})}"> -->
+						<!-- <a th:href="@{/postJP(jobPostId=${jp.postId})}"> -->
 						<ion-icon name="checkmark-done-outline"></ion-icon>POST
 					</a>
 				</div>
@@ -67,11 +67,11 @@
 		<div class="pendingPostHead">
 			<h3>Posted Job Posts</h3>
 			<div>
-				Total <span>2</span>
+				Total <span th:text="${postedJobPosts.size()}"> </span>
 			</div>
 		</div>
 
-		<form class="searchForm" th:action="@{/showJobPosts/1}">
+		<form class="searchForm" th:action="@{/market/showJobPosts/1}">
 			<input type="hidden" name="sortField" th:value="${sortField}" />
 			<input type="hidden" name="sortDir" th:value="${sortDir}" />
 			<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" />
@@ -80,7 +80,7 @@
 				<ion-icon name="search-outline"></ion-icon>
 			</button>
 			<button>
-				<a th:href="@{/marketing}">
+				<a th:href="@{/market/marketing}">
 					<ion-icon name="refresh-outline"></ion-icon>
 				</a>
 			</button>
@@ -127,25 +127,25 @@
 		<div class="newPagination">
 			<div>
 				<a th:if="${currentPage > 1}"
-					th:href="@{'/admin/searchUser/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+					th:href="@{'/market/showJobPosts/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
 				<span th:unless="${currentPage > 1}">First</span>
 
 				<a th:if="${currentPage > 1}"
-					th:href="@{'/admin/searchUser/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
+					th:href="@{'/market/showJobPosts/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
 				<span th:unless="${currentPage > 1}">Previous</span>
 
 				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
 					<a th:if="${i != currentPage}"
-						th:href="@{'/admin/searchUser/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
+						th:href="@{'/market/showJobPosts/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
 					<span th:unless="${i != currentPage}">[[${i}]]</span>
 				</span>
 
 				<a th:if="${currentPage < totalPages}"
-					th:href="@{'/admin/searchUser/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
+					th:href="@{'/market/showJobPosts/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
 				<span th:unless="${currentPage < totalPages}">Next</span>
 
 				<a th:if="${currentPage < totalPages}"
-					th:href="@{'/admin/searchUser/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+					th:href="@{'/market/showJobPosts/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
 				<span th:unless="${currentPage < totalPages}">Last</span>
 			</div>
 		</div>

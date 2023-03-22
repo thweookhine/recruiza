@@ -1,22 +1,28 @@
 // post date dur date 
 var today = new Date().toISOString().split('T')[0];
 var idate = document.querySelectorAll('.customdate')
-if (idate[0]) {
-    idate[0].setAttribute('min', today);
+function dateSetter() {
+    console.log('takhukhu')
+    if (document.querySelector('.postdate')) {
+        document.querySelector('.postdate').setAttribute('min', today);
 
-    idate[0].addEventListener("change", (e) => {
-        dueDateBox.style.display = "block"
-        idate[1].setAttribute('min', idate[0].value);
-    })
+        document.querySelector('.postdate').addEventListener("change", (e) => {
+            console.log('date change')
+            dueDateBox.style.display = "block"
+            document.querySelector('.duedate').setAttribute('min', document.querySelector('.postdate').value);
+        })
+    }
+    var dueDateBox = document.querySelector(".dueDateBox")
+    if (dueDateBox) {
+        dueDateBox.style.display = "none"
+    }
 }
+dateSetter();
 
-var dueDateBox = document.querySelector(".dueDateBox")
-if (dueDateBox) {
-    dueDateBox.style.display = "none"
-}
+
 
 document.querySelector('.errornoti').addEventListener(
-    "click", ()=>{
+    "click", () => {
         document.querySelector('.errornoti').remove()
     }
 )
@@ -51,14 +57,14 @@ function closeLogoutForm() {
 }
 
 // generate ban confirmation
-function generateBanForm(id,name,action) {
-    let todo= "",toaction=""
-    if(action == "ACTIVE"){
+function generateBanForm(id, name, action) {
+    let todo = "", toaction = ""
+    if (action == "ACTIVE") {
         toaction = 'ban'
-        todo = "/admin/deleteUser?id="+id;
-    }else{
+        todo = "/admin/deleteUser?id=" + id;
+    } else {
         toaction = 'activate'
-        todo = "/admin/activeUser?id="+id;
+        todo = "/admin/activeUser?id=" + id;
     }
     var element = document.getElementById('confirmationModal');
     if (typeof (element) != 'undefined' && element != null) {
@@ -113,7 +119,7 @@ function showProfileForm() {
     document.querySelector('.user-update-new-data-form').classList.toggle('form-hider')
 }
 
-function generateUpdateRoleForm(code,id,role){
+function generateUpdateRoleForm(code, id, role) {
     let parent = document.querySelector('body')
     let modal = document.createElement('div')
     modal.className = 'updateUserform'
@@ -123,12 +129,12 @@ function generateUpdateRoleForm(code,id,role){
         <div>
             <label>Roles</label>
             <select class="changerole" name="role" required="required">
-                <option value="HR_Role" ${role == 'HR_Role' ? 'selected': ''}>Human Resource (HR)</option>
-                <option value="MARKETER" ${role == 'MARKETER' ? 'selected': ''}>Marketing Team (MT)</option>
-                <option value="DH_Role" ${role == 'DH_Role' ? 'selected': ''}>Department Head (DH)</option>
-                <option value="GM_Role" ${role == 'GM_Role' ? 'selected': ''}>General Manager (GM)</option>
-                <option value="PM_Role" ${role == 'PM_Role' ? 'selected': ''}>Project Manager (PM)</option>
-                <option value="TM_Role" ${role == 'TM_Role' ? 'selected': ''}>Team Manager (TM)</option>
+                <option value="HR_Role" ${role == 'HR_Role' ? 'selected' : ''}>Human Resource (HR)</option>
+                <option value="MARKETER" ${role == 'MARKETER' ? 'selected' : ''}>Marketing Team (MT)</option>
+                <option value="DH_Role" ${role == 'DH_Role' ? 'selected' : ''}>Department Head (DH)</option>
+                <option value="GM_Role" ${role == 'GM_Role' ? 'selected' : ''}>General Manager (GM)</option>
+                <option value="PM_Role" ${role == 'PM_Role' ? 'selected' : ''}>Project Manager (PM)</option>
+                <option value="TM_Role" ${role == 'TM_Role' ? 'selected' : ''}>Team Manager (TM)</option>
             </select>
         </div>
         <input type="submit" value="Update Role">
@@ -141,12 +147,13 @@ function generateUpdateRoleForm(code,id,role){
     parent.append(modal)
 }
 
-function editclose(){
-    console.log('closed');
+function editclose() {
     document.querySelector('.jobPostEdit').remove()
 }
 
-function generateUpdateRoleFormJP(id,name,count){
+function generateUpdateRoleFormJP(id, name, count) {
+    dateSetter()
+    console.log('smth')
     let parent = document.querySelector('body')
     let modal = document.createElement('div')
     modal.className = 'jobPostEdit'
@@ -158,8 +165,8 @@ function generateUpdateRoleFormJP(id,name,count){
 				<img src="https://api.dicebear.com/5.x/shapes/svg?seed=${name}">
 				<p>${name}</p>
 			</h2>
-			<input data-label="Post Date" type="date" name="postDate" placeholder="Enter Post Date" class="customdate" required="" min="2023-03-16">
-			<input data-label="Due Date"  type="date" name="dueDate" placeholder="Enter Due Date" class="customdate" required="">
+			<input data-label="Post Date" type="date" name="postDate" placeholder="Enter Post Date" class="postdate" required="">
+			<input data-label="Due Date"  type="date" name="dueDate" placeholder="Enter Due Date" class="duedate" required="">
 			<textarea data-label="Sheet ID" name="sheetId" cols="30" rows="10" placeholder="Enter Sheet ID" required=""></textarea>
 			<div>
 				<span>Count : <span>${count}</span></span>
@@ -170,7 +177,7 @@ function generateUpdateRoleFormJP(id,name,count){
     parent.append(modal)
 }
 
-function generateAddNewApplicantForm(id,code){
+function generateAddNewApplicantForm(id, code) {
     let parent = document.querySelector('body')
     let modal = document.createElement('div')
     modal.className = 'addNewApplicantForm'
@@ -194,6 +201,6 @@ function generateAddNewApplicantForm(id,code){
     parent.append(modal)
 }
 
-function closeAddNewApplicantForm(){
+function closeAddNewApplicantForm() {
     document.querySelector('.addNewApplicantForm').remove();
 }

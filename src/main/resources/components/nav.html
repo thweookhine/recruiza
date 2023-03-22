@@ -69,8 +69,8 @@
                         <span class="title">Admin Panel</span>
                     </a>
                 </li>
-                <li class="list">
-                    <a th:href="@{/marketing}">
+                <li class="list" sec:authorize="hasAuthority('MARKETER')">
+                    <a th:href="@{/market/marketing}">
                         <span class="icon">
                             <ion-icon name="pricetag-outline"></ion-icon>
                         </span>
