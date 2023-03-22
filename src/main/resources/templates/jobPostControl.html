@@ -14,48 +14,74 @@
 	<div th:insert="../components/nav :: navBar"></div>
 	<div th:insert="../components/nav :: sideNav"></div>
 
-	<div class="addForm">
-		<form data-formName="Add Resource" th:action="@{/saveJobPost}" method="post" th:object="${jobPost}">
+	<div class="addForm jobPostAddForm">
+		<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jobPost.postCode}+''" alt="">
+		<form class="addNewJobPost" data-formName="Add Resource" th:action="@{/saveJobPost}" method="post" th:object="${jobPost}">
 			<div>
-				<label>Name</label>
-				<input type="text" th:field="*{postName}" placeholder="Enter Job Post Name" required />
+				<div>
+					<label>Name</label>
+					<input type="text" th:field="*{postName}" placeholder="Enter Job Post Name" required />
+				</div>
+				<div>
+					<label for="count">Count</label>
+					<input type="number" th:field="*{count}" placeholder="Enter Count" min="1" max="10" required />
+				</div>
+				<div>
+					<label for="comment">Comment</label>
+					<textarea rows="1" th:field="*{comment}" placeholder="Enter Comment"></textarea>
+				</div>
+				<div>
+					<label for="foc">FOC</label>
+					<input type="checkbox" th:field="*{foc}" />
+				</div>
 			</div>
 			<div>
-				<label for="count">Count</label>
-				<input type="number" th:field="*{count}" placeholder="Enter Count" min="1" max="10" required />
-			</div>
-			<div>
-				<label for="comment">Comment</label>
-				<textarea rows="1" th:field="*{comment}" placeholder="Enter Comment"></textarea>
-			</div>
-			<div>
-				<label for="foc">FOC</label> <input type="checkbox" th:field="*{foc}" />
-			</div>
-			<div>
-				<label for="teams">Select Department</label> <select id="departmentSelect" name="departmentId"
-					onchange="getTeams();">
-					<option th:each="d : ${departmentList}" th:value="${d.departmentId}" th:text="${d.departmentName}">
-					</option>
-				</select>
-			</div>
-			<div>
-				<label for="teams">Select Team</label>
-				<select id="teamSelect" th:field="*{teamBean}">
-				</select>
-			</div>
+				<div>
+					<label for="teams">Select Department</label> 
+					<select id="departmentSelect" name="departmentId" onchange="getTeams();">
+						<option th:each="d : ${departmentList}" th:value="${d.departmentId}"
+							th:text="${d.departmentName}">
+						</option>
+					</select>
+				</div>
+				<div>
+					<label for="teams">Select Team</label>
+					<select id="teamSelect" th:field="*{teamBean}">
+					</select>
+				</div>
 
-			<div>
-				<label for="position">Select Job Position</label> <select th:field="*{jobPositionId}">
-					<option th:each="p : ${positionList}" th:value="${p.positionId}" th:text="${p.positionName}">
-					</option>
-				</select>
-			</div>
-			<div>
-				<input type="submit" value="Add" />
+				<div>
+					<label for="position">Select Job Position</label>
+					<select th:field="*{jobPositionId}">
+						<option th:each="p : ${positionList}" th:value="${p.positionId}" th:text="${p.positionName}">
+						</option>
+					</select>
+				</div>
+				<div>
+					<input type="submit" value="Add" />
+				</div>
 			</div>
 		</form>
 		<div class="backgroundExit" onclick="generateTeamBox()"></div>
 	</div>
+
+	<!-- <div class="addNewApplicantForm show">
+		<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jobPost.postCode}+''" alt="">
+		<form th:action="@{/saveApplicants}" data-formName="Add Applicant" method="post" encType="multipart/form-data" th:object="${jobPost}">
+			<div>
+				<input type="hidden" name="id" th:field="*{postId}">
+				<input type="text" placeholder="Enter Name" name="name" required/>
+				<input type="email" placeholder="Enter Email" name="email" required/>
+				<input type="text" placeholder="Enter Mobile" name="mobile" required/>
+				<textarea rows="3" cols="24" name="address" required placeholder="Enter Address"></textarea>
+				<input type="text" placeholder="Enter Link" name="link" required/>
+				<textarea rows="5" cols="24" name="comment" placeholder="Write Comment" required></textarea>
+				<input type="file" name="file" multiple required/>
+				<input type="submit" value="Add">
+			</div>
+		</form>
+		<div class="backgroundExit" onclick="generateAddNewApplicantForm()"></div>
+	</div> -->
 
 	<div class="data-section">
 		<form class="searchForm" th:action="@{/searchJobPost/1}">
@@ -91,8 +117,8 @@
 		<div class="resourceContainer">
 			<div class="sort-box">
 				<div class="sort-links">
-					<a
-						class="@{'/searchJobPost/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != null ? '&postStatus=' + postStatus : '' }}">
+					<a class="sort-button"
+					th:href="@{'/searchJobPost/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != null ? '&postStatus=' + postStatus : '' }}">
 						Code
 					</a>
 					<a class="sort-button"
@@ -161,6 +187,14 @@
 							<img th:src="'https://api.dicebear.com/5.x/micah/svg?seed='+${jp.user.userName}+''" alt="">
 							<p th:text="${jp.user.userName}"></p>
 						</div>
+						<div>
+							<ion-icon name="person-outline"></ion-icon>
+							<p th:text="${jp.count}"></p>
+						</div>
+						<div>
+							<ion-icon name="mail-unread-outline"></ion-icon>
+							<p th:text="${countMap.get(jp.postId)}"></p>
+						</div>
 					</div>
 					<div class="data-buttons">
 						<div th:if="${jp.postStatus == 'PENDING'}">
@@ -169,7 +203,8 @@
 							</a>
 						</div>
 						<div th:if="${jp.postStatus == 'POSTED'}">
-							<a th:href="@{/applicant(jobPostId=${jp.postId})}">
+							<!-- <a th:href="@{/applicant(jobPostId=${jp.postId})}"> -->
+							<a th:onclick="generateAddNewApplicantForm([[${jp.postId}]],[[${jp.postCode}]]);">
 								<ion-icon name="person-add-outline"></ion-icon>
 							</a>
 						</div>
@@ -185,7 +220,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 			</div>
 
 		</div>
@@ -238,111 +273,7 @@
 		</div>
 	</div>
 
-		<table>
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>
-						<a class="sort-button"
-							th:href="@{'/searchJobPost/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != null ? '&postStatus=' + postStatus : '' }}">
-							Code<ion-icon name="funnel-outline"></ion-icon>
-						</a>
-					</th>
-					<th>
-						<a class="sort-button"
-							th:href="@{'/searchJobPost/' + ${currentPage} + '?sortField=postName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != null ? '&postStatus=' + postStatus : '' }}">
-							Name<ion-icon name="funnel-outline"></ion-icon>
-						</a>
-					</th>
-					<th>
-						Count
-					</th>
-					<th>Applicant Count</th>
-					<th>Post Date</th>
-					<th>Due Date</th>
-					<th>Comment</th>
-					<th>FOC</th>
-					<th>Team</th>
-					<th>Recruitment Resource</th>
-					<th>Job Position</th>
-					<th>User</th>
-					<th>Sheet ID</th>
-					<th>Status</th>
-					<th>Options</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="jp : ${jobPosts}">
-					<td th:text="${index + jpStat.index}"></td>
-					<td th:text="${jp.postCode}"></td>
-					<td th:text="${jp.postName}"></td>
-					<td th:text="${jp.count}"></td>
-					<td  th:text="${countMap.get(jp.postId)}"></td>
-					<td th:text="${jp.postDate}"></td>
-					<td th:text="${jp.dueDate}"></td>
-					<td th:text="${jp.comment}"></td>
-					<td th:text="${jp.foc}"></td>
-					<td th:text="${jp.team.teamName}"></td>
-					<td th:text="${jp.resource.resourceName}"></td>
-					<td th:text="${jp.jobPosition.positionName}"></td>
-					<td th:text="${jp.user.userName}"></td>
-					<td th:text="${jp.sheetId}"></td>
-					<td th:text="${jp.postStatus}"></td>
-					<td>
-						<div>
-							<div th:if="${jp.postStatus == 'PENDING'}">
-								<a th:href="@{/updateJobPost(jobPostId=${jp.postId})}">Action</a>
-							</div>
-							<div th:if="${jp.postStatus == 'POSTED'}">
-								<a th:href="@{/applicant(jobPostId=${jp.postId})}">Add Applicant</a>
-							</div>
-							<div th:if="${jp.postStatus == 'POSTED'}">
-								<a th:href="@{/closeJobPost(jobPostId=${jp.postId})}"><button>Close</button></a>
-							</div>
-							<div th:if="${jp.postStatus == 'CLOSED*'}">
-								<a th:href="@{/openJobPost(jobPostId=${jp.postId})}"><button>Open</button></a>
-							</div>
 
-						</div>
-					</td>
-				</tr>
-
-			</tbody>
-		</table>
-	</div>
-
-	<div class="pagination">
-		<div>Total Job Posts: <span class="pagenum">[[${totalJobPosts}]]</span> - Page <span
-				class="pagenum">[[${currentPage}]]
-			</span>of <span class="pagenum">[[${totalPages}]]</span></div>
-
-		<div class="page-reference">
-			<a th:if="${currentPage > 1}"
-				th:href="@{'/searchJobPost/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != '' ? '&postStatus=' + postStatus : '' }}">First</a>
-			<span th:unless="${currentPage > 1}">First</span>
-
-			<a th:if="${currentPage > 1}"
-				th:href="@{'/searchJobPost/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != '' ? '&postStatus=' + postStatus : '' }}"><ion-icon
-					name="chevron-back-circle-outline"></ion-icon></a>
-			<span th:unless="${currentPage > 1}"><ion-icon name="chevron-back-circle-outline"></ion-icon></span>
-
-			<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-				<a th:if="${i != currentPage}"
-					th:href="@{'/searchJobPost/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}  + ${postStatus != '' ? '&postStatus=' + postStatus : '' }">[[${i}]]</a>
-				<span th:unless="${i != currentPage}">[[${i}]]</span>
-			</span>
-
-			<a th:if="${currentPage < totalPages}"
-				th:href="@{'/searchJobPost/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != '' ? '&postStatus=' + postStatus : '' }}"><ion-icon
-					name="chevron-forward-circle-outline"></ion-icon></a>
-			<span th:unless="${currentPage < totalPages}"><ion-icon
-					name="chevron-forward-circle-outline"></ion-icon></span>
-
-			<a th:if="${currentPage < totalPages}"
-				th:href="@{'/searchJobPost/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != '' ? '&postStatus=' + postStatus : '' }}">Last</a>
-			<span th:unless="${currentPage < totalPages}">Last</span>
-		</div>
-	</div> -->
 </body>
 
 </html>

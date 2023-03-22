@@ -144,12 +144,14 @@ public class JobPostController {
 	public ModelAndView saveJobPost(@ModelAttribute("jobPost") @Validated JobPostBean jobPostBean,
 			BindingResult bindingResult, HttpSession session, RedirectAttributes ra, ModelMap model) {
 
+		System.err.println(jobPostBean);
+
 		if (bindingResult.hasErrors()) {
 			return toJobPost(model, ra, jobPostBean);
 		}
 
 		Team team = teamService.getById(jobPostBean.getTeamBean());
-		RecruitementResource resource = resourceService.getResourceById(jobPostBean.getResourceId());
+		RecruitementResource resource = resourceService.getResourceById((long)2);
 		JobPosition jobPosition = positionService.getPositionById(jobPostBean.getJobPositionId());
 
 		UserBean userBean = (UserBean) session.getAttribute("user");

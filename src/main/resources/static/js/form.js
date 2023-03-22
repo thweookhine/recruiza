@@ -15,6 +15,12 @@ if (dueDateBox) {
     dueDateBox.style.display = "none"
 }
 
+document.querySelector('.errornoti').addEventListener(
+    "click", ()=>{
+        document.querySelector('.errornoti').remove()
+    }
+)
+
 // log out form generate
 function generateLogoutForm() {
     var element = document.getElementById('confirmationModal');
@@ -41,6 +47,43 @@ function generateLogoutForm() {
     parent.append(modal)
 }
 function closeLogoutForm() {
+    document.querySelector('.confirmationModal').remove();
+}
+
+// generate ban confirmation
+function generateBanForm(id,name,action) {
+    let todo= "",toaction=""
+    if(action == "ACTIVE"){
+        toaction = 'ban'
+        todo = "/admin/deleteUser?id="+id;
+    }else{
+        toaction = 'activate'
+        todo = "/admin/activeUser?id="+id;
+    }
+    var element = document.getElementById('confirmationModal');
+    if (typeof (element) != 'undefined' && element != null) {
+        alert("alreay logging out");
+    }
+    let parent = document.querySelector('body')
+    let modal = document.createElement('div')
+    modal.className = 'confirmationModal'
+    modal.innerHTML = `
+        <div class="modalBox">
+            <button onclick="closeLogoutForm()">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+            <h2>Ban</h2>
+            <p>Are u sure u want to ${toaction} ${name}</p>
+            <div class="modalButtonBox">
+                <a href="${todo}">Yes <ion-icon name="sad-outline"></ion-icon></a>
+                <a onclick="closeLogoutForm()">No <ion-icon name="happy-outline"></ion-icon></a>
+            </div>
+        </div>
+        <div class="backgroundExit" onclick="closeBanForm()"></div>
+    `
+    parent.append(modal)
+}
+function closeBanForm() {
     document.querySelector('.confirmationModal').remove();
 }
 
@@ -125,4 +168,32 @@ function generateUpdateRoleFormJP(id,name,count){
 		</form>
     `
     parent.append(modal)
+}
+
+function generateAddNewApplicantForm(id,code){
+    let parent = document.querySelector('body')
+    let modal = document.createElement('div')
+    modal.className = 'addNewApplicantForm'
+    modal.innerHTML = `
+    <img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=${code}" alt="">
+		<form action="/saveApplicants" data-formName="Add Applicant" method="post" encType="multipart/form-data">
+			<div>
+				<input type="hidden" name="postId" id="postId" value="${id}">
+				<input type="text" placeholder="Enter Name" name="name" required/>
+				<input type="email" placeholder="Enter Email" name="email" required/>
+				<input type="text" placeholder="Enter Mobile" name="mobile" required/>
+				<textarea rows="3" cols="24" name="address" required placeholder="Enter Address"></textarea>
+				<input type="hidden" placeholder="Enter Link" name="link" value="https://drive.google.com/open?id=1JZBCiepjWI7Eq2UvHt-NfWHuwqh2Xbd0"/>
+				<textarea rows="5" cols="24" name="comment" placeholder="Write Comment" required></textarea>
+				<input type="file" name="file" multiple required/>
+				<input type="submit" value="Add">
+			</div>
+		</form>
+		<div class="backgroundExit" onclick="closeAddNewApplicantForm()"></div>
+    `
+    parent.append(modal)
+}
+
+function closeAddNewApplicantForm(){
+    document.querySelector('.addNewApplicantForm').remove();
 }

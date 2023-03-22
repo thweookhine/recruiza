@@ -204,32 +204,31 @@ ion-icon {
 
 .errornoti {
     position: fixed;
-    top: 20px;
-    right: 10px;
-    color: var(--errorColor);
-    width: 200px;
+    top: 10px;
+    color: var(--fontColor);
+    /* width: 200px; */
     background: var(--background);
     box-shadow: 0 0 10px var(--shadowColor);
-    padding: 10px 5px;
-    border: 5px solid var(--errorColor);
+    padding: 10px 20px;
+    border: 1px solid var(--shadowColor);
     border-radius: 10px;
 
-    transform: translateX(1000px);
+    transform: translateY(1000px);
     animation: erorpop 20s ease-in-out;
     z-index: 1000;
 }
-
+/* 
 .errornoti::before {
     content: 'Message';
     position: absolute;
     left: -5px;
     top: -20px;
     color: white;
-    border: 5px solid var(--errorColor);
-    background: var(--errorColor);
+    border: 1px solid var(--shadowColor);
+    background: var(--shadowColor);
     border-radius: 10px 10px 0 0;
     width: 100%;
-}
+} */
 
 .errornoti:empty {
     display: none;
@@ -239,12 +238,12 @@ ion-icon {
 
     5%,
     99% {
-        transform: translateX(0);
+        transform: translateY(0);
     }
 
     0%,
     100% {
-        transform: translateX(1000px);
+        transform: translateY(-100px);
     }
 }
 
@@ -654,7 +653,7 @@ nav ul li.active a .icon ion-icon {
 }
 
 /* Add form */
-.addForm {
+.addForm,.addNewApplicantForm {
     position: fixed;
     top: 0;
     width: 100%;
@@ -681,13 +680,14 @@ nav ul li.active a .icon ion-icon {
     animation: loadIn 0.5s linear;
 }
 
-.addForm.show {
+.addForm.show,.addNewApplicantForm.show {
     transform: translateX(0) scaleX(1);
 }
 
 .addForm>form,
 .updateform>form,
-.updateUserform>form {
+.updateUserform>form,
+.addNewApplicantForm>form {
     position: relative;
     z-index: 1000;
     background: var(--background);
@@ -704,7 +704,8 @@ nav ul li.active a .icon ion-icon {
 
 .addForm>form::before,
 .updateform>form::before,
-.updateUserform>form:before {
+.updateUserform>form::before,
+.addNewApplicantForm>form::before {
     content: attr(data-formName);
     position: absolute;
     top: -20px;
@@ -727,11 +728,12 @@ nav ul li.active a .icon ion-icon {
 }
 
 .addForm>form>div>input,
+.addForm textarea,
 .addForm>form>div>select,
 .updateform>form>div>input,
 .updateform>form>div>select,
 .updateform>form>div>button,
-.updateUserform>form>div>input,
+.updateUserform>form input,
 .updateUserform>form>div>select,
 .updateUserform>form>div>button {
     width: 300px;
@@ -749,7 +751,7 @@ nav ul li.active a .icon ion-icon {
 
 .updateform>form>div>input[type=submit],
 .updateform>form>div>button,
-.updateUserform>form>div>input[type=submit],
+.updateUserform>form input[type=submit],
 .updateUserform>form>div>button {
     background: var(--secondaryColor);
     color: white;
@@ -788,9 +790,9 @@ nav ul li.active a .icon ion-icon {
 .addForm>form>div:last-child {
     position: relative;
     overflow: hidden;
-    display: grid;
-    place-items: center;
-    padding: 0;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
 }
 
 .addForm>form>div:last-child>ion-icon {
@@ -3470,6 +3472,64 @@ nav ul li.active a .icon ion-icon {
 }
 .data-card-footer img{
     width: 20px;
+    border-radius: 10px;
+}
+.addNewJobPost{
+    width: 400px;
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.addForm.jobPostAddForm .addNewJobPost{
+    padding: 50px 30px;
+}
+.addNewJobPost>div{
+    width: 100%;
+    padding: 5px;
+    border: 1px solid var(--shadowColor);
+    border-radius: 10px;
+}
+.addNewJobPost>div>div>*{
+    width: 100%;
+    padding: 5px;
+    border: 1px solid var(--shadowColor);
+    border-radius: 10px;
+}
+.addNewJobPost>div>div>label{
+    border: 0;
+}
+.addNewJobPost textarea{
+    resize: vertical;
+}
+.addNewJobPost input[type=checkbox]{
+    width: auto;
+}
+.addNewJobPost input[type=submit]{
+    margin-top: 5px;
+    background: var(--secondaryColor);
+    color: var(--background);
+    cursor: pointer;
+}
+.addNewApplicantForm{
+    transform: none;
+}
+.addNewApplicantForm>form{
+    padding: 40px 30px;
+}
+.addNewApplicantForm>form>div{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.addNewApplicantForm textarea{
+    resize: vertical;
+}
+.addNewApplicantForm>form>div>*{
+    width: 100%;
+    padding: 5px;
+    border: 1px solid var(--shadowColor);
     border-radius: 10px;
 }
 @media only screen and (max-width: 500px) {

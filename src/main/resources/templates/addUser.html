@@ -119,10 +119,12 @@
 					</div>
 				</div>
 				<div class="userInfoFooter">
-					<a th:if="${data.userStatus == 'ACTIVE'}"
-						th:href="@{/admin/deleteUser(id=${data.userId})}"><span>Ban</span></a>
-					<a th:if="${data.userStatus == 'INACTIVE'}"
-						th:href="@{/admin/activeUser(id=${data.userId})}"><span>Active</span></a>
+					<a th:if="${data.userStatus == 'ACTIVE'}" th:onclick="generateBanForm([[${data.userId}]],[[${data.userName}]],'ACTIVE');">
+						<span>Ban</span>
+					</a>
+					<a th:if="${data.userStatus == 'INACTIVE'}" th:onclick="generateBanForm([[${data.userId}]],[[${data.userName}]],'INACTIVE');">
+						<span>Active</span>
+					</a>
 					<button
 						th:onclick="generateUpdateRoleForm([[${data.userCode}]],[[${data.userId}]],[[${data.role}]]);">Change
 						Role</button>

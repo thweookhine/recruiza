@@ -14,6 +14,9 @@
 	<div th:insert="../components/nav :: navBar"></div>
 	<div th:insert="../components/nav :: sideNav"></div>
 
+	<img class="backImage2" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${department.departmentCode}+''"
+		alt="">
+
 	<button class="back_button">
 		<a th:href="@{/department}"><ion-icon name="arrow-back-outline"></ion-icon></a>
 	</button>
