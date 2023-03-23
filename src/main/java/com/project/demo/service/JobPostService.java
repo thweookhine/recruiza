@@ -50,5 +50,7 @@ public interface JobPostService {
 	Map<String, Object> getParameters(long postId);
 	
 	List<Map<String, Object>> getApplicantsList(long postId);
+
+	int getCountByType(String type);
 	
 }

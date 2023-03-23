@@ -2,14 +2,13 @@
 var today = new Date().toISOString().split('T')[0];
 var idate = document.querySelectorAll('.customdate')
 function dateSetter() {
-    console.log('takhukhu')
-    if (document.querySelector('.postdate')) {
-        document.querySelector('.postdate').setAttribute('min', today);
+    if (document.querySelector('.postdater')) {
+        document.querySelector('.postdater').setAttribute('min', today);
 
-        document.querySelector('.postdate').addEventListener("change", (e) => {
+        document.querySelector('.postdater').addEventListener("change", (e) => {
             console.log('date change')
             dueDateBox.style.display = "block"
-            document.querySelector('.duedate').setAttribute('min', document.querySelector('.postdate').value);
+            document.querySelector('.duedater').setAttribute('min', document.querySelector('.postdater').value);
         })
     }
     var dueDateBox = document.querySelector(".dueDateBox")
@@ -152,8 +151,8 @@ function editclose() {
 }
 
 function generateUpdateRoleFormJP(id, name, count) {
+    
     dateSetter()
-    console.log('smth')
     let parent = document.querySelector('body')
     let modal = document.createElement('div')
     modal.className = 'jobPostEdit'
@@ -165,8 +164,8 @@ function generateUpdateRoleFormJP(id, name, count) {
 				<img src="https://api.dicebear.com/5.x/shapes/svg?seed=${name}">
 				<p>${name}</p>
 			</h2>
-			<input data-label="Post Date" type="date" name="postDate" placeholder="Enter Post Date" class="postdate" required="">
-			<input data-label="Due Date"  type="date" name="dueDate" placeholder="Enter Due Date" class="duedate" required="">
+			<input data-label="Post Date" type="date" name="postDate" placeholder="Enter Post Date" class="postdater" min="${today}" onchange="chackdate()" required="">
+			<input data-label="Due Date"  type="date" name="dueDate" placeholder="Enter Due Date" class="duedater" min="${today}" required="">
 			<textarea data-label="Sheet ID" name="sheetId" cols="30" rows="10" placeholder="Enter Sheet ID" required=""></textarea>
 			<div>
 				<span>Count : <span>${count}</span></span>
@@ -175,6 +174,10 @@ function generateUpdateRoleFormJP(id, name, count) {
 		</form>
     `
     parent.append(modal)
+}
+
+function chackdate(){
+    document.querySelector('.duedater').setAttribute('min', document.querySelector('.postdater').value);
 }
 
 function generateAddNewApplicantForm(id, code) {

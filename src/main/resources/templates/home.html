@@ -13,7 +13,7 @@
 	<div class="jobPostSection">
 
 		<form class="searchForm" th:action="@{/searchPostedJobPost}" method="post">
-			
+
 			<h2>Job Posts</h2>
 			<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" />
 
@@ -63,8 +63,19 @@
 								<span th:text="${jp.team.department.departmentName}"></span>
 							</p>
 						</div>
+
+						<div>
+							<p>
+								<ion-icon name="time-outline"></ion-icon>
+								<span th:text="${jp.postDate}"></span>
+							</p>
+							<p>
+								<ion-icon name="timer-outline"></ion-icon>
+								<span th:text="${jp.dueDate}"></span>
+							</p>
+						</div>
 					</div>
-	
+
 					<div class="jobPostFooterM">
 						<p>Need
 							<span th:text="${jp.count}"></span>

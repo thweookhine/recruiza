@@ -235,4 +235,9 @@ public class JobPostServiceImpl implements JobPostService {
 		
 		return result;
 	}
+
+	@Override
+	public int getCountByType(String type) {
+		return jobPostRepo.getCountByType(type);
+	}
 }

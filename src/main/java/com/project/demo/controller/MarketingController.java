@@ -66,6 +66,11 @@ public class MarketingController {
 
 		int index = Integer.parseInt((currentPage - 1) + "1");
 
+		model.addAttribute("totalPosted",jobPostService.getCountByType("POSTED"));
+		model.addAttribute("totalPending",jobPostService.getCountByType("PENDING"));
+		model.addAttribute("totalClosed",jobPostService.getCountByType("CLOSED"));
+		model.addAttribute("totalDued",jobPostService.getCountByType("CLOSED*"));
+
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalJobPosts", totalJobPosts);
 		model.addAttribute("totalPages", totalPages);

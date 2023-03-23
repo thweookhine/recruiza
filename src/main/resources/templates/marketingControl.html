@@ -23,9 +23,14 @@
 			<div class="jobPostCard" th:each="jp : ${pendingJobPosts}">
 				<img th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jp.postCode}+''">
 				<div class="jobPostStatus">
-					<p th:text="${jp.postStatus}"></p>
-					<span class="focyes" th:if="${jp.foc == true}"></span>
-					<span class="focno" th:if="${jp.foc == false}"></span>
+					<div class="data-status" th:switch="${jp.postStatus}">
+						<p th:case="'CLOSED*'" class="closed">CLOSED</p>
+						<p th:case="'CLOSED'" class="dued">DUED</p>
+						<p th:case="'POSTED'" class="posted">OPEN</p>
+						<p th:case="*" class="none">NONE</p>
+					</div>
+					<div class="focyes" th:if="${jp.foc == true}"></div>
+					<div class="focno" th:if="${jp.foc == false}"></div>
 				</div>
 				<p class="jobPostCode" th:text="${jp.postCode}"></p>
 				<div class="jobPostInfo">
@@ -85,14 +90,44 @@
 				</a>
 			</button>
 		</form>
+		<div class="chartContainer">
 
+			<div class="chartData">
+				<span class="chart-name1">Pending</span>
+				<span class="agencyCount" th:text="${totalPending}"></span>
+			</div>
+			<div class="chartData">
+				<span class="chart-name2">Posted</span>
+				<span class="universityCount" th:text="${totalPosted}"></span>
+			</div>
+			<div class="chartData">
+				<span class="chart-name3">Closed</span>
+				<span class="directRecruitCount" th:text="${totalClosed}"></span>
+			</div>
+			<div class="chartData">
+				<span class="chart-name4">Dued</span>
+				<span class="trainingCenterCount" th:text="${totalDued}"></span>
+			</div>
+			<div class="chartData">
+				<span class="chart-name5">Others</span>
+				<span class="othersCount" th:text="${totalResourcesByOthers}"></span>
+			</div>
+			<div>
+				<canvas id="myChart"></canvas>
+			</div>
+		</div>
 		<div class="jobPostsCantainer postedJobPostsContainer">
 			<div class="jobPostCard" th:each="jp : ${postedJobPosts}">
 				<img th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jp.postCode}+''">
 				<div class="jobPostStatus">
-					<p th:text="${jp.postStatus}"></p>
-					<span class="focyes" th:if="${jp.foc == true}"></span>
-					<span class="focno" th:if="${jp.foc == false}"></span>
+					<div class="data-status" th:switch="${jp.postStatus}">
+						<p th:case="'CLOSED*'" class="closed">CLOSED</p>
+						<p th:case="'CLOSED'" class="dued">DUED</p>
+						<p th:case="'POSTED'" class="posted">OPEN</p>
+						<p th:case="*" class="none">NONE</p>
+					</div>
+					<div class="focyes" th:if="${jp.foc == true}"></div>
+					<div class="focno" th:if="${jp.foc == false}"></div>
 				</div>
 				<p class="jobPostCode" th:text="${jp.postCode}"></p>
 				<div class="jobPostInfo">

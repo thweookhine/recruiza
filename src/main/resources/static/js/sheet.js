@@ -1,7 +1,12 @@
 let sheetTemp = [];
+let dataInTable = [];
+let dataToGenerate = [];
+let count = 0;
 let jobpostid = 1;
+let duplicateFound = false;
 
 function retrieveSheetData(sheetid, postid) {
+	document.querySelector('.titleForApplicants').innerHTML = document.querySelector('.J' + postid).value;
 	document.querySelector('.titleForApplicants').innerHTML = document.querySelector('.J' + postid).value;
 	sheetTemp = [];
 	let SHEET_ID = sheetid
@@ -11,6 +16,7 @@ function retrieveSheetData(sheetid, postid) {
 	let FULL_URL = ('https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?sheet=' + SHEET_TITLE + '&range=' + SHEET_RANGE);
 
 	getApplicants(postid);
+	console.log(dataInTable);
 
 	fetch(FULL_URL)
 		.then(res => res.text())
@@ -30,39 +36,51 @@ function retrieveSheetData(sheetid, postid) {
 				document.querySelector('.applicantsLoading').style.display = "none";
 				// add new cards
 				for (let i = 0; i < length; i++) {
+					console.log(data.table.rows[i]);
 					sheetTemp.push(data.table.rows[i]);
 
-					let parent = document.querySelector('.applicantContainer');
-					let newcard = document.createElement('div')
-					newcard.className = "applicantCard";
-					newcard.style = "--i:0." + (i + 5) + "s;";
-					newcard.innerHTML = `
-						<h4 class="applicantsource">${data.table.rows[i].c[5].v}</h4>
-						<img src="https://api.dicebear.com/5.x/micah/svg?seed=${data.table.rows[i].c[2].v}" alt="">
-						<div class="applicantInfo">
-							<h3>${data.table.rows[i].c[2].v}</h3>
-							<p><ion-icon name="mail-outline"></ion-icon> ${data.table.rows[i].c[1].v}</p>
-							<p><ion-icon name="phone-portrait-outline"></ion-icon> ${data.table.rows[i].c[3].v}</p>
-							<p><ion-icon name="earth-outline"></ion-icon> ${data.table.rows[i].c[4].v}</p>
-							<div class="applicantButtonContainer">
-								<!-- insert drive link in here -->
-								<a href="${data.table.rows[i].c[6].v}" target="_blank">
-									<ion-icon name="eye-outline"></ion-icon>
-								</a>
-								<!-- to add the applicant to the table -->
-								<a onclick='generateAppModel(${i},"${postid}")'>
-									<ion-icon name="person-add-outline"></ion-icon>
-								</a>
+					dataInTable.forEach(element => {
+						if (element.split(',')[0] == data.table.rows[i].c[2].v && element.split(',')[1] == data.table.rows[i].c[1].v) {
+							count++;
+						}
+					})
+
+					if (count > 0) {
+						console.log(count + " duplicate " + data.table.rows[i].c[2].v);
+					} else {
+						let parent = document.querySelector('.applicantContainer');
+						let newcard = document.createElement('div')
+						newcard.className = "applicantCard";
+						newcard.style = "--i:0." + (i + 5) + "s;";
+						newcard.innerHTML = `
+							<h4 class="applicantsource">${data.table.rows[i].c[5].v}</h4>
+							<img src="https://api.dicebear.com/5.x/micah/svg?seed=${data.table.rows[i].c[2].v}" alt="">
+							<div class="applicantInfo">
+								<h3>${data.table.rows[i].c[2].v}</h3>
+								<p><ion-icon name="mail-outline"></ion-icon> ${data.table.rows[i].c[1].v}</p>
+								<p><ion-icon name="phone-portrait-outline"></ion-icon> ${data.table.rows[i].c[3].v}</p>
+								<p><ion-icon name="earth-outline"></ion-icon> ${data.table.rows[i].c[4].v}</p>
+								<div class="applicantButtonContainer">
+									<!-- insert drive link in here -->
+									<a href="${data.table.rows[i].c[6].v}" target="_blank">
+										<ion-icon name="eye-outline"></ion-icon>
+									</a>
+									<!-- to add the applicant to the table -->
+									<a onclick='generateAppModel(${i},"${postid}")'>
+										<ion-icon name="person-add-outline"></ion-icon>
+									</a>
+								</div>
 							</div>
-						</div>
-					`
-					parent.append(newcard);
+						`
+						parent.append(newcard);
+					}
+
+					count = 0;
 				}
 			}, 2000);
 
-		}
-		)
-	console.log(sheetTemp);
+
+		})
 }
 
 function generateAppModel(i, id) {
@@ -102,6 +120,7 @@ function closeAppModel() {
 
 function getApplicants(postId) {
 
+
 	$.ajax({
 		url: '/applicantList/' + postId,
 		type: "get",
@@ -111,7 +130,8 @@ function getApplicants(postId) {
 				console.log("error");
 			} else {
 				for (item in response) {
-					console.log(response[item].applicantId);
+					console.log(response[item])
+					dataInTable.push(response[item].applicantName + "," + response[item].applicantEmail + "," + response[item].applicantEmail);
 				}
 			}
 		},

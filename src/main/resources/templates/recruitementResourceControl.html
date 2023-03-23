@@ -73,14 +73,41 @@
 			</button>
 		</form>
 
-
+		<div class="chartContainer">
+			
+				<div class="chartData">
+					<span class="chart-name1">Agency</span> 
+					<span class="agencyCount" th:text="${totalResourcesByAgency}"></span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name2">University</span> 
+					<span class="universityCount" th:text="${totalResourcesByUni}"></span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name3">Direct Recruit</span> 
+					<span class="directRecruitCount" th:text="${totalResourcesByDirect}"></span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name4">Training Center</span> 
+					<span class="trainingCenterCount" th:text="${totalResourcesByTrainingCenter}"></span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name5">Others</span> 
+					<span class="othersCount" th:text="${totalResourcesByOthers}"></span>
+				</div>
+			<div>
+				<canvas id="myChart"></canvas>
+			</div>
+		</div>
 		<div class="resourceContainer">
 			<div class="sort-box">
 				<div class="sort-links">
-					<a class="sort-button" th:href="@{'/searchResource/' + ${currentPage} + '?sortField=resourceCode&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+					<a class="sort-button"
+						th:href="@{'/searchResource/' + ${currentPage} + '?sortField=resourceCode&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 						Code
 					</a>
-					<a class="sort-button" th:href="@{'/searchResource/' + ${currentPage} + '?sortField=resourceName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+					<a class="sort-button"
+						th:href="@{'/searchResource/' + ${currentPage} + '?sortField=resourceName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 						Name
 					</a>
 				</div>
@@ -88,33 +115,31 @@
 
 			<div class="data-card" th:each="resource : ${list}">
 
-				<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${resource.resourceCode}+''"
-					alt="">
-
-				<p class="data-code" th:text="${resource.resourceCode}"></p>
+				<img class="backImage"
+					th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${resource.resourceCode}+''" alt="">
+				<div class="data-code" >
+					<p th:text="${resource.resourceCode}"></p>
+					<p class="data-text" th:text="${resource.recruitementType}"></p>
+				</div>
 				<div class="data-row">
-					<span class="data-label">Name</span>
+					<ion-icon name="pricetag-outline"></ion-icon>
 					<p class="data-text" th:text="${resource.resourceName}"></p>
 				</div>
 				<div class="data-row">
-					<span class="data-label">Link</span>
+					<ion-icon name="link-outline"></ion-icon>
 					<p class="data-text" th:text="${resource.link}"></p>
 				</div>
 				<div class="data-row">
-					<span class="data-label">Address</span>
+					<ion-icon name="home-outline"></ion-icon>
 					<p class="data-text" th:text="${resource.address}"></p>
 				</div>
 				<div class="data-row">
-					<span class="data-label">Mobile</span>
+					<ion-icon name="phone-portrait-outline"></ion-icon>
 					<p class="data-text" th:text="${resource.resourceMobile}"></p>
 				</div>
 				<div class="data-row">
-					<span class="data-label">Contact Person</span>
+					<ion-icon name="person-outline"></ion-icon>
 					<p class="data-text" th:text="${resource.contactPerson}"></p>
-				</div>
-				<div class="data-row">
-					<span class="data-label">Recruitment Type</span>
-					<p class="data-text" th:text="${resource.recruitementType}"></p>
 				</div>
 				<a class="data-edit-button" th:href="@{/editresource(id=${resource.resourceId})}" title="Edit Data">
 					<ion-icon name="create-outline"></ion-icon>
