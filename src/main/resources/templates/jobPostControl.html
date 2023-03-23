@@ -136,6 +136,9 @@
 						Name
 					</a>
 				</div>
+				<div th:if="${jobPosts != null}">
+					<a th:href="@{/recruizareport}">Report</a>
+				</div>
 			</div>
 
 			<div class="data-card jobPostCardo" th:each="jp : ${jobPosts}">
@@ -207,6 +210,11 @@
 						</div>
 					</div>
 					<div class="data-buttons">
+						<div>
+							<a th:href="@{'/jobPostReport/' + ${jp.postId}}">
+								<ion-icon name="document-text-outline"></ion-icon>
+							</a>
+						</div>
 						<div th:if="${jp.postStatus == 'PENDING'}">
 							<a th:href="@{/updateJobPost(jobPostId=${jp.postId})}">
 								<ion-icon name="create-outline"></ion-icon>

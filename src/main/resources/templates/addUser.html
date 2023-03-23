@@ -91,6 +91,7 @@
 		</div>
 
 		<div class="userContainer" th:if="${users != null }">
+			<p th:if="${users.empty}">No Data</p>
 			<div class="userCard" th:each="data : ${users}">
 				<div class="activity">
 					<div th:if="${data.userStatus == 'ACTIVE'}" class="uactive"></div>
@@ -135,7 +136,7 @@
 			</div>
 		</div>
 
-		<div class="newPagination">
+		<div class="newPagination" th:if="${not #lists.isEmpty(users)}">
 			<div>
 				<a th:if="${currentPage > 1}"
 					th:href="@{'/admin/searchUser/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
