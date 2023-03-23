@@ -151,7 +151,7 @@ public class JobPostController {
 		}
 
 		Team team = teamService.getById(jobPostBean.getTeamBean());
-		RecruitementResource resource = resourceService.getResourceById((long)2);
+		RecruitementResource resource = resourceService.getResourceById(jobPostBean.getResourceId());
 		JobPosition jobPosition = positionService.getPositionById(jobPostBean.getJobPositionId());
 
 		UserBean userBean = (UserBean) session.getAttribute("user");

@@ -168,11 +168,10 @@ public class TeamController {
 
 		try {
 			Team t = teamService.getById(id);
-			generateHistoryForTeam(t, session, "deleted");
 			teamService.deleteTeam(id);
-
+			generateHistoryForTeam(t, session, "deleted");
 		} catch (Exception expection) {
-			model.addAttribute("message", "You can't delete");
+			model.addAttribute("message", "It seems to be that you can't delete this team.");
 			Team team = teamService.getById(id);
 			TeamBean teamBean = TeamBean.builder().teamId(id).teamCode(team.getTeamCode()).teamName(team.getTeamName())
 					.departmentName(team.getDepartment().getDepartmentName()).build();

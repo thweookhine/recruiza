@@ -134,14 +134,23 @@ public class JobPositionController {
 	}
 
 	@GetMapping(value = "/deletejobposition")
-	public ModelAndView deleteJobPosition(RedirectAttributes model, @RequestParam("id") Long id,HttpSession session) {
+	public ModelAndView deleteJobPosition(RedirectAttributes ra,ModelMap model, @RequestParam("id") Long id,HttpSession session) {
 
 		JobPosition jobPosition=service.getPositionById(id);
 			
-			generateHistoryforPosition(jobPosition, session, "deleted");
-			model.addFlashAttribute("message", "delete successfully!");
+		try {
+			
 			service.deleteJobPosition(id);
-		
+			generateHistoryforPosition(jobPosition, session, "deleted");
+		}catch(Exception exception) {
+			model.addAttribute("message", "It seems to be that you can't delete this position.");
+			JobPosition position = service.getPositionById(id);
+			JobPositionBean bean = JobPositionBean.builder().positionId(position.getPositionId())
+					.positionName(position.getPositionName()).build();
+			generateHistoryforPosition(position, session, "could not delete");
+			return new ModelAndView("editJobPosition", "jobposition", bean);
+		}
+		ra.addFlashAttribute("message", "delete successfully!");
 		return new ModelAndView("redirect:/jobposition");
 	}
 

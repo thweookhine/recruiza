@@ -65,14 +65,17 @@
 
 		<div class="resourceContainer">
 			<div class="sort-box">
-				<div class="sort-links">
-					<a th:href="@{'/searchTeam/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+				<div class="sort-links" th:if="${totalTeams > 0}">
+					<a
+						th:href="@{'/searchTeam/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 						Code
 					</a>
-					<a th:href="@{'/searchTeam/' + ${currentPage} + '?sortField=teamName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+					<a
+						th:href="@{'/searchTeam/' + ${currentPage} + '?sortField=teamName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 						Name
 					</a>
-					<a th:href="@{'/searchTeam/' + ${currentPage} + '?sortField=department.departmentName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+					<a
+						th:href="@{'/searchTeam/' + ${currentPage} + '?sortField=department.departmentName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 						Department
 					</a>
 				</div>
@@ -105,7 +108,7 @@
 		</div>
 
 		<!-- pagination -->
-		<div class="newPagination">
+		<div class="newPagination" th:if="${totalTeams > 0}">
 			<div>
 				<a th:if="${currentPage > 1}"
 					th:href="@{'/searchTeam/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">

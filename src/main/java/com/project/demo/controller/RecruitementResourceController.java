@@ -128,12 +128,11 @@ public class RecruitementResourceController {
 
 		try {
 			RecruitementResource result = service.getResourceById(id);
-			generateHistoryforResource(result, session, "deleted");
 			service.deleteRecruitementResource(id);
-			
+			generateHistoryforResource(result, session, "deleted");
 		} catch (Exception expection) {
 			
-			model.addAttribute("message", "You can't delete");
+			model.addAttribute("message", "It seems to be that you can't delete this resource.");
 			RecruitementResource resource = service.getResourceById(id);
 			
 			RecruitementResource bean = RecruitementResource.builder().resourceId(resource.getResourceId())
@@ -141,7 +140,7 @@ public class RecruitementResourceController {
 					.resourceMobile(resource.getResourceMobile()).contactPerson(resource.getContactPerson())
 					.recruitementType(resource.getRecruitementType()).build();
 
-			generateHistoryforResource(resource, session, "Delete Successfully");
+			generateHistoryforResource(resource, session, "could not delete");
 			m.addAttribute("rList", UIOptionData.generateResourceType());
 			return new ModelAndView("editResourceControl", "resource", bean);
 

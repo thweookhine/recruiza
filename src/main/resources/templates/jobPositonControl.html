@@ -59,7 +59,7 @@
 
 		<div class="resourceContainer">
 			<div class="sort-box">
-				<div class="sort-links">
+				<div class="sort-links" th:if="${totalPositions > 0}">
 					<a
 						th:href="@{'/searchPosition/' + ${currentPage} + '?sortField=positionCode&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 						Code
@@ -95,7 +95,7 @@
 		</div>
 
 		<!-- pagination -->
-		<div class="newPagination">
+		<div class="newPagination" th:if="${totalPositions > 0}">
 			<div>
 				<a th:if="${currentPage > 1}"
 					th:href="@{'/searchPosition/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">

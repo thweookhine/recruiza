@@ -70,6 +70,8 @@ public class MarketingController {
 		model.addAttribute("totalPending",jobPostService.getCountByType("PENDING"));
 		model.addAttribute("totalClosed",jobPostService.getCountByType("CLOSED"));
 		model.addAttribute("totalDued",jobPostService.getCountByType("CLOSED*"));
+		
+		System.out.println("total job posts"+totalJobPosts);
 
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalJobPosts", totalJobPosts);
@@ -98,17 +100,18 @@ public class MarketingController {
 	@PostMapping(value = "/market/postJP")
 	public ModelAndView postJP(
 			Model model,
-			@RequestParam("jobPostId") long postId,
+			@RequestParam("jobPostId") String postId,
 			@RequestParam("postDate") String postDate,
 			@RequestParam("dueDate") String dueDate,
 			@RequestParam("sheetId") String sheetId,
 			HttpSession session) {
-
-		JobPost jobPost = jobPostService.getByid(postId);
+		
+		JobPost jobPost = jobPostService.getByid(Long.parseLong(postId));
 		jobPost.setPostDate(LocalDate.parse(postDate));
 		jobPost.setDueDate(LocalDate.parse(dueDate));
 		jobPost.setSheetId(sheetId);
 		jobPost.setPostStatus("POSTED");
+		
 		JobPost result = jobPostService.updateJobPost(jobPost);
 		if (result != null) {
 			generateHistoryForJobPost(result, session, "posted");

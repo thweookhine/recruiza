@@ -15,7 +15,8 @@
 	<p class="errornoti" th:text="${message}"></p>
 
 	<div class="addForm">
-		<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${department.departmentCode}+''" alt="">
+		<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${department.departmentCode}+''"
+			alt="">
 		<form data-formName="Add Department" th:action="@{/saveDepartment}" method="post" th:object="${department}">
 			<div>
 				<label for="name">Name</label> <input type="text" th:field="*{departmentName}"
@@ -60,11 +61,13 @@
 
 		<div class="resourceContainer">
 			<div class="sort-box">
-				<div class="sort-links">
-					<a class="sort-button" th:href="@{'/searchDepartment/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+				<div class="sort-links" th:if="${totalDepts > 0}">
+					<a class="sort-button"
+						th:href="@{'/searchDepartment/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 						Code
 					</a>
-					<a class="sort-button" th:href="@{'/searchDepartment/' + ${currentPage} + '?sortField=departmentName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+					<a class="sort-button"
+						th:href="@{'/searchDepartment/' + ${currentPage} + '?sortField=departmentName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 						Name
 					</a>
 				</div>
@@ -72,8 +75,8 @@
 
 			<div class="data-card" th:each="dept : ${depts}">
 
-				<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${dept.departmentCode}+''"
-					alt="">
+				<img class="backImage"
+					th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${dept.departmentCode}+''" alt="">
 
 				<p class="data-code" th:text="${dept.departmentCode}"></p>
 				<div class="data-row">
@@ -94,7 +97,7 @@
 		</div>
 
 		<!-- pagination -->
-		<div class="newPagination">
+		<div class="newPagination" th:if="${totalDepts > 0}">
 			<div>
 				<a th:if="${currentPage > 1}"
 					th:href="@{'/searchDepartment/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">

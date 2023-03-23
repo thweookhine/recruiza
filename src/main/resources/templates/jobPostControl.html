@@ -58,6 +58,15 @@
 						</option>
 					</select>
 				</div>
+
+				<div style="display: none;">
+					<label for="resource">Select Recruitment Resource</label>
+					<select th:field="*{resourceId}">
+						<option th:each="r : ${resourceList}" th:value="${r.resourceId}" th:text="${r.resourceName}">
+						</option>
+					</select>
+				</div>
+
 				<div>
 					<input type="submit" value="Add" />
 				</div>
@@ -93,7 +102,7 @@
 			</h2>
 			<input type="hidden" name="sortField" th:value="${sortField}" />
 			<input type="hidden" name="sortDir" th:value="${sortDir}" />
-			<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" required />
+			<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" />
 			<select name="postStatus">
 				<option th:each="status : ${postStatusList}" th:value="${status}"
 					th:selected="(${status} == *{postStatus})" th:text="${status}"></option>
@@ -116,7 +125,7 @@
 
 
 		<div class="resourceContainer">
-			<div class="sort-box">
+			<div class="sort-box" th:if="${totalJobPosts > 0}">
 				<div class="sort-links">
 					<a class="sort-button"
 						th:href="@{'/searchJobPost/' + ${currentPage} + '?sortField=' + ${sortField} + '&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != null ? '&postStatus=' + postStatus : '' }}">
@@ -227,7 +236,7 @@
 		</div>
 
 		<!-- pagination -->
-		<div class="newPagination">
+		<div class="newPagination" th:if="${totalJobPosts > 0}">
 			<div>
 				<a th:if="${currentPage > 1}"
 					th:href="@{'/searchJobPost/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${postStatus != '' ? '&postStatus=' + postStatus : '' }}">

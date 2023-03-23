@@ -172,12 +172,12 @@ public class DepartmentController {
 				teams.add(t);
 			}
 
-			generateHistoryForDept(dept, session, "tried to delete department having teams.");
-			model.addAttribute("message", "Can't Delete!");
+			model.addAttribute("message", "It seems to be that you can't delete this department.");
 			model.addAttribute("teams", teams);
 
 			DepartmentBean deptBean = DepartmentBean.builder().departmentId(dept.getDepartmentId())
 					.departmentName(dept.getDepartmentName()).build();
+			generateHistoryForDept(dept, session, "tried to delete department having teams.");
 			return new ModelAndView("departmentAction", "department", deptBean);
 		}
 

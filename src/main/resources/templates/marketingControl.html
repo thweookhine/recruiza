@@ -72,7 +72,7 @@
 		<div class="pendingPostHead">
 			<h3>Posted Job Posts</h3>
 			<div>
-				Total <span th:text="${postedJobPosts.size()}"> </span>
+				Total <span th:text="${totalJobPosts}"> </span>
 			</div>
 		</div>
 
@@ -101,12 +101,12 @@
 				<span class="universityCount" th:text="${totalPosted}"></span>
 			</div>
 			<div class="chartData">
-				<span class="chart-name3">Closed</span>
-				<span class="directRecruitCount" th:text="${totalClosed}"></span>
+				<span class="chart-name3">Dued</span>
+				<span class="trainingCenterCount" th:text="${totalClosed}"></span>
 			</div>
 			<div class="chartData">
-				<span class="chart-name4">Dued</span>
-				<span class="trainingCenterCount" th:text="${totalDued}"></span>
+				<span class="chart-name4">Closed</span>
+				<span class="directRecruitCount" th:text="${totalDued}"></span>
 			</div>
 			<div class="chartData">
 				<span class="chart-name5">Others</span>
@@ -148,6 +148,16 @@
 						<p>
 							<ion-icon name="business-outline"></ion-icon>
 							<span th:text="${jp.team.department.departmentName}"></span>
+						</p>
+					</div>
+					<div>
+						<p>
+							<ion-icon name="time-outline"></ion-icon>
+							<span th:text="${jp.postDate}"></span>
+						</p>
+						<p>
+							<ion-icon name="timer-outline"></ion-icon>
+							<span th:text="${jp.dueDate}"></span>
 						</p>
 					</div>
 				</div>

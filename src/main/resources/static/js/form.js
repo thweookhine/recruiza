@@ -151,14 +151,14 @@ function editclose() {
 }
 
 function generateUpdateRoleFormJP(id, name, count) {
-    
+
     dateSetter()
     let parent = document.querySelector('body')
     let modal = document.createElement('div')
     modal.className = 'jobPostEdit'
     modal.innerHTML = `
     <div class="closer" onclick="editclose()"></div>
-		<form class="jobPostEditForm" action="/postJP" method="post">
+		<form class="jobPostEditForm" action="/market/postJP" method="post">
 			<input type="hidden" name="jobPostId" value="${id}">
 			<h2 data-label="Name" >
 				<img src="https://api.dicebear.com/5.x/shapes/svg?seed=${name}">
@@ -176,7 +176,7 @@ function generateUpdateRoleFormJP(id, name, count) {
     parent.append(modal)
 }
 
-function chackdate(){
+function chackdate() {
     document.querySelector('.duedater').setAttribute('min', document.querySelector('.postdater').value);
 }
 
