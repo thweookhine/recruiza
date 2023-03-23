@@ -44,7 +44,7 @@
 			</a>
 			<img src="https://api.dicebear.com/5.x/shapes/svg?seed=seoulK" alt="">
 		</div>
-		
+
 		<div class="applicantsParent">
 			<form class="searchForm" th:action="@{'/applicantPro/1/' + ${keyword}}">
 				<h2>Applicants</h2>
@@ -137,7 +137,7 @@
 			</div>
 
 			<!-- pagination -->
-			<div class="newPagination">
+			<div class="newPagination" th:if="${totalApplicants > 0}">
 				<div>
 					<a th:if="${currentPage > 1}"
 						th:href="@{'/applicantPro/1/' + ${keyword} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + '&searchKey=' + ${searchKey}}">First</a>
