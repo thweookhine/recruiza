@@ -23,4 +23,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	
 	public User findByToken(String token);
 	
+	long countByUserStatus(String status);
+	
+	long countByRole(String role);
+	
 }

@@ -77,6 +77,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/login");
 
 		http.exceptionHandling()
-				.accessDeniedPage("/unauthorized");
+				.accessDeniedPage("/unauthorized");	
 	}
 }

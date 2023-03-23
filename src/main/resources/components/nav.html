@@ -40,7 +40,7 @@
                         <span class="title">Account</span>
                     </a>
                 </li>
-                <li class="list active">
+                <li class="list active"  th:if="${session.user.role != 'MARKETER'}">
                     <a th:href="@{/home}">
                         <span class="icon">
                             <ion-icon name="home-outline"></ion-icon>
@@ -48,7 +48,7 @@
                         <span class="title">Home</span>
                     </a>
                 </li>
-                <li class="list">
+                <li class="list" th:if="${session.user.role != 'MARKETER'}">
                     <a th:href="@{/applicantProcess/allApplicants}">
                         <span class="icon">
                             <ion-icon name="walk-outline"></ion-icon>
@@ -56,7 +56,7 @@
                         <span class="title">Process</span>
                     </a>
                 </li>
-                <li class="list">
+                <li class="list" th:if="${session.user.role != 'MARKETER'}">
                     <a th:href="@{/team}">
                         <span class="icon">
                             <ion-icon name="create-outline"></ion-icon>

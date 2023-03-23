@@ -36,4 +36,8 @@ public interface UserService {
 	User updatePassword(User user, String newPassword);
 	
 	User editUserRole(Long userId,String role);
+	
+	long countUserByStatus(String status);
+	
+	long countUserByRole(String role);
 }

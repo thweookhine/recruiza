@@ -70,6 +70,14 @@
 		<div class="usersearchBox">
 			<h3>Users Management</h3>
 			<span>Total Users: [[${totalUsers}]]</span>
+			<span>Active Users: [[${countActive}]]</span>
+			<span>Inactive Users: [[${countInactive}]]</span>
+			<span>Marketer Users: [[${countMA}]]</span>
+			<span>HR Users: [[${countHR}]]</span>
+			<span>GM Users: [[${countGM}]]</span>
+			<span>PM Users: [[${countPM}]]</span>
+			<span>DH Users: [[${countDH}]]</span>
+			<span>TM Users: [[${countTM}]]</span>
 			<div class="newSearchForm">
 				<form th:action="@{/admin/searchUser/1}">
 					<input type="hidden" name="sortField" th:value="${sortField}" />

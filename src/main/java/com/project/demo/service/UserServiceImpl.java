@@ -141,4 +141,14 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
+	@Override
+	public long countUserByStatus(String status) {
+		return userRepository.countByUserStatus(status);
+	}
+
+	@Override
+	public long countUserByRole(String role) {
+		return userRepository.countByRole(role);
+	}
+
 }

@@ -47,13 +47,6 @@ public class UserController {
 		return bean;
 	}
 	
-	@GetMapping(value = "/admin")
-	public String helloAdmin() {
-		
-		return "Hello Admin";
-		
-	}
-	
 	@GetMapping(value = "/login")
 	public ModelAndView login(ModelMap model,HttpSession session) {
 		
@@ -100,6 +93,10 @@ public class UserController {
 		
 		session.setAttribute("user", user);
 		model.addAttribute("jobPosts",jobPosts);
+		
+		if (user.getRole().equals("MARKETER")) {
+			return new ModelAndView("redirect:/market/marketing");
+		}
 		
 		return new ModelAndView("home");
 	}
@@ -157,6 +154,16 @@ public class UserController {
         	model.addAttribute("sortField", sortField);
         	model.addAttribute("sortDir", sortDir);
         	model.addAttribute("keyword", keyword);
+        	
+        	model.addAttribute("countActive", userService.countUserByStatus("ACTIVE"));
+        	model.addAttribute("countInactive", userService.countUserByStatus("INACTIVE"));
+        	
+        	model.addAttribute("countMA", userService.countUserByRole("MARKETER"));
+        	model.addAttribute("countHR", userService.countUserByRole("HR_Role"));
+        	model.addAttribute("countPM", userService.countUserByRole("PM_Role"));
+        	model.addAttribute("countGM", userService.countUserByRole("GM_Role"));
+        	model.addAttribute("countDH", userService.countUserByRole("DH_Role"));
+        	model.addAttribute("countTM", userService.countUserByRole("TM_Role"));
         	
         	String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
         	model.addAttribute("reverseSortDir", reverseSortDir);
