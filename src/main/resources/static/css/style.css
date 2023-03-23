@@ -2268,7 +2268,8 @@ nav ul li.active a .icon ion-icon {
 .adminUserSection {
     height: 100vh;
     width: 100%;
-    padding-left: 80px;
+    padding: 10px;
+    padding-left: 90px;
     padding-bottom: 50px;
     display: flex;
     justify-content: flex-start;
@@ -3392,6 +3393,7 @@ nav ul li.active a .icon ion-icon {
     text-align: right;
     transition: 0.5s ease-in-out;
     display: flex;
+    justify-content: space-between;
 }
 .sort-links{
     display: flex;
@@ -3487,6 +3489,17 @@ nav ul li.active a .icon ion-icon {
     flex-wrap: wrap;
     justify-content: center;
 }
+.addNewJobPost>a{
+    width: 100%;
+    padding: 5px;
+    border: 1px solid var(--shadowColor);
+    border-radius: 10px;
+    background: var(--secondaryColor);
+    color: var(--background);
+    text-decoration: none;
+    text-align: center;
+    transform: scale(0.97);
+}
 .addForm.jobPostAddForm .addNewJobPost{
     padding: 50px 30px;
 }
@@ -3553,6 +3566,7 @@ nav ul li.active a .icon ion-icon {
     display: flex;
     width: 30%;
 }
+
 #myChart{
     display: flex;
     width: 100%;
@@ -3566,10 +3580,71 @@ nav ul li.active a .icon ion-icon {
     justify-content: space-between;
     flex-wrap: wrap;
 }
+.reportboxContainer{
+    display: flex;
+    padding: 10px;
+    border: 1px solid var(--shadowColor);
+    border-radius: 10px;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.chartContainerReport{
+    width: 50%;
+    border: 0;border: 1px solid var(--shadowColor);
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.chartContainerReport>.chartData{
+    height: 30px;
+    width: 100%;
+}
+.reportTable{
+    width: 85%;
+    display: flex;
+    margin-bottom: 30px;
+}
+.reportBoxContainerHead{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid var(--shadowColor);
+    border-radius: 10px 10px 0 0;
+    margin-top: 10px ;
+    transform: translateY(1px);
+    width: 80%;
+}
+.reportBoxContainerHead>a{
+    padding: 10px;
+    border: 1px solid var(--shadowColor);
+    border-radius: 10px;
+    text-decoration: none;
+    background: var(--secondaryColor);
+    color: var(--background);
+}
+
+.reportTable table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+  }
+  
+  .reportTable th, td {
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .reportTable tr:nth-child(even){background-color: #f2f2f2}
+
 @media only screen and (max-width: 500px) {
     
 .chartData{
     width: 100%;
+}
+.chartContainerReport{
+    width: 100%;
+    border: 0;
 }
     .chart{
         width: 100%;
@@ -3651,7 +3726,7 @@ nav ul li.active a .icon ion-icon {
     }
 
     .adminUserSection {
-        padding-left: 0;
+        padding-left: 10px;
     }
 
     .jobPostSearch>div>form {

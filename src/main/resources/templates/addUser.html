@@ -68,36 +68,67 @@
 
 	<section class="adminUserSection">
 		<div class="usersearchBox">
-			<h3>Users Management</h3>
-			<span>Total Users: [[${totalUsers}]]</span>
-			<span>Active Users: [[${countActive}]]</span>
-			<span>Inactive Users: [[${countInactive}]]</span>
-			<span>Marketer Users: [[${countMA}]]</span>
-			<span>HR Users: [[${countHR}]]</span>
-			<span>GM Users: [[${countGM}]]</span>
-			<span>PM Users: [[${countPM}]]</span>
-			<span>DH Users: [[${countDH}]]</span>
-			<span>TM Users: [[${countTM}]]</span>
-			<div class="newSearchForm">
-				<form th:action="@{/admin/searchUser/1}">
-					<input type="hidden" name="sortField" th:value="${sortField}" />
-					<input type="hidden" name="sortDir" th:value="${sortDir}" />
-					<input type="text" name="keyword" th:value="${keyword}" />
-					<button type="submit">
-						<ion-icon name="search-outline"></ion-icon>
-					</button>
-				</form>
-
-				<button type="submit">
-					<a th:href="@{/admin/addUser}"><ion-icon name="refresh-outline"></ion-icon></a>
-				</button>
-
-				<button type="submit" onclick="generateTeamBox()">
-					<ion-icon name="add-outline"></ion-icon>
-				</button>
-			</div>
+			<h1>Users Management</h1>
 		</div>
 
+		<div class="chartContainer chartContainerReport">
+
+			<div class="chartData">
+				<span>Active Users</span>
+				<span>[[${countActive}]]</span>
+			</div>
+			<div class="chartData">
+				<span>Inactive Users</span>
+				<span>[[${countInactive}]]</span>
+			</div>
+			<div style="display: none;">
+				<div class="chartData">
+					<span class="chart-name1">Marketing</span>
+					<span class="agencyCount">[[${countMA}]]</span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name2">HR</span>
+					<span class="universityCount">[[${countHR}]]</span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name3">General Manager</span>
+					<span class="directRecruitCount">[[${countGM}]]</span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name4">Project Manager</span>
+					<span class="trainingCenterCount">[[${countPM}]]</span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name5">DepartMent Head</span>
+					<span class="othersCount">[[${countDH}]]</span>
+				</div>
+			</div>
+
+			<div>
+				<canvas id="myChart"></canvas>
+			</div>
+		</div>
+		<form class="searchForm" th:action="@{/admin/searchUser/1}">
+			<h2>
+				<ion-icon name="people-outline"></ion-icon>
+				Users
+				<span>[[${totalUsers}]]</span>
+			</h2>
+			<input type="hidden" name="sortField" th:value="${sortField}" />
+			<input type="hidden" name="sortDir" th:value="${sortDir}" />
+			<input type="text" name="keyword" th:value="${keyword}" />
+			<button type="submit">
+				<ion-icon name="search-outline"></ion-icon>
+			</button>
+			<button>
+				<a th:href="@{/admin/addUser}"><ion-icon name="refresh-outline"></ion-icon></a>
+			</button>
+			<button type="button" onclick="generateTeamBox()">
+				<a>
+					<ion-icon name="add-outline"></ion-icon>
+				</a>
+			</button>
+		</form>
 		<div class="userContainer" th:if="${users != null }">
 			<p th:if="${users.empty}">No Data</p>
 			<div class="userCard" th:each="data : ${users}">

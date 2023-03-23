@@ -119,10 +119,34 @@
 					<p>Add new comments</p>
 					<textarea rows="5" cols="50" th:field="*{comment}"></textarea>
 					<button type="submit">Save</button>
+					<!-- <button type="button">Mail</button> -->
 				</div>
 			</div>
 	</form>
 	<!-- form end -->
+
+	<!-- Experimental feature -->
+	<div class="addForm">
+		<form data-formName="Send Mail">
+			<div>
+				<label>Name</label>
+				<input type="text" required="required" class="mailName" placeholder="Enter name" />
+			</div>
+			<div>
+				<label>Email</label>
+				<input type="text" required="required" class="mailEmail" placeholder="Enter email" />
+			</div>
+			<div>
+				<label>Message</label>
+				<textarea type="text" required="required" class="mailMessage" placeholder="Enter Message"></textarea>
+			</div>
+			<div>
+				<input type="button" value="Add" onclick="sendMail()"/>
+			</div>
+		</form>
+		<div class="backgroundExit" onclick="generateTeamBox()"></div>
+	</div>
+
 </body>
 
 </html>

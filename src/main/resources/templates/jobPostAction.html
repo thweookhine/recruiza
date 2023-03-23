@@ -6,11 +6,77 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit JobPost</title>
-	<div th:insert="../components/nav :: tags"></div>
+    <div th:insert="../components/nav :: tags"></div>
 </head>
 
 <body>
-	<div th:insert="../components/nav :: navBar"></div>
+    <div th:insert="../components/nav :: navBar"></div>
+    <div class="addForm jobPostAddForm show">
+        <img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jobPost.postCode}+''" alt="">
+        <form class="addNewJobPost" data-formName="Update Job Post" th:action="@{/updateJobPost}" method="post"
+            th:object="${jobPost}">
+
+            <input type="hidden" th:field="*{postId}">
+            <input type="hidden" th:field="*{postStatus}">
+
+            <div>
+                <div>
+                    <label>Name</label>
+                    <input type="text" th:field="*{postName}" placeholder="Enter Job Post Name" required />
+                </div>
+                <div>
+                    <label for="count">Count</label>
+                    <input type="number" th:field="*{count}" placeholder="Enter Count" min="1" max="10" required />
+                </div>
+                <div>
+                    <label for="comment">Comment</label>
+                    <textarea rows="1" th:field="*{comment}" placeholder="Enter Comment"></textarea>
+                </div>
+                <div>
+                    <label for="foc">FOC</label>
+                    <input type="checkbox" th:field="*{foc}" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label for="teams">Select Department</label>
+                    <select id="departmentSelect" name="departmentId" onchange="getTeams();">
+                        <option th:each="d : ${departmentList}" th:value="${d.departmentId}"
+                            th:text="${d.departmentName}">
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label for="teams">Select Team</label>
+                    <select id="teamSelect" th:field="*{teamBean}">
+                    </select>
+                </div>
+
+                <div>
+                    <label for="position">Select Job Position</label>
+                    <select th:field="*{jobPositionId}">
+                        <option th:each="p : ${positionList}" th:value="${p.positionId}" th:text="${p.positionName}">
+                        </option>
+                    </select>
+                </div>
+
+                <div style="display: none;">
+                    <label for="resource">Select Recruitment Resource</label>
+                    <select th:field="*{resourceId}">
+                        <option th:each="r : ${resourceList}" th:value="${r.resourceId}" th:text="${r.resourceName}">
+                        </option>
+                    </select>
+                </div>
+
+                <div>
+                    <input type="submit" value="Update" />
+                </div>
+
+            </div>
+            <a th:href="@{/jobPost}">Back</a>
+        </form>
+    </div>
+
     <div>
         <form th:action="@{/updateJobPost}" method="post" th:object="${jobPost}">
 

@@ -60,6 +60,7 @@ public class ReportController {
 	@GetMapping(value = "/jobPostReport/{postId}")
 	public ModelAndView jobPostReportAndView(@PathVariable("postId") long postId, ModelMap model) {
 		
+		model.addAttribute("jp",jobPostService.getByid(postId));
 		model.addAttribute("para", jobPostService.getParameters(postId));
 		model.addAttribute("applicantList", jobPostService.getApplicantsList(postId));
 		model.addAttribute("postId", postId);

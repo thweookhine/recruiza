@@ -123,6 +123,32 @@
 			</button>
 		</form>
 
+		<div class="chartContainer">
+
+			<div class="chartData">
+				<span class="chart-name1">Pending</span>
+				<span class="agencyCount" th:text="${totalPending}"></span>
+			</div>
+			<div class="chartData">
+				<span class="chart-name2">Posted</span>
+				<span class="universityCount" th:text="${totalPosted}"></span>
+			</div>
+			<div class="chartData">
+				<span class="chart-name3">Dued</span>
+				<span class="directRecruitCount" th:text="${totalClosed}"></span>
+			</div>
+			<div class="chartData">
+				<span class="chart-name4">Closed</span>
+				<span class="trainingCenterCount" th:text="${totalDued}"></span>
+			</div>
+			<div class="chartData">
+				<span class="chart-name5">Others</span>
+				<span class="othersCount" th:text="${totalResourcesByOthers}"></span>
+			</div>
+			<div>
+				<canvas id="myChart"></canvas>
+			</div>
+		</div>
 
 		<div class="resourceContainer">
 			<div class="sort-box" th:if="${totalJobPosts > 0}">
@@ -136,8 +162,8 @@
 						Name
 					</a>
 				</div>
-				<div th:if="${jobPosts != null}">
-					<a th:href="@{/recruizareport}">Report</a>
+				<div class="sort-button" th:if="${jobPosts != null}">
+					<a th:href="@{/recruizareport}">Get Report</a>
 				</div>
 			</div>
 
@@ -210,11 +236,6 @@
 						</div>
 					</div>
 					<div class="data-buttons">
-						<div>
-							<a th:href="@{'/jobPostReport/' + ${jp.postId}}">
-								<ion-icon name="document-text-outline"></ion-icon>
-							</a>
-						</div>
 						<div th:if="${jp.postStatus == 'PENDING'}">
 							<a th:href="@{/updateJobPost(jobPostId=${jp.postId})}">
 								<ion-icon name="create-outline"></ion-icon>
@@ -234,6 +255,11 @@
 						<div th:if="${jp.postStatus == 'CLOSED*'}">
 							<a th:href="@{/openJobPost(jobPostId=${jp.postId})}">
 								<ion-icon name="lock-open-outline"></ion-icon>
+							</a>
+						</div>
+						<div>
+							<a th:href="@{'/jobPostReport/' + ${jp.postId}}">
+								<ion-icon name="document-text-outline"></ion-icon>
 							</a>
 						</div>
 					</div>

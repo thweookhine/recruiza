@@ -50,7 +50,7 @@ function activeLink() {
 if (title == 'Profile') {
 	activeLink()
 	navlist[0].classList.add('active')
-} else if (title == 'Team' || title == 'Department' || title == 'Job Position' || title == 'RecruitementResource' || title == 'Job Post') {
+} else if (title == 'Job Post Report' || title == 'Team' || title == 'Department' || title == 'Job Position' || title == 'RecruitementResource' || title == 'Job Post') {
 	activeLink()
 	navlist[3].classList.add('active')
 }else if (title == 'Admin') {
@@ -144,17 +144,18 @@ function changeTheme(){
 		document.documentElement.style.setProperty('--secondaryColor', '#0B32B0');
 		document.documentElement.style.setProperty('--shadowColor', 'rgba(76, 174, 255, 0.5)');
 		document.documentElement.style.setProperty('--errorColor', '#EF1B23');
-	}else if(localStorage.getItem('theme')=='hacker'){
-		if(settingbox){
-			document.getElementById('hacker').checked = true;
-		}
-		document.documentElement.style.setProperty('--boxColor', '#111212');
-		document.documentElement.style.setProperty('--background', '#111212');
-		document.documentElement.style.setProperty('--fontColor', 'limegreen');
-		document.documentElement.style.setProperty('--secondaryColor', '#11851e');
-		document.documentElement.style.setProperty('--shadowColor', 'rgba(0, 209, 24, 0.5)');
-		document.documentElement.style.setProperty('--errorColor', '#004f09');
 	}
+	// else if(localStorage.getItem('theme')=='hacker'){
+	// 	if(settingbox){
+	// 		document.getElementById('hacker').checked = true;
+	// 	}
+	// 	document.documentElement.style.setProperty('--boxColor', '#111212');
+	// 	document.documentElement.style.setProperty('--background', '#111212');
+	// 	document.documentElement.style.setProperty('--fontColor', 'limegreen');
+	// 	document.documentElement.style.setProperty('--secondaryColor', '#11851e');
+	// 	document.documentElement.style.setProperty('--shadowColor', 'rgba(0, 209, 24, 0.5)');
+	// 	document.documentElement.style.setProperty('--errorColor', '#004f09');
+	// }
 }
 
 function toggleUpdateProfile(){

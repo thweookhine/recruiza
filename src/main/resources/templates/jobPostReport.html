@@ -1,34 +1,142 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Job Post Report</title>
+	<meta charset="UTF-8">
+	<title>Job Post Report</title>
+	<div th:insert="../components/nav :: tags"></div>
 </head>
+
 <body>
-	<h1>[[${para.reportTitle}]]</h1>
-	<!-- button start -->
-	<div>
+	<p class="errornoti" th:text="${message}"></p>
+
+	<div th:insert="../components/nav :: navBar"></div>
+
+	<div class="reportBoxContainerHead">
+		<h3>[[${para.reportTitle}]]</h3>
+		<a th:href="@{'/jobpostreport/' + ${postId}}">Get Report(PDF)</a>
+	</div>
+	<div class="reportboxContainer">
+		
+		<div class="data-card jobPostCardo">
+
+			<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jp.postCode}+''" alt="">
+
+			<div class="data-card-head">
+				<div>
+					<div class="data-status" th:switch="${jp.postStatus}">
+						<p th:case="'CLOSED*'" class="closed">CLOSED</p>
+						<p th:case="'CLOSED'" class="dued">DUED</p>
+						<p th:case="'POSTED'" class="posted">OPEN</p>
+						<p th:case="*" class="none">NONE</p>
+					</div>
+					<div class="focyes" th:if="${jp.foc == true}"></div>
+					<div class="focno" th:if="${jp.foc == false}"></div>
+				</div>
+
+				<p class="data-code" th:text="${jp.postCode}"></p>
+			</div>
+			<div class="jobPostInfo">
+				<p>
+					<span>Name</span> <span th:text="${jp.postName}"></span>
+				</p>
+				<p>
+					<span>Position</span><span th:text="${jp.jobPosition.positionName}"></span>
+				</p>
+				<p>
+					<span>Comment</span> <span th:text="${jp.comment}"></span>
+				</p>
+				<div>
+					<p>
+						<ion-icon name="people-outline"></ion-icon>
+						<span th:text="${jp.team.teamName}"></span>
+					</p>
+					<p>
+						<ion-icon name="business-outline"></ion-icon>
+						<span th:text="${jp.team.department.departmentName}"></span>
+					</p>
+				</div>
+				<div>
+					<p>
+						<ion-icon name="time-outline"></ion-icon>
+						<span th:text="${jp.postDate}"></span>
+					</p>
+					<p>
+						<ion-icon name="timer-outline"></ion-icon>
+						<span th:text="${jp.dueDate}"></span>
+					</p>
+				</div>
+			</div>
+			<div class="data-card-footer">
+				<div>
+					<a th:href="'https://docs.google.com/spreadsheets/d/'+${jp.sheetId}+''" target="_blank">
+						<ion-icon name="cloudy-outline"></ion-icon>
+					</a>
+					<div>
+						<img th:src="'https://api.dicebear.com/5.x/micah/svg?seed='+${jp.user.userName}+''" alt="">
+						<p th:text="${jp.user.userName}"></p>
+					</div>
+					<div>
+						<ion-icon name="person-outline"></ion-icon>
+						<p>[[${para.requiredCount}]]</p>
+					</div>
+					<div>
+						<ion-icon name="mail-unread-outline"></ion-icon>
+						<p>[[${para.appliedCount}]]</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="chartContainer chartContainerReport">
+
+			<div class="chartData">
+				<span class="chart-name1">Required</span>
+				<span class="agencyCount">[[${para.requiredCount}]]</span>
+			</div>
+			<div class="chartData">
+				<span class="chart-name2">Applied</span>
+				<span class="universityCount">[[${para.appliedCount}]]</span>
+			</div>
+			<div class="chartData">
+				<span class="chart-name3">Hired</span>
+				<span class="directRecruitCount">[[${para.hiredCount}]]</span>
+			</div>
+			<div class="chartData">
+				<span class="chart-name4">Rejected</span>
+				<span class="trainingCenterCount">[[${para.rejectedCount}]]</span>
+			</div>
+			<div class="chartData">
+				<span class="chart-name5">Other</span>
+				<span class="othersCount">0</span>
+			</div>
+			<div>
+				<canvas id="myChart"></canvas>
+			</div>
+		</div>
+	</div>
+	
+	<!-- <div>
 		<a th:href="@{'/jobpostreport/' + ${postId}}">Report</a>
 	</div>
-	<!-- button start -->
-	<!-- date start -->
 	<div>
 		<span>Post Date - [[${para.postDate}]] | Due Date - [[${para.dueDate}]]</span>
 	</div>
-	<!-- date end -->
-	<!-- parameter start -->
 	<div>
 		<p>Job Post Name - [[${para.jobPostName}]]</p>
 		<p>Position Name - [[${para.positionName}]]</p>
-		<p>Required		 - [[${para.requiredCount}]]</p>
-		<p>Applied  	 - [[${para.appliedCount}]]</p>
-		<p>Hired		 - [[${para.hiredCount}]]</p>
-		<p>Rejected 	 - [[${para.rejectedCount}]]</p>
-	</div>
+		<p>Required - [[${para.requiredCount}]]</p>
+		<p>Applied - [[${para.appliedCount}]]</p>
+		<p>Hired - [[${para.hiredCount}]]</p>
+		<p>Rejected - [[${para.rejectedCount}]]</p>
+	</div> -->
+
 	<!-- parameter end -->
-	<h1>Applicant Table</h1>
+	<div class="reportBoxContainerHead">
+		<h3>Applicant Table</h3>
+	</div>
 	<!-- applicant table start -->
-	<div>
+	<div class="reportTable" style="overflow-x:auto;">
 		<table>
 			<thead>
 				<tr>
@@ -56,4 +164,5 @@
 	</div>
 	<!-- applicant table end -->
 </body>
+
 </html>
