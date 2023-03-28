@@ -66,12 +66,12 @@ public class MarketingController {
 
 		int index = Integer.parseInt((currentPage - 1) + "1");
 
-		model.addAttribute("totalPosted",jobPostService.getCountByType("POSTED"));
-		model.addAttribute("totalPending",jobPostService.getCountByType("PENDING"));
-		model.addAttribute("totalClosed",jobPostService.getCountByType("CLOSED"));
-		model.addAttribute("totalDued",jobPostService.getCountByType("CLOSED*"));
-		
-		System.out.println("total job posts"+totalJobPosts);
+		model.addAttribute("totalPosted", jobPostService.getCountByType("POSTED"));
+		model.addAttribute("totalPending", jobPostService.getCountByType("PENDING"));
+		model.addAttribute("totalClosed", jobPostService.getCountByType("CLOSED"));
+		model.addAttribute("totalDued", jobPostService.getCountByType("DUED"));
+
+		System.out.println("total job posts" + totalJobPosts);
 
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalJobPosts", totalJobPosts);
@@ -105,13 +105,13 @@ public class MarketingController {
 			@RequestParam("dueDate") String dueDate,
 			@RequestParam("sheetId") String sheetId,
 			HttpSession session) {
-		
+
 		JobPost jobPost = jobPostService.getByid(Long.parseLong(postId));
 		jobPost.setPostDate(LocalDate.parse(postDate));
 		jobPost.setDueDate(LocalDate.parse(dueDate));
 		jobPost.setSheetId(sheetId);
 		jobPost.setPostStatus("POSTED");
-		
+
 		JobPost result = jobPostService.updateJobPost(jobPost);
 		if (result != null) {
 			generateHistoryForJobPost(result, session, "posted");

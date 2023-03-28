@@ -34,238 +34,242 @@ import com.project.demo.utils.PasswordGenerator;
 
 @RestController
 public class UserController {
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	JobPostService jobPostService;
-	
+
 	public UserBean checkSessionUser(HttpSession session) {
 		UserBean bean = null;
-				 bean = (UserBean) session.getAttribute("user");
+		bean = (UserBean) session.getAttribute("user");
 		return bean;
 	}
-	
+
 	@GetMapping(value = "/login")
-	public ModelAndView login(ModelMap model,HttpSession session) {
-		
-		if(session != null) {
-			model.addAttribute("error",session.getAttribute("error"));
-			model.addAttribute("email",session.getAttribute("email"));
-			model.addAttribute("password",session.getAttribute("password"));
+	public ModelAndView login(ModelMap model, HttpSession session) {
+
+		if (session != null) {
+			model.addAttribute("error", session.getAttribute("error"));
+			model.addAttribute("email", session.getAttribute("email"));
+			model.addAttribute("password", session.getAttribute("password"));
 			session.invalidate();
 		}
-		
+
 		return new ModelAndView("index");
 	}
-	
+
 	@GetMapping(value = "/basic")
 	public String basicUser() {
-		
+
 		return "Hello Basic User";
 	}
-	
+
 	@GetMapping(value = "/home")
-	public ModelAndView homePage(HttpSession session,ModelMap model) {
-		
+	public ModelAndView homePage(HttpSession session, ModelMap model) {
+
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
-		
+
 		User bean = userService.userSelectOne(email);
-		
+
 		closeJobPosts();
-		
+
 		List<JobPost> jobPosts = jobPostService.searchBeforeDueDate(LocalDate.now().toString());
-		
+
 		UserBean user = UserBean.builder()
-						.userId(bean.getUserId())
-						.userCode(bean.getUserCode())
-						.userName(bean.getUserName())
-						.userEmail(bean.getUserEmail())
-						.userMobile(bean.getUserMobile())
-						.password(bean.getPassword())
-						.lastAction(bean.getLastAction())
-						.role(bean.getRole())
-						.userStatus(bean.getUserStatus())
-						.userCreatedTime(bean.getUserCreatedTime())
-						.enabled(bean.isEnabled())
-						.build();
-		
+				.userId(bean.getUserId())
+				.userCode(bean.getUserCode())
+				.userName(bean.getUserName())
+				.userEmail(bean.getUserEmail())
+				.userMobile(bean.getUserMobile())
+				.password(bean.getPassword())
+				.lastAction(bean.getLastAction())
+				.role(bean.getRole())
+				.userStatus(bean.getUserStatus())
+				.userCreatedTime(bean.getUserCreatedTime())
+				.enabled(bean.isEnabled())
+				.build();
+
 		session.setAttribute("user", user);
-		model.addAttribute("jobPosts",jobPosts);
-		
+		model.addAttribute("jobPosts", jobPosts);
+
 		if (user.getRole().equals("MARKETER")) {
 			return new ModelAndView("redirect:/market/marketing");
 		}
-		
+
 		return new ModelAndView("home");
 	}
-	
-    @GetMapping(value = "/logout") 
-    public ModelAndView logout(ModelMap model,HttpSession session){
-    	if(session != null) {
-    		session.invalidate();
-    	}
-    	model.addAttribute("msg", "Logout Successful !");
-        return new ModelAndView("index");
-    }
-	
-    @GetMapping(value = "/unauthorized") 
-    public String deniedPage(){
-    	
-        return "No Approved";
-    }
-    
-    @GetMapping(value = "/market")
-    public String marketingPage() {
-    	
-    	return "Hello,Welcome Maketer";
-    }
-    
-    @GetMapping(value = "/admin/addUser")
-    public ModelAndView addUser(UserBean bean,ModelMap model,RedirectAttributes ra, HttpSession session) {
-    	String keyword = null;
-    	return searchUser(model, ra, session, bean, 1, "userId", "asc", keyword);
-    }
-    
-    @GetMapping(value = "/admin/searchUser/{pageNumber}")
-    public ModelAndView searchUser(ModelMap model,RedirectAttributes ra,HttpSession session,UserBean userBean,
-    							@PathVariable("pageNumber") int currentPage,
-    							@Param("sortField") String sortField,
-    							@Param("sortDir") String sortDir,
-    							@Param("keyword") String keyword) {
-    	
-        if(checkSessionUser(session) == null) {
-        	ra.addFlashAttribute("error","Please login first !");
-        	return new ModelAndView("redirect:/login");
-        }else {
-        	
-        	Page<User> page = userService.listAllUsers(currentPage, sortField, sortDir, keyword);
-        	
-        	long totalUsers = page.getTotalElements();
-        	int totalPages = page.getTotalPages();
-        	
-        	List<User> users = page.getContent();
-        	
-        	model.addAttribute("currentPage", currentPage);
-        	model.addAttribute("totalUsers", totalUsers);
-        	model.addAttribute("totalPages", totalPages);
-        	model.addAttribute("users", users);
-        	model.addAttribute("sortField", sortField);
-        	model.addAttribute("sortDir", sortDir);
-        	model.addAttribute("keyword", keyword);
-        	
-        	model.addAttribute("countActive", userService.countUserByStatus("ACTIVE"));
-        	model.addAttribute("countInactive", userService.countUserByStatus("INACTIVE"));
-        	
-        	model.addAttribute("countMA", userService.countUserByRole("MARKETER"));
-        	model.addAttribute("countHR", userService.countUserByRole("HR_Role"));
-        	model.addAttribute("countPM", userService.countUserByRole("PM_Role"));
-        	model.addAttribute("countGM", userService.countUserByRole("GM_Role"));
-        	model.addAttribute("countDH", userService.countUserByRole("DH_Role"));
-        	model.addAttribute("countTM", userService.countUserByRole("TM_Role"));
-        	
-        	String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
-        	model.addAttribute("reverseSortDir", reverseSortDir);
-        	
-        	if(userBean.getUserMobile() == null) {
-        		userBean = UserBean.builder()
-    					.userMobile("09")
-    					.build();
-        	}
-        	
-        	return new ModelAndView("addUser","bean",userBean);
-        }
-        
-    }
-    
-    @PostMapping(value = "/admin/addUserServlet")
-    public ModelAndView addUserServlet(@ModelAttribute("bean") @Valid UserBean bean,BindingResult bs,ModelMap model,RedirectAttributes ra,HttpSession session) {
-    	
-    	if(checkSessionUser(session) == null) {
-    		ra.addFlashAttribute("error","Please login first !");
-        	return new ModelAndView("redirect:/login");
-    	}else if (bs.hasErrors()) {
-    		model.addAttribute("error", "Field cannot be blank !");
-		}else if(!bean.getPassword().equals(bean.getConfPassword())) {
+
+	@GetMapping(value = "/logout")
+	public ModelAndView logout(ModelMap model, HttpSession session) {
+		if (session != null) {
+			session.invalidate();
+		}
+		model.addAttribute("msg", "Logout Successful !");
+		return new ModelAndView("index");
+	}
+
+	@GetMapping(value = "/unauthorized")
+	public String deniedPage() {
+
+		return "No Approved";
+	}
+
+	@GetMapping(value = "/market")
+	public String marketingPage() {
+
+		return "Hello,Welcome Maketer";
+	}
+
+	@GetMapping(value = "/admin/addUser")
+	public ModelAndView addUser(UserBean bean, ModelMap model, RedirectAttributes ra, HttpSession session) {
+		String keyword = null;
+		return searchUser(model, ra, session, bean, 1, "userId", "asc", keyword);
+	}
+
+	@GetMapping(value = "/admin/searchUser/{pageNumber}")
+	public ModelAndView searchUser(ModelMap model, RedirectAttributes ra, HttpSession session, UserBean userBean,
+			@PathVariable("pageNumber") int currentPage,
+			@Param("sortField") String sortField,
+			@Param("sortDir") String sortDir,
+			@Param("keyword") String keyword) {
+
+		if (checkSessionUser(session) == null) {
+			ra.addFlashAttribute("error", "Please login first !");
+			return new ModelAndView("redirect:/login");
+		} else {
+
+			Page<User> page = userService.listAllUsers(currentPage, sortField, sortDir, keyword);
+
+			long totalUsers = page.getTotalElements();
+			int totalPages = page.getTotalPages();
+
+			List<User> users = page.getContent();
+
+			model.addAttribute("currentPage", currentPage);
+			model.addAttribute("totalUsers", totalUsers);
+			model.addAttribute("totalPages", totalPages);
+			model.addAttribute("users", users);
+			model.addAttribute("sortField", sortField);
+			model.addAttribute("sortDir", sortDir);
+			model.addAttribute("keyword", keyword);
+
+			model.addAttribute("countActive", userService.countUserByStatus("ACTIVE"));
+			model.addAttribute("countInactive", userService.countUserByStatus("INACTIVE"));
+
+			model.addAttribute("countMA", userService.countUserByRole("MARKETER"));
+			model.addAttribute("countHR", userService.countUserByRole("HR_Role"));
+			model.addAttribute("countPM", userService.countUserByRole("PM_Role"));
+			model.addAttribute("countGM", userService.countUserByRole("GM_Role"));
+			model.addAttribute("countDH", userService.countUserByRole("DH_Role"));
+			model.addAttribute("countTM", userService.countUserByRole("TM_Role"));
+
+			String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+			model.addAttribute("reverseSortDir", reverseSortDir);
+
+			if (userBean.getUserMobile() == null) {
+				userBean = UserBean.builder()
+						.userMobile("09")
+						.build();
+			}
+
+			return new ModelAndView("addUser", "bean", userBean);
+		}
+
+	}
+
+	@PostMapping(value = "/admin/addUserServlet")
+	public ModelAndView addUserServlet(@ModelAttribute("bean") @Valid UserBean bean, BindingResult bs, ModelMap model,
+			RedirectAttributes ra, HttpSession session) {
+
+		if (checkSessionUser(session) == null) {
+			ra.addFlashAttribute("error", "Please login first !");
+			return new ModelAndView("redirect:/login");
+		} else if (bs.hasErrors()) {
+			model.addAttribute("error", "Field cannot be blank !");
+		} else if (!bean.getPassword().equals(bean.getConfPassword())) {
 			model.addAttribute("error", "check your confirm password again !");
-		}else if(userService.findUserName(bean.getUserName()) != null) {
+		} else if (userService.findUserName(bean.getUserName()) != null) {
 			model.addAttribute("error", "User name is has been !");
-		}else if(userService.findUserEmail(bean.getUserEmail()) != null) {
+		} else if (userService.findUserEmail(bean.getUserEmail()) != null) {
 			model.addAttribute("error", "User email is has been !");
-		}else {
-			
+		} else {
+
 			User user = User.builder()
-							.userName(NameCapital.capitalizeFirstLetter(bean.getUserName()))
-							.userEmail(bean.getUserEmail())
-							.userMobile(bean.getUserMobile())
-							.password(PasswordGenerator.generatePassword(bean.getPassword()))
-							.role(bean.getRole())
-							.userStatus("ACTIVE")
-							.userCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
-							.enabled(true)
-							.build();
-			
+					.userName(NameCapital.capitalizeFirstLetter(bean.getUserName()))
+					.userEmail(bean.getUserEmail())
+					.userMobile(bean.getUserMobile())
+					.password(PasswordGenerator.generatePassword(bean.getPassword()))
+					.role(bean.getRole())
+					.userStatus("ACTIVE")
+					.userCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
+					.enabled(true)
+					.build();
+
 			User cUser = userService.insertUser(user);
-			
-			if(cUser == null) {
+
+			if (cUser == null) {
 				model.addAttribute("error", "Add User Fail !");
-			}else {
+			} else {
 				model.addAttribute("msg", "Add User Successful !");
 			}
 		}
-    	return addUser(bean, model, ra, session);
-    }
-    
-    @PostMapping(value = "/admin/updateUser")
-    public ModelAndView updateUser(@RequestParam("id") Long userId, HttpSession session, RedirectAttributes ra, HttpServletRequest request, ModelMap model,UserBean bean) {
-    	
-    	if(checkSessionUser(session) == null) {
-    		ra.addFlashAttribute("error","Please login first !");
-        	return new ModelAndView("redirect:/login");
-    	}else {
-    		String role = request.getParameter("role");
-    		System.out.println("Role " + role);
+		return addUser(bean, model, ra, session);
+	}
+
+	@PostMapping(value = "/admin/updateUser")
+	public ModelAndView updateUser(@RequestParam("id") Long userId, HttpSession session, RedirectAttributes ra,
+			HttpServletRequest request, ModelMap model, UserBean bean) {
+
+		if (checkSessionUser(session) == null) {
+			ra.addFlashAttribute("error", "Please login first !");
+			return new ModelAndView("redirect:/login");
+		} else {
+			String role = request.getParameter("role");
+			System.out.println("Role " + role);
 			User user = userService.editUserRole(userId, role);
-			if(user != null) {
+			if (user != null) {
 				model.addAttribute("msg", "Update Role Successfully !");
-			}else {
+			} else {
 				model.addAttribute("error", "Update Role Failed !");
 			}
 			return addUser(bean, model, ra, session);
 		}
-    }
-    
-    @GetMapping("/admin/deleteUser")
-    public ModelAndView deleteUser(@RequestParam("id") Long userId,RedirectAttributes ra, ModelMap model,UserBean bean, HttpSession session) {
-    	
-            User user = userService.deleteUser(userId);
-            
-            if (user != null) {
-	            model.addAttribute("msg", "Ban " + user.getUserName() + " Successful !");
-            }else {
-	        	model.addAttribute("msg", "Ban User Failed !");
-            }
-            return addUser(bean, model, ra, session);
-    }
-    
-    @GetMapping("/admin/activeUser")
-    public ModelAndView activeUser(@RequestParam("id") Long userId,RedirectAttributes ra, ModelMap model, HttpSession session, UserBean bean) {
-    	
-    	User user = userService.activeUser(userId);
-        
-    	if (user != null) {
-            model.addAttribute("msg", "Active " + user.getUserName() + " Successful !");
-        }else {
-        	model.addAttribute("msg", "Active User Failed !");
-        }
-        return addUser(bean, model, ra, session);
-    }
-    
+	}
+
+	@GetMapping("/admin/deleteUser")
+	public ModelAndView deleteUser(@RequestParam("id") Long userId, RedirectAttributes ra, ModelMap model,
+			UserBean bean, HttpSession session) {
+
+		User user = userService.deleteUser(userId);
+
+		if (user != null) {
+			model.addAttribute("msg", "Ban " + user.getUserName() + " Successful !");
+		} else {
+			model.addAttribute("msg", "Ban User Failed !");
+		}
+		return addUser(bean, model, ra, session);
+	}
+
+	@GetMapping("/admin/activeUser")
+	public ModelAndView activeUser(@RequestParam("id") Long userId, RedirectAttributes ra, ModelMap model,
+			HttpSession session, UserBean bean) {
+
+		User user = userService.activeUser(userId);
+
+		if (user != null) {
+			model.addAttribute("msg", "Active " + user.getUserName() + " Successful !");
+		} else {
+			model.addAttribute("msg", "Active User Failed !");
+		}
+		return addUser(bean, model, ra, session);
+	}
+
 	public void closeJobPosts() {
 		List<JobPost> list = jobPostService.searchAfterDueDate(LocalDate.now().toString());
-		for(JobPost jp : list) {
-			jp.setPostStatus("CLOSED");
+		for (JobPost jp : list) {
+			jp.setPostStatus("DUED");
 			jobPostService.updateJobPost(jp);
 		}
 	}

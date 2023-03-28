@@ -40,7 +40,8 @@
 		<form class="searchForm" th:action="@{/searchTeam/1}" th:object="${team}">
 			<h2>
 				<ion-icon name="people-outline"></ion-icon>
-				Teams
+				<p th:if="${teams.size() >= 1}">Teams</p>
+				<p th:if="${teams.size() == 0}">Team</p>
 				<span>[[${totalTeams}]]</span>
 			</h2>
 			<input type="hidden" name="sortField" th:value="${sortField}" />

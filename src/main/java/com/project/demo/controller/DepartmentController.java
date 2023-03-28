@@ -30,6 +30,7 @@ import com.project.demo.model.DepartmentBean;
 import com.project.demo.model.UserBean;
 import com.project.demo.service.DepartmentService;
 import com.project.demo.service.HistoryService;
+import com.project.demo.service.TeamService;
 import com.project.demo.service.UserService;
 
 @RestController
@@ -43,6 +44,9 @@ public class DepartmentController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private TeamService teamService;
 
 	@GetMapping("/department")
 	public ModelAndView toDepartment(ModelMap model, RedirectAttributes ra, DepartmentBean deptBean) {
@@ -109,6 +113,41 @@ public class DepartmentController {
 		}
 
 		return new ModelAndView("redirect:/department");
+	}
+	
+	@GetMapping("/addTeamForDept")
+	public ModelAndView toAddTeamForDept(@RequestParam("id") long id,ModelMap model) {
+		Department dept = deptService.getById(id);
+		model.addAttribute("department",dept);
+		
+		return new ModelAndView("addTeamForDept");
+	}
+	
+	@PostMapping("/addTeamForDept")
+	public ModelAndView addTeamForDept(@RequestParam("departmentId") long deptId,@RequestParam("teamName") String teamName,
+			ModelMap model,RedirectAttributes ra,
+			HttpSession session) {
+		Department dept = deptService.getById(deptId);
+		Team result = teamService.searchWithNameAndDept(teamName, deptId);
+
+		if (result != null) {
+			// Create History for Inserting existing data
+			generateHistoryForTeam(result, session, "tried to insert existing data");
+			model.addAttribute("message", "Same Team and department already exists");
+			model.addAttribute("department",dept);
+			return new ModelAndView("addTeamForDept");
+		} else {
+			// create
+			Team team = Team.builder().teamName(teamName).department(dept).build();
+			Team value = teamService.createTeam(team);
+			if (value != null) {
+				// Add
+				generateHistoryForTeam(value, session, "added");
+				ra.addFlashAttribute("message", "Successfully Added");
+			}
+		}
+		
+		return new ModelAndView("redirect:/team");
 	}
 
 	@GetMapping("/updateDepartment")
@@ -202,6 +241,25 @@ public class DepartmentController {
 				.historyCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
 				.build();
 		historyService.createHistory(history);
+	}
+
+	public void generateHistoryForTeam(Team team, HttpSession session, String action) {
+		UserBean userBean = (UserBean) session.getAttribute("user");
+		User user = userService.getById(userBean.getUserId());
+
+		String data = team.getTeamId() + "," + team.getTeamCode() + "," + team.getTeamName() + ","
+				+ team.getDepartment().getDepartmentName();
+
+		History history = History.builder()
+				.user(user)
+				.action(action)
+				.dataName(team.getTeamName())
+				.tableName("Team")
+				.data(data)
+				.historyCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
+				.build();
+		historyService.createHistory(history);
+
 	}
 
 }

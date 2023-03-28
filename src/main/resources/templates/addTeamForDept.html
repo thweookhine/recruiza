@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <div th:insert="../components/nav :: tags"></div>
+</head>
+
+<body>
+
+    <div th:insert="../components/nav :: navBar"></div>
+    <div th:insert="../components/nav :: sideNav"></div>
+
+    <p class="errornoti" th:text="${message}"></p>
+
+    <h3>Add Team for Department '<span th:text="${department.departmentName}"></span>'</h3>
+
+    <!-- <form th:action="@{/addTeamForDept}" method="post">
+        <input type="hidden" name="departmentId" th:value="${department.departmentId}">
+        <label for="teamName">Team Name</label>
+        <input type="text" name="teamName" th:value="${teamName}" placeholder="Enter Team Name" required="required">
+        <input type="submit" value="Add">
+    </form> -->
+    <button class="back_button">
+        <a th:href="@{/department}"><ion-icon name="arrow-back-outline"></ion-icon></a>
+    </button>
+    <div class="addForm show">
+        <img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${department.departmentCode}+''"
+            alt="">
+        <form data-formName="Add Team" th:action="@{/addTeamForDept}" method="post">
+            <input type="hidden" name="departmentId" th:value="${department.departmentId}">
+            <div>
+                <input type="text" name="deptName" th:value="${department.departmentName}" readonly>
+                <label for="name">Department</label>
+            </div>
+            <div>
+                <input type="text" name="teamName" th:value="${teamName}" placeholder="Enter Team Name"
+                    required="required">
+                <label for="name">Name</label>
+            </div>
+            <div>
+                <input type="submit" value="Add" />
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

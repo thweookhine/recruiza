@@ -51,7 +51,8 @@
 		<form class="searchForm" th:action="@{/searchResource/1}" th:object="${resource}" method="get">
 			<h2>
 				<ion-icon name="people-outline"></ion-icon>
-				Recruitment Resources
+				<p th:if="${list.size() >= 1}">Recruitment Resources</p>
+				<p th:if="${list.size() == 0}">Recruitment Resource</p>
 				<span>[[${totalResources}]]</span>
 			</h2>
 			<input type="hidden" name="sortField" th:value="${sortField}" />

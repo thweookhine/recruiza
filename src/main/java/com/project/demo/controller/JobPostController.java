@@ -67,7 +67,7 @@ public class JobPostController {
 
 	@Autowired
 	HistoryService historyService;
-	
+
 	@Autowired
 	ApplicantService applicantService;
 
@@ -102,15 +102,15 @@ public class JobPostController {
 			int count = applicantService.getCountByJobPost(jp.getPostId());
 			map.put((long) jp.getPostId(), count);
 		}
-		
-		model.addAttribute("countMap",map);
+
+		model.addAttribute("countMap", map);
 
 		int index = Integer.parseInt((currentPage - 1) + "1");
 
-		model.addAttribute("totalPosted",jobPostService.getCountByType("POSTED"));
-		model.addAttribute("totalPending",jobPostService.getCountByType("PENDING"));
-		model.addAttribute("totalClosed",jobPostService.getCountByType("CLOSED"));
-		model.addAttribute("totalDued",jobPostService.getCountByType("CLOSED*"));
+		model.addAttribute("totalPosted", jobPostService.getCountByType("POSTED"));
+		model.addAttribute("totalPending", jobPostService.getCountByType("PENDING"));
+		model.addAttribute("totalClosed", jobPostService.getCountByType("CLOSED"));
+		model.addAttribute("totalDued", jobPostService.getCountByType("DUED"));
 
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalJobPosts", totalJobPosts);
@@ -217,7 +217,7 @@ public class JobPostController {
 			HttpSession session) {
 
 		JobPost jobPost = jobPostService.getByid(id);
-		jobPost.setPostStatus("CLOSED*");
+		jobPost.setPostStatus("CLOSED");
 		JobPost result = jobPostService.updateJobPost(jobPost);
 		if (result != null) {
 			generateHistoryForJobPost(jobPost, session, "closed");
@@ -290,7 +290,7 @@ public class JobPostController {
 		list.add("PENDING");
 		list.add("POSTED");
 		list.add("CLOSED");
-		list.add("CLOSED*");
+		list.add("DUED");
 		return list;
 	}
 

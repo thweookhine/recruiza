@@ -2,11 +2,9 @@ package com.project.demo.controller;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,21 +17,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.demo.entity.History;
-import com.project.demo.entity.JobPosition;
 import com.project.demo.entity.RecruitementResource;
-import com.project.demo.entity.Team;
 import com.project.demo.entity.User;
-import com.project.demo.model.JobPositionBean;
 import com.project.demo.model.RecruitementResourceBean;
-import com.project.demo.model.TeamBean;
 import com.project.demo.model.UserBean;
 import com.project.demo.repository.RecruitmentResourceRepository;
 import com.project.demo.service.HistoryService;

@@ -34,7 +34,9 @@
 		<form class="searchForm" th:action="@{/searchPosition/1}" th:object="${jobposition}" method="get">
 			<h2>
 				<ion-icon name="people-outline"></ion-icon>
-				Positions
+				<p th:if="${list.size() >= 1}">Positions</p>
+				<p th:if="${list.size() == 0}">Position</p>
+
 				<span>[[${totalPositions}]]</span>
 			</h2>
 			<input type="hidden" name="sortField" th:value="${sortField}" />

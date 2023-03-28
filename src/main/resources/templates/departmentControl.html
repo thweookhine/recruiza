@@ -36,7 +36,8 @@
 		<form class="searchForm" th:action="@{/searchDepartment/1}" th:object="${department}">
 			<h2>
 				<ion-icon name="people-outline"></ion-icon>
-				Department
+				<p th:if="${depts.size() >= 1}">Departments</p>
+				<p th:if="${depts.size() == 0}">Department</p>
 				<span>[[${totalDepts}]]</span>
 			</h2>
 			<input type="hidden" name="sortField" th:value="${sortField}" />
@@ -92,6 +93,7 @@
 				<a class="data-edit-button" th:href="@{/updateDepartment(id=${dept.departmentId})}" title="Edit Data">
 					<ion-icon name="create-outline"></ion-icon>
 				</a>
+				<a class="applicantProcessButton" th:href="@{/addTeamForDept(id=${dept.departmentId})}">Add Team</a>
 			</div>
 
 		</div>

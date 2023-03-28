@@ -97,7 +97,8 @@
 		<form class="searchForm" th:action="@{/searchJobPost/1}">
 			<h2>
 				<ion-icon name="people-outline"></ion-icon>
-				Job Posts
+				<p th:if="${jobPosts.size() >= 1}">Job Posts</p>
+				<p th:if="${jobPosts.size() == 0}">Job Post</p>
 				<span>[[${totalJobPosts}]]</span>
 			</h2>
 			<input type="hidden" name="sortField" th:value="${sortField}" />
@@ -135,11 +136,11 @@
 			</div>
 			<div class="chartData">
 				<span class="chart-name3">Dued</span>
-				<span class="directRecruitCount" th:text="${totalClosed}"></span>
+				<span class="directRecruitCount" th:text="${totalDued}"></span>
 			</div>
 			<div class="chartData">
 				<span class="chart-name4">Closed</span>
-				<span class="trainingCenterCount" th:text="${totalDued}"></span>
+				<span class="trainingCenterCount" th:text="${totalClosed}"></span>
 			</div>
 			<div class="chartData">
 				<span class="chart-name5">Others</span>
@@ -175,8 +176,8 @@
 				<div class="data-card-head">
 					<div>
 						<div class="data-status" th:switch="${jp.postStatus}">
-							<p th:case="'CLOSED*'" class="closed">CLOSED</p>
-							<p th:case="'CLOSED'" class="dued">DUED</p>
+							<p th:case="'CLOSED'" class="closed">CLOSED</p>
+							<p th:case="'DUED'" class="dued">DUED</p>
 							<p th:case="'POSTED'" class="posted">OPEN</p>
 							<p th:case="*" class="none">NONE</p>
 						</div>
@@ -252,7 +253,7 @@
 								<ion-icon name="lock-closed-outline"></ion-icon>
 							</a>
 						</div>
-						<div th:if="${jp.postStatus == 'CLOSED*'}">
+						<div th:if="${jp.postStatus == 'CLOSED'}">
 							<a th:href="@{/openJobPost(jobPostId=${jp.postId})}">
 								<ion-icon name="lock-open-outline"></ion-icon>
 							</a>

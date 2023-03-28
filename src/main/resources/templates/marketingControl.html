@@ -24,8 +24,8 @@
 				<img th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jp.postCode}+''">
 				<div class="jobPostStatus">
 					<div class="data-status" th:switch="${jp.postStatus}">
-						<p th:case="'CLOSED*'" class="closed">CLOSED</p>
-						<p th:case="'CLOSED'" class="dued">DUED</p>
+						<p th:case="'CLOSED'" class="closed">CLOSED</p>
+						<p th:case="'DUED'" class="dued">DUED</p>
 						<p th:case="'POSTED'" class="posted">OPEN</p>
 						<p th:case="*" class="none">NONE</p>
 					</div>
@@ -102,11 +102,11 @@
 			</div>
 			<div class="chartData">
 				<span class="chart-name4">Closed</span>
-				<span class="trainingCenterCount" th:text="${totalDued}"></span>
+				<span class="trainingCenterCount" th:text="${totalClosed}"></span>
 			</div>
 			<div class="chartData">
 				<span class="chart-name3">Dued</span>
-				<span class="directRecruitCount" th:text="${totalClosed}"></span>
+				<span class="directRecruitCount" th:text="${totalDued}"></span>
 			</div>
 			<div class="chartData">
 				<span class="chart-name5">Others</span>
@@ -121,8 +121,8 @@
 				<img th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jp.postCode}+''">
 				<div class="jobPostStatus">
 					<div class="data-status" th:switch="${jp.postStatus}">
-						<p th:case="'CLOSED*'" class="closed">CLOSED</p>
-						<p th:case="'CLOSED'" class="dued">DUED</p>
+						<p th:case="'CLOSED'" class="closed">CLOSED</p>
+						<p th:case="'DUED'" class="dued">DUED</p>
 						<p th:case="'POSTED'" class="posted">OPEN</p>
 						<p th:case="*" class="none">NONE</p>
 					</div>
