@@ -1,4 +1,4 @@
-package com.project.demo.service;
+package com.project.demo.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
@@ -8,10 +8,8 @@ import static org.mockito.Mockito.when;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,6 +24,7 @@ import com.project.demo.entity.RecruitementResource;
 import com.project.demo.entity.Team;
 import com.project.demo.entity.User;
 import com.project.demo.repository.JobPostRepository;
+import com.project.demo.service.JobPostServiceImpl;
 
 @SpringBootTest
 class JobPostServiceTest {

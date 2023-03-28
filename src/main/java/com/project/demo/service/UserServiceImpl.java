@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
 		Pageable pageable = PageRequest.of(pageNumber - 1, 10, sort);
 
-		if (keyword != null) {
+		if (!keyword.equals("keyword")) {
 			return userRepository.findAll(keyword, pageable);
 		}
 		return userRepository.findAll(pageable);

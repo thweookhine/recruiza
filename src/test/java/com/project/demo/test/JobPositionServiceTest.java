@@ -1,6 +1,5 @@
-package com.project.demo.service;
+package com.project.demo.test;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.project.demo.entity.JobPosition;
 import com.project.demo.repository.JobPositionRepository;
+import com.project.demo.service.JobPositionService;
+import com.project.demo.service.JobPositionServiceImpl;
 
 class JobPositionServiceTest {
 	

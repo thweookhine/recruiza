@@ -18,7 +18,7 @@
 		alt="">
 
 	<div class="addForm">
-		<form data-formName="Create New User" th:action="@{/admin/addUserServlet}" th:object="${bean}" method="post">
+		<form data-formName="Create New User" th:action="@{'/admin/addUserServlet/' + ${keyword}}" th:object="${bean}" method="post">
 			<div>
 				<input type="text" th:field="*{userName}" placeholder="Enter user name" required="required" />
 				<label for="name">Name</label>
@@ -116,12 +116,12 @@
 			</h2>
 			<input type="hidden" name="sortField" th:value="${sortField}" />
 			<input type="hidden" name="sortDir" th:value="${sortDir}" />
-			<input type="text" name="keyword" th:value="${keyword}" />
+			<input type="text" name="keyword" th:value="${keyword == 'keyword' ? ' ' : keyword}"/>
 			<button type="submit">
 				<ion-icon name="search-outline"></ion-icon>
 			</button>
 			<button>
-				<a th:href="@{/admin/addUser}"><ion-icon name="refresh-outline"></ion-icon></a>
+				<a th:href="@{/admin/addUser/keyword}"><ion-icon name="refresh-outline"></ion-icon></a>
 			</button>
 			<button type="button" onclick="generateTeamBox()">
 				<a>
@@ -161,15 +161,15 @@
 				</div>
 				<div class="userInfoFooter" th:if="${data.role != 'ADMIN'}">
 					<a th:if="${data.userStatus == 'ACTIVE'}"
-						th:onclick="generateBanForm([[${data.userId}]],[[${data.userName}]],'ACTIVE');">
+						th:onclick="generateBanForm([[${keyword}]],[[${data.userId}]],[[${data.userName}]],'ACTIVE');">
 						<span>Ban</span>
 					</a>
 					<a th:if="${data.userStatus == 'INACTIVE'}"
-						th:onclick="generateBanForm([[${data.userId}]],[[${data.userName}]],'INACTIVE');">
+						th:onclick="generateBanForm([[${keyword}]],[[${data.userId}]],[[${data.userName}]],'INACTIVE');">
 						<span>Active</span>
 					</a>
 					<button
-						th:onclick="generateUpdateRoleForm([[${data.userCode}]],[[${data.userId}]],[[${data.role}]]);">Change
+						th:onclick="generateUpdateRoleForm([[${keyword}]],[[${data.userCode}]],[[${data.userId}]],[[${data.role}]]);">Change
 						Role</button>
 				</div>
 			</div>

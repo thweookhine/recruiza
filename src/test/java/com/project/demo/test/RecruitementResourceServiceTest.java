@@ -1,4 +1,4 @@
-package com.project.demo.service;
+package com.project.demo.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
@@ -24,6 +24,8 @@ import com.project.demo.entity.RecruitementResource;
 import com.project.demo.entity.Team;
 import com.project.demo.entity.User;
 import com.project.demo.repository.RecruitmentResourceRepository;
+import com.project.demo.service.RecruitementResourceService;
+import com.project.demo.service.RecruitementResourceServiceImpl;
 
 @SpringBootTest
 class RecruitementResourceServiceTest {

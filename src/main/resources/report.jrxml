@@ -26,7 +26,15 @@
 		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="40" splitType="Stretch">
+			<textField pattern=" yyyy,MM,dd (E)">
+				<reportElement x="380" y="0" width="180" height="30" uuid="b7187568-89bd-4cce-b19a-c54de7a1937f"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="31" splitType="Stretch">

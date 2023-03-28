@@ -1,4 +1,4 @@
-package com.project.demo.service;
+package com.project.demo.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.project.demo.entity.Department;
 import com.project.demo.entity.Team;
 import com.project.demo.repository.TeamRepository;
+import com.project.demo.service.TeamServiceImpl;
 
 @SpringBootTest
 class TeamServiceTest {

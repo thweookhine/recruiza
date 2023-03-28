@@ -56,14 +56,14 @@ function closeLogoutForm() {
 }
 
 // generate ban confirmation
-function generateBanForm(id, name, action) {
+function generateBanForm(keyword, id, name, action) {
     let todo = "", toaction = ""
     if (action == "ACTIVE") {
         toaction = 'ban'
-        todo = "/admin/deleteUser?id=" + id;
+        todo = "/admin/deleteUser/" + keyword + "?id=" + id;
     } else {
         toaction = 'activate'
-        todo = "/admin/activeUser?id=" + id;
+        todo = "/admin/activeUser/" + keyword + "?id=" + id;
     }
     var element = document.getElementById('confirmationModal');
     if (typeof (element) != 'undefined' && element != null) {
@@ -118,13 +118,13 @@ function showProfileForm() {
     document.querySelector('.user-update-new-data-form').classList.toggle('form-hider')
 }
 
-function generateUpdateRoleForm(code, id, role) {
+function generateUpdateRoleForm(keyword, code, id, role) {
     let parent = document.querySelector('body')
     let modal = document.createElement('div')
     modal.className = 'updateUserform'
     modal.innerHTML = `
     <div class="background" onclick="deleteUpdateform()"></div>
-    <form data-formName="Change ${code}" action="/admin/updateUser?id=${id}" method="post">
+    <form data-formName="Change ${code}" action="/admin/updateUser/${keyword}?id=${id}" method="post">
         <div>
             <label>Roles</label>
             <select class="changerole" name="role" required="required">

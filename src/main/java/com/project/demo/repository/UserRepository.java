@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	public User selectOne(String email);
 	
 	@Query("SELECT u from User u WHERE "
-			+ "CONCAT(u.userId, ' ', u.userCode, ' ', u.userName, ' ', u.userEmail, ' ', u.userMobile, ' ', u.role)"
+			+ "CONCAT(u.userId, ' ', u.userCode, ' ', u.userName, ' ', u.userEmail, ' ', u.userMobile, ' ', u.role, ' ', u.userStatus, ' ')"
 			+ "LIKE %?1%")
 	public Page<User> findAll(String keyword, Pageable pageable);
 	
