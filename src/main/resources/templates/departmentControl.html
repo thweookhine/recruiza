@@ -20,7 +20,7 @@
 		<form data-formName="Add Department" th:action="@{/saveDepartment}" method="post" th:object="${department}">
 			<div>
 				<label for="name">Name</label> <input type="text" th:field="*{departmentName}"
-					placeholder="Enter Department Name" />
+					placeholder="Enter Department Name" required />
 				<label th:if="${#fields.hasErrors('departmentName')}" th:errors="*{departmentName}"
 					style="color: red;">Error</label>
 			</div>

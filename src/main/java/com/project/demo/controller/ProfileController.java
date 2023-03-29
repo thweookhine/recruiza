@@ -77,16 +77,18 @@ public class ProfileController {
     @PostMapping(value = "/updateUserInformation")
     public ModelAndView updateUser(@ModelAttribute("userBean") @Valid UserBean bean,BindingResult bs,ModelMap model,RedirectAttributes ra,HttpSession session) {
     	
+    	System.out.println("user name => "+userService.getById(bean.getUserId()).getUserName());
+    	
     	if(checkSessionUser(session) == null) {
     		ra.addFlashAttribute("error","Please login first !");
         	return new ModelAndView("redirect:/login");
     	}else if (bs.hasErrors()) {
     		model.addAttribute("error", "Field cannot be blank !");
 			return new ModelAndView("editUser");
-		}else if(userService.findUserName(bean.getUserName()) != null) {
+		}else if(userService.findUserName(bean.getUserName()) != null && !userService.getById(bean.getUserId()).getUserName().equals(bean.getUserName()) ) {
 			ra.addFlashAttribute("message", "User name is has been !");
-		}else if(userService.findUserEmail(bean.getUserEmail()) != null) {
-			// ra.addFlashAttribute("message", "User email is has been !");
+		}else if(userService.findUserEmail(bean.getUserEmail()) != null && !userService.getById(bean.getUserId()).getUserEmail().equals(bean.getUserEmail()) ) {
+			ra.addFlashAttribute("message", "User email is has been !");
 		}else {
 			User u = User.builder()
 					.userId(bean.getUserId())
