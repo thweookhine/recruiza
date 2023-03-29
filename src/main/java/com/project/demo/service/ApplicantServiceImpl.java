@@ -108,20 +108,20 @@ public class ApplicantServiceImpl implements ApplicantService{
 			String status=applicant.getApplicantStatus();
 			try {
 				if(status.equalsIgnoreCase("None")) {
-				//emailSenderService.sendEmail(applicant.getApplicantEmail(),"Hello Applicant ","Dear Applicants,You have the opportunity to answer the code test!");
+				emailSenderService.sendEmail(applicant.getApplicantEmail(),"Hello Applicant ","Dear Applicants,You have the opportunity to answer the code test!");
 				applicant.setApplicantStatus(getStatus);
 				}else if(status.equalsIgnoreCase("Code Test")) {
-					//emailSenderService.sendEmail(applicant.getApplicantEmail(),"Hello Applicant ","Dear Applicant,You pass the Code Test.You have the opportunity to do the next state,Intro Interview.");
+					emailSenderService.sendEmail(applicant.getApplicantEmail(),"Hello Applicant ","Dear Applicant,You pass the Code Test.You have the opportunity to do the next state,Intro Interview.");
 					applicant.setApplicantStatus(getStatus);
 				}else if(status.equalsIgnoreCase("Intro Interview")) {
-					//emailSenderService.sendEmail(applicant.getApplicantEmail(),"Hello Applicant ","Dear Applicants,You pass intro interview successfully and we want you to interview for the second time!");
+					emailSenderService.sendEmail(applicant.getApplicantEmail(),"Hello Applicant ","Dear Applicants,You pass intro interview successfully and we want you to interview for the second time!");
 					applicant.setApplicantStatus(getStatus);
 				}else {
-					//emailSenderService.sendEmail(applicant.getApplicantEmail(),"Hello Applicant ","Dear Applicants,You pass the second interview and we want you to hire position you applied!");
+					emailSenderService.sendEmail(applicant.getApplicantEmail(),"Hello Applicant ","Dear Applicants,You pass the second interview and we want you to hire position you applied!");
 					applicant.setApplicantStatus(getStatus);
 				}
 			} catch (Exception e) {
-				// TODO: handle exception
+				
 				System.out.println("Connection Error!");
 			}
 			
@@ -131,10 +131,10 @@ public class ApplicantServiceImpl implements ApplicantService{
 			}
 		}else {
 			try {
-				//emailSenderService.sendEmail(applicant.getApplicantEmail(), "Hello Applicant ","Sorry Applicant,You lost the opportunity to join our Company.Try Next Time!");
+				emailSenderService.sendEmail(applicant.getApplicantEmail(), "Hello Applicant ","Sorry Applicant,You lost the opportunity to join our Company.Try Next Time!");
 				applicant.setCurrentState(checkStatus);
 			} catch (Exception e) {
-				// TODO: handle exception
+				
 				System.out.println("Connection Error!");
 			}
 			
