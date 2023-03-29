@@ -194,9 +194,9 @@ public class UserController {
 		}else if(!bean.getPassword().equals(bean.getConfPassword())) {
 			model.addAttribute("error", "check your confirm password again !");
 		} else if (userService.findUserName(bean.getUserName()) != null) {
-			model.addAttribute("error", "User name is has been !");
+			model.addAttribute("error", "User Already exists!");
 		} else if (userService.findUserEmail(bean.getUserEmail()) != null) {
-			model.addAttribute("error", "User email is has been !");
+			model.addAttribute("error", "User's email already exists!");
 		} else {
 
 			User user = User.builder()

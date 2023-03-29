@@ -60,7 +60,9 @@ public class RecruitementResourceController {
 				.link(resource.getLink()).address(resource.getAddress()).resourceMobile(resource.getResourceMobile())
 				.contactPerson(resource.getContactPerson()).resourceCreatedTime(Timestamp.valueOf(LocalDateTime.now()))
 				.recruitementType(resource.getRecruitementType()).build();
-
+		
+		if(resource.getResourceMobile().length()>8) {
+		
 		RecruitementResource result=service.createRecruitementResource(resource1);
 		if(result != null) {
 			
@@ -71,7 +73,9 @@ public class RecruitementResourceController {
 			generateHistoryforResource(result,session,"fail to added");
 			ra.addFlashAttribute("message","Insert Fail");
 		}
-		
+	}else 
+		ra.addFlashAttribute("message","Fail to Create Recruitement Resource.Invalid Mobile Number!");
+	
 		return new ModelAndView("redirect:/recruitementresource");
 
 	}
