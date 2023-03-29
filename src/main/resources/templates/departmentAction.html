@@ -21,12 +21,12 @@
 		<a th:href="@{/department}"><ion-icon name="arrow-back-outline"></ion-icon></a>
 	</button>
 
-	<div th:if="${!#lists.isEmpty(teams)}">
+	<!-- <div th:if="${!#lists.isEmpty(teams)}">
 		<div>This department has </div>
 		<div th:each="team : ${teams}">
 			<a th:href="@{/updateTeam(id=${team.teamId})}" th:text="${team.teamName}"></a>
 		</div>
-	</div>
+	</div> -->
 
 	<div class="updateform">
 		<form data-formName="Edit Department" th:action="@{/updateDepartment}" method="post" th:object="${department}">
