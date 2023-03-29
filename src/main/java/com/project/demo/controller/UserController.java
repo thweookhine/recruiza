@@ -56,7 +56,13 @@ public class UserController {
 	public ModelAndView login(ModelMap model,HttpSession session) {
 		
 		if(session != null) {
-			model.addAttribute("error",session.getAttribute("error"));
+			User user = userService.findUserEmail((String) session.getAttribute("email"));
+			if (user != null && user.getUserStatus().equals("INACTIVE")) {
+				model.addAttribute("error", "You have been banned.");
+			}else {
+				model.addAttribute("error",session.getAttribute("error"));
+			}
+			
 			model.addAttribute("email",session.getAttribute("email"));
 			model.addAttribute("password",session.getAttribute("password"));
 			session.invalidate();
@@ -107,7 +113,7 @@ public class UserController {
 	}
 	
     @GetMapping(value = "/logout") 
-    public ModelAndView logout(ModelMap model,HttpSession session){
+    public ModelAndView logout(ModelMap model, HttpSession session){
     	if(session != null) {
     		session.invalidate();
     	}
@@ -193,8 +199,8 @@ public class UserController {
     		model.addAttribute("error", "Field cannot be blank !");
 		}else if(!bean.getPassword().equals(bean.getConfPassword())) {
 			model.addAttribute("error", "check your confirm password again !");
-		} else if (userService.findUserName(bean.getUserName()) != null) {
-			model.addAttribute("error", "User Already exists!");
+		} else if (userService.findUserName(NameCapital.capitalizeFirstLetter(bean.getUserName())) != null) {
+			model.addAttribute("error", "User's name already exists!");
 		} else if (userService.findUserEmail(bean.getUserEmail()) != null) {
 			model.addAttribute("error", "User's email already exists!");
 		} else {
