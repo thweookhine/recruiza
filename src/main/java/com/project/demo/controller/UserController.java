@@ -127,9 +127,8 @@ public class UserController {
     	return "Hello,Welcome Maketer";
     }
     
-    @GetMapping(value = "/admin/addUser")
-    public ModelAndView addUser(UserBean bean,ModelMap model,RedirectAttributes ra, HttpSession session) {
-    	String keyword = null;
+    @GetMapping(value = "/admin/addUser/{keyword}")
+    public ModelAndView addUser(@PathVariable("keyword") String keyword, UserBean bean,ModelMap model,RedirectAttributes ra, HttpSession session) {
     	return searchUser(model, ra, session, bean, 1, "userId", "asc", keyword);
     }
     
@@ -184,8 +183,8 @@ public class UserController {
         
     }
     
-    @PostMapping(value = "/admin/addUserServlet")
-    public ModelAndView addUserServlet(@ModelAttribute("bean") @Valid UserBean bean,BindingResult bs,ModelMap model,RedirectAttributes ra,HttpSession session) {
+    @PostMapping(value = "/admin/addUserServlet/{keyword}")
+    public ModelAndView addUserServlet(@PathVariable("keyword") String keyword, @ModelAttribute("bean") @Valid UserBean bean,BindingResult bs,ModelMap model,RedirectAttributes ra,HttpSession session) {
     	
     	if(checkSessionUser(session) == null) {
     		ra.addFlashAttribute("error","Please login first !");
@@ -219,11 +218,11 @@ public class UserController {
 				model.addAttribute("msg", "Created User Successful !");
 			}
 		}
-    	return addUser(bean, model, ra, session);
+    	return addUser(keyword, bean, model, ra, session);
     }
     
-    @PostMapping(value = "/admin/updateUser")
-    public ModelAndView updateUser(@RequestParam("id") Long userId, HttpSession session, RedirectAttributes ra, HttpServletRequest request, ModelMap model,UserBean bean) {
+    @PostMapping(value = "/admin/updateUser/{keyword}")
+    public ModelAndView updateUser(@PathVariable("keyword") String keyword, @RequestParam("id") Long userId, HttpSession session, RedirectAttributes ra, HttpServletRequest request, ModelMap model,UserBean bean) {
     	
     	if(checkSessionUser(session) == null) {
     		ra.addFlashAttribute("error","Please login first !");

@@ -29,7 +29,7 @@
 			</div>
 
 			<div class="profileBox movetop">
-				<form th:action="@{/admin/updateUserInformation}" th:object="${userBean}" method="post">
+				<form th:action="@{/updateUserInformation}" th:object="${userBean}" method="post">
 					<input data-name="UserId" type="hidden" th:field="*{userId}" placeholder="Enter user ID" />
 					<input data-name="Username" type="text" th:field="*{userCode}" readonly="true" />
 					<input data-name="Email" type="text" th:field="*{userName}" placeholder="Enter user name" />
@@ -47,7 +47,7 @@
 			</div>
 
 			<div class="profileBox moveright">
-				<form th:action="@{/admin/changePassword}" method="post">
+				<form th:action="@{/changePassword}" method="post">
 					<input type="hidden" name="userId" th:value="${userBean.userId}" placeholder="Enter user ID" />
 					<input type="password" name="oldPassword" value="" placeholder="Enter Old Password" required />
 					<input type="password" name="newPassword" value="" placeholder="Enter New Password" required />
