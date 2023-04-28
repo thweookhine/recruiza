@@ -34,6 +34,9 @@
 
 		<div class="pendingPostSection">
 			<div class="jobPostsCantainer">
+				<p class="no-data" th:if="${jobPosts.size() == 0}">
+					no jobposts found
+				</p>
 				<div class="jobPostCard" th:each="jp : ${jobPosts}">
 					<input type="hidden" th:class="J+${jp.postId}" th:value="${jp.postName}">
 					<img th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jp.postCode}+''">

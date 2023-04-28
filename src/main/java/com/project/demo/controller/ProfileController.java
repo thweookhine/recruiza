@@ -87,7 +87,7 @@ public class ProfileController {
 		}else if(userService.findUserName(bean.getUserName()) != null) {
 			ra.addFlashAttribute("message", "User name is has been !");
 		}else if(userService.findUserEmail(bean.getUserEmail()) != null) {
-			ra.addFlashAttribute("message", "User email is has been !");
+			// ra.addFlashAttribute("message", "User email is has been !");
 		}else {
 			User u = User.builder()
 					.userId(bean.getUserId())
@@ -123,14 +123,14 @@ public class ProfileController {
     	boolean isPasswordMatches = bcrypt.matches(oldPw, user.getPassword());
     	
     	if(!isPasswordMatches) {
-    		ra.addAttribute("message","Wrong Old Password!");
+    		ra.addFlashAttribute("message","Wrong Old Password!");
     	}else if(!newPw.equals(conPw)) {
-    		ra.addAttribute("message","New Password and confirm pw are not same.");
+    		ra.addFlashAttribute("message","New Password and confirm pw are not same.");
     	}else {
     		user.setPassword(PasswordGenerator.generatePassword(newPw));
     		User result = userService.changePassword(user);
     		if(result != null) {
-    			ra.addAttribute("message","Successfully Changed Password");
+    			ra.addFlashAttribute("message","Successfully Changed Password");
     		}
     	}
     	

@@ -80,6 +80,9 @@
 					</a>
 				</div>
 			</div>
+			<p class="no-data" th:if="${teams.size() == 0}">
+				no teams found
+			</p>
 			<div class="data-card" th:each="team : ${teams}">
 				<!-- <div>
 					<span>index</span>
