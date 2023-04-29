@@ -124,33 +124,6 @@
 			</button>
 		</form>
 
-		<div class="chartContainer">
-
-			<div class="chartData">
-				<span class="chart-name1">Pending</span>
-				<span class="agencyCount" th:text="${totalPending}"></span>
-			</div>
-			<div class="chartData">
-				<span class="chart-name2">Posted</span>
-				<span class="universityCount" th:text="${totalPosted}"></span>
-			</div>
-			<div class="chartData">
-				<span class="chart-name3">Dued</span>
-				<span class="directRecruitCount" th:text="${totalDued}"></span>
-			</div>
-			<div class="chartData">
-				<span class="chart-name4">Closed</span>
-				<span class="trainingCenterCount" th:text="${totalClosed}"></span>
-			</div>
-			<div class="chartData">
-				<span class="chart-name5">Others</span>
-				<span class="othersCount" th:text="${totalResourcesByOthers}"></span>
-			</div>
-			<div>
-				<canvas id="myChart"></canvas>
-			</div>
-		</div>
-
 		<div class="resourceContainer">
 			<div class="sort-box" th:if="${totalJobPosts > 0}">
 				<div class="sort-links">
@@ -167,7 +140,34 @@
 					<a th:href="@{/recruizareport}">Get Report</a>
 				</div>
 			</div>
-
+			<div class="chartContainer">
+				<div class="chartData">
+					<span class="chart-name1">Pending</span>
+					<span class="agencyCount" th:text="${totalPending}"></span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name2">Posted</span>
+					<span class="universityCount" th:text="${totalPosted}"></span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name4">Dued</span>
+					<span class="trainingCenterCount" th:text="${totalDued}"></span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name3">Closed</span>
+					<span class="directRecruitCount" th:text="${totalClosed}"></span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name5">Others</span>
+					<span class="othersCount" th:text="${totalResourcesByOthers}"></span>
+				</div>
+				<div>
+					<canvas id="myChart"></canvas>
+				</div>
+			</div>
+			<p class="no-data" th:if="${jobPosts.size() == 0}">
+				no posts found
+			</p>
 			<div class="data-card jobPostCardo" th:each="jp : ${jobPosts}">
 
 				<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jp.postCode}+''"
@@ -181,8 +181,8 @@
 							<p th:case="'POSTED'" class="posted">OPEN</p>
 							<p th:case="*" class="none">NONE</p>
 						</div>
-						<div class="focyes" th:if="${jp.foc == true}"></div>
-						<div class="focno" th:if="${jp.foc == false}"></div>
+						<div title="Free of charge" class="focyes" th:if="${jp.foc == true}"></div>
+						<div title="Not free of charge" class="focno" th:if="${jp.foc == false}"></div>
 					</div>
 
 					<p class="data-code" th:text="${jp.postCode}"></p>
@@ -199,67 +199,67 @@
 					</p>
 					<div>
 						<p>
-							<ion-icon name="people-outline"></ion-icon>
+							<span>Team</span>
 							<span th:text="${jp.team.teamName}"></span>
 						</p>
 						<p>
-							<ion-icon name="business-outline"></ion-icon>
+							<span>Department</span>
 							<span th:text="${jp.team.department.departmentName}"></span>
 						</p>
 					</div>
 					<div>
 						<p>
-							<ion-icon name="time-outline"></ion-icon>
+							<span>Start Date</span>
 							<span th:text="${jp.postDate}"></span>
 						</p>
 						<p>
-							<ion-icon name="timer-outline"></ion-icon>
+							<span>Due Date</span>
 							<span th:text="${jp.dueDate}"></span>
 						</p>
 					</div>
 				</div>
 				<div class="data-card-footer">
 					<div>
-						<a th:href="'https://docs.google.com/spreadsheets/d/'+${jp.sheetId}+''" target="_blank">
+						<!-- <a th:href="'https://docs.google.com/spreadsheets/d/'+${jp.sheetId}+''" target="_blank">
 							<ion-icon name="cloudy-outline"></ion-icon>
-						</a>
-						<div>
-							<img th:src="'https://api.dicebear.com/5.x/micah/svg?seed='+${jp.user.userName}+''" alt="">
+						</a> -->
+						<!-- <div>
+							<img th:src="'https://api.dicebear.com/5.x/initials/svg?seed='+${jp.user.userName}+''" alt="">
 							<p th:text="${jp.user.userName}"></p>
+						</div> -->
+						<div>
+							<span>Need - </span>
+							<p class="jobPostCount" th:text="${jp.count}"></p>
 						</div>
 						<div>
-							<ion-icon name="person-outline"></ion-icon>
-							<p th:text="${jp.count}"></p>
-						</div>
-						<div>
-							<ion-icon name="mail-unread-outline"></ion-icon>
-							<p th:text="${countMap.get(jp.postId)}"></p>
+							<span>Applicants - </span>
+							<p class="jobPostCount" th:text="${countMap.get(jp.postId)}"></p>
 						</div>
 					</div>
 					<div class="data-buttons">
 						<div th:if="${jp.postStatus == 'PENDING'}">
-							<a th:href="@{/updateJobPost(jobPostId=${jp.postId})}">
+							<a title="Update Data" th:href="@{/updateJobPost(jobPostId=${jp.postId})}">
 								<ion-icon name="create-outline"></ion-icon>
 							</a>
 						</div>
 						<div th:if="${jp.postStatus == 'POSTED'}">
 							<!-- <a th:href="@{/applicant(jobPostId=${jp.postId})}"> -->
-							<a th:onclick="generateAddNewApplicantForm([[${jp.postId}]],[[${jp.postCode}]]);">
+							<a title="Add Direct Recruitments" th:onclick="generateAddNewApplicantForm([[${jp.postId}]],[[${jp.postCode}]]);">
 								<ion-icon name="person-add-outline"></ion-icon>
 							</a>
 						</div>
 						<div th:if="${jp.postStatus == 'POSTED'}">
-							<a th:href="@{/closeJobPost(jobPostId=${jp.postId})}">
+							<a title="Close this Post" th:href="@{/closeJobPost(jobPostId=${jp.postId})}">
 								<ion-icon name="lock-closed-outline"></ion-icon>
 							</a>
 						</div>
 						<div th:if="${jp.postStatus == 'CLOSED'}">
-							<a th:href="@{/openJobPost(jobPostId=${jp.postId})}">
+							<a title="Open this Post" th:href="@{/openJobPost(jobPostId=${jp.postId})}">
 								<ion-icon name="lock-open-outline"></ion-icon>
 							</a>
 						</div>
 						<div>
-							<a th:href="@{'/jobPostReport/' + ${jp.postId}}">
+							<a title="Get Report" th:href="@{'/jobPostReport/' + ${jp.postId}}">
 								<ion-icon name="document-text-outline"></ion-icon>
 							</a>
 						</div>

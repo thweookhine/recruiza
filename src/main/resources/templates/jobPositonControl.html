@@ -72,7 +72,9 @@
 					</a>
 				</div>
 			</div>
-
+			<p class="no-data" th:if="${list.size() == 0}">
+				no positions found
+			</p>
 			<div class="data-card" th:each="position: ${list}">
 
 				<img class="backImage"

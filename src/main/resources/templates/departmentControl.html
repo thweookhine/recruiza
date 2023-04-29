@@ -73,7 +73,9 @@
 					</a>
 				</div>
 			</div>
-
+			<p class="no-data" th:if="${depts.size() == 0}">
+				no departments found
+			</p>
 			<div class="data-card" th:each="dept : ${depts}">
 
 				<img class="backImage"

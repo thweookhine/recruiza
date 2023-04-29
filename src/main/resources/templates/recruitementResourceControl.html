@@ -74,34 +74,8 @@
 			</button>
 		</form>
 
-		<div class="chartContainer">
-
-			<div class="chartData">
-				<span class="chart-name1">Agency</span>
-				<span class="agencyCount" th:text="${totalResourcesByAgency}"></span>
-			</div>
-			<div class="chartData">
-				<span class="chart-name2">University</span>
-				<span class="universityCount" th:text="${totalResourcesByUni}"></span>
-			</div>
-			<div class="chartData">
-				<span class="chart-name3">Direct Recruit</span>
-				<span class="directRecruitCount" th:text="${totalResourcesByDirect}"></span>
-			</div>
-			<div class="chartData">
-				<span class="chart-name4">Training Center</span>
-				<span class="trainingCenterCount" th:text="${totalResourcesByTrainingCenter}"></span>
-			</div>
-			<div class="chartData">
-				<span class="chart-name5">Others</span>
-				<span class="othersCount" th:text="${totalResourcesByOthers}"></span>
-			</div>
-			<div>
-				<canvas id="myChart"></canvas>
-			</div>
-		</div>
-		<div class="resourceContainer" th:if="${totalResources > 0}">
-			<div class="sort-box">
+		<div class="resourceContainer">
+			<div class="sort-box" th:if="${totalResources > 0}">
 				<div class="sort-links">
 					<a class="sort-button"
 						th:href="@{'/searchResource/' + ${currentPage} + '?sortField=resourceCode&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
@@ -113,7 +87,35 @@
 					</a>
 				</div>
 			</div>
+			<div class="chartContainer">
 
+				<div class="chartData">
+					<span class="chart-name1">Agency</span>
+					<span class="agencyCount" th:text="${totalResourcesByAgency}"></span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name2">University</span>
+					<span class="universityCount" th:text="${totalResourcesByUni}"></span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name3">Direct Recruit</span>
+					<span class="directRecruitCount" th:text="${totalResourcesByDirect}"></span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name4">Training Center</span>
+					<span class="trainingCenterCount" th:text="${totalResourcesByTrainingCenter}"></span>
+				</div>
+				<div class="chartData">
+					<span class="chart-name5">Others</span>
+					<span class="othersCount" th:text="${totalResourcesByOthers}"></span>
+				</div>
+				<!-- <div>
+					<canvas id="myChart"></canvas>
+				</div> -->
+			</div>
+			<p class="no-data" th:if="${list.size() == 0}">
+				no resources found
+			</p>
 			<div class="data-card" th:each="resource : ${list}">
 
 				<img class="backImage"
@@ -210,101 +212,6 @@
 		</div>
 	</div>
 
-	<!-- <div class="tableBox teamTableBox">
-		<div class="searchBox">
-			<h2>Recruitement Resource</h2>
-			<form th:action="@{/searchResource/1}" th:object="${resource}" method="get">
-				<input type="hidden" name="sortField" th:value="${sortField}" />
-				<input type="hidden" name="sortDir" th:value="${sortDir}" />
-				<input type="text" name="keyword" th:value="${keyword}" placeholder="Enter Keyword" required />
-				<button type="submit"><ion-icon name="search-outline"></ion-icon></button>
-				<a th:href="@{/recruitementresource}"><ion-icon name="refresh-outline"></ion-icon></a>
-				<div onclick="generateTeamBox()"><ion-icon name="add-outline"></ion-icon></div>
-			</form>
-		</div>
-
-		<div class="data-table-box">
-			<div class="data-table">
-				<div class="data-table-row">
-					<div class="data-table-col">No</div>
-					<div class="data-table-col"><a class="sort-button"
-							th:href="@{'/searchResource/' + ${currentPage} + '?sortField=resourceCode&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-							Code<ion-icon name="funnel-outline"></ion-icon>
-						</a></div>
-					<div class="data-table-col"><a class="sort-button"
-							th:href="@{'/searchResource/' + ${currentPage} + '?sortField=resourceName&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-							Resource Name<ion-icon name="funnel-outline"></ion-icon>
-						</a></div>
-					<div class="data-table-col">Link</div>
-					<div class="data-table-col">Address</div>
-					<div class="data-table-col">Mobile</div>
-					<div class="data-table-col">Contact Person</div>
-					<div class="data-table-col"><a class="sort-button"
-							th:href="@{'/searchResource/' + ${currentPage} + '?sortField=recruitementType&sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-							Recruitement Type<ion-icon name="funnel-outline"></ion-icon>
-						</a></div>
-					<div class="data-table-col">Option</div>
-				</div>
-
-				<div class="data-table-row" th:each="resource : ${list}">
-					<div class="data-table-col" th:text="${index+ resourceStat.index}"></div>
-					<div class="data-table-col" th:text="${resource.resourceCode}"></div>
-					<div class="data-table-col" th:text="${resource.resourceName}"></div>
-					<div class="data-table-col" th:text="${resource.link}"></div>
-					<div class="data-table-col" th:text="${resource.address}"></div>
-					<div class="data-table-col" th:text="${resource.resourceMobile}"></div>
-					<div class="data-table-col" th:text="${resource.contactPerson}"></div>
-					<div class="data-table-col" th:text="${resource.recruitementType}"></div>
-					<div class="data-table-col"><a class="action-button"
-							th:href="@{/editresource(id=${resource.resourceId})}">Action</a></div>
-				</div>
-			</div>
-		</div>
-
-		<div>
-			<p>Total Count By Agency <span th:text="${totalResourcesByAgency}"></span></p>
-			<p>Total Count By University <span th:text="${totalResourcesByUni}"></span></p>
-			<p>Total Count By Direct Recruit <span th:text="${totalResourcesByDirect}"></span></p>
-			<p>Total Count By Training Center <span th:text="${totalResourcesByTrainingCenter}"></span></p>
-			<p>Total Count By Others <span th:text="${totalResourcesByOthers}"></span></p>
-		</div>
-
-		<div class="pagination">
-			<div>Total Resources: <span class="pagenum">[[${totalResources}]]</span> - Page <span
-					class="pagenum">[[${currentPage}]] </span>of <span class="pagenum">[[${totalPages}]]</span></div>
-
-			<div class="page-reference">
-
-				<a th:if="${currentPage > 1}"
-					th:href="@{'/searchResource/1?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
-				<span th:unless="${currentPage > 1}">First</span>
-
-				<a th:if="${currentPage > 1}"
-					th:href="@{'/searchResource/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon
-						name="chevron-back-circle-outline"></ion-icon></a>
-				<span th:unless="${currentPage > 1}"><ion-icon name="chevron-back-circle-outline"></ion-icon></span>
-
-				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-					<a th:if="${i != currentPage}"
-						th:href="@{'/searchResource/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}">[[${i}]]</a>
-					<span th:unless="${i != currentPage}">[[${i}]]</span>
-					&nbsp;&nbsp;
-				</span>
-
-				<a th:if="${currentPage < totalPages}"
-					th:href="@{'/searchResource/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"><ion-icon
-						name="chevron-forward-circle-outline"></ion-icon></a>
-				<span th:unless="${currentPage < totalPages}"><ion-icon
-						name="chevron-forward-circle-outline"></ion-icon></span>
-
-				<a th:if="${currentPage < totalPages}"
-					th:href="@{'/searchResource/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
-				<span th:unless="${currentPage < totalPages}">Last</span>
-			</div>
-		</div>
-
-
-	</div> -->
-</body>
+	</body>
 
 </html>

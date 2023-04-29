@@ -80,19 +80,31 @@
 					<p class="applicantCode" th:text="${data.applicantCode}"></p>
 					<div class="applicantInformation">
 						<p>
-							<ion-icon name="person-outline"></ion-icon>
+							<span>
+								<ion-icon name="person-outline"></ion-icon>
+								Name
+							</span>
 							<span th:text="${data.applicantName}"></span>
 						</p>
 						<p>
-							<ion-icon name="mail-outline"></ion-icon>
+							<span>
+								<ion-icon name="mail-outline"></ion-icon>
+								Email
+							</span>
 							<span th:text="${data.applicantEmail}"></span>
 						</p>
 						<p>
-							<ion-icon name="phone-portrait-outline"></ion-icon>
+							<span>
+								<ion-icon name="phone-portrait-outline"></ion-icon>
+								Mobile
+							</span>
 							<span th:text="${data.applicantMobile}"></span>
 						</p>
 						<p>
-							<ion-icon name="storefront-outline"></ion-icon>
+							<span>
+								<ion-icon name="storefront-outline"></ion-icon>
+								Address
+							</span>
 							<span th:text="${data.address}"></span>
 						</p>
 						<p>

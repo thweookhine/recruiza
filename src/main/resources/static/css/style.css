@@ -2329,7 +2329,7 @@ nav ul li.active a .icon ion-icon {
 
 .userContainer {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     flex-wrap: wrap;
     padding: 20px;
     min-height: 81.5vh;
@@ -2345,7 +2345,7 @@ nav ul li.active a .icon ion-icon {
 
 
 .userCard {
-    width: 225px;
+    width: 300px;
     height: 225px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     position: relative;
@@ -2357,11 +2357,7 @@ nav ul li.active a .icon ion-icon {
     background: var(--background);
 }
 
-.userCard:hover .userImage {
-    width: 15%;
-    top: 5px;
-    right: 5px;
-}
+
 
 .userProfile {
     position: absolute;
@@ -2413,9 +2409,6 @@ nav ul li.active a .icon ion-icon {
     background: rgb(255, 95, 67);
 }
 
-.userCard:hover .userInfoFooter {
-    transform: scale(1);
-}
 
 .userInfoFooter {
     position: absolute;
@@ -2433,6 +2426,7 @@ nav ul li.active a .icon ion-icon {
 
 .userInfoFooter>* {
     width: 50%;
+    height: 30px;
     border-radius: 10px;
     border: 1px solid var(--shadowColor);
     padding: 5px 10px;
@@ -2443,7 +2437,7 @@ nav ul li.active a .icon ion-icon {
     background: var(--background);
 }
 
-.userInfoFooter>*:hover {
+.userInfoFooter>*:hover{ 
     background: var(--secondaryColor);
     color: var(--background);
 }
@@ -2459,8 +2453,18 @@ nav ul li.active a .icon ion-icon {
     transform: translateY(144px);
 }
 
-.userCard:hover .userInfoText {
+.userCard:hover .userInfoText,.userInfoText {
     transform: translateY(0);
+}
+
+.userCard:hover .userInfoFooter, .userInfoFooter {
+    transform: scale(1);
+}
+
+.userCard:hover .userImage, .userImage{
+    width: 11%;
+    top: 5px;
+    right: 10px;
 }
 
 .userInfoText>div {
@@ -2493,7 +2497,7 @@ nav ul li.active a .icon ion-icon {
     background: var(--background);
 }
 
-.userCard:hover .role {
+.userCard:hover .role,.role{
     bottom: 198px;
     left: 25px;
 }
@@ -2689,7 +2693,7 @@ nav ul li.active a .icon ion-icon {
     height: 80px;
 }
 
-.jobPostInfo>p>span:nth-child(1) {
+.jobPostInfo>p>span:nth-child(1),.jobPostInfo>div>p>span:nth-child(1) {
     color: var(--secondaryColor);
     margin-right: 5px;
     font-weight: 200;
@@ -2706,6 +2710,12 @@ nav ul li.active a .icon ion-icon {
     justify-content: space-between;
     align-items: center;
     gap: 5px;
+}
+.jobPostCount{
+    background: var(--shadowColor);
+    padding: 0 5px;
+    border-radius: 10px;
+    font-weight: 300;
 }
 
 .pendingPostSection {
@@ -3028,6 +3038,10 @@ nav ul li.active a .icon ion-icon {
     animation: loadIn var(--i) linear;
     overflow: hidden;
 }
+.applicard:hover{
+    box-shadow: 3px 3px var(--secondaryColor),-3px -3px var(--secondaryColor),
+    3px -3px var(--secondaryColor),-3px 3px var(--secondaryColor);
+}
 .applicantImage{
     position: absolute;
     bottom: 0px;
@@ -3080,6 +3094,19 @@ nav ul li.active a .icon ion-icon {
     display: flex;
     gap: 5px;
     flex-direction: column;
+}
+.applicantInformation>p:nth-child(1),.applicantInformation>p:nth-child(2),.applicantInformation>p:nth-child(3),.applicantInformation>p:nth-child(4){
+    display: flex;
+    justify-content: space-between;
+}
+.applicantInformation>p>span{
+    /* border: 1px solid var(--shadowColor); */
+}
+.applicantInformation>p:nth-child(1)>span:nth-child(1),.applicantInformation>p:nth-child(2)>span:nth-child(1),.applicantInformation>p:nth-child(3)>span:nth-child(1),.applicantInformation>p:nth-child(4)>span:nth-child(1){
+    width: 25%;
+}
+.applicantInformation>p:nth-child(1)>span:nth-child(2),.applicantInformation>p:nth-child(2)>span:nth-child(2),.applicantInformation>p:nth-child(3)>span:nth-child(2),.applicantInformation>p:nth-child(4)>span:nth-child(2){
+    width: 70%;
 }
 .applicantInformation>div>p{
     border: 1px solid var(--shadowColor);
@@ -3375,6 +3402,9 @@ nav ul li.active a .icon ion-icon {
     text-align: center;
     color: var(--background);
 }
+.data-button>div>a{
+    cursor: pointer;
+}
 .data-edit-button{
     position: absolute;
     top: 0px;
@@ -3444,7 +3474,7 @@ nav ul li.active a .icon ion-icon {
     background: lightgray;
 }
 .data-card.jobPostCardo{
-    width: 400px;
+    width: 500px;
 }
 .data-card-body{
     border: 1px solid var(--shadowColor);
@@ -3552,9 +3582,9 @@ nav ul li.active a .icon ion-icon {
 }
 .chartContainer{
     width: 100%;
-    padding: 5px 10px;
+    padding: 10px;
     border: 1px solid var(--shadowColor);
-    border-bottom: 0;
+    border-bottom: 1px solid var(--shadowColor);
     display: flex;
     /* flex-direction: column; */
     justify-content: space-evenly;

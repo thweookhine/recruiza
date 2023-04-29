@@ -31,7 +31,7 @@
 			</div>
 			<div>
 				<input type="text" th:field="*{userMobile}" placeholder="Enter user phone" />
-				<label for="mobile">mobile</label>
+				<label for="mobile">Mobile</label>
 				<p th:if="${#fields.hasErrors('userMobile')}" th:errors="*{userMobile}"></p>
 			</div>
 			<div>
@@ -43,7 +43,7 @@
 					<option th:value="'TM_Role'">Team Manager (TM)</option>
 					<option th:value="'MARKETER'">Marketing Team (MT)</option>
 				</select>
-				<label for="role">Role</label>
+				<label for="role">Position</label>
 				<p th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></p>
 			</div>
 			<div>
@@ -166,11 +166,12 @@
 					</a>
 					<a th:if="${data.userStatus == 'INACTIVE'}"
 						th:onclick="generateBanForm([[${keyword}]],[[${data.userId}]],[[${data.userName}]],'INACTIVE');">
-						<span>Active</span>
+						<span>Activate</span>
 					</a>
 					<button
 						th:onclick="generateUpdateRoleForm([[${keyword}]],[[${data.userCode}]],[[${data.userId}]],[[${data.role}]]);">Change
-						Role</button>
+						Position
+					</button>
 				</div>
 			</div>
 		</div>
