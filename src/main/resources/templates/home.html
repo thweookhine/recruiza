@@ -37,15 +37,26 @@
 				<p class="no-data" th:if="${jobPosts.size() == 0}">
 					no jobposts found
 				</p>
-				<div class="jobPostCard" th:each="jp : ${jobPosts}">
+				<div class="data-card jobPostCardo" th:each="jp : ${jobPosts}">
+
+					<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jp.postCode}+''"
+						alt="">
+	
 					<input type="hidden" th:class="J+${jp.postId}" th:value="${jp.postName}">
-					<img th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jp.postCode}+''">
-					<div class="jobPostStatus">
-						<p th:text="${jp.postStatus}"></p>
-						<span class="focyes" th:if="${jp.foc == true}"></span>
-						<span class="focno" th:if="${jp.foc == false}"></span>
+					<div class="data-card-head">
+						<div>
+							<div class="data-status" th:switch="${jp.postStatus}">
+								<p th:case="'CLOSED'" class="closed">CLOSED</p>
+								<p th:case="'DUED'" class="dued">DUED</p>
+								<p th:case="'POSTED'" class="posted">OPEN</p>
+								<p th:case="*" class="none">NONE</p>
+							</div>
+							<div title="Free of charge" class="focyes" th:if="${jp.foc == true}"></div>
+							<div title="Not free of charge" class="focno" th:if="${jp.foc == false}"></div>
+						</div>
+	
+						<p class="data-code" th:text="${jp.postCode}"></p>
 					</div>
-					<p class="jobPostCode" th:text="${jp.postCode}"></p>
 					<div class="jobPostInfo">
 						<p>
 							<span>Name</span> <span th:text="${jp.postName}"></span>
@@ -58,36 +69,43 @@
 						</p>
 						<div>
 							<p>
-								<ion-icon name="people-outline"></ion-icon>
+								<span>Team</span>
 								<span th:text="${jp.team.teamName}"></span>
 							</p>
 							<p>
-								<ion-icon name="business-outline"></ion-icon>
+								<span>Department</span>
 								<span th:text="${jp.team.department.departmentName}"></span>
 							</p>
 						</div>
-
 						<div>
 							<p>
-								<ion-icon name="time-outline"></ion-icon>
+								<span>Start Date</span>
 								<span th:text="${jp.postDate}"></span>
 							</p>
 							<p>
-								<ion-icon name="timer-outline"></ion-icon>
+								<span>Due Date</span>
 								<span th:text="${jp.dueDate}"></span>
 							</p>
 						</div>
 					</div>
-
-					<div class="jobPostFooterM">
-						<p>Need
-							<span th:text="${jp.count}"></span>
-						</p>
-						<a th:onclick="retrieveSheetData([[${jp.sheetId}]],[[${jp.postId}]]);">
-							<ion-icon name="checkmark-done-outline"></ion-icon>Get Data
-						</a>
+					<div class="data-card-footer">
+						<div>
+							<div>
+								<span>Need - </span>
+								<p class="jobPostCount" th:text="${jp.count}"></p>
+							</div>
+						</div>
+						<div class="data-buttons">
+							<div>
+								<a th:onclick="retrieveSheetData([[${jp.sheetId}]],[[${jp.postId}]]);">
+									<ion-icon name="checkmark-done-outline"></ion-icon>Get Data
+								</a>
+							</div>
+						</div>
 					</div>
+	
 				</div>
+				
 			</div>
 		</div>
 

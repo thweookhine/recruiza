@@ -61,7 +61,11 @@
 					</a>
 				</button>
 			</form>
+			
 			<div class="applicantsContainer">
+				<p class="no-data" th:if="${applicants.size() == 0}">
+					no applicants found
+				</p>
 				<div class="applicard" th:each="data : ${applicants}" th:style="'--i:'+${dataStat.index}+';'">
 					<img class="applicantImage" style="transform: scale(0.7); border-radius: 50%;"
 						th:src="'https://api.dicebear.com/5.x/initials/svg?seed='+${data.applicantName}+''" alt="">

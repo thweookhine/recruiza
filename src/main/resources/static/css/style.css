@@ -1652,6 +1652,17 @@ nav ul li.active a .icon ion-icon {
     border-radius: 10px;
     gap: 7.5px;
 }
+.applicantContainer>.applicard{
+    width: 360px;
+    height: auto;
+    padding-bottom: 60px;
+}
+.applicantContainer>.applicard>img{
+    width: 15%;
+}
+.applicantContainer>.applicard>.applicantInformation{
+    margin: 0;
+}
 
 .applicantCard {
     position: relative;
@@ -2821,11 +2832,14 @@ nav ul li.active a .icon ion-icon {
     color: var(--secondaryColor);
 }
 .searchForm>h2>span{
-    position: absolute;
-    transform: scale(0.8);
+    font-size: 0.7em;
     font-weight: lighter;
-    top: -5px;
-    left: 110%;
+    border: 1px solid var(--shadowColor);
+    padding: 0 5px;
+    border-radius: 10px;
+}
+.searchForm>h2>span>span{
+    color: var(--secondaryColor);
 }
 
 .postedJobPostsContainer,
@@ -3037,6 +3051,7 @@ nav ul li.active a .icon ion-icon {
     border-radius: 10px;
     animation: loadIn var(--i) linear;
     overflow: hidden;
+    background: var(--background);
 }
 .applicard:hover{
     box-shadow: 3px 3px var(--secondaryColor),-3px -3px var(--secondaryColor),
@@ -3601,13 +3616,30 @@ nav ul li.active a .icon ion-icon {
     width: 100%;
 }
 .chartData{
+    position: relative;
     padding: 3px 5px;
     border: 1px solid var(--shadowColor);
     border-radius: 10px;
-    width: 15%;
+    width: 13%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
     flex-wrap: wrap;
+    overflow: hidden;
+}
+.chartData>span:nth-child(2){
+    font-size: 1.5em;
+    padding: 10px;
+    width: 90%;
+    border: 1px solid var(--shadowColor);
+    border-radius: 10px;
+    text-align: center;
+}
+.chartData>img{
+    position: absolute;
+    width: 100%;
+    top: -60%;
 }
 .reportboxContainer{
     display: flex;

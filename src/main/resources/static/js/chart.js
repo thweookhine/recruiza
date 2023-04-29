@@ -4,7 +4,7 @@ document.querySelector('.chart-name2').innerHTML,
 document.querySelector('.chart-name3').innerHTML,
 document.querySelector('.chart-name4').innerHTML,
 document.querySelector('.chart-name5').innerHTML];
-let colorHex = ['#FF7777', '#9CFF2E', '#FFED00','#FC2947','#E3FCBF'];
+let colorHex = ['#FFED00', '#9CFF2E', '#8F43EE','#FC2947','#E3FCBF'];
 ctx.width = 200;
 ctx.height = 200;
 

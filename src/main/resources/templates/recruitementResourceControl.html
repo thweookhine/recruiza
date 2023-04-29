@@ -53,7 +53,7 @@
 				<ion-icon name="people-outline"></ion-icon>
 				<p th:if="${list.size() >= 1}">Recruitment Resources</p>
 				<p th:if="${list.size() == 0}">Recruitment Resource</p>
-				<span>[[${totalResources}]]</span>
+				<span>Total - <span>[[${totalResources}]]</span></span>
 			</h2>
 			<input type="hidden" name="sortField" th:value="${sortField}" />
 			<input type="hidden" name="sortDir" th:value="${sortDir}" />
@@ -92,26 +92,31 @@
 				<div class="chartData">
 					<span class="chart-name1">Agency</span>
 					<span class="agencyCount" th:text="${totalResourcesByAgency}"></span>
+					<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=Agency" alt="">
 				</div>
 				<div class="chartData">
 					<span class="chart-name2">University</span>
 					<span class="universityCount" th:text="${totalResourcesByUni}"></span>
+					<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=University" alt="">
 				</div>
 				<div class="chartData">
 					<span class="chart-name3">Direct Recruit</span>
 					<span class="directRecruitCount" th:text="${totalResourcesByDirect}"></span>
+					<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=DirectRecruit" alt="">
 				</div>
 				<div class="chartData">
 					<span class="chart-name4">Training Center</span>
 					<span class="trainingCenterCount" th:text="${totalResourcesByTrainingCenter}"></span>
+					<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=TrainingCenter" alt="">
 				</div>
 				<div class="chartData">
 					<span class="chart-name5">Others</span>
 					<span class="othersCount" th:text="${totalResourcesByOthers}"></span>
+					<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=Others" alt="">
 				</div>
-				<!-- <div>
+				<div>
 					<canvas id="myChart"></canvas>
-				</div> -->
+				</div>
 			</div>
 			<p class="no-data" th:if="${list.size() == 0}">
 				no resources found

@@ -42,7 +42,7 @@
 				<ion-icon name="people-outline"></ion-icon>
 				<p th:if="${teams.size() >= 1}">Teams</p>
 				<p th:if="${teams.size() == 0}">Team</p>
-				<span>[[${totalTeams}]]</span>
+				<span>Total - <span>[[${totalTeams}]]</span></span>
 			</h2>
 			<input type="hidden" name="sortField" th:value="${sortField}" />
 			<input type="hidden" name="sortDir" th:value="${sortDir}" />

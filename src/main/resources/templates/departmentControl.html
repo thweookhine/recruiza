@@ -38,7 +38,7 @@
 				<ion-icon name="people-outline"></ion-icon>
 				<p th:if="${depts.size() >= 1}">Departments</p>
 				<p th:if="${depts.size() == 0}">Department</p>
-				<span>[[${totalDepts}]]</span>
+				<span>Total - <span>[[${totalDepts}]]</span></span>
 			</h2>
 			<input type="hidden" name="sortField" th:value="${sortField}" />
 			<input type="hidden" name="sortDir" th:value="${sortDir}" />

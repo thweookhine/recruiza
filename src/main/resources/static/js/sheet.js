@@ -25,7 +25,7 @@ function retrieveSheetData(sheetid, postid) {
 			let length = data.table.rows.length;
 
 			// remove existing cards
-			let cards = document.querySelectorAll(".applicantCard");
+			let cards = document.querySelectorAll(".applicard");
 			cards.forEach(element => {
 				element.remove()
 			})
@@ -50,27 +50,76 @@ function retrieveSheetData(sheetid, postid) {
 					} else {
 						let parent = document.querySelector('.applicantContainer');
 						let newcard = document.createElement('div')
-						newcard.className = "applicantCard";
+						newcard.className = "applicard";
 						newcard.style = "--i:0." + (i + 5) + "s;";
+						// newcard.innerHTML = `
+						// 	<h4 class="applicantsource">${data.table.rows[i].c[5].v}</h4>
+						// 	<img src="https://api.dicebear.com/5.x/initials/svg?seed=${data.table.rows[i].c[2].v}" alt="">
+						// 	<div class="applicantInfo">
+						// 		<h3>${data.table.rows[i].c[2].v}</h3>
+						// 		<p><ion-icon name="mail-outline"></ion-icon> ${data.table.rows[i].c[1].v}</p>
+						// 		<p><ion-icon name="phone-portrait-outline"></ion-icon> ${data.table.rows[i].c[3].v}</p>
+						// 		<p><ion-icon name="earth-outline"></ion-icon> ${data.table.rows[i].c[4].v}</p>
+						// 		<div class="applicantButtonContainer">
+						// 			<!-- insert drive link in here -->
+						// 			<a href="${data.table.rows[i].c[6].v}" target="_blank">
+						// 				<ion-icon name="eye-outline"></ion-icon>
+						// 			</a>
+						// 			<!-- to add the applicant to the table -->
+						// 			<a onclick='generateAppModel(${i},"${postid}")'>
+						// 				<ion-icon name="person-add-outline"></ion-icon>
+						// 			</a>
+						// 		</div>
+						// 	</div>
+						// `
+
 						newcard.innerHTML = `
-							<h4 class="applicantsource">${data.table.rows[i].c[5].v}</h4>
-							<img src="https://api.dicebear.com/5.x/micah/svg?seed=${data.table.rows[i].c[2].v}" alt="">
-							<div class="applicantInfo">
-								<h3>${data.table.rows[i].c[2].v}</h3>
-								<p><ion-icon name="mail-outline"></ion-icon> ${data.table.rows[i].c[1].v}</p>
-								<p><ion-icon name="phone-portrait-outline"></ion-icon> ${data.table.rows[i].c[3].v}</p>
-								<p><ion-icon name="earth-outline"></ion-icon> ${data.table.rows[i].c[4].v}</p>
-								<div class="applicantButtonContainer">
-									<!-- insert drive link in here -->
-									<a href="${data.table.rows[i].c[6].v}" target="_blank">
-										<ion-icon name="eye-outline"></ion-icon>
-									</a>
-									<!-- to add the applicant to the table -->
-									<a onclick='generateAppModel(${i},"${postid}")'>
-										<ion-icon name="person-add-outline"></ion-icon>
-									</a>
-								</div>
-							</div>
+						<img class="applicantImage" style="transform: scale(0.7); border-radius: 50%;" src="https://api.dicebear.com/5.x/initials/svg?seed=${data.table.rows[i].c[2].v}" alt="">
+						<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=${data.table.rows[i].c[2].v}" alt="">
+					
+										<div class="applicantInformation">
+											<p>
+												<span>
+													<ion-icon name="person-outline" role="img" class="md hydrated" aria-label="person outline"></ion-icon>
+													Name
+												</span>
+												<span>${data.table.rows[i].c[2].v}</span>
+											</p>
+											<p>
+												<span>
+													<ion-icon name="mail-outline" role="img" class="md hydrated" aria-label="mail outline"></ion-icon>
+													Email
+												</span>
+												<span>${data.table.rows[i].c[1].v}</span>
+											</p>
+											<p>
+												<span>
+													<ion-icon name="phone-portrait-outline" role="img" class="md hydrated" aria-label="phone portrait outline"></ion-icon>
+													Mobile
+												</span>
+												<span>${data.table.rows[i].c[3].v}</span>
+											</p>
+											<p>
+												<span>
+													<ion-icon name="storefront-outline" role="img" class="md hydrated" aria-label="storefront outline"></ion-icon>
+													Address
+												</span>
+												<span>${data.table.rows[i].c[4].v}</span>
+											</p>
+										</div>
+
+										<div class="applicardButtonContainer">
+											<div>
+												<a class="applicantProcessButton" href="${data.table.rows[i].c[5].v}" target="_blank">
+													<ion-icon name="cloud-outline" role="img" class="md hydrated" aria-label="cloud outline"></ion-icon>Check CV
+												</a>
+											</div>
+											<div>
+												<a class="applicantProcessButton" onclick='generateAppModel(${i},"${postid}")'>
+												<ion-icon name="person-add-outline" role="img" class="md hydrated" aria-label="chevron forward outline"></ion-icon>Add to Database
+												</a>
+											</div>
+										</div>
 						`
 						parent.append(newcard);
 					}

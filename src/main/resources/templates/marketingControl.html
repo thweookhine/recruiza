@@ -20,19 +20,27 @@
 			</div>
 		</div>
 		<div class="jobPostsCantainer">
-			<div class="jobPostCard" th:each="jp : ${pendingJobPosts}">
-				<img th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jp.postCode}+''">
-				<div class="jobPostStatus">
-					<div class="data-status" th:switch="${jp.postStatus}">
-						<p th:case="'CLOSED'" class="closed">CLOSED</p>
-						<p th:case="'DUED'" class="dued">DUED</p>
-						<p th:case="'POSTED'" class="posted">OPEN</p>
-						<p th:case="*" class="none">NONE</p>
+			
+			<div class="data-card jobPostCardo" th:each="jp : ${pendingJobPosts}">
+
+				<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jp.postCode}+''"
+					alt="">
+
+				<input type="hidden" th:class="J+${jp.postId}" th:value="${jp.postName}">
+				<div class="data-card-head">
+					<div>
+						<div class="data-status" th:switch="${jp.postStatus}">
+							<p th:case="'CLOSED'" class="closed">CLOSED</p>
+							<p th:case="'DUED'" class="dued">DUED</p>
+							<p th:case="'POSTED'" class="posted">OPEN</p>
+							<p th:case="*" class="none">NONE</p>
+						</div>
+						<div title="Free of charge" class="focyes" th:if="${jp.foc == true}"></div>
+						<div title="Not free of charge" class="focno" th:if="${jp.foc == false}"></div>
 					</div>
-					<div class="focyes" th:if="${jp.foc == true}"></div>
-					<div class="focno" th:if="${jp.foc == false}"></div>
+
+					<p class="data-code" th:text="${jp.postCode}"></p>
 				</div>
-				<p class="jobPostCode" th:text="${jp.postCode}"></p>
 				<div class="jobPostInfo">
 					<p>
 						<span>Name</span> <span th:text="${jp.postName}"></span>
@@ -45,25 +53,41 @@
 					</p>
 					<div>
 						<p>
-							<ion-icon name="people-outline"></ion-icon>
+							<span>Team</span>
 							<span th:text="${jp.team.teamName}"></span>
 						</p>
 						<p>
-							<ion-icon name="business-outline"></ion-icon>
+							<span>Department</span>
 							<span th:text="${jp.team.department.departmentName}"></span>
 						</p>
 					</div>
+					<div>
+						<p>
+							<span>Start Date</span>
+							<span th:text="${jp.postDate}"></span>
+						</p>
+						<p>
+							<span>Due Date</span>
+							<span th:text="${jp.dueDate}"></span>
+						</p>
+					</div>
+				</div>
+				<div class="data-card-footer">
+					<div>
+						<div>
+							<span>Need - </span>
+							<p class="jobPostCount" th:text="${jp.count}"></p>
+						</div>
+					</div>
+					<div class="data-buttons">
+						<div>
+							<a th:onclick="generateUpdateRoleFormJP([[${jp.postId}]],[[${jp.postName}]],[[${jp.count}]]);">
+								<ion-icon name="checkmark-done-outline"></ion-icon>POST
+							</a>
+						</div>
+					</div>
 				</div>
 
-				<div class="jobPostFooterM">
-					<p>Need
-						<span th:text="${jp.count}"></span>
-					</p>
-					<a th:onclick="generateUpdateRoleFormJP([[${jp.postId}]],[[${jp.postName}]],[[${jp.count}]]);">
-						<!-- <a th:href="@{/postJP(jobPostId=${jp.postId})}"> -->
-						<ion-icon name="checkmark-done-outline"></ion-icon>POST
-					</a>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -91,24 +115,27 @@
 			</button>
 		</form>
 		<div class="chartContainer">
-
 			<div class="chartData">
 				<span class="chart-name1">Pending</span>
 				<span class="agencyCount" th:text="${totalPending}"></span>
+				<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=Pending" alt="">
 			</div>
 			<div class="chartData">
 				<span class="chart-name2">Posted</span>
 				<span class="universityCount" th:text="${totalPosted}"></span>
+				<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=Posted" alt="">
 			</div>
 			<div class="chartData">
-				<span class="chart-name4">Closed</span>
-				<span class="trainingCenterCount" th:text="${totalClosed}"></span>
+				<span class="chart-name4">Dued</span>
+				<span class="trainingCenterCount" th:text="${totalDued}"></span>
+				<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=Dued" alt="">
 			</div>
 			<div class="chartData">
-				<span class="chart-name3">Dued</span>
-				<span class="directRecruitCount" th:text="${totalDued}"></span>
+				<span class="chart-name3">Closed</span>
+				<span class="directRecruitCount" th:text="${totalClosed}"></span>
+				<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=Closed" alt="">
 			</div>
-			<div class="chartData">
+			<div class="chartData" style="opacity: 0;">
 				<span class="chart-name5">Others</span>
 				<span class="othersCount" th:text="${totalResourcesByOthers}"></span>
 			</div>
@@ -117,19 +144,26 @@
 			</div>
 		</div>
 		<div class="jobPostsCantainer postedJobPostsContainer">
-			<div class="jobPostCard" th:each="jp : ${postedJobPosts}">
-				<img th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jp.postCode}+''">
-				<div class="jobPostStatus">
-					<div class="data-status" th:switch="${jp.postStatus}">
-						<p th:case="'CLOSED'" class="closed">CLOSED</p>
-						<p th:case="'DUED'" class="dued">DUED</p>
-						<p th:case="'POSTED'" class="posted">OPEN</p>
-						<p th:case="*" class="none">NONE</p>
+			<div class="data-card jobPostCardo" th:each="jp : ${postedJobPosts}">
+
+				<img class="backImage" th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${jp.postCode}+''"
+					alt="">
+
+				<input type="hidden" th:class="J+${jp.postId}" th:value="${jp.postName}">
+				<div class="data-card-head">
+					<div>
+						<div class="data-status" th:switch="${jp.postStatus}">
+							<p th:case="'CLOSED'" class="closed">CLOSED</p>
+							<p th:case="'DUED'" class="dued">DUED</p>
+							<p th:case="'POSTED'" class="posted">OPEN</p>
+							<p th:case="*" class="none">NONE</p>
+						</div>
+						<div title="Free of charge" class="focyes" th:if="${jp.foc == true}"></div>
+						<div title="Not free of charge" class="focno" th:if="${jp.foc == false}"></div>
 					</div>
-					<div class="focyes" th:if="${jp.foc == true}"></div>
-					<div class="focno" th:if="${jp.foc == false}"></div>
+
+					<p class="data-code" th:text="${jp.postCode}"></p>
 				</div>
-				<p class="jobPostCode" th:text="${jp.postCode}"></p>
 				<div class="jobPostInfo">
 					<p>
 						<span>Name</span> <span th:text="${jp.postName}"></span>
@@ -142,31 +176,41 @@
 					</p>
 					<div>
 						<p>
-							<ion-icon name="people-outline"></ion-icon>
+							<span>Team</span>
 							<span th:text="${jp.team.teamName}"></span>
 						</p>
 						<p>
-							<ion-icon name="business-outline"></ion-icon>
+							<span>Department</span>
 							<span th:text="${jp.team.department.departmentName}"></span>
 						</p>
 					</div>
 					<div>
 						<p>
-							<ion-icon name="time-outline"></ion-icon>
+							<span>Start Date</span>
 							<span th:text="${jp.postDate}"></span>
 						</p>
 						<p>
-							<ion-icon name="timer-outline"></ion-icon>
+							<span>Due Date</span>
 							<span th:text="${jp.dueDate}"></span>
 						</p>
 					</div>
 				</div>
-
-				<div class="jobPostFooterM">
-					<p>Need
-						<span th:text="${jp.count}"></span>
-					</p>
+				<div class="data-card-footer">
+					<div>
+						<div>
+							<span>Need - </span>
+							<p class="jobPostCount" th:text="${jp.count}"></p>
+						</div>
+					</div>
+					<div class="data-buttons">
+						<!-- <div>
+							<a th:onclick="generateUpdateRoleFormJP([[${jp.postId}]],[[${jp.postName}]],[[${jp.count}]]);">
+								<ion-icon name="checkmark-done-outline"></ion-icon>POST
+							</a>
+						</div> -->
+					</div>
 				</div>
+
 			</div>
 		</div>
 		<div class="newPagination">

@@ -99,7 +99,7 @@
 				<ion-icon name="people-outline"></ion-icon>
 				<p th:if="${jobPosts.size() >= 1}">Job Posts</p>
 				<p th:if="${jobPosts.size() == 0}">Job Post</p>
-				<span>[[${totalJobPosts}]]</span>
+				<span>Total - <span>[[${totalJobPosts}]]</span></span>
 			</h2>
 			<input type="hidden" name="sortField" th:value="${sortField}" />
 			<input type="hidden" name="sortDir" th:value="${sortDir}" />
@@ -144,20 +144,24 @@
 				<div class="chartData">
 					<span class="chart-name1">Pending</span>
 					<span class="agencyCount" th:text="${totalPending}"></span>
+					<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=Pending" alt="">
 				</div>
 				<div class="chartData">
 					<span class="chart-name2">Posted</span>
 					<span class="universityCount" th:text="${totalPosted}"></span>
+					<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=Posted" alt="">
 				</div>
 				<div class="chartData">
 					<span class="chart-name4">Dued</span>
 					<span class="trainingCenterCount" th:text="${totalDued}"></span>
+					<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=Dued" alt="">
 				</div>
 				<div class="chartData">
 					<span class="chart-name3">Closed</span>
 					<span class="directRecruitCount" th:text="${totalClosed}"></span>
+					<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=Closed" alt="">
 				</div>
-				<div class="chartData">
+				<div class="chartData" style="opacity: 0;">
 					<span class="chart-name5">Others</span>
 					<span class="othersCount" th:text="${totalResourcesByOthers}"></span>
 				</div>

@@ -13,12 +13,10 @@
 	<!-- error -->
 	<p class="errornoti" th:text="${msg}"></p>
 	<p class="errornoti" th:text="${error}"></p>
-	<img class="backImage2"
-		th:src="'https://api.dicebear.com/5.x/shapes/svg?seed='+${#dates.format(#dates.createNow(),'YYYY/MM/dd HH:mm:ss')}+''"
-		alt="">
 
 	<div class="addForm">
-		<form data-formName="Create New User" th:action="@{'/admin/addUserServlet/' + ${keyword}}" th:object="${bean}" method="post">
+		<form data-formName="Create New User" th:action="@{'/admin/addUserServlet/' + ${keyword}}" th:object="${bean}"
+			method="post">
 			<div>
 				<input type="text" th:field="*{userName}" placeholder="Enter user name" required="required" />
 				<label for="name">Name</label>
@@ -71,37 +69,37 @@
 			<h1>Users Management</h1>
 		</div>
 
-		<div class="chartContainer chartContainerReport">
+		<div class="chartContainer">
 
 			<div class="chartData">
 				<span>Active Users</span>
 				<span>[[${countActive}]]</span>
+				<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=Active" alt="">
 			</div>
 			<div class="chartData">
 				<span>Inactive Users</span>
 				<span>[[${countInactive}]]</span>
+				<img class="backImage" src="https://api.dicebear.com/5.x/shapes/svg?seed=Inactive" alt="">
 			</div>
-			<div style="display: none;">
-				<div class="chartData">
-					<span class="chart-name1">Marketing</span>
-					<span class="agencyCount">[[${countMA}]]</span>
-				</div>
-				<div class="chartData">
-					<span class="chart-name2">HR</span>
-					<span class="universityCount">[[${countHR}]]</span>
-				</div>
-				<div class="chartData">
-					<span class="chart-name3">General Manager</span>
-					<span class="directRecruitCount">[[${countGM}]]</span>
-				</div>
-				<div class="chartData">
-					<span class="chart-name4">Project Manager</span>
-					<span class="trainingCenterCount">[[${countPM}]]</span>
-				</div>
-				<div class="chartData">
-					<span class="chart-name5">DepartMent Head</span>
-					<span class="othersCount">[[${countDH}]]</span>
-				</div>
+			<div class="chartData" style="opacity: 0;">
+				<span class="chart-name1">Marketing</span>
+				<span class="agencyCount">[[${countMA}]]</span>
+			</div>
+			<div class="chartData" style="opacity: 0;">
+				<span class="chart-name2">HR</span>
+				<span class="universityCount">[[${countHR}]]</span>
+			</div>
+			<div class="chartData" style="opacity: 0;">
+				<span class="chart-name3">General Manager</span>
+				<span class="directRecruitCount">[[${countGM}]]</span>
+			</div>
+			<div class="chartData" style="display: none;">
+				<span class="chart-name4">Project Manager</span>
+				<span class="trainingCenterCount">[[${countPM}]]</span>
+			</div>
+			<div class="chartData" style="display: none;">
+				<span class="chart-name5">DepartMent Head</span>
+				<span class="othersCount">[[${countDH}]]</span>
 			</div>
 
 			<div>
@@ -116,7 +114,7 @@
 			</h2>
 			<input type="hidden" name="sortField" th:value="${sortField}" />
 			<input type="hidden" name="sortDir" th:value="${sortDir}" />
-			<input type="text" name="keyword" th:value="${keyword == 'keyword' ? ' ' : keyword}"/>
+			<input type="text" name="keyword" th:value="${keyword == 'keyword' ? ' ' : keyword}" />
 			<button type="submit">
 				<ion-icon name="search-outline"></ion-icon>
 			</button>
